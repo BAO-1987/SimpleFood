@@ -1,0 +1,27 @@
+@use "../utils/functions/"as *;
+@use "../utils/mixins"as *;
+
+.scrolling {
+  padding-bottom: 10px;
+  scrollbar-color: var(--color-orange-900) var(--color-white);
+  scrollbar-width: thin;
+  scroll-snap-type: x mandatory;
+  scroll-snap-align: start;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background-color: var(--color-white);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background-color: var(--color-orange-900);
+  }
+}

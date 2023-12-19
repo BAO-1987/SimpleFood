@@ -1,0 +1,23 @@
+@use "../../utils/functions"as *;
+@use "../../utils/mixins"as *;
+
+.restaurant {
+  &__list {
+    --grid-min: 290px;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--grid-min), 1fr));
+    gap: 30px;
+
+    @include media(mobile-l) {
+      --grid-min: 250px;
+    }
+
+    @include media(mobile-m) {
+      @include flex;
+
+      padding-bottom: 35px;
+      gap: 0;
+    }
+  }
+}

@@ -1,0 +1,136 @@
+  <div class="tabs tabs--single section">
+    <div class="container container--wrapper">
+
+      <ul class="tabs__nav scrolling">
+        <li class="tabs__item">
+          <a class="tabs__link" href="#Descr" id="tab-1">Опис</a>
+        </li>
+        <li class="tabs__item">
+          <a class="tabs__link" href="#Property" id="tab-2">Характеристики</a>
+        </li>
+        <li class="tabs__item">
+          <a class="tabs__link" href="#Reviews" id="tab-3">Відгуки
+            <span>(2)</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="tabs__panels">
+
+        <div class="tabs__content" id="Descr" aria-labelledby="tab-1">
+          <div class="text tabs__text">
+            <p>Рубаний біфштекс із натуральної яловичини на карамелізованій булочці, зі скибочкою сиру "Чеддер",
+              кетчупом, гірчицею, цибулею та маринованими огірочками.</p>
+            <p>Алергени: глютен, молоко, гірчиця. Може містити сою, яйце, сліди кунжуту</p>
+            <p>Зовнішній вигляд товару може відрізнятися від зображень, представлених на сайті.</p>
+          </div>
+        </div>
+        
+        <div class="tabs__content" id="Property" aria-labelledby="tab-2">
+          <ul class="property">
+            <li class="property__item">
+              Діаметр: <span>20 см</span>
+            </li>
+            <li class="property__item">
+              Вага: <span>300 гр</span>
+            </li>
+            <li class="property__item">
+              Калорійність (на 100г):<span> 295 ккал</span>
+            </li>
+            <li class="property__item">
+              Термін зберігання: <span>до 3 діб</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="tabs__content" id="Reviews" aria-labelledby="tab-3">
+          <div class="product-reviews">
+            <p class="product-reviews__title title-sec">Думки наших клієнтів</p>
+            <ul class="product-reviews__list">
+              <li class="product-reviews__item riviews-item">
+                <div class="reviews-item__top">
+                  <div class="reviews-item__content">
+                    <div class="reviews-item__image">
+                      <img src="./images/avatar.png?as=webp" alt="Зображення автора відгуку" width="70" height="70"
+                        loading="lazy">
+                    </div>
+                    <div class="reviews-item__autor">
+                      <span>Андрій</span>
+                      <time class="reviews-item__time" datetime="2021-06-10">10.06.2021</time>
+                    </div>
+                  </div>
+                  <div class="reviews-item__raiting">
+                    <img src="images/icons/raiting-five.svg" width="104" height="16"
+                      alt="зображення кількості зірочок рейтенга" loading="lazy">
+                  </div>
+                </div>
+                <blockquote class="riviews-item__blockquote">
+                  <p>Доставили швидко. Товар свіжий та дуже смачний, буду ще обов’язково куштувати!</p>
+                </blockquote>
+              </li>
+              <li class="product-reviews__item riviews-item">
+                <div class="reviews-item__top">
+                  <div class="reviews-item__content">
+                    <div class="reviews-item__image">
+                      <img src="./images/avatar.png?as=webp" alt="Зображення автора відгуку" width="70" height="70"
+                        loading="lazy">
+                    </div>
+                    <div class="reviews-item__autor">
+                      <span>Катерина Біла</span>
+                      <time class="reviews-item__time" datetime="2021-06-07">7.06.2021</time>
+                    </div>
+                  </div>
+                  <div class="reviews-item__raiting">
+                    <img src="images/icons/raiting-four.svg" width="104" height="16"
+                      alt="зображення кількості зірочок рейтенга" loading="lazy">
+                  </div>
+                </div>
+                <blockquote class="riviews-item__blockquote">
+                  <p>Цей бургер непоганий на смак, особливо, коли немає можливості або часу щось готувати. Це чудовий
+                    варіант, щоб перекусити находу, але, щоб себе побалувати, краще замовлю піцу</p>
+                </blockquote>
+              </li>
+            </ul>
+          </div>
+
+          <form class="form-reviews" action="#">
+            <p class="form-reviews__title title-sec">Залишити відгук</p>
+            <div class="form-reviews__rating">
+              <p class="form-reviews__label">
+                <span>Ваша оцінка *</span>
+              </p>
+              <div class="form-reviews__star" id="form-reviews__star"></div>
+            </div>
+            <div class="form-reviews__inner">
+              <label class="form-reviews__label form-reviews__label--textarea">
+                <span>Ваш відгук *</span>
+                <textarea class="form__input form__input--textarea" placeholder="Введіть текст відгука" name="text"
+                  id="reviews-text" rows="3" required></textarea>
+              </label>
+              <div class="form-reviews__box">
+                <label class="form-reviews__label">
+                  <span>Ім’я</span>
+                  <input class="form-reviews__input form__input" placeholder="Введіть ваше ім’я" type="text" id="name"
+                    autocomplete="username" required>
+                </label>
+                <label class="form-reviews__label">
+                  <span>Email *</span>
+                  <input class="form-reviews__input form__input" placeholder="youremail@mail.com" type="email" id="mail"
+                    autocomplete="username" required>
+                </label>
+              </div>
+            </div>
+            <label class="custom-checkbox">
+              <input type="checkbox" class="custom-checkbox__field" name="radio">
+              <span class="custom-checkbox__content">Зберегти моє ім’я, email та адресу сайта в цьому браузері для
+                наступних моїх коментарів.</span>
+            </label>
+            <button class="btn form-reviews__btn" type="submit">Залишити відгук</button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>

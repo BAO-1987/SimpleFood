@@ -1,0 +1,65 @@
+@use "../utils/functions"as *;
+@use "../utils/mixins"as *;
+
+.social {
+  @include flex;
+
+  gap: 1rem;
+
+  &__link {
+    @include flex-all-center;
+
+    position: relative;
+    border-radius: var(--radius-round);
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--color-silver-200);
+    transition: background-color 0.3s linear;
+
+    &::before {
+      @include mask;
+
+      background-color: var(--color-dark-900);
+    }
+
+    &:hover {
+      background-color: var(--color-orange-900);
+
+      &::before {
+        background-color: var(--color-white);
+      }
+    }
+
+    &:active {
+      background-color: var(--color-orange-100);
+
+      &::before {
+        background-color: var(--color-orange-900);
+      }
+    }
+
+    &--fb {
+      &::before {
+        mask-image: url("../images/icons/facebook.svg");
+        width: rem(10);
+        height: rem(21);
+      }
+    }
+
+    &--tw {
+      &::before {
+        mask-image: url("../images/icons/twitter.svg");
+        width: rem(21);
+        height: rem(17);
+      }
+    }
+
+    &--in {
+      &::before {
+        mask-image: url("../images/icons/instagram.svg");
+        width: rem(20);
+        height: rem(20);
+      }
+    }
+  }
+}

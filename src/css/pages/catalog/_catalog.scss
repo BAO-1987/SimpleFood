@@ -1,0 +1,53 @@
+@use "../../utils/functions"as *;
+@use "../../utils/mixins"as *;
+
+.catalog {
+  &__content {
+    @include flex-all-sb;
+
+    margin-bottom: clamp(1.875rem, calc(1rem + vw(44)), 3.875rem);
+
+    @include media(mobile-l) {
+      flex-direction: column;
+    }
+  }
+
+  &__title {
+    margin-bottom: 0;
+
+    @include media(mobile-l) {
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  &__sort {
+    @include flex-all-sb;
+    gap: 1.125rem;
+  }
+
+  &__wrapper {
+    @include flex;
+
+    align-items: flex-start;
+    gap: clamp(1rem, calc(0.5rem + vw(22)), 1.88rem);
+  }
+
+  &__inner {
+    width: 100%;
+  }
+
+  &__list {
+    --grid-min: 10.93rem;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--grid-min), 1fr));
+    margin-bottom: clamp(1.88rem, calc(1rem + vw(44)), 3.75rem);
+    gap: 0.62rem;
+
+    @include media(mobile-s) {
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 0.31rem;
+      row-gap: 0.61rem;
+    }
+  }
+}

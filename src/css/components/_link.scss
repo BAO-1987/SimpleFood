@@ -1,0 +1,23 @@
+@use "../utils/functions/"as *;
+@use "../utils/mixins"as *;
+
+.link {
+  @include flex-h-center;
+
+  font-size: clamp(1rem, 0.9393rem + 0.2589vw, 1.25rem);
+  text-decoration: underline;
+  text-decoration-color: currentcolor;
+  transition-property: color, text-decoration-color, text-shadow;
+  transition-duration: 0.5s;
+  transition-timing-function: linear;
+  text-underline-offset: 3px;
+
+  &:hover {
+    color: var(--color-orange-900);
+    text-decoration-color: transparent;
+  }
+
+  &:active {
+    text-shadow: 2px 2px 5px rgba(54, 56, 83, 0.5);
+  }
+}

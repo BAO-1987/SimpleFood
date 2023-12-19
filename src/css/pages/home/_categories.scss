@@ -1,0 +1,22 @@
+@use "../../utils/functions"as *;
+@use "../../utils/mixins"as *;
+
+.categories {
+  &__list {
+    --grid-min: 10.93rem;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--grid-min), 1fr));
+    gap: 1.88rem;
+
+    @include media(mobile-s) {
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 0.31rem;
+      row-gap: 0.61rem;
+    }
+  }
+
+  &__btn {
+    margin: 0 auto;
+  }
+}

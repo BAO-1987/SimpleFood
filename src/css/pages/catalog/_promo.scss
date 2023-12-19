@@ -1,0 +1,24 @@
+@use "../../utils/functions"as *;
+@use "../../utils/mixins"as *;
+
+.promo {
+  &__title {
+    text-align: left;
+
+    @include media(mobile-l) {
+      text-align: center;
+    }
+  }
+
+  .restaurant__item {
+    &:last-child {
+      @include media(tablet) {
+        grid-column: 2 span;
+      }
+    }
+
+    @include media(mobile-l) {
+      height: 26rem;
+    }
+  }
+}

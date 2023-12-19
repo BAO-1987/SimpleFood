@@ -1,0 +1,109 @@
+@use "../utils/functions"as *;
+@use "../utils/mixins"as *;
+
+.btn {
+  @include flex-all-center;
+
+  border-radius: var(--radius-main);
+  padding: 0.667em 1.78em;
+  max-width: fit-content;
+  font-size: clamp(1rem, 0.975rem + 0.125vw, 1.125rem);
+  line-height: 1.3;
+  letter-spacing: 0.03em;
+  color: var(--color-white);
+  background-color: var(--color-orange-900);
+  transition-property: color, background-color, box-shadow;
+  transition-duration: 0.4s;
+  transition-timing-function: linear;
+
+  &:is(:hover, :active) {
+    color: var(--color-orange-900);
+  }
+
+  &:focus-visible {
+    outline-offset: 0;
+    background-color: rgba(var(--color-orange), 0.1);
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow:
+     inset 0 0 0 2px rgba(var(--color-orange), 0.7),
+      0 5px 12px 0 rgba(var(--color-orange), 0.2);
+  }
+
+  &:active {
+    background-color: rgba(var(--color-orange), 0.1);
+  }
+
+  &--icon {
+    padding: 0.81rem 1.175rem;
+    font-weight: var(--fw-500);
+    font-size: 0.875rem;
+    line-height: 1.3;
+    gap: 0.88rem;
+
+    &::before {
+      @include mask;
+      position: relative;
+
+      mask-image: url("../images/icons/cart.svg");
+      width: 1rem;
+      height: 1rem;
+      background-color: currentcolor;
+    }
+
+  }
+}
+
+.slider-btn {
+  @include flex-all-center;
+
+  position: relative;
+  border: 3px solid var(--color-gray);
+  border-radius: 100vw;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: var(--color-white);
+  transition: border-color 0.3s linear;
+
+  &::before {
+    @include mask;
+
+    mask-image: url("../images/icons/small-arrow.svg");
+    width: 0.68rem;
+    height: 1.18rem;
+    background-color: var(--color-gray);
+  }
+
+  &:hover:not(.swiper-button-disabled) {
+    border-color: var(--color-orange-900);
+    background-color: var(--color-orange-100);
+
+    &::before {
+      background-color: var(--color-orange-900);
+    }
+  }
+
+  &:active:not(.swiper-button-disabled) {
+    &::before {
+      background-color: var(--color-orange-900);
+    }
+  }
+
+  &--reverse {
+    &::before {
+      transform: scaleX(-1);
+    }
+  }
+}
+
+.swiper-button-disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+
+  &::before {
+    background-color: var(--color-gray);
+    cursor: not-allowed;
+  }
+}

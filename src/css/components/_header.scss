@@ -1,0 +1,39 @@
+@use "../utils/functions/"as *;
+@use "../utils/mixins"as *;
+
+.header {
+  position: fixed;
+  top: 0;
+  z-index: 99;
+  padding: 3.75rem 0;
+  width: 100%;
+  transition:
+    transform 0.25s,
+    background-color 0.15s;
+
+  &__inner {
+    @include flex-all-sb;
+  }
+
+  &.hide {
+    transform: translateY(-200%);
+
+    &.opened {
+      transform: translateY(0);
+    }
+  }
+
+  &.scroll {
+    box-shadow: 0 0 0.8rem 0 rgba(var(--color-orange), 0.2);
+    background-color: var(--color-white);
+  }
+
+  &.opened {
+    z-index: 999;
+    background-color: var(--color-white);
+  }
+
+  @include media(tablet) {
+    padding: 2rem 0;
+  }
+}

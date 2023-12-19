@@ -1,0 +1,38 @@
+@use "../../utils/functions"as *;
+@use "../../utils/mixins"as *;
+
+.recent {
+  &__content {
+    @include flex-all-sb;
+
+    margin-bottom: clamp(1.88rem, calc(1rem + vw(34)), 3.75rem);
+  }
+
+  &__title {
+    margin-bottom: 0;
+  }
+
+  &__nav {
+    @include flex;
+    gap: 1.88rem;
+
+    @include media(mobile-m) {
+      display: none;
+    }
+  }
+}
+
+.recent-slider {
+  &__list {
+    padding-bottom: 30px;
+  }
+
+  &__pagination {
+    display: none;
+
+    @include media(mobile-m) {
+      display: block;
+    }
+  }
+
+}

@@ -1,0 +1,143 @@
+@use "../../utils/functions"as *;
+@use "../../utils/mixins"as *;
+
+.single {
+  margin-bottom: clamp(1.875rem, calc(1rem + vw(44)), 3.875rem);
+
+  &__wrapper {
+    @include flex-sb;
+    
+    margin-bottom: clamp(1.875rem, calc(1rem + vw(44)), 3.875rem);
+    gap: 1.88rem;
+
+    @include media(tablet) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  &__content {
+    width: 100%;
+    max-width: 33.12rem;
+  }
+
+  &__title {
+    position: relative;
+    margin-bottom: clamp(2.88rem, calc(1rem + vw(55)), 4.44rem);
+    text-align: left;
+
+    &::before {
+      @include cover-bg;
+
+      content: "";
+      position: absolute;
+      bottom: -80%;
+      width: 6.5rem;
+      height: 1rem;
+      background-image: url("../images/icons/raiting-four.svg");
+    }
+  }
+
+  &__price {
+    display: block;
+    margin-bottom: 1.25rem;
+    font-weight: var(--fw-500);
+    font-size: 1.56rem;
+    line-height: 1.4;
+  }
+
+  &__quality {
+    @include flex;
+
+    align-items: flex-start;
+    margin-bottom: 1.9rem;
+    gap: 1.25rem;
+
+    @include media(mobile-s) {
+      flex-direction: column;
+    }
+  }
+
+  &__delivery {
+    position: relative;
+  }
+}
+
+.single-slider {
+  width: 100%;
+  padding-bottom: 0;
+
+  &__item {
+    @include flex-all-center;
+
+    padding: clamp(1.5rem, calc(1rem + vw(59)), 4.7rem) clamp(1.5rem, calc(1rem + vw(89)), 6.6rem);
+    background-color: var(--color-white);
+    cursor: pointer;
+  }
+
+  &__prev,
+  &__next {
+    @include flex-all-center;
+    z-index: 5;
+
+    position: absolute;
+    top: 50%;
+    width: 3.75rem;
+    height: 3.75rem;
+    background-color: var(--color-white);
+    transform: translateY(-50%);
+
+    &::before {
+      @include mask;
+
+      mask-image: url("../images/icons/chevron-big.svg");
+      width: 1.17rem;
+      height: 2rem;
+      background-color: var(--color-dark-900);
+    }
+
+    &:hover:not(.swiper-button-disabled) {
+      border-color: var(--color-orange-900);
+      background-color: var(--color-orange-100);
+
+      &::before {
+        background-color: var(--color-orange-900);
+      }
+    }
+
+    &:active:not(.swiper-button-disabled) {
+      &::before {
+        background-color: var(--color-orange-900);
+      }
+    }
+
+    @include media(mobile-m) {
+      display: none;
+    }
+  }
+
+  &__prev {
+    left: 1.56rem;
+
+    &::before {
+      transform: scaleX(-1);
+    }
+  }
+
+  &__next {
+    right: 1.56rem;
+    left: auto;
+  }
+
+  &__image {
+    img {
+      width: 25rem;
+      max-height: 25rem;
+      aspect-ratio: 1/1;
+    }
+  }
+
+  .swiper-pagination {
+    bottom: 10%;
+  }
+}

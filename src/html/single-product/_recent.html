@@ -1,0 +1,133 @@
+<section class="recent section">
+
+  <div class="recent__content">
+    <h2 class="title recent__title">Вас може зацікавити</h2>
+    <div class="recent__nav">
+      <button class="recent-slider__prev slider-btn" type="button" aria-label="кнопка прогорнути вперед"></button>
+      <button class="recent-slider__next slider-btn slider-btn--reverse" type="button"
+        aria-label="кнопка прогорнути назад"></button>
+    </div>
+  </div>
+
+  <div class="recent-slider slider">
+    <ul class="recent-slider__list swiper-wrapper">
+      <li class="recent-slider__item swiper-slide">
+        <include src="./html/components/_product-card.html" locals='{
+        "class": "product-card",
+        "image": "сheeseburger",
+        "imageDescr": "Чізбургер з листям салату",
+        "title": "Чізбургер з листям салату",
+        "price": "160 грн",
+         "btn": "До кошика"
+        }'></include>
+      </li>
+
+      <li class="recent-slider__item swiper-slide">
+        <include src="./html/components/_product-card.html" locals='{
+        "class": "product-card",
+        "image": "beefburger",
+        "imageDescr": "Біфбургер",
+        "title": "Біфбургер",
+        "price": "126 грн.",
+         "btn": "До кошика"
+      }'></include>
+      </li>
+
+      <li class="recent-slider__item swiper-slide">
+        <include src="./html/components/_product-card.html" locals='{
+        "class": "product-card",
+        "image": "royal-сheeseburger",
+        "imageDescr": "Королівський чізбургеру",
+        "title": "Королівський чізбургер",
+        "price": "260 грн.",
+        "btn": "До кошика"
+      }'></include>
+      </li>
+
+      <li class="recent-slider__item swiper-slide">
+        <include src="./html/components/_product-card.html" locals='{
+        "class": "product-card",
+        "image": "black-gamburger",
+        "imageDescr": "Чорний гамбургер",
+        "title": "Чорний гамбургер",
+        "price": "199 грн.",
+        "btn": "До кошика"
+      }'></include>
+      </li>
+
+      <li class="recent-slider__item swiper-slide">
+        <include src="./html/components/_product-card.html" locals='{
+        "class": "product-card",
+        "image": "chiken-burger",
+        "imageDescr": "Чікен бургер",
+        "title": "Чікен бургер",
+        "price": "180 грн.",
+        "btn": "До кошика"
+      }'></include>
+      </li>
+
+      <li class="recent-slider__item swiper-slide">
+        <include src="./html/components/_product-card.html" locals='{
+        "class": "product-card",
+        "image": "сheeseburger",
+        "imageDescr": "Чізбургер з листям салату",
+        "title": "Чізбургер з листям салату",
+        "price": "160 грн.",
+        "btn": "До кошика"
+      }'>
+        </include>
+      </li>
+
+      <li class="recent-slider__item swiper-slide">
+        <include src="./html/components/_product-card.html" locals='{
+        "class": "product-card",
+        "image": "beefburger",
+        "imageDescr": "Біфбургер",
+        "title": "Біфбургер",
+        "price": "126 грн.",
+        "btn": "До кошика"
+      }'></include>
+      </li>
+
+      <li class="recent-slider__item swiper-slide">
+        <include src="./html/components/_product-card.html" locals='{
+        "class": "product-card",
+        "image": "royal-сheeseburger",
+        "imageDescr": "Королівський чізбургеру",
+        "title": "Королівський чізбургер",
+        "price": "260 грн.",
+        "width": "140",
+        "height": "140",
+        "btn": "До кошика"
+      }'></include>
+      </li>
+
+      <li class="recent-slider__item swiper-slide">
+        <include src="./html/components/_product-card.html" locals='{
+        "class": "product-card",
+        "image": "black-gamburger",
+        "imageDescr": "Чорний гамбургер",
+        "title": "Чорний гамбургер",
+        "price": "199 грн.",
+        "width": "140",
+        "height": "140",
+        "btn": "До кошика"
+      }'></include>
+      </li>
+
+      <li class="recent-slider__item swiper-slide">
+        <include src="./html/components/_product-card.html" locals='{
+        "class": "product-card",
+        "image": "chiken-burger",
+        "imageDescr": "Чікен бургер",
+        "title": "Чікен бургер",
+        "price": "180 грн.",
+        "width": "140",
+        "height": "140",
+        "btn": "До кошика"
+      }'></include>
+      </li>
+    </ul>
+    <div class="swiper-pagination recent-slider__pagination"></div>
+  </div>
+</section>

@@ -1,0 +1,40 @@
+:root {
+  // container
+  --content-width: 1170px;
+  --container-offset: 15px;
+  --container-width: calc(var(--content-width) + (var(--container-offset) * 2));
+
+  // base
+  --font-family-primary: "Rubik", sans-serif;
+  --fw-300: 300;
+  --fw-400: 400;
+  --fw-500: 500;
+  --fw-700: 700;
+
+  // colors
+  --color-white: #fff;
+  --color-black: #000;
+  --color-orange-900: #ff6838;
+  --color-orange-100: #fff2ed;
+  --color-orange: 255, 104, 56;
+  --color-gray: #c2c2c2;
+  --color-gray-100: #c1c1c1;
+  --color-gray-200: #505050;
+  --color-silver-100: #f9faff;
+  --color-silver-200: #ececec;
+  --color-dark: #31352b;
+  --color-dark-900: #363853;
+  --color-blue: #00aaff;
+  --color-pink: #fff2ed;
+  --color-pink-100: #faeded;
+  --color-green: 49, 53, 43;
+  --color-dark-rgb: 54, 56, 83;
+  --color-yellow: #FFB800;
+
+  // radius
+  --radius-main: 0.3125rem;
+  --radius-round: 100vw;
+
+  //
+  // --gap: clamp(1rem, calc(0.5rem +vw(22)), 1.875rem);
+}
