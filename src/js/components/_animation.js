@@ -1,16 +1,8 @@
 import ScrollReveal from "scrollreveal";
 ScrollReveal({
-  reset: true,
   easing: "ease",
 });
 
-
-// ScrollReveal().reveal(".header", {
-//   distance: '200px',
-//   origin: 'top',
-//   duration: 1000,
-//   delay: 500,
-// });
 
 ScrollReveal().reveal(".hero__content, .delivery__content, .slider, .app__content, .catalog__content, .single__content, .tabs, .recent__content, .lg-container", {
   duration: 1200,
@@ -40,7 +32,7 @@ ScrollReveal().reveal(".title", {
 ScrollReveal().reveal(
   ".catalog__list > li", {
     duration: 700,
-    distance: "20px",
+    distance: "30px",
     delay: "200",
     origin: "top",
     mobile: false,
@@ -48,9 +40,9 @@ ScrollReveal().reveal(
 );
 
 
-ScrollReveal().reveal(".footer, .categories__btn, .pagination", {
-  duration: 1000,
-  distance: "20px",
+ScrollReveal().reveal(".footer__top, .categories__btn, .pagination", {
+  duration: 800,
+  distance: "25px",
   delay: "100",
   origin: "bottom",
 });

@@ -6,7 +6,7 @@
 
   &__wrapper {
     @include flex-sb;
-    
+
     margin-bottom: clamp(1.875rem, calc(1rem + vw(44)), 3.875rem);
     gap: 1.88rem;
 
@@ -70,7 +70,9 @@
   &__item {
     @include flex-all-center;
 
+    border-radius: var(--radius-main);
     padding: clamp(1.5rem, calc(1rem + vw(59)), 4.7rem) clamp(1.5rem, calc(1rem + vw(89)), 6.6rem);
+    box-shadow: 0 0 0 1px var(--color-silver-200);
     background-color: var(--color-white);
     cursor: pointer;
   }

@@ -12,8 +12,8 @@
 
   &__item {
     &:not(:last-child) {
-      margin-bottom: 2.88rem;
       position: relative;
+      margin-bottom: 2.88rem;
 
       &::before {
         content: "";
@@ -30,8 +30,9 @@
 .reviews-item {
   &__top {
     @include flex-v-center;
-    gap: 1rem;
+
     margin-bottom: 1.25rem;
+    gap: 1rem;
 
     @include media(mobile-s) {
       flex-direction: column;
@@ -41,6 +42,7 @@
 
   &__content {
     @include flex-v-center;
+
     gap: clamp(1rem, calc(0.5rem + vw(17)), 1.55rem);
   }
 
@@ -67,6 +69,7 @@
 
   &__autor {
     @include flex;
+    
     flex-direction: column;
     gap: 0.62rem;
 

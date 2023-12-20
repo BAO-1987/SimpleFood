@@ -11,7 +11,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      top: calc((var(--header-height) / 2) - 25px);
+      top: calc((var(--header-height) / 2) - rem(25));
       z-index: 105;
       display: flex;
       margin: 0 auto;

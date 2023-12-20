@@ -13,12 +13,12 @@
   color: var(--color-dark);
   transition: box-shadow 0.3s ease-in-out;
 
-  &:hover {
-    box-shadow: 0 3px 15px 0 rgba(var(--color-orange), 0.5);
-  }
-
-  @include media(tablet) {
-    margin: 0 auto;
+  a {
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
   }
 
   &__image {
@@ -43,9 +43,9 @@
   }
 
   &__content {
-    height: 100%;
     border-radius: 0 0 0.625rem 0.625rem;
     padding: 0.94rem 1.25rem 1.25rem;
+    height: 100%;
     background-color: var(--color-white);
   }
 
@@ -122,5 +122,13 @@
     &:active {
       background-color: var(--color-orange-100);
     }
+  }
+
+  &:hover {
+    box-shadow: 0 3px 15px 0 rgba(var(--color-orange), 0.5);
+  }
+
+  @include media(tablet) {
+    margin: 0 auto;
   }
 }
