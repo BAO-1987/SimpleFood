@@ -4,21 +4,21 @@ ScrollReveal({
 });
 
 
-ScrollReveal().reveal(".hero__content, .delivery__content, .slider, .app__content, .catalog__content, .single__content, .tabs, .recent__content, .lg-container", {
+ScrollReveal().reveal(".hero__content, .delivery__content, .slider, .app__content,  .catalog__wrapper, .sort, .single__content, .tabs, .recent__content", {
   duration: 1200,
   distance: "20px",
   delay: "100",
   origin: "top",
 });
 
-ScrollReveal().reveal(".hero__image, .delivery__image, .app__image, .filter", {
+ScrollReveal().reveal(".hero__image, .delivery__image, .app__image", {
   duration: 1000,
   distance: "20px",
   delay: "100",
   origin: "right",
 });
 
-ScrollReveal().reveal(".delivery__image, .filter", {
+ScrollReveal().reveal(".delivery__image", {
   origin: "left",
 });
 
@@ -29,15 +29,6 @@ ScrollReveal().reveal(".title", {
   origin: "top",
 });
 
-ScrollReveal().reveal(
-  ".catalog__list > li", {
-    duration: 700,
-    distance: "30px",
-    delay: "200",
-    origin: "top",
-    mobile: false,
-  }
-);
 
 
 ScrollReveal().reveal(".footer__top, .categories__btn, .pagination", {
@@ -46,3 +37,4 @@ ScrollReveal().reveal(".footer__top, .categories__btn, .pagination", {
   delay: "100",
   origin: "bottom",
 });
+

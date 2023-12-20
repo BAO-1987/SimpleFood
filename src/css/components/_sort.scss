@@ -5,6 +5,8 @@
   @include flex-all-sb;
 
   gap: 1.25rem;
+  position: relative;
+  z-index: 2;
 
   &__btn {
     @include flex-all-center;

@@ -5,6 +5,7 @@
   &__content {
     @include flex-all-sb;
 
+
     margin-bottom: clamp(1.875rem, calc(1rem + vw(44)), 3.875rem);
 
     @include media(mobile-l) {
@@ -30,6 +31,8 @@
 
     align-items: flex-start;
     gap: clamp(1rem, calc(0.5rem + vw(22)), 1.88rem);
+    position: relative;
+    z-index: 1;
   }
 
   &__inner {

@@ -7,6 +7,7 @@ import Swiper, {
 
 const sliderOptions = {
   slidesPerView: 1,
+  spaceBetween: 20,
   modules: [Autoplay, Pagination, Navigation],
   dragable: true,
   grabCursor: true,

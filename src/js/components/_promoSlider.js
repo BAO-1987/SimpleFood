@@ -43,7 +43,7 @@ window.addEventListener('DOMContentLoaded', () => {
       modules: [Pagination],
       loop: true,
       grabCursor: true,
-      spaceBetween: 0,
+      spaceBetween: 20,
       slidesPerView: 1,
       pagination: {
         el: '.slider__pagination',
