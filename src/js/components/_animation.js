@@ -4,7 +4,7 @@ ScrollReveal({
 });
 
 
-ScrollReveal().reveal(".hero__content, .delivery__content, .slider, .app__content,  .catalog__wrapper, .sort, .single__content, .tabs, .recent__content", {
+ScrollReveal().reveal(".hero__content, .delivery__content, .slider, .app__content,  .catalog__inner, .filter, .sort, .single__content, .tabs, .recent__content", {
   duration: 1200,
   distance: "20px",
   delay: "100",

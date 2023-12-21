@@ -24,6 +24,7 @@
 
   &__btn {
     @include flex-all-center;
+    position: relative;
 
     border-radius: var(--radius-main);
     padding: 0.68rem;
@@ -31,7 +32,7 @@
     transition:
       color 0.3s linear,
       background-color 0.3s linear;
-
+  
     &:hover {
       color: var(--color-white);
       background-color: var(--color-orange-900);

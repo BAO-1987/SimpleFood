@@ -923,4 +923,4 @@ exports.default = throttle;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["4AAI2","lC2J7"], "lC2J7", "parcelRequire46ec")
 
-//# sourceMappingURL=index.6300e3bc.js.map
+//# sourceMappingURL=catalog.6300e3bc.js.map

@@ -68,7 +68,7 @@
       text-shadow: 2px 2px 5px rgba(var(--color-green), 0.5);
     }
 
-    &--active{
+    &.active{
       color: var(--color-orange-900);
     }
   }

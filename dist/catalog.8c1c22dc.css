@@ -624,7 +624,7 @@ p, .text {
   text-shadow: 2px 2px 5px rgba(var(--color-green), .5);
 }
 
-.nav__link--active {
+.nav__link.active {
   color: var(--color-orange-900);
 }
 
@@ -1375,6 +1375,7 @@ p, .text {
   padding: .68rem;
   transition: color .3s linear, background-color .3s linear;
   display: flex;
+  position: relative;
 }
 
 .search__btn:hover {
@@ -2853,11 +2854,9 @@ p, .text {
 }
 
 .catalog__wrapper {
-  z-index: 1;
   align-items: flex-start;
   gap: clamp(1rem, .5rem + 1.14583vw, 1.88rem);
   display: flex;
-  position: relative;
 }
 
 .catalog__inner {
@@ -3087,4 +3086,4 @@ p, .text {
   }
 }
 
-/*# sourceMappingURL=index.8c1c22dc.css.map */
+/*# sourceMappingURL=catalog.8c1c22dc.css.map */
