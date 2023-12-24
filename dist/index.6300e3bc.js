@@ -818,23 +818,30 @@ var _toggleClassItem = require("./_toggleClassItem");
 var _throttle = require("../vendor/_throttle");
 var _throttleDefault = parcelHelpers.interopDefault(_throttle);
 let headerHeight = parseFloat(document.documentElement.style.getPropertyValue("--header-height"));
-let lastHeaderPosition;
-let newHeaderPosition;
-const hideHeaderOnScroll = ()=>{
-    lastHeaderPosition = window.scrollY;
-    (0, _toggleClassItem.addClassItem)(".header", "scroll");
-    if (headerHeight - 140 < lastHeaderPosition && lastHeaderPosition > newHeaderPosition) {
-        (0, _toggleClassItem.addClassItem)(".header", "hide");
-        (0, _toggleClassItem.addClassItem)(".header", "scroll");
-    } else if (newHeaderPosition > lastHeaderPosition) (0, _toggleClassItem.removeClassItem)(".header", "hide");
-    if (lastHeaderPosition < headerHeight - 140) (0, _toggleClassItem.removeClassItem)(".header", "scroll");
-    newHeaderPosition = lastHeaderPosition;
-};
-const throttleHideHeader = (0, _throttleDefault.default)(()=>{
-    hideHeaderOnScroll();
-}, 250);
-window.addEventListener("scroll", throttleHideHeader);
-throttleHideHeader();
+// let lastHeaderPosition;
+// let newHeaderPosition;
+// const hideHeaderOnScroll = () => {
+//   lastHeaderPosition = window.scrollY;
+//   addClassItem('.header', 'scroll');
+//   if (lastHeaderPosition > 10) {
+//     addClassItem('.header', 'scroll');
+//   } else {
+//     removeClassItem('.header', 'scroll');
+//   }
+//   if (lastHeaderPosition < headerHeight) {
+//     removeClassItem('.header', 'scroll');
+//   }
+//   newHeaderPosition = lastHeaderPosition;
+//   };
+// const throttleHideHeader = throttle(() => {
+//   hideHeaderOnScroll();
+// }, 250);
+// window.addEventListener('scroll', throttleHideHeader);
+// throttleHideHeader();
+const header = document.querySelector(".header");
+window.addEventListener("scroll", function() {
+    window.scrollY > 25 ? header.classList.add("is-scroll") : header.classList.remove("is-scroll");
+});
 
 },{"../_config.js":"llBLd","./_toggleClassItem":"ekfZO","../vendor/_throttle":"2nDxS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"llBLd":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -923,4 +930,4 @@ exports.default = throttle;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["4AAI2","lC2J7"], "lC2J7", "parcelRequire46ec")
 
-//# sourceMappingURL=catalog.6300e3bc.js.map
+//# sourceMappingURL=index.6300e3bc.js.map

@@ -2,7 +2,6 @@ import Swiper, {
   Autoplay,
   Pagination,
   Navigation,
-
 } from 'swiper';
 
 const sliderOptions = {

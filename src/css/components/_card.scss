@@ -95,12 +95,10 @@
     width: 4.94rem;
     min-height: 2.06rem;
     background-color: var(--color-orange-900);
-    transition:
-      box-shadow 0.3s ease-in-out,
-      background-color 0.3s ease-in-out;
+    transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
 
     &::after {
-      @include mask-icon;
+      @include mask;
 
       mask-image: url("../images/icons/arrow-right.svg");
       width: 1.5rem;
