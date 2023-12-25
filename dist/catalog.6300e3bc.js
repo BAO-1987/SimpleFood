@@ -812,38 +812,25 @@ window.addEventListener("scroll", startHeightValue);
 startHeightValue();
 
 },{}],"7Umnm":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _configJs = require("../_config.js");
-var _toggleClassItem = require("./_toggleClassItem");
-var _throttle = require("../vendor/_throttle");
-var _throttleDefault = parcelHelpers.interopDefault(_throttle);
 let headerHeight = parseFloat(document.documentElement.style.getPropertyValue("--header-height"));
-// let lastHeaderPosition;
-// let newHeaderPosition;
-// const hideHeaderOnScroll = () => {
-//   lastHeaderPosition = window.scrollY;
-//   addClassItem('.header', 'scroll');
-//   if (lastHeaderPosition > 10) {
-//     addClassItem('.header', 'scroll');
-//   } else {
-//     removeClassItem('.header', 'scroll');
-//   }
-//   if (lastHeaderPosition < headerHeight) {
-//     removeClassItem('.header', 'scroll');
-//   }
-//   newHeaderPosition = lastHeaderPosition;
-//   };
-// const throttleHideHeader = throttle(() => {
-//   hideHeaderOnScroll();
-// }, 250);
-// window.addEventListener('scroll', throttleHideHeader);
-// throttleHideHeader();
 const header = document.querySelector(".header");
-window.addEventListener("scroll", function() {
-    window.scrollY > 25 ? header.classList.add("is-scroll") : header.classList.remove("is-scroll");
+const first = document.querySelector(".main");
+const firstHeight = first.offsetHeight;
+let lastScrollTop = 0;
+window.addEventListener("scroll", ()=>{
+    let scrollDistance = window.scrollY;
+    if (scrollDistance >= 15 + headerHeight) {
+        header.classList.add("is-scroll");
+        first.style.paddingTop = headerHeight + "px";
+    } else {
+        header.classList.remove("is-scroll");
+        first.style.paddingTop = null;
+    }
+    lastScrollTop = scrollDistance;
 });
 
-},{"../_config.js":"llBLd","./_toggleClassItem":"ekfZO","../vendor/_throttle":"2nDxS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"llBLd":[function(require,module,exports) {
+},{"../_config.js":"llBLd"}],"llBLd":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "_document", ()=>_document);
@@ -885,49 +872,6 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"ekfZO":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "addClassItem", ()=>addClassItem);
-parcelHelpers.export(exports, "removeClassItem", ()=>removeClassItem);
-parcelHelpers.export(exports, "toggleClassItem", ()=>toggleClassItem);
-var _config = require("../_config");
-const addClassItem = (item, className)=>{
-    document[_config._querySelector](item)?.[_config._classList][_config._add](className);
-};
-const removeClassItem = (item, className)=>{
-    document[_config._querySelector](item)?.[_config._classList][_config._remove](className);
-};
-const toggleClassItem = (item, className)=>{
-    document[_config._querySelector](item)?.[_config._classList][_config._toggle](className);
-};
+},{}]},["4AAI2","lC2J7"], "lC2J7", "parcelRequire46ec")
 
-},{"../_config":"llBLd","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2nDxS":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-function throttle(cb, delay = 1000) {
-    let shouldWait = false;
-    let waitingArgs;
-    const timeoutFunc = ()=>{
-        if (waitingArgs == null) shouldWait = false;
-        else {
-            cb(...waitingArgs);
-            waitingArgs = null;
-            setTimeout(timeoutFunc, delay);
-        }
-    };
-    return (...args)=>{
-        if (shouldWait) {
-            waitingArgs = args;
-            return;
-        }
-        cb(...args);
-        shouldWait = true;
-        setTimeout(timeoutFunc, delay);
-    };
-}
-exports.default = throttle;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["4AAI2","lC2J7"], "lC2J7", "parcelRequire46ec")
-
-//# sourceMappingURL=index.6300e3bc.js.map
+//# sourceMappingURL=catalog.6300e3bc.js.map

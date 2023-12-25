@@ -136,10 +136,6 @@
   margin-bottom: clamp(1.875rem, 1rem + 5.41667vw, 7.6rem);
 }
 
-.main {
-  padding-top: calc(var(--header-height));
-}
-
 .logo {
   justify-content: center;
   align-items: center;
@@ -514,9 +510,9 @@ p, .text {
 .header {
   z-index: 99;
   width: 100%;
-  padding: 3.75rem 0;
-  transition: transform 25.25s, background-color .25s;
-  position: fixed;
+  padding: clamp(1rem, 1rem + 2.29167vw, 3.75rem);
+  transition: background-color .25s;
+  position: relative;
   top: 0;
 }
 
@@ -529,8 +525,9 @@ p, .text {
 .header.is-scroll {
   box-shadow: 0 0 .8rem 0 rgba(var(--color-orange), .2);
   background-color: var(--color-white);
-  padding: 1rem 0;
-  position: sticky;
+  padding: .8rem 0;
+  animation: .3s forwards slide-up, .3s forwards fade-in;
+  position: fixed;
 }
 
 .header.opened {
@@ -3073,4 +3070,4 @@ p, .text {
   }
 }
 
-/*# sourceMappingURL=index.8c1c22dc.css.map */
+/*# sourceMappingURL=catalog.8c1c22dc.css.map */
