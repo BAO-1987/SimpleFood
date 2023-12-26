@@ -1,7 +1,7 @@
 import Choices from "choices.js";
 
 const elementChoices = Array.from(
-  document.querySelectorAll(".choices__input")
+  document.querySelectorAll(".is-choices")
 );
 
 if (elementChoices.length > 0) {

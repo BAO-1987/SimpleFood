@@ -24,9 +24,8 @@
 
   &__image {
     img {
-      border-radius: 100vw;
+      border-radius: var(--radius-round);
       width: 18.75rem;
-      // min-height: 18.75rem;
       aspect-ratio: 1 / 1;
     }
   }
@@ -93,7 +92,7 @@
     }
 
     &.swiper-pagination-bullets {
-      bottom: 0;
+      bottom: -3px;
     }
   }
 

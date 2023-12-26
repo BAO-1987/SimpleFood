@@ -511,7 +511,7 @@ p, .text {
   z-index: 99;
   width: 100%;
   padding: clamp(1rem, 1rem + 2.29167vw, 3.75rem);
-  transition: background-color .25s;
+  transition: background-color .3s;
   position: relative;
   top: 0;
 }
@@ -2611,10 +2611,20 @@ p, .text {
   mask-image: url("shop.e361886f.svg");
 }
 
+.restaurant__slider {
+  overflow: visible;
+}
+
+@media only screen and (max-width: 768px) {
+  .restaurant__slider {
+    overflow: hidden;
+  }
+}
+
 .restaurant__list {
   --grid-min: 290px;
   grid-template-columns: repeat(auto-fit, minmax(var(--grid-min), 1fr));
-  gap: 30px;
+  gap: 1.875rem;
   display: grid;
 }
 
@@ -2658,9 +2668,9 @@ p, .text {
 }
 
 .reviews-slider__image img {
+  border-radius: var(--radius-round);
   width: 18.75rem;
   aspect-ratio: 1 / 1;
-  border-radius: 100vw;
 }
 
 .reviews-slider__blockquote {
@@ -2733,7 +2743,7 @@ p, .text {
 }
 
 .reviews-slider__pagination.swiper-pagination-bullets {
-  bottom: 0;
+  bottom: -3px;
 }
 
 .reviews-slider__nav {

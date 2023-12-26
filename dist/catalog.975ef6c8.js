@@ -569,7 +569,7 @@ var _reviewsSlider = require("./components/_reviewsSlider");
 var _restaurantSlider = require("./components/_restaurantSlider");
 var _search = require("./components/_search");
 var _animation = require("./components/_animation");
-var _choiches = require("./components/_choiches");
+var _choices = require("./components/_choices");
 var _rangeSlider = require("./components/_rangeSlider");
 var _promoSlider = require("./components/_promoSlider");
 var _catalogFilter = require("./components/_catalogFilter");
@@ -578,7 +578,7 @@ var _recentSlider = require("./components/_recentSlider");
 var _starRating = require("./components/_starRating");
 var _lightGallery = require("./components/_lightGallery");
 
-},{"./components/_burger":"aATkn","./components/_tabs":"egXuX","./components/_reviewsSlider":"lBEkV","./components/_restaurantSlider":"dXwnK","./components/_search":"7pITd","./components/_animation":"kcXuJ","./components/_choiches":"39M1G","./components/_rangeSlider":"gNtZe","./components/_promoSlider":"dJWJm","./components/_catalogFilter":"21UdT","./components/_singleSlider":"cOOkR","./components/_recentSlider":"fhTRd","./components/_starRating":"3bsGg","./components/_lightGallery":"cD0bk"}],"aATkn":[function(require,module,exports) {
+},{"./components/_burger":"aATkn","./components/_tabs":"egXuX","./components/_reviewsSlider":"lBEkV","./components/_restaurantSlider":"dXwnK","./components/_search":"7pITd","./components/_animation":"kcXuJ","./components/_rangeSlider":"gNtZe","./components/_promoSlider":"dJWJm","./components/_catalogFilter":"21UdT","./components/_singleSlider":"cOOkR","./components/_recentSlider":"fhTRd","./components/_starRating":"3bsGg","./components/_lightGallery":"cD0bk","./components/_choices":"gv3s4"}],"aATkn":[function(require,module,exports) {
 //
 const navigation = document.querySelector(".header");
 const page = document.querySelector(".page");
@@ -9311,7 +9311,6 @@ window.addEventListener("DOMContentLoaded", ()=>{
         loop: true,
         spaceBetween: 20,
         grabCursor: true,
-        spaceBetween: 0,
         slidesPerView: 1,
         pagination: {
             el: ".slider__pagination",
@@ -10827,11 +10826,4726 @@ var polyfill = function() {
 var index = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || polyfill;
 exports.default = index;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"39M1G":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gNtZe":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+var _nouislider = require("nouislider");
+var _nouisliderDefault = parcelHelpers.interopDefault(_nouislider);
+(function() {
+    const a = document.querySelectorAll(".range-slider");
+    for(let e = 0; e < a.length; e++)(function(e) {
+        const t = a[e].querySelector(".range-slider__body");
+        const r = a[e].querySelector(".range-slider__input--min");
+        const n = a[e].querySelector(".range-slider__input--max");
+        const dataAttributes = {
+            dataStartMin: parseInt(a[e].dataset.startMin, 10),
+            dataStartMax: parseInt(a[e].dataset.startMax, 10),
+            dataMin: parseInt(a[e].dataset.min, 10),
+            dataMax: parseInt(a[e].dataset.max, 10),
+            dataStep: parseInt(a[e].dataset.step, 10)
+        };
+        (0, _nouisliderDefault.default).create(t, {
+            start: [
+                dataAttributes.dataStartMin,
+                dataAttributes.dataStartMax
+            ],
+            connect: true,
+            step: dataAttributes.dataStep,
+            pips: {
+                mode: "count",
+                values: 5
+            },
+            tooltips: true,
+            range: {
+                min: dataAttributes.dataMin,
+                max: dataAttributes.dataMax
+            },
+            format: {
+                to: function(value) {
+                    return "грн" + parseInt(value, 10);
+                },
+                from: function(value) {
+                    return Number(value);
+                }
+            }
+        });
+        if (r !== null && n !== null) {
+            t.noUiSlider.on("update", function(values, handle) {
+                const value = values[handle].replace(/\D/g, "");
+                if (handle) n.value = Math.round(value);
+                else r.value = Math.round(value);
+            });
+            r.addEventListener("change", function() {
+                t.noUiSlider.set([
+                    this.value,
+                    null
+                ]);
+            });
+            n.addEventListener("change", function() {
+                t.noUiSlider.set([
+                    null,
+                    this.value
+                ]);
+            });
+        }
+    })(e);
+})();
+
+},{"nouislider":"gI00O","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gI00O":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "PipsMode", ()=>PipsMode);
+parcelHelpers.export(exports, "PipsType", ()=>PipsType);
+parcelHelpers.export(exports, "create", ()=>initialize);
+parcelHelpers.export(exports, "cssClasses", ()=>cssClasses);
+"use strict";
+var PipsMode;
+(function(PipsMode) {
+    PipsMode["Range"] = "range";
+    PipsMode["Steps"] = "steps";
+    PipsMode["Positions"] = "positions";
+    PipsMode["Count"] = "count";
+    PipsMode["Values"] = "values";
+})(PipsMode || (PipsMode = {}));
+var PipsType;
+(function(PipsType) {
+    PipsType[PipsType["None"] = -1] = "None";
+    PipsType[PipsType["NoValue"] = 0] = "NoValue";
+    PipsType[PipsType["LargeValue"] = 1] = "LargeValue";
+    PipsType[PipsType["SmallValue"] = 2] = "SmallValue";
+})(PipsType || (PipsType = {}));
+//region Helper Methods
+function isValidFormatter(entry) {
+    return isValidPartialFormatter(entry) && typeof entry.from === "function";
+}
+function isValidPartialFormatter(entry) {
+    // partial formatters only need a to function and not a from function
+    return typeof entry === "object" && typeof entry.to === "function";
+}
+function removeElement(el) {
+    el.parentElement.removeChild(el);
+}
+function isSet(value) {
+    return value !== null && value !== undefined;
+}
+// Bindable version
+function preventDefault(e) {
+    e.preventDefault();
+}
+// Removes duplicates from an array.
+function unique(array) {
+    return array.filter(function(a) {
+        return !this[a] ? this[a] = true : false;
+    }, {});
+}
+// Round a value to the closest 'to'.
+function closest(value, to) {
+    return Math.round(value / to) * to;
+}
+// Current position of an element relative to the document.
+function offset(elem, orientation) {
+    var rect = elem.getBoundingClientRect();
+    var doc = elem.ownerDocument;
+    var docElem = doc.documentElement;
+    var pageOffset = getPageOffset(doc);
+    // getBoundingClientRect contains left scroll in Chrome on Android.
+    // I haven't found a feature detection that proves this. Worst case
+    // scenario on mis-match: the 'tap' feature on horizontal sliders breaks.
+    if (/webkit.*Chrome.*Mobile/i.test(navigator.userAgent)) pageOffset.x = 0;
+    return orientation ? rect.top + pageOffset.y - docElem.clientTop : rect.left + pageOffset.x - docElem.clientLeft;
+}
+// Checks whether a value is numerical.
+function isNumeric(a) {
+    return typeof a === "number" && !isNaN(a) && isFinite(a);
+}
+// Sets a class and removes it after [duration] ms.
+function addClassFor(element, className, duration) {
+    if (duration > 0) {
+        addClass(element, className);
+        setTimeout(function() {
+            removeClass(element, className);
+        }, duration);
+    }
+}
+// Limits a value to 0 - 100
+function limit(a) {
+    return Math.max(Math.min(a, 100), 0);
+}
+// Wraps a variable as an array, if it isn't one yet.
+// Note that an input array is returned by reference!
+function asArray(a) {
+    return Array.isArray(a) ? a : [
+        a
+    ];
+}
+// Counts decimals
+function countDecimals(numStr) {
+    numStr = String(numStr);
+    var pieces = numStr.split(".");
+    return pieces.length > 1 ? pieces[1].length : 0;
+}
+// http://youmightnotneedjquery.com/#add_class
+function addClass(el, className) {
+    if (el.classList && !/\s/.test(className)) el.classList.add(className);
+    else el.className += " " + className;
+}
+// http://youmightnotneedjquery.com/#remove_class
+function removeClass(el, className) {
+    if (el.classList && !/\s/.test(className)) el.classList.remove(className);
+    else el.className = el.className.replace(new RegExp("(^|\\b)" + className.split(" ").join("|") + "(\\b|$)", "gi"), " ");
+}
+// https://plainjs.com/javascript/attributes/adding-removing-and-testing-for-classes-9/
+function hasClass(el, className) {
+    return el.classList ? el.classList.contains(className) : new RegExp("\\b" + className + "\\b").test(el.className);
+}
+// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollY#Notes
+function getPageOffset(doc) {
+    var supportPageOffset = window.pageXOffset !== undefined;
+    var isCSS1Compat = (doc.compatMode || "") === "CSS1Compat";
+    var x = supportPageOffset ? window.pageXOffset : isCSS1Compat ? doc.documentElement.scrollLeft : doc.body.scrollLeft;
+    var y = supportPageOffset ? window.pageYOffset : isCSS1Compat ? doc.documentElement.scrollTop : doc.body.scrollTop;
+    return {
+        x: x,
+        y: y
+    };
+}
+// we provide a function to compute constants instead
+// of accessing window.* as soon as the module needs it
+// so that we do not compute anything if not needed
+function getActions() {
+    // Determine the events to bind. IE11 implements pointerEvents without
+    // a prefix, which breaks compatibility with the IE10 implementation.
+    return window.navigator.pointerEnabled ? {
+        start: "pointerdown",
+        move: "pointermove",
+        end: "pointerup"
+    } : window.navigator.msPointerEnabled ? {
+        start: "MSPointerDown",
+        move: "MSPointerMove",
+        end: "MSPointerUp"
+    } : {
+        start: "mousedown touchstart",
+        move: "mousemove touchmove",
+        end: "mouseup touchend"
+    };
+}
+// https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+// Issue #785
+function getSupportsPassive() {
+    var supportsPassive = false;
+    /* eslint-disable */ try {
+        var opts = Object.defineProperty({}, "passive", {
+            get: function() {
+                supportsPassive = true;
+            }
+        });
+        // @ts-ignore
+        window.addEventListener("test", null, opts);
+    } catch (e) {}
+    /* eslint-enable */ return supportsPassive;
+}
+function getSupportsTouchActionNone() {
+    return window.CSS && CSS.supports && CSS.supports("touch-action", "none");
+}
+//endregion
+//region Range Calculation
+// Determine the size of a sub-range in relation to a full range.
+function subRangeRatio(pa, pb) {
+    return 100 / (pb - pa);
+}
+// (percentage) How many percent is this value of this range?
+function fromPercentage(range, value, startRange) {
+    return value * 100 / (range[startRange + 1] - range[startRange]);
+}
+// (percentage) Where is this value on this range?
+function toPercentage(range, value) {
+    return fromPercentage(range, range[0] < 0 ? value + Math.abs(range[0]) : value - range[0], 0);
+}
+// (value) How much is this percentage on this range?
+function isPercentage(range, value) {
+    return value * (range[1] - range[0]) / 100 + range[0];
+}
+function getJ(value, arr) {
+    var j = 1;
+    while(value >= arr[j])j += 1;
+    return j;
+}
+// (percentage) Input a value, find where, on a scale of 0-100, it applies.
+function toStepping(xVal, xPct, value) {
+    if (value >= xVal.slice(-1)[0]) return 100;
+    var j = getJ(value, xVal);
+    var va = xVal[j - 1];
+    var vb = xVal[j];
+    var pa = xPct[j - 1];
+    var pb = xPct[j];
+    return pa + toPercentage([
+        va,
+        vb
+    ], value) / subRangeRatio(pa, pb);
+}
+// (value) Input a percentage, find where it is on the specified range.
+function fromStepping(xVal, xPct, value) {
+    // There is no range group that fits 100
+    if (value >= 100) return xVal.slice(-1)[0];
+    var j = getJ(value, xPct);
+    var va = xVal[j - 1];
+    var vb = xVal[j];
+    var pa = xPct[j - 1];
+    var pb = xPct[j];
+    return isPercentage([
+        va,
+        vb
+    ], (value - pa) * subRangeRatio(pa, pb));
+}
+// (percentage) Get the step that applies at a certain value.
+function getStep(xPct, xSteps, snap, value) {
+    if (value === 100) return value;
+    var j = getJ(value, xPct);
+    var a = xPct[j - 1];
+    var b = xPct[j];
+    // If 'snap' is set, steps are used as fixed points on the slider.
+    if (snap) {
+        // Find the closest position, a or b.
+        if (value - a > (b - a) / 2) return b;
+        return a;
+    }
+    if (!xSteps[j - 1]) return value;
+    return xPct[j - 1] + closest(value - xPct[j - 1], xSteps[j - 1]);
+}
+//endregion
+//region Spectrum
+var Spectrum = /** @class */ function() {
+    function Spectrum(entry, snap, singleStep) {
+        this.xPct = [];
+        this.xVal = [];
+        this.xSteps = [];
+        this.xNumSteps = [];
+        this.xHighestCompleteStep = [];
+        this.xSteps = [
+            singleStep || false
+        ];
+        this.xNumSteps = [
+            false
+        ];
+        this.snap = snap;
+        var index;
+        var ordered = [];
+        // Map the object keys to an array.
+        Object.keys(entry).forEach(function(index) {
+            ordered.push([
+                asArray(entry[index]),
+                index
+            ]);
+        });
+        // Sort all entries by value (numeric sort).
+        ordered.sort(function(a, b) {
+            return a[0][0] - b[0][0];
+        });
+        // Convert all entries to subranges.
+        for(index = 0; index < ordered.length; index++)this.handleEntryPoint(ordered[index][1], ordered[index][0]);
+        // Store the actual step values.
+        // xSteps is sorted in the same order as xPct and xVal.
+        this.xNumSteps = this.xSteps.slice(0);
+        // Convert all numeric steps to the percentage of the subrange they represent.
+        for(index = 0; index < this.xNumSteps.length; index++)this.handleStepPoint(index, this.xNumSteps[index]);
+    }
+    Spectrum.prototype.getDistance = function(value) {
+        var distances = [];
+        for(var index = 0; index < this.xNumSteps.length - 1; index++)distances[index] = fromPercentage(this.xVal, value, index);
+        return distances;
+    };
+    // Calculate the percentual distance over the whole scale of ranges.
+    // direction: 0 = backwards / 1 = forwards
+    Spectrum.prototype.getAbsoluteDistance = function(value, distances, direction) {
+        var xPct_index = 0;
+        // Calculate range where to start calculation
+        if (value < this.xPct[this.xPct.length - 1]) while(value > this.xPct[xPct_index + 1])xPct_index++;
+        else if (value === this.xPct[this.xPct.length - 1]) xPct_index = this.xPct.length - 2;
+        // If looking backwards and the value is exactly at a range separator then look one range further
+        if (!direction && value === this.xPct[xPct_index + 1]) xPct_index++;
+        if (distances === null) distances = [];
+        var start_factor;
+        var rest_factor = 1;
+        var rest_rel_distance = distances[xPct_index];
+        var range_pct = 0;
+        var rel_range_distance = 0;
+        var abs_distance_counter = 0;
+        var range_counter = 0;
+        // Calculate what part of the start range the value is
+        if (direction) start_factor = (value - this.xPct[xPct_index]) / (this.xPct[xPct_index + 1] - this.xPct[xPct_index]);
+        else start_factor = (this.xPct[xPct_index + 1] - value) / (this.xPct[xPct_index + 1] - this.xPct[xPct_index]);
+        // Do until the complete distance across ranges is calculated
+        while(rest_rel_distance > 0){
+            // Calculate the percentage of total range
+            range_pct = this.xPct[xPct_index + 1 + range_counter] - this.xPct[xPct_index + range_counter];
+            // Detect if the margin, padding or limit is larger then the current range and calculate
+            if (distances[xPct_index + range_counter] * rest_factor + 100 - start_factor * 100 > 100) {
+                // If larger then take the percentual distance of the whole range
+                rel_range_distance = range_pct * start_factor;
+                // Rest factor of relative percentual distance still to be calculated
+                rest_factor = (rest_rel_distance - 100 * start_factor) / distances[xPct_index + range_counter];
+                // Set start factor to 1 as for next range it does not apply.
+                start_factor = 1;
+            } else {
+                // If smaller or equal then take the percentual distance of the calculate percentual part of that range
+                rel_range_distance = distances[xPct_index + range_counter] * range_pct / 100 * rest_factor;
+                // No rest left as the rest fits in current range
+                rest_factor = 0;
+            }
+            if (direction) {
+                abs_distance_counter = abs_distance_counter - rel_range_distance;
+                // Limit range to first range when distance becomes outside of minimum range
+                if (this.xPct.length + range_counter >= 1) range_counter--;
+            } else {
+                abs_distance_counter = abs_distance_counter + rel_range_distance;
+                // Limit range to last range when distance becomes outside of maximum range
+                if (this.xPct.length - range_counter >= 1) range_counter++;
+            }
+            // Rest of relative percentual distance still to be calculated
+            rest_rel_distance = distances[xPct_index + range_counter] * rest_factor;
+        }
+        return value + abs_distance_counter;
+    };
+    Spectrum.prototype.toStepping = function(value) {
+        value = toStepping(this.xVal, this.xPct, value);
+        return value;
+    };
+    Spectrum.prototype.fromStepping = function(value) {
+        return fromStepping(this.xVal, this.xPct, value);
+    };
+    Spectrum.prototype.getStep = function(value) {
+        value = getStep(this.xPct, this.xSteps, this.snap, value);
+        return value;
+    };
+    Spectrum.prototype.getDefaultStep = function(value, isDown, size) {
+        var j = getJ(value, this.xPct);
+        // When at the top or stepping down, look at the previous sub-range
+        if (value === 100 || isDown && value === this.xPct[j - 1]) j = Math.max(j - 1, 1);
+        return (this.xVal[j] - this.xVal[j - 1]) / size;
+    };
+    Spectrum.prototype.getNearbySteps = function(value) {
+        var j = getJ(value, this.xPct);
+        return {
+            stepBefore: {
+                startValue: this.xVal[j - 2],
+                step: this.xNumSteps[j - 2],
+                highestStep: this.xHighestCompleteStep[j - 2]
+            },
+            thisStep: {
+                startValue: this.xVal[j - 1],
+                step: this.xNumSteps[j - 1],
+                highestStep: this.xHighestCompleteStep[j - 1]
+            },
+            stepAfter: {
+                startValue: this.xVal[j],
+                step: this.xNumSteps[j],
+                highestStep: this.xHighestCompleteStep[j]
+            }
+        };
+    };
+    Spectrum.prototype.countStepDecimals = function() {
+        var stepDecimals = this.xNumSteps.map(countDecimals);
+        return Math.max.apply(null, stepDecimals);
+    };
+    Spectrum.prototype.hasNoSize = function() {
+        return this.xVal[0] === this.xVal[this.xVal.length - 1];
+    };
+    // Outside testing
+    Spectrum.prototype.convert = function(value) {
+        return this.getStep(this.toStepping(value));
+    };
+    Spectrum.prototype.handleEntryPoint = function(index, value) {
+        var percentage;
+        // Covert min/max syntax to 0 and 100.
+        if (index === "min") percentage = 0;
+        else if (index === "max") percentage = 100;
+        else percentage = parseFloat(index);
+        // Check for correct input.
+        if (!isNumeric(percentage) || !isNumeric(value[0])) throw new Error("noUiSlider: 'range' value isn't numeric.");
+        // Store values.
+        this.xPct.push(percentage);
+        this.xVal.push(value[0]);
+        var value1 = Number(value[1]);
+        // NaN will evaluate to false too, but to keep
+        // logging clear, set step explicitly. Make sure
+        // not to override the 'step' setting with false.
+        if (!percentage) {
+            if (!isNaN(value1)) this.xSteps[0] = value1;
+        } else this.xSteps.push(isNaN(value1) ? false : value1);
+        this.xHighestCompleteStep.push(0);
+    };
+    Spectrum.prototype.handleStepPoint = function(i, n) {
+        // Ignore 'false' stepping.
+        if (!n) return;
+        // Step over zero-length ranges (#948);
+        if (this.xVal[i] === this.xVal[i + 1]) {
+            this.xSteps[i] = this.xHighestCompleteStep[i] = this.xVal[i];
+            return;
+        }
+        // Factor to range ratio
+        this.xSteps[i] = fromPercentage([
+            this.xVal[i],
+            this.xVal[i + 1]
+        ], n, 0) / subRangeRatio(this.xPct[i], this.xPct[i + 1]);
+        var totalSteps = (this.xVal[i + 1] - this.xVal[i]) / this.xNumSteps[i];
+        var highestStep = Math.ceil(Number(totalSteps.toFixed(3)) - 1);
+        var step = this.xVal[i] + this.xNumSteps[i] * highestStep;
+        this.xHighestCompleteStep[i] = step;
+    };
+    return Spectrum;
+}();
+//endregion
+//region Options
+/*	Every input option is tested and parsed. This will prevent
+    endless validation in internal methods. These tests are
+    structured with an item for every option available. An
+    option can be marked as required by setting the 'r' flag.
+    The testing function is provided with three arguments:
+        - The provided value for the option;
+        - A reference to the options object;
+        - The name for the option;
+
+    The testing function returns false when an error is detected,
+    or true when everything is OK. It can also modify the option
+    object, to make sure all values can be correctly looped elsewhere. */ //region Defaults
+var defaultFormatter = {
+    to: function(value) {
+        return value === undefined ? "" : value.toFixed(2);
+    },
+    from: Number
+};
+var cssClasses = {
+    target: "target",
+    base: "base",
+    origin: "origin",
+    handle: "handle",
+    handleLower: "handle-lower",
+    handleUpper: "handle-upper",
+    touchArea: "touch-area",
+    horizontal: "horizontal",
+    vertical: "vertical",
+    background: "background",
+    connect: "connect",
+    connects: "connects",
+    ltr: "ltr",
+    rtl: "rtl",
+    textDirectionLtr: "txt-dir-ltr",
+    textDirectionRtl: "txt-dir-rtl",
+    draggable: "draggable",
+    drag: "state-drag",
+    tap: "state-tap",
+    active: "active",
+    tooltip: "tooltip",
+    pips: "pips",
+    pipsHorizontal: "pips-horizontal",
+    pipsVertical: "pips-vertical",
+    marker: "marker",
+    markerHorizontal: "marker-horizontal",
+    markerVertical: "marker-vertical",
+    markerNormal: "marker-normal",
+    markerLarge: "marker-large",
+    markerSub: "marker-sub",
+    value: "value",
+    valueHorizontal: "value-horizontal",
+    valueVertical: "value-vertical",
+    valueNormal: "value-normal",
+    valueLarge: "value-large",
+    valueSub: "value-sub"
+};
+// Namespaces of internal event listeners
+var INTERNAL_EVENT_NS = {
+    tooltips: ".__tooltips",
+    aria: ".__aria"
+};
+//endregion
+function testStep(parsed, entry) {
+    if (!isNumeric(entry)) throw new Error("noUiSlider: 'step' is not numeric.");
+    // The step option can still be used to set stepping
+    // for linear sliders. Overwritten if set in 'range'.
+    parsed.singleStep = entry;
+}
+function testKeyboardPageMultiplier(parsed, entry) {
+    if (!isNumeric(entry)) throw new Error("noUiSlider: 'keyboardPageMultiplier' is not numeric.");
+    parsed.keyboardPageMultiplier = entry;
+}
+function testKeyboardMultiplier(parsed, entry) {
+    if (!isNumeric(entry)) throw new Error("noUiSlider: 'keyboardMultiplier' is not numeric.");
+    parsed.keyboardMultiplier = entry;
+}
+function testKeyboardDefaultStep(parsed, entry) {
+    if (!isNumeric(entry)) throw new Error("noUiSlider: 'keyboardDefaultStep' is not numeric.");
+    parsed.keyboardDefaultStep = entry;
+}
+function testRange(parsed, entry) {
+    // Filter incorrect input.
+    if (typeof entry !== "object" || Array.isArray(entry)) throw new Error("noUiSlider: 'range' is not an object.");
+    // Catch missing start or end.
+    if (entry.min === undefined || entry.max === undefined) throw new Error("noUiSlider: Missing 'min' or 'max' in 'range'.");
+    parsed.spectrum = new Spectrum(entry, parsed.snap || false, parsed.singleStep);
+}
+function testStart(parsed, entry) {
+    entry = asArray(entry);
+    // Validate input. Values aren't tested, as the public .val method
+    // will always provide a valid location.
+    if (!Array.isArray(entry) || !entry.length) throw new Error("noUiSlider: 'start' option is incorrect.");
+    // Store the number of handles.
+    parsed.handles = entry.length;
+    // When the slider is initialized, the .val method will
+    // be called with the start options.
+    parsed.start = entry;
+}
+function testSnap(parsed, entry) {
+    if (typeof entry !== "boolean") throw new Error("noUiSlider: 'snap' option must be a boolean.");
+    // Enforce 100% stepping within subranges.
+    parsed.snap = entry;
+}
+function testAnimate(parsed, entry) {
+    if (typeof entry !== "boolean") throw new Error("noUiSlider: 'animate' option must be a boolean.");
+    // Enforce 100% stepping within subranges.
+    parsed.animate = entry;
+}
+function testAnimationDuration(parsed, entry) {
+    if (typeof entry !== "number") throw new Error("noUiSlider: 'animationDuration' option must be a number.");
+    parsed.animationDuration = entry;
+}
+function testConnect(parsed, entry) {
+    var connect = [
+        false
+    ];
+    var i;
+    // Map legacy options
+    if (entry === "lower") entry = [
+        true,
+        false
+    ];
+    else if (entry === "upper") entry = [
+        false,
+        true
+    ];
+    // Handle boolean options
+    if (entry === true || entry === false) {
+        for(i = 1; i < parsed.handles; i++)connect.push(entry);
+        connect.push(false);
+    } else if (!Array.isArray(entry) || !entry.length || entry.length !== parsed.handles + 1) throw new Error("noUiSlider: 'connect' option doesn't match handle count.");
+    else connect = entry;
+    parsed.connect = connect;
+}
+function testOrientation(parsed, entry) {
+    // Set orientation to an a numerical value for easy
+    // array selection.
+    switch(entry){
+        case "horizontal":
+            parsed.ort = 0;
+            break;
+        case "vertical":
+            parsed.ort = 1;
+            break;
+        default:
+            throw new Error("noUiSlider: 'orientation' option is invalid.");
+    }
+}
+function testMargin(parsed, entry) {
+    if (!isNumeric(entry)) throw new Error("noUiSlider: 'margin' option must be numeric.");
+    // Issue #582
+    if (entry === 0) return;
+    parsed.margin = parsed.spectrum.getDistance(entry);
+}
+function testLimit(parsed, entry) {
+    if (!isNumeric(entry)) throw new Error("noUiSlider: 'limit' option must be numeric.");
+    parsed.limit = parsed.spectrum.getDistance(entry);
+    if (!parsed.limit || parsed.handles < 2) throw new Error("noUiSlider: 'limit' option is only supported on linear sliders with 2 or more handles.");
+}
+function testPadding(parsed, entry) {
+    var index;
+    if (!isNumeric(entry) && !Array.isArray(entry)) throw new Error("noUiSlider: 'padding' option must be numeric or array of exactly 2 numbers.");
+    if (Array.isArray(entry) && !(entry.length === 2 || isNumeric(entry[0]) || isNumeric(entry[1]))) throw new Error("noUiSlider: 'padding' option must be numeric or array of exactly 2 numbers.");
+    if (entry === 0) return;
+    if (!Array.isArray(entry)) entry = [
+        entry,
+        entry
+    ];
+    // 'getDistance' returns false for invalid values.
+    parsed.padding = [
+        parsed.spectrum.getDistance(entry[0]),
+        parsed.spectrum.getDistance(entry[1])
+    ];
+    for(index = 0; index < parsed.spectrum.xNumSteps.length - 1; index++){
+        // last "range" can't contain step size as it is purely an endpoint.
+        if (parsed.padding[0][index] < 0 || parsed.padding[1][index] < 0) throw new Error("noUiSlider: 'padding' option must be a positive number(s).");
+    }
+    var totalPadding = entry[0] + entry[1];
+    var firstValue = parsed.spectrum.xVal[0];
+    var lastValue = parsed.spectrum.xVal[parsed.spectrum.xVal.length - 1];
+    if (totalPadding / (lastValue - firstValue) > 1) throw new Error("noUiSlider: 'padding' option must not exceed 100% of the range.");
+}
+function testDirection(parsed, entry) {
+    // Set direction as a numerical value for easy parsing.
+    // Invert connection for RTL sliders, so that the proper
+    // handles get the connect/background classes.
+    switch(entry){
+        case "ltr":
+            parsed.dir = 0;
+            break;
+        case "rtl":
+            parsed.dir = 1;
+            break;
+        default:
+            throw new Error("noUiSlider: 'direction' option was not recognized.");
+    }
+}
+function testBehaviour(parsed, entry) {
+    // Make sure the input is a string.
+    if (typeof entry !== "string") throw new Error("noUiSlider: 'behaviour' must be a string containing options.");
+    // Check if the string contains any keywords.
+    // None are required.
+    var tap = entry.indexOf("tap") >= 0;
+    var drag = entry.indexOf("drag") >= 0;
+    var fixed = entry.indexOf("fixed") >= 0;
+    var snap = entry.indexOf("snap") >= 0;
+    var hover = entry.indexOf("hover") >= 0;
+    var unconstrained = entry.indexOf("unconstrained") >= 0;
+    var dragAll = entry.indexOf("drag-all") >= 0;
+    var smoothSteps = entry.indexOf("smooth-steps") >= 0;
+    if (fixed) {
+        if (parsed.handles !== 2) throw new Error("noUiSlider: 'fixed' behaviour must be used with 2 handles");
+        // Use margin to enforce fixed state
+        testMargin(parsed, parsed.start[1] - parsed.start[0]);
+    }
+    if (unconstrained && (parsed.margin || parsed.limit)) throw new Error("noUiSlider: 'unconstrained' behaviour cannot be used with margin or limit");
+    parsed.events = {
+        tap: tap || snap,
+        drag: drag,
+        dragAll: dragAll,
+        smoothSteps: smoothSteps,
+        fixed: fixed,
+        snap: snap,
+        hover: hover,
+        unconstrained: unconstrained
+    };
+}
+function testTooltips(parsed, entry) {
+    if (entry === false) return;
+    if (entry === true || isValidPartialFormatter(entry)) {
+        parsed.tooltips = [];
+        for(var i = 0; i < parsed.handles; i++)parsed.tooltips.push(entry);
+    } else {
+        entry = asArray(entry);
+        if (entry.length !== parsed.handles) throw new Error("noUiSlider: must pass a formatter for all handles.");
+        entry.forEach(function(formatter) {
+            if (typeof formatter !== "boolean" && !isValidPartialFormatter(formatter)) throw new Error("noUiSlider: 'tooltips' must be passed a formatter or 'false'.");
+        });
+        parsed.tooltips = entry;
+    }
+}
+function testHandleAttributes(parsed, entry) {
+    if (entry.length !== parsed.handles) throw new Error("noUiSlider: must pass a attributes for all handles.");
+    parsed.handleAttributes = entry;
+}
+function testAriaFormat(parsed, entry) {
+    if (!isValidPartialFormatter(entry)) throw new Error("noUiSlider: 'ariaFormat' requires 'to' method.");
+    parsed.ariaFormat = entry;
+}
+function testFormat(parsed, entry) {
+    if (!isValidFormatter(entry)) throw new Error("noUiSlider: 'format' requires 'to' and 'from' methods.");
+    parsed.format = entry;
+}
+function testKeyboardSupport(parsed, entry) {
+    if (typeof entry !== "boolean") throw new Error("noUiSlider: 'keyboardSupport' option must be a boolean.");
+    parsed.keyboardSupport = entry;
+}
+function testDocumentElement(parsed, entry) {
+    // This is an advanced option. Passed values are used without validation.
+    parsed.documentElement = entry;
+}
+function testCssPrefix(parsed, entry) {
+    if (typeof entry !== "string" && entry !== false) throw new Error("noUiSlider: 'cssPrefix' must be a string or `false`.");
+    parsed.cssPrefix = entry;
+}
+function testCssClasses(parsed, entry) {
+    if (typeof entry !== "object") throw new Error("noUiSlider: 'cssClasses' must be an object.");
+    if (typeof parsed.cssPrefix === "string") {
+        parsed.cssClasses = {};
+        Object.keys(entry).forEach(function(key) {
+            parsed.cssClasses[key] = parsed.cssPrefix + entry[key];
+        });
+    } else parsed.cssClasses = entry;
+}
+// Test all developer settings and parse to assumption-safe values.
+function testOptions(options) {
+    // To prove a fix for #537, freeze options here.
+    // If the object is modified, an error will be thrown.
+    // Object.freeze(options);
+    var parsed = {
+        margin: null,
+        limit: null,
+        padding: null,
+        animate: true,
+        animationDuration: 300,
+        ariaFormat: defaultFormatter,
+        format: defaultFormatter
+    };
+    // Tests are executed in the order they are presented here.
+    var tests = {
+        step: {
+            r: false,
+            t: testStep
+        },
+        keyboardPageMultiplier: {
+            r: false,
+            t: testKeyboardPageMultiplier
+        },
+        keyboardMultiplier: {
+            r: false,
+            t: testKeyboardMultiplier
+        },
+        keyboardDefaultStep: {
+            r: false,
+            t: testKeyboardDefaultStep
+        },
+        start: {
+            r: true,
+            t: testStart
+        },
+        connect: {
+            r: true,
+            t: testConnect
+        },
+        direction: {
+            r: true,
+            t: testDirection
+        },
+        snap: {
+            r: false,
+            t: testSnap
+        },
+        animate: {
+            r: false,
+            t: testAnimate
+        },
+        animationDuration: {
+            r: false,
+            t: testAnimationDuration
+        },
+        range: {
+            r: true,
+            t: testRange
+        },
+        orientation: {
+            r: false,
+            t: testOrientation
+        },
+        margin: {
+            r: false,
+            t: testMargin
+        },
+        limit: {
+            r: false,
+            t: testLimit
+        },
+        padding: {
+            r: false,
+            t: testPadding
+        },
+        behaviour: {
+            r: true,
+            t: testBehaviour
+        },
+        ariaFormat: {
+            r: false,
+            t: testAriaFormat
+        },
+        format: {
+            r: false,
+            t: testFormat
+        },
+        tooltips: {
+            r: false,
+            t: testTooltips
+        },
+        keyboardSupport: {
+            r: true,
+            t: testKeyboardSupport
+        },
+        documentElement: {
+            r: false,
+            t: testDocumentElement
+        },
+        cssPrefix: {
+            r: true,
+            t: testCssPrefix
+        },
+        cssClasses: {
+            r: true,
+            t: testCssClasses
+        },
+        handleAttributes: {
+            r: false,
+            t: testHandleAttributes
+        }
+    };
+    var defaults = {
+        connect: false,
+        direction: "ltr",
+        behaviour: "tap",
+        orientation: "horizontal",
+        keyboardSupport: true,
+        cssPrefix: "noUi-",
+        cssClasses: cssClasses,
+        keyboardPageMultiplier: 5,
+        keyboardMultiplier: 1,
+        keyboardDefaultStep: 10
+    };
+    // AriaFormat defaults to regular format, if any.
+    if (options.format && !options.ariaFormat) options.ariaFormat = options.format;
+    // Run all options through a testing mechanism to ensure correct
+    // input. It should be noted that options might get modified to
+    // be handled properly. E.g. wrapping integers in arrays.
+    Object.keys(tests).forEach(function(name) {
+        // If the option isn't set, but it is required, throw an error.
+        if (!isSet(options[name]) && defaults[name] === undefined) {
+            if (tests[name].r) throw new Error("noUiSlider: '" + name + "' is required.");
+            return;
+        }
+        tests[name].t(parsed, !isSet(options[name]) ? defaults[name] : options[name]);
+    });
+    // Forward pips options
+    parsed.pips = options.pips;
+    // All recent browsers accept unprefixed transform.
+    // We need -ms- for IE9 and -webkit- for older Android;
+    // Assume use of -webkit- if unprefixed and -ms- are not supported.
+    // https://caniuse.com/#feat=transforms2d
+    var d = document.createElement("div");
+    var msPrefix = d.style.msTransform !== undefined;
+    var noPrefix = d.style.transform !== undefined;
+    parsed.transformRule = noPrefix ? "transform" : msPrefix ? "msTransform" : "webkitTransform";
+    // Pips don't move, so we can place them using left/top.
+    var styles = [
+        [
+            "left",
+            "top"
+        ],
+        [
+            "right",
+            "bottom"
+        ]
+    ];
+    parsed.style = styles[parsed.dir][parsed.ort];
+    return parsed;
+}
+//endregion
+function scope(target, options, originalOptions) {
+    var actions = getActions();
+    var supportsTouchActionNone = getSupportsTouchActionNone();
+    var supportsPassive = supportsTouchActionNone && getSupportsPassive();
+    // All variables local to 'scope' are prefixed with 'scope_'
+    // Slider DOM Nodes
+    var scope_Target = target;
+    var scope_Base;
+    var scope_Handles;
+    var scope_Connects;
+    var scope_Pips;
+    var scope_Tooltips;
+    // Slider state values
+    var scope_Spectrum = options.spectrum;
+    var scope_Values = [];
+    var scope_Locations = [];
+    var scope_HandleNumbers = [];
+    var scope_ActiveHandlesCount = 0;
+    var scope_Events = {};
+    // Document Nodes
+    var scope_Document = target.ownerDocument;
+    var scope_DocumentElement = options.documentElement || scope_Document.documentElement;
+    var scope_Body = scope_Document.body;
+    // For horizontal sliders in standard ltr documents,
+    // make .noUi-origin overflow to the left so the document doesn't scroll.
+    var scope_DirOffset = scope_Document.dir === "rtl" || options.ort === 1 ? 0 : 100;
+    // Creates a node, adds it to target, returns the new node.
+    function addNodeTo(addTarget, className) {
+        var div = scope_Document.createElement("div");
+        if (className) addClass(div, className);
+        addTarget.appendChild(div);
+        return div;
+    }
+    // Append a origin to the base
+    function addOrigin(base, handleNumber) {
+        var origin = addNodeTo(base, options.cssClasses.origin);
+        var handle = addNodeTo(origin, options.cssClasses.handle);
+        addNodeTo(handle, options.cssClasses.touchArea);
+        handle.setAttribute("data-handle", String(handleNumber));
+        if (options.keyboardSupport) {
+            // https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex
+            // 0 = focusable and reachable
+            handle.setAttribute("tabindex", "0");
+            handle.addEventListener("keydown", function(event) {
+                return eventKeydown(event, handleNumber);
+            });
+        }
+        if (options.handleAttributes !== undefined) {
+            var attributes_1 = options.handleAttributes[handleNumber];
+            Object.keys(attributes_1).forEach(function(attribute) {
+                handle.setAttribute(attribute, attributes_1[attribute]);
+            });
+        }
+        handle.setAttribute("role", "slider");
+        handle.setAttribute("aria-orientation", options.ort ? "vertical" : "horizontal");
+        if (handleNumber === 0) addClass(handle, options.cssClasses.handleLower);
+        else if (handleNumber === options.handles - 1) addClass(handle, options.cssClasses.handleUpper);
+        origin.handle = handle;
+        return origin;
+    }
+    // Insert nodes for connect elements
+    function addConnect(base, add) {
+        if (!add) return false;
+        return addNodeTo(base, options.cssClasses.connect);
+    }
+    // Add handles to the slider base.
+    function addElements(connectOptions, base) {
+        var connectBase = addNodeTo(base, options.cssClasses.connects);
+        scope_Handles = [];
+        scope_Connects = [];
+        scope_Connects.push(addConnect(connectBase, connectOptions[0]));
+        // [::::O====O====O====]
+        // connectOptions = [0, 1, 1, 1]
+        for(var i = 0; i < options.handles; i++){
+            // Keep a list of all added handles.
+            scope_Handles.push(addOrigin(base, i));
+            scope_HandleNumbers[i] = i;
+            scope_Connects.push(addConnect(connectBase, connectOptions[i + 1]));
+        }
+    }
+    // Initialize a single slider.
+    function addSlider(addTarget) {
+        // Apply classes and data to the target.
+        addClass(addTarget, options.cssClasses.target);
+        if (options.dir === 0) addClass(addTarget, options.cssClasses.ltr);
+        else addClass(addTarget, options.cssClasses.rtl);
+        if (options.ort === 0) addClass(addTarget, options.cssClasses.horizontal);
+        else addClass(addTarget, options.cssClasses.vertical);
+        var textDirection = getComputedStyle(addTarget).direction;
+        if (textDirection === "rtl") addClass(addTarget, options.cssClasses.textDirectionRtl);
+        else addClass(addTarget, options.cssClasses.textDirectionLtr);
+        return addNodeTo(addTarget, options.cssClasses.base);
+    }
+    function addTooltip(handle, handleNumber) {
+        if (!options.tooltips || !options.tooltips[handleNumber]) return false;
+        return addNodeTo(handle.firstChild, options.cssClasses.tooltip);
+    }
+    function isSliderDisabled() {
+        return scope_Target.hasAttribute("disabled");
+    }
+    // Disable the slider dragging if any handle is disabled
+    function isHandleDisabled(handleNumber) {
+        var handleOrigin = scope_Handles[handleNumber];
+        return handleOrigin.hasAttribute("disabled");
+    }
+    function disable(handleNumber) {
+        if (handleNumber !== null && handleNumber !== undefined) {
+            scope_Handles[handleNumber].setAttribute("disabled", "");
+            scope_Handles[handleNumber].handle.removeAttribute("tabindex");
+        } else {
+            scope_Target.setAttribute("disabled", "");
+            scope_Handles.forEach(function(handle) {
+                handle.handle.removeAttribute("tabindex");
+            });
+        }
+    }
+    function enable(handleNumber) {
+        if (handleNumber !== null && handleNumber !== undefined) {
+            scope_Handles[handleNumber].removeAttribute("disabled");
+            scope_Handles[handleNumber].handle.setAttribute("tabindex", "0");
+        } else {
+            scope_Target.removeAttribute("disabled");
+            scope_Handles.forEach(function(handle) {
+                handle.removeAttribute("disabled");
+                handle.handle.setAttribute("tabindex", "0");
+            });
+        }
+    }
+    function removeTooltips() {
+        if (scope_Tooltips) {
+            removeEvent("update" + INTERNAL_EVENT_NS.tooltips);
+            scope_Tooltips.forEach(function(tooltip) {
+                if (tooltip) removeElement(tooltip);
+            });
+            scope_Tooltips = null;
+        }
+    }
+    // The tooltips option is a shorthand for using the 'update' event.
+    function tooltips() {
+        removeTooltips();
+        // Tooltips are added with options.tooltips in original order.
+        scope_Tooltips = scope_Handles.map(addTooltip);
+        bindEvent("update" + INTERNAL_EVENT_NS.tooltips, function(values, handleNumber, unencoded) {
+            if (!scope_Tooltips || !options.tooltips) return;
+            if (scope_Tooltips[handleNumber] === false) return;
+            var formattedValue = values[handleNumber];
+            if (options.tooltips[handleNumber] !== true) formattedValue = options.tooltips[handleNumber].to(unencoded[handleNumber]);
+            scope_Tooltips[handleNumber].innerHTML = formattedValue;
+        });
+    }
+    function aria() {
+        removeEvent("update" + INTERNAL_EVENT_NS.aria);
+        bindEvent("update" + INTERNAL_EVENT_NS.aria, function(values, handleNumber, unencoded, tap, positions) {
+            // Update Aria Values for all handles, as a change in one changes min and max values for the next.
+            scope_HandleNumbers.forEach(function(index) {
+                var handle = scope_Handles[index];
+                var min = checkHandlePosition(scope_Locations, index, 0, true, true, true);
+                var max = checkHandlePosition(scope_Locations, index, 100, true, true, true);
+                var now = positions[index];
+                // Formatted value for display
+                var text = String(options.ariaFormat.to(unencoded[index]));
+                // Map to slider range values
+                min = scope_Spectrum.fromStepping(min).toFixed(1);
+                max = scope_Spectrum.fromStepping(max).toFixed(1);
+                now = scope_Spectrum.fromStepping(now).toFixed(1);
+                handle.children[0].setAttribute("aria-valuemin", min);
+                handle.children[0].setAttribute("aria-valuemax", max);
+                handle.children[0].setAttribute("aria-valuenow", now);
+                handle.children[0].setAttribute("aria-valuetext", text);
+            });
+        });
+    }
+    function getGroup(pips) {
+        // Use the range.
+        if (pips.mode === PipsMode.Range || pips.mode === PipsMode.Steps) return scope_Spectrum.xVal;
+        if (pips.mode === PipsMode.Count) {
+            if (pips.values < 2) throw new Error("noUiSlider: 'values' (>= 2) required for mode 'count'.");
+            // Divide 0 - 100 in 'count' parts.
+            var interval = pips.values - 1;
+            var spread = 100 / interval;
+            var values = [];
+            // List these parts and have them handled as 'positions'.
+            while(interval--)values[interval] = interval * spread;
+            values.push(100);
+            return mapToRange(values, pips.stepped);
+        }
+        if (pips.mode === PipsMode.Positions) // Map all percentages to on-range values.
+        return mapToRange(pips.values, pips.stepped);
+        if (pips.mode === PipsMode.Values) {
+            // If the value must be stepped, it needs to be converted to a percentage first.
+            if (pips.stepped) return pips.values.map(function(value) {
+                // Convert to percentage, apply step, return to value.
+                return scope_Spectrum.fromStepping(scope_Spectrum.getStep(scope_Spectrum.toStepping(value)));
+            });
+            // Otherwise, we can simply use the values.
+            return pips.values;
+        }
+        return []; // pips.mode = never
+    }
+    function mapToRange(values, stepped) {
+        return values.map(function(value) {
+            return scope_Spectrum.fromStepping(stepped ? scope_Spectrum.getStep(value) : value);
+        });
+    }
+    function generateSpread(pips) {
+        function safeIncrement(value, increment) {
+            // Avoid floating point variance by dropping the smallest decimal places.
+            return Number((value + increment).toFixed(7));
+        }
+        var group = getGroup(pips);
+        var indexes = {};
+        var firstInRange = scope_Spectrum.xVal[0];
+        var lastInRange = scope_Spectrum.xVal[scope_Spectrum.xVal.length - 1];
+        var ignoreFirst = false;
+        var ignoreLast = false;
+        var prevPct = 0;
+        // Create a copy of the group, sort it and filter away all duplicates.
+        group = unique(group.slice().sort(function(a, b) {
+            return a - b;
+        }));
+        // Make sure the range starts with the first element.
+        if (group[0] !== firstInRange) {
+            group.unshift(firstInRange);
+            ignoreFirst = true;
+        }
+        // Likewise for the last one.
+        if (group[group.length - 1] !== lastInRange) {
+            group.push(lastInRange);
+            ignoreLast = true;
+        }
+        group.forEach(function(current, index) {
+            // Get the current step and the lower + upper positions.
+            var step;
+            var i;
+            var q;
+            var low = current;
+            var high = group[index + 1];
+            var newPct;
+            var pctDifference;
+            var pctPos;
+            var type;
+            var steps;
+            var realSteps;
+            var stepSize;
+            var isSteps = pips.mode === PipsMode.Steps;
+            // When using 'steps' mode, use the provided steps.
+            // Otherwise, we'll step on to the next subrange.
+            if (isSteps) step = scope_Spectrum.xNumSteps[index];
+            // Default to a 'full' step.
+            if (!step) step = high - low;
+            // If high is undefined we are at the last subrange. Make sure it iterates once (#1088)
+            if (high === undefined) high = low;
+            // Make sure step isn't 0, which would cause an infinite loop (#654)
+            step = Math.max(step, 0.0000001);
+            // Find all steps in the subrange.
+            for(i = low; i <= high; i = safeIncrement(i, step)){
+                // Get the percentage value for the current step,
+                // calculate the size for the subrange.
+                newPct = scope_Spectrum.toStepping(i);
+                pctDifference = newPct - prevPct;
+                steps = pctDifference / (pips.density || 1);
+                realSteps = Math.round(steps);
+                // This ratio represents the amount of percentage-space a point indicates.
+                // For a density 1 the points/percentage = 1. For density 2, that percentage needs to be re-divided.
+                // Round the percentage offset to an even number, then divide by two
+                // to spread the offset on both sides of the range.
+                stepSize = pctDifference / realSteps;
+                // Divide all points evenly, adding the correct number to this subrange.
+                // Run up to <= so that 100% gets a point, event if ignoreLast is set.
+                for(q = 1; q <= realSteps; q += 1){
+                    // The ratio between the rounded value and the actual size might be ~1% off.
+                    // Correct the percentage offset by the number of points
+                    // per subrange. density = 1 will result in 100 points on the
+                    // full range, 2 for 50, 4 for 25, etc.
+                    pctPos = prevPct + q * stepSize;
+                    indexes[pctPos.toFixed(5)] = [
+                        scope_Spectrum.fromStepping(pctPos),
+                        0
+                    ];
+                }
+                // Determine the point type.
+                type = group.indexOf(i) > -1 ? PipsType.LargeValue : isSteps ? PipsType.SmallValue : PipsType.NoValue;
+                // Enforce the 'ignoreFirst' option by overwriting the type for 0.
+                if (!index && ignoreFirst && i !== high) type = 0;
+                if (!(i === high && ignoreLast)) // Mark the 'type' of this point. 0 = plain, 1 = real value, 2 = step value.
+                indexes[newPct.toFixed(5)] = [
+                    i,
+                    type
+                ];
+                // Update the percentage count.
+                prevPct = newPct;
+            }
+        });
+        return indexes;
+    }
+    function addMarking(spread, filterFunc, formatter) {
+        var _a, _b;
+        var element = scope_Document.createElement("div");
+        var valueSizeClasses = (_a = {}, _a[PipsType.None] = "", _a[PipsType.NoValue] = options.cssClasses.valueNormal, _a[PipsType.LargeValue] = options.cssClasses.valueLarge, _a[PipsType.SmallValue] = options.cssClasses.valueSub, _a);
+        var markerSizeClasses = (_b = {}, _b[PipsType.None] = "", _b[PipsType.NoValue] = options.cssClasses.markerNormal, _b[PipsType.LargeValue] = options.cssClasses.markerLarge, _b[PipsType.SmallValue] = options.cssClasses.markerSub, _b);
+        var valueOrientationClasses = [
+            options.cssClasses.valueHorizontal,
+            options.cssClasses.valueVertical
+        ];
+        var markerOrientationClasses = [
+            options.cssClasses.markerHorizontal,
+            options.cssClasses.markerVertical
+        ];
+        addClass(element, options.cssClasses.pips);
+        addClass(element, options.ort === 0 ? options.cssClasses.pipsHorizontal : options.cssClasses.pipsVertical);
+        function getClasses(type, source) {
+            var a = source === options.cssClasses.value;
+            var orientationClasses = a ? valueOrientationClasses : markerOrientationClasses;
+            var sizeClasses = a ? valueSizeClasses : markerSizeClasses;
+            return source + " " + orientationClasses[options.ort] + " " + sizeClasses[type];
+        }
+        function addSpread(offset, value, type) {
+            // Apply the filter function, if it is set.
+            type = filterFunc ? filterFunc(value, type) : type;
+            if (type === PipsType.None) return;
+            // Add a marker for every point
+            var node = addNodeTo(element, false);
+            node.className = getClasses(type, options.cssClasses.marker);
+            node.style[options.style] = offset + "%";
+            // Values are only appended for points marked '1' or '2'.
+            if (type > PipsType.NoValue) {
+                node = addNodeTo(element, false);
+                node.className = getClasses(type, options.cssClasses.value);
+                node.setAttribute("data-value", String(value));
+                node.style[options.style] = offset + "%";
+                node.innerHTML = String(formatter.to(value));
+            }
+        }
+        // Append all points.
+        Object.keys(spread).forEach(function(offset) {
+            addSpread(offset, spread[offset][0], spread[offset][1]);
+        });
+        return element;
+    }
+    function removePips() {
+        if (scope_Pips) {
+            removeElement(scope_Pips);
+            scope_Pips = null;
+        }
+    }
+    function pips(pips) {
+        // Fix #669
+        removePips();
+        var spread = generateSpread(pips);
+        var filter = pips.filter;
+        var format = pips.format || {
+            to: function(value) {
+                return String(Math.round(value));
+            }
+        };
+        scope_Pips = scope_Target.appendChild(addMarking(spread, filter, format));
+        return scope_Pips;
+    }
+    // Shorthand for base dimensions.
+    function baseSize() {
+        var rect = scope_Base.getBoundingClientRect();
+        var alt = "offset" + [
+            "Width",
+            "Height"
+        ][options.ort];
+        return options.ort === 0 ? rect.width || scope_Base[alt] : rect.height || scope_Base[alt];
+    }
+    // Handler for attaching events trough a proxy.
+    function attachEvent(events, element, callback, data) {
+        // This function can be used to 'filter' events to the slider.
+        // element is a node, not a nodeList
+        var method = function(event) {
+            var e = fixEvent(event, data.pageOffset, data.target || element);
+            // fixEvent returns false if this event has a different target
+            // when handling (multi-) touch events;
+            if (!e) return false;
+            // doNotReject is passed by all end events to make sure released touches
+            // are not rejected, leaving the slider "stuck" to the cursor;
+            if (isSliderDisabled() && !data.doNotReject) return false;
+            // Stop if an active 'tap' transition is taking place.
+            if (hasClass(scope_Target, options.cssClasses.tap) && !data.doNotReject) return false;
+            // Ignore right or middle clicks on start #454
+            if (events === actions.start && e.buttons !== undefined && e.buttons > 1) return false;
+            // Ignore right or middle clicks on start #454
+            if (data.hover && e.buttons) return false;
+            // 'supportsPassive' is only true if a browser also supports touch-action: none in CSS.
+            // iOS safari does not, so it doesn't get to benefit from passive scrolling. iOS does support
+            // touch-action: manipulation, but that allows panning, which breaks
+            // sliders after zooming/on non-responsive pages.
+            // See: https://bugs.webkit.org/show_bug.cgi?id=133112
+            if (!supportsPassive) e.preventDefault();
+            e.calcPoint = e.points[options.ort];
+            // Call the event handler with the event [ and additional data ].
+            callback(e, data);
+            return;
+        };
+        var methods = [];
+        // Bind a closure on the target for every event type.
+        events.split(" ").forEach(function(eventName) {
+            element.addEventListener(eventName, method, supportsPassive ? {
+                passive: true
+            } : false);
+            methods.push([
+                eventName,
+                method
+            ]);
+        });
+        return methods;
+    }
+    // Provide a clean event with standardized offset values.
+    function fixEvent(e, pageOffset, eventTarget) {
+        // Filter the event to register the type, which can be
+        // touch, mouse or pointer. Offset changes need to be
+        // made on an event specific basis.
+        var touch = e.type.indexOf("touch") === 0;
+        var mouse = e.type.indexOf("mouse") === 0;
+        var pointer = e.type.indexOf("pointer") === 0;
+        var x = 0;
+        var y = 0;
+        // IE10 implemented pointer events with a prefix;
+        if (e.type.indexOf("MSPointer") === 0) pointer = true;
+        // Erroneous events seem to be passed in occasionally on iOS/iPadOS after user finishes interacting with
+        // the slider. They appear to be of type MouseEvent, yet they don't have usual properties set. Ignore
+        // events that have no touches or buttons associated with them. (#1057, #1079, #1095)
+        if (e.type === "mousedown" && !e.buttons && !e.touches) return false;
+        // The only thing one handle should be concerned about is the touches that originated on top of it.
+        if (touch) {
+            // Returns true if a touch originated on the target.
+            var isTouchOnTarget = function(checkTouch) {
+                var target = checkTouch.target;
+                return target === eventTarget || eventTarget.contains(target) || e.composed && e.composedPath().shift() === eventTarget;
+            };
+            // In the case of touchstart events, we need to make sure there is still no more than one
+            // touch on the target so we look amongst all touches.
+            if (e.type === "touchstart") {
+                var targetTouches = Array.prototype.filter.call(e.touches, isTouchOnTarget);
+                // Do not support more than one touch per handle.
+                if (targetTouches.length > 1) return false;
+                x = targetTouches[0].pageX;
+                y = targetTouches[0].pageY;
+            } else {
+                // In the other cases, find on changedTouches is enough.
+                var targetTouch = Array.prototype.find.call(e.changedTouches, isTouchOnTarget);
+                // Cancel if the target touch has not moved.
+                if (!targetTouch) return false;
+                x = targetTouch.pageX;
+                y = targetTouch.pageY;
+            }
+        }
+        pageOffset = pageOffset || getPageOffset(scope_Document);
+        if (mouse || pointer) {
+            x = e.clientX + pageOffset.x;
+            y = e.clientY + pageOffset.y;
+        }
+        e.pageOffset = pageOffset;
+        e.points = [
+            x,
+            y
+        ];
+        e.cursor = mouse || pointer; // Fix #435
+        return e;
+    }
+    // Translate a coordinate in the document to a percentage on the slider
+    function calcPointToPercentage(calcPoint) {
+        var location = calcPoint - offset(scope_Base, options.ort);
+        var proposal = location * 100 / baseSize();
+        // Clamp proposal between 0% and 100%
+        // Out-of-bound coordinates may occur when .noUi-base pseudo-elements
+        // are used (e.g. contained handles feature)
+        proposal = limit(proposal);
+        return options.dir ? 100 - proposal : proposal;
+    }
+    // Find handle closest to a certain percentage on the slider
+    function getClosestHandle(clickedPosition) {
+        var smallestDifference = 100;
+        var handleNumber = false;
+        scope_Handles.forEach(function(handle, index) {
+            // Disabled handles are ignored
+            if (isHandleDisabled(index)) return;
+            var handlePosition = scope_Locations[index];
+            var differenceWithThisHandle = Math.abs(handlePosition - clickedPosition);
+            // Initial state
+            var clickAtEdge = differenceWithThisHandle === 100 && smallestDifference === 100;
+            // Difference with this handle is smaller than the previously checked handle
+            var isCloser = differenceWithThisHandle < smallestDifference;
+            var isCloserAfter = differenceWithThisHandle <= smallestDifference && clickedPosition > handlePosition;
+            if (isCloser || isCloserAfter || clickAtEdge) {
+                handleNumber = index;
+                smallestDifference = differenceWithThisHandle;
+            }
+        });
+        return handleNumber;
+    }
+    // Fire 'end' when a mouse or pen leaves the document.
+    function documentLeave(event, data) {
+        if (event.type === "mouseout" && event.target.nodeName === "HTML" && event.relatedTarget === null) eventEnd(event, data);
+    }
+    // Handle movement on document for handle and range drag.
+    function eventMove(event, data) {
+        // Fix #498
+        // Check value of .buttons in 'start' to work around a bug in IE10 mobile (data.buttonsProperty).
+        // https://connect.microsoft.com/IE/feedback/details/927005/mobile-ie10-windows-phone-buttons-property-of-pointermove-event-always-zero
+        // IE9 has .buttons and .which zero on mousemove.
+        // Firefox breaks the spec MDN defines.
+        if (navigator.appVersion.indexOf("MSIE 9") === -1 && event.buttons === 0 && data.buttonsProperty !== 0) return eventEnd(event, data);
+        // Check if we are moving up or down
+        var movement = (options.dir ? -1 : 1) * (event.calcPoint - data.startCalcPoint);
+        // Convert the movement into a percentage of the slider width/height
+        var proposal = movement * 100 / data.baseSize;
+        moveHandles(movement > 0, proposal, data.locations, data.handleNumbers, data.connect);
+    }
+    // Unbind move events on document, call callbacks.
+    function eventEnd(event, data) {
+        // The handle is no longer active, so remove the class.
+        if (data.handle) {
+            removeClass(data.handle, options.cssClasses.active);
+            scope_ActiveHandlesCount -= 1;
+        }
+        // Unbind the move and end events, which are added on 'start'.
+        data.listeners.forEach(function(c) {
+            scope_DocumentElement.removeEventListener(c[0], c[1]);
+        });
+        if (scope_ActiveHandlesCount === 0) {
+            // Remove dragging class.
+            removeClass(scope_Target, options.cssClasses.drag);
+            setZindex();
+            // Remove cursor styles and text-selection events bound to the body.
+            if (event.cursor) {
+                scope_Body.style.cursor = "";
+                scope_Body.removeEventListener("selectstart", preventDefault);
+            }
+        }
+        if (options.events.smoothSteps) {
+            data.handleNumbers.forEach(function(handleNumber) {
+                setHandle(handleNumber, scope_Locations[handleNumber], true, true, false, false);
+            });
+            data.handleNumbers.forEach(function(handleNumber) {
+                fireEvent("update", handleNumber);
+            });
+        }
+        data.handleNumbers.forEach(function(handleNumber) {
+            fireEvent("change", handleNumber);
+            fireEvent("set", handleNumber);
+            fireEvent("end", handleNumber);
+        });
+    }
+    // Bind move events on document.
+    function eventStart(event, data) {
+        // Ignore event if any handle is disabled
+        if (data.handleNumbers.some(isHandleDisabled)) return;
+        var handle;
+        if (data.handleNumbers.length === 1) {
+            var handleOrigin = scope_Handles[data.handleNumbers[0]];
+            handle = handleOrigin.children[0];
+            scope_ActiveHandlesCount += 1;
+            // Mark the handle as 'active' so it can be styled.
+            addClass(handle, options.cssClasses.active);
+        }
+        // A drag should never propagate up to the 'tap' event.
+        event.stopPropagation();
+        // Record the event listeners.
+        var listeners = [];
+        // Attach the move and end events.
+        var moveEvent = attachEvent(actions.move, scope_DocumentElement, eventMove, {
+            // The event target has changed so we need to propagate the original one so that we keep
+            // relying on it to extract target touches.
+            target: event.target,
+            handle: handle,
+            connect: data.connect,
+            listeners: listeners,
+            startCalcPoint: event.calcPoint,
+            baseSize: baseSize(),
+            pageOffset: event.pageOffset,
+            handleNumbers: data.handleNumbers,
+            buttonsProperty: event.buttons,
+            locations: scope_Locations.slice()
+        });
+        var endEvent = attachEvent(actions.end, scope_DocumentElement, eventEnd, {
+            target: event.target,
+            handle: handle,
+            listeners: listeners,
+            doNotReject: true,
+            handleNumbers: data.handleNumbers
+        });
+        var outEvent = attachEvent("mouseout", scope_DocumentElement, documentLeave, {
+            target: event.target,
+            handle: handle,
+            listeners: listeners,
+            doNotReject: true,
+            handleNumbers: data.handleNumbers
+        });
+        // We want to make sure we pushed the listeners in the listener list rather than creating
+        // a new one as it has already been passed to the event handlers.
+        listeners.push.apply(listeners, moveEvent.concat(endEvent, outEvent));
+        // Text selection isn't an issue on touch devices,
+        // so adding cursor styles can be skipped.
+        if (event.cursor) {
+            // Prevent the 'I' cursor and extend the range-drag cursor.
+            scope_Body.style.cursor = getComputedStyle(event.target).cursor;
+            // Mark the target with a dragging state.
+            if (scope_Handles.length > 1) addClass(scope_Target, options.cssClasses.drag);
+            // Prevent text selection when dragging the handles.
+            // In noUiSlider <= 9.2.0, this was handled by calling preventDefault on mouse/touch start/move,
+            // which is scroll blocking. The selectstart event is supported by FireFox starting from version 52,
+            // meaning the only holdout is iOS Safari. This doesn't matter: text selection isn't triggered there.
+            // The 'cursor' flag is false.
+            // See: http://caniuse.com/#search=selectstart
+            scope_Body.addEventListener("selectstart", preventDefault, false);
+        }
+        data.handleNumbers.forEach(function(handleNumber) {
+            fireEvent("start", handleNumber);
+        });
+    }
+    // Move closest handle to tapped location.
+    function eventTap(event) {
+        // The tap event shouldn't propagate up
+        event.stopPropagation();
+        var proposal = calcPointToPercentage(event.calcPoint);
+        var handleNumber = getClosestHandle(proposal);
+        // Tackle the case that all handles are 'disabled'.
+        if (handleNumber === false) return;
+        // Flag the slider as it is now in a transitional state.
+        // Transition takes a configurable amount of ms (default 300). Re-enable the slider after that.
+        if (!options.events.snap) addClassFor(scope_Target, options.cssClasses.tap, options.animationDuration);
+        setHandle(handleNumber, proposal, true, true);
+        setZindex();
+        fireEvent("slide", handleNumber, true);
+        fireEvent("update", handleNumber, true);
+        if (!options.events.snap) {
+            fireEvent("change", handleNumber, true);
+            fireEvent("set", handleNumber, true);
+        } else eventStart(event, {
+            handleNumbers: [
+                handleNumber
+            ]
+        });
+    }
+    // Fires a 'hover' event for a hovered mouse/pen position.
+    function eventHover(event) {
+        var proposal = calcPointToPercentage(event.calcPoint);
+        var to = scope_Spectrum.getStep(proposal);
+        var value = scope_Spectrum.fromStepping(to);
+        Object.keys(scope_Events).forEach(function(targetEvent) {
+            if ("hover" === targetEvent.split(".")[0]) scope_Events[targetEvent].forEach(function(callback) {
+                callback.call(scope_Self, value);
+            });
+        });
+    }
+    // Handles keydown on focused handles
+    // Don't move the document when pressing arrow keys on focused handles
+    function eventKeydown(event, handleNumber) {
+        if (isSliderDisabled() || isHandleDisabled(handleNumber)) return false;
+        var horizontalKeys = [
+            "Left",
+            "Right"
+        ];
+        var verticalKeys = [
+            "Down",
+            "Up"
+        ];
+        var largeStepKeys = [
+            "PageDown",
+            "PageUp"
+        ];
+        var edgeKeys = [
+            "Home",
+            "End"
+        ];
+        if (options.dir && !options.ort) // On an right-to-left slider, the left and right keys act inverted
+        horizontalKeys.reverse();
+        else if (options.ort && !options.dir) {
+            // On a top-to-bottom slider, the up and down keys act inverted
+            verticalKeys.reverse();
+            largeStepKeys.reverse();
+        }
+        // Strip "Arrow" for IE compatibility. https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
+        var key = event.key.replace("Arrow", "");
+        var isLargeDown = key === largeStepKeys[0];
+        var isLargeUp = key === largeStepKeys[1];
+        var isDown = key === verticalKeys[0] || key === horizontalKeys[0] || isLargeDown;
+        var isUp = key === verticalKeys[1] || key === horizontalKeys[1] || isLargeUp;
+        var isMin = key === edgeKeys[0];
+        var isMax = key === edgeKeys[1];
+        if (!isDown && !isUp && !isMin && !isMax) return true;
+        event.preventDefault();
+        var to;
+        if (isUp || isDown) {
+            var direction = isDown ? 0 : 1;
+            var steps = getNextStepsForHandle(handleNumber);
+            var step = steps[direction];
+            // At the edge of a slider, do nothing
+            if (step === null) return false;
+            // No step set, use the default of 10% of the sub-range
+            if (step === false) step = scope_Spectrum.getDefaultStep(scope_Locations[handleNumber], isDown, options.keyboardDefaultStep);
+            if (isLargeUp || isLargeDown) step *= options.keyboardPageMultiplier;
+            else step *= options.keyboardMultiplier;
+            // Step over zero-length ranges (#948);
+            step = Math.max(step, 0.0000001);
+            // Decrement for down steps
+            step = (isDown ? -1 : 1) * step;
+            to = scope_Values[handleNumber] + step;
+        } else if (isMax) // End key
+        to = options.spectrum.xVal[options.spectrum.xVal.length - 1];
+        else // Home key
+        to = options.spectrum.xVal[0];
+        setHandle(handleNumber, scope_Spectrum.toStepping(to), true, true);
+        fireEvent("slide", handleNumber);
+        fireEvent("update", handleNumber);
+        fireEvent("change", handleNumber);
+        fireEvent("set", handleNumber);
+        return false;
+    }
+    // Attach events to several slider parts.
+    function bindSliderEvents(behaviour) {
+        // Attach the standard drag event to the handles.
+        if (!behaviour.fixed) scope_Handles.forEach(function(handle, index) {
+            // These events are only bound to the visual handle
+            // element, not the 'real' origin element.
+            attachEvent(actions.start, handle.children[0], eventStart, {
+                handleNumbers: [
+                    index
+                ]
+            });
+        });
+        // Attach the tap event to the slider base.
+        if (behaviour.tap) attachEvent(actions.start, scope_Base, eventTap, {});
+        // Fire hover events
+        if (behaviour.hover) attachEvent(actions.move, scope_Base, eventHover, {
+            hover: true
+        });
+        // Make the range draggable.
+        if (behaviour.drag) scope_Connects.forEach(function(connect, index) {
+            if (connect === false || index === 0 || index === scope_Connects.length - 1) return;
+            var handleBefore = scope_Handles[index - 1];
+            var handleAfter = scope_Handles[index];
+            var eventHolders = [
+                connect
+            ];
+            var handlesToDrag = [
+                handleBefore,
+                handleAfter
+            ];
+            var handleNumbersToDrag = [
+                index - 1,
+                index
+            ];
+            addClass(connect, options.cssClasses.draggable);
+            // When the range is fixed, the entire range can
+            // be dragged by the handles. The handle in the first
+            // origin will propagate the start event upward,
+            // but it needs to be bound manually on the other.
+            if (behaviour.fixed) {
+                eventHolders.push(handleBefore.children[0]);
+                eventHolders.push(handleAfter.children[0]);
+            }
+            if (behaviour.dragAll) {
+                handlesToDrag = scope_Handles;
+                handleNumbersToDrag = scope_HandleNumbers;
+            }
+            eventHolders.forEach(function(eventHolder) {
+                attachEvent(actions.start, eventHolder, eventStart, {
+                    handles: handlesToDrag,
+                    handleNumbers: handleNumbersToDrag,
+                    connect: connect
+                });
+            });
+        });
+    }
+    // Attach an event to this slider, possibly including a namespace
+    function bindEvent(namespacedEvent, callback) {
+        scope_Events[namespacedEvent] = scope_Events[namespacedEvent] || [];
+        scope_Events[namespacedEvent].push(callback);
+        // If the event bound is 'update,' fire it immediately for all handles.
+        if (namespacedEvent.split(".")[0] === "update") scope_Handles.forEach(function(a, index) {
+            fireEvent("update", index);
+        });
+    }
+    function isInternalNamespace(namespace) {
+        return namespace === INTERNAL_EVENT_NS.aria || namespace === INTERNAL_EVENT_NS.tooltips;
+    }
+    // Undo attachment of event
+    function removeEvent(namespacedEvent) {
+        var event = namespacedEvent && namespacedEvent.split(".")[0];
+        var namespace = event ? namespacedEvent.substring(event.length) : namespacedEvent;
+        Object.keys(scope_Events).forEach(function(bind) {
+            var tEvent = bind.split(".")[0];
+            var tNamespace = bind.substring(tEvent.length);
+            if ((!event || event === tEvent) && (!namespace || namespace === tNamespace)) // only delete protected internal event if intentional
+            {
+                if (!isInternalNamespace(tNamespace) || namespace === tNamespace) delete scope_Events[bind];
+            }
+        });
+    }
+    // External event handling
+    function fireEvent(eventName, handleNumber, tap) {
+        Object.keys(scope_Events).forEach(function(targetEvent) {
+            var eventType = targetEvent.split(".")[0];
+            if (eventName === eventType) scope_Events[targetEvent].forEach(function(callback) {
+                callback.call(// Use the slider public API as the scope ('this')
+                scope_Self, // Return values as array, so arg_1[arg_2] is always valid.
+                scope_Values.map(options.format.to), // Handle index, 0 or 1
+                handleNumber, // Un-formatted slider values
+                scope_Values.slice(), // Event is fired by tap, true or false
+                tap || false, // Left offset of the handle, in relation to the slider
+                scope_Locations.slice(), // add the slider public API to an accessible parameter when this is unavailable
+                scope_Self);
+            });
+        });
+    }
+    // Split out the handle positioning logic so the Move event can use it, too
+    function checkHandlePosition(reference, handleNumber, to, lookBackward, lookForward, getValue, smoothSteps) {
+        var distance;
+        // For sliders with multiple handles, limit movement to the other handle.
+        // Apply the margin option by adding it to the handle positions.
+        if (scope_Handles.length > 1 && !options.events.unconstrained) {
+            if (lookBackward && handleNumber > 0) {
+                distance = scope_Spectrum.getAbsoluteDistance(reference[handleNumber - 1], options.margin, false);
+                to = Math.max(to, distance);
+            }
+            if (lookForward && handleNumber < scope_Handles.length - 1) {
+                distance = scope_Spectrum.getAbsoluteDistance(reference[handleNumber + 1], options.margin, true);
+                to = Math.min(to, distance);
+            }
+        }
+        // The limit option has the opposite effect, limiting handles to a
+        // maximum distance from another. Limit must be > 0, as otherwise
+        // handles would be unmovable.
+        if (scope_Handles.length > 1 && options.limit) {
+            if (lookBackward && handleNumber > 0) {
+                distance = scope_Spectrum.getAbsoluteDistance(reference[handleNumber - 1], options.limit, false);
+                to = Math.min(to, distance);
+            }
+            if (lookForward && handleNumber < scope_Handles.length - 1) {
+                distance = scope_Spectrum.getAbsoluteDistance(reference[handleNumber + 1], options.limit, true);
+                to = Math.max(to, distance);
+            }
+        }
+        // The padding option keeps the handles a certain distance from the
+        // edges of the slider. Padding must be > 0.
+        if (options.padding) {
+            if (handleNumber === 0) {
+                distance = scope_Spectrum.getAbsoluteDistance(0, options.padding[0], false);
+                to = Math.max(to, distance);
+            }
+            if (handleNumber === scope_Handles.length - 1) {
+                distance = scope_Spectrum.getAbsoluteDistance(100, options.padding[1], true);
+                to = Math.min(to, distance);
+            }
+        }
+        if (!smoothSteps) to = scope_Spectrum.getStep(to);
+        // Limit percentage to the 0 - 100 range
+        to = limit(to);
+        // Return false if handle can't move
+        if (to === reference[handleNumber] && !getValue) return false;
+        return to;
+    }
+    // Uses slider orientation to create CSS rules. a = base value;
+    function inRuleOrder(v, a) {
+        var o = options.ort;
+        return (o ? a : v) + ", " + (o ? v : a);
+    }
+    // Moves handle(s) by a percentage
+    // (bool, % to move, [% where handle started, ...], [index in scope_Handles, ...])
+    function moveHandles(upward, proposal, locations, handleNumbers, connect) {
+        var proposals = locations.slice();
+        // Store first handle now, so we still have it in case handleNumbers is reversed
+        var firstHandle = handleNumbers[0];
+        var smoothSteps = options.events.smoothSteps;
+        var b = [
+            !upward,
+            upward
+        ];
+        var f = [
+            upward,
+            !upward
+        ];
+        // Copy handleNumbers so we don't change the dataset
+        handleNumbers = handleNumbers.slice();
+        // Check to see which handle is 'leading'.
+        // If that one can't move the second can't either.
+        if (upward) handleNumbers.reverse();
+        // Step 1: get the maximum percentage that any of the handles can move
+        if (handleNumbers.length > 1) handleNumbers.forEach(function(handleNumber, o) {
+            var to = checkHandlePosition(proposals, handleNumber, proposals[handleNumber] + proposal, b[o], f[o], false, smoothSteps);
+            // Stop if one of the handles can't move.
+            if (to === false) proposal = 0;
+            else {
+                proposal = to - proposals[handleNumber];
+                proposals[handleNumber] = to;
+            }
+        });
+        else b = f = [
+            true
+        ];
+        var state = false;
+        // Step 2: Try to set the handles with the found percentage
+        handleNumbers.forEach(function(handleNumber, o) {
+            state = setHandle(handleNumber, locations[handleNumber] + proposal, b[o], f[o], false, smoothSteps) || state;
+        });
+        // Step 3: If a handle moved, fire events
+        if (state) {
+            handleNumbers.forEach(function(handleNumber) {
+                fireEvent("update", handleNumber);
+                fireEvent("slide", handleNumber);
+            });
+            // If target is a connect, then fire drag event
+            if (connect != undefined) fireEvent("drag", firstHandle);
+        }
+    }
+    // Takes a base value and an offset. This offset is used for the connect bar size.
+    // In the initial design for this feature, the origin element was 1% wide.
+    // Unfortunately, a rounding bug in Chrome makes it impossible to implement this feature
+    // in this manner: https://bugs.chromium.org/p/chromium/issues/detail?id=798223
+    function transformDirection(a, b) {
+        return options.dir ? 100 - a - b : a;
+    }
+    // Updates scope_Locations and scope_Values, updates visual state
+    function updateHandlePosition(handleNumber, to) {
+        // Update locations.
+        scope_Locations[handleNumber] = to;
+        // Convert the value to the slider stepping/range.
+        scope_Values[handleNumber] = scope_Spectrum.fromStepping(to);
+        var translation = transformDirection(to, 0) - scope_DirOffset;
+        var translateRule = "translate(" + inRuleOrder(translation + "%", "0") + ")";
+        scope_Handles[handleNumber].style[options.transformRule] = translateRule;
+        updateConnect(handleNumber);
+        updateConnect(handleNumber + 1);
+    }
+    // Handles before the slider middle are stacked later = higher,
+    // Handles after the middle later is lower
+    // [[7] [8] .......... | .......... [5] [4]
+    function setZindex() {
+        scope_HandleNumbers.forEach(function(handleNumber) {
+            var dir = scope_Locations[handleNumber] > 50 ? -1 : 1;
+            var zIndex = 3 + (scope_Handles.length + dir * handleNumber);
+            scope_Handles[handleNumber].style.zIndex = String(zIndex);
+        });
+    }
+    // Test suggested values and apply margin, step.
+    // if exactInput is true, don't run checkHandlePosition, then the handle can be placed in between steps (#436)
+    function setHandle(handleNumber, to, lookBackward, lookForward, exactInput, smoothSteps) {
+        if (!exactInput) to = checkHandlePosition(scope_Locations, handleNumber, to, lookBackward, lookForward, false, smoothSteps);
+        if (to === false) return false;
+        updateHandlePosition(handleNumber, to);
+        return true;
+    }
+    // Updates style attribute for connect nodes
+    function updateConnect(index) {
+        // Skip connects set to false
+        if (!scope_Connects[index]) return;
+        var l = 0;
+        var h = 100;
+        if (index !== 0) l = scope_Locations[index - 1];
+        if (index !== scope_Connects.length - 1) h = scope_Locations[index];
+        // We use two rules:
+        // 'translate' to change the left/top offset;
+        // 'scale' to change the width of the element;
+        // As the element has a width of 100%, a translation of 100% is equal to 100% of the parent (.noUi-base)
+        var connectWidth = h - l;
+        var translateRule = "translate(" + inRuleOrder(transformDirection(l, connectWidth) + "%", "0") + ")";
+        var scaleRule = "scale(" + inRuleOrder(connectWidth / 100, "1") + ")";
+        scope_Connects[index].style[options.transformRule] = translateRule + " " + scaleRule;
+    }
+    // Parses value passed to .set method. Returns current value if not parse-able.
+    function resolveToValue(to, handleNumber) {
+        // Setting with null indicates an 'ignore'.
+        // Inputting 'false' is invalid.
+        if (to === null || to === false || to === undefined) return scope_Locations[handleNumber];
+        // If a formatted number was passed, attempt to decode it.
+        if (typeof to === "number") to = String(to);
+        to = options.format.from(to);
+        if (to !== false) to = scope_Spectrum.toStepping(to);
+        // If parsing the number failed, use the current value.
+        if (to === false || isNaN(to)) return scope_Locations[handleNumber];
+        return to;
+    }
+    // Set the slider value.
+    function valueSet(input, fireSetEvent, exactInput) {
+        var values = asArray(input);
+        var isInit = scope_Locations[0] === undefined;
+        // Event fires by default
+        fireSetEvent = fireSetEvent === undefined ? true : fireSetEvent;
+        // Animation is optional.
+        // Make sure the initial values were set before using animated placement.
+        if (options.animate && !isInit) addClassFor(scope_Target, options.cssClasses.tap, options.animationDuration);
+        // First pass, without lookAhead but with lookBackward. Values are set from left to right.
+        scope_HandleNumbers.forEach(function(handleNumber) {
+            setHandle(handleNumber, resolveToValue(values[handleNumber], handleNumber), true, false, exactInput);
+        });
+        var i = scope_HandleNumbers.length === 1 ? 0 : 1;
+        // Spread handles evenly across the slider if the range has no size (min=max)
+        if (isInit && scope_Spectrum.hasNoSize()) {
+            exactInput = true;
+            scope_Locations[0] = 0;
+            if (scope_HandleNumbers.length > 1) {
+                var space_1 = 100 / (scope_HandleNumbers.length - 1);
+                scope_HandleNumbers.forEach(function(handleNumber) {
+                    scope_Locations[handleNumber] = handleNumber * space_1;
+                });
+            }
+        }
+        // Secondary passes. Now that all base values are set, apply constraints.
+        // Iterate all handles to ensure constraints are applied for the entire slider (Issue #1009)
+        for(; i < scope_HandleNumbers.length; ++i)scope_HandleNumbers.forEach(function(handleNumber) {
+            setHandle(handleNumber, scope_Locations[handleNumber], true, true, exactInput);
+        });
+        setZindex();
+        scope_HandleNumbers.forEach(function(handleNumber) {
+            fireEvent("update", handleNumber);
+            // Fire the event only for handles that received a new value, as per #579
+            if (values[handleNumber] !== null && fireSetEvent) fireEvent("set", handleNumber);
+        });
+    }
+    // Reset slider to initial values
+    function valueReset(fireSetEvent) {
+        valueSet(options.start, fireSetEvent);
+    }
+    // Set value for a single handle
+    function valueSetHandle(handleNumber, value, fireSetEvent, exactInput) {
+        // Ensure numeric input
+        handleNumber = Number(handleNumber);
+        if (!(handleNumber >= 0 && handleNumber < scope_HandleNumbers.length)) throw new Error("noUiSlider: invalid handle number, got: " + handleNumber);
+        // Look both backward and forward, since we don't want this handle to "push" other handles (#960);
+        // The exactInput argument can be used to ignore slider stepping (#436)
+        setHandle(handleNumber, resolveToValue(value, handleNumber), true, true, exactInput);
+        fireEvent("update", handleNumber);
+        if (fireSetEvent) fireEvent("set", handleNumber);
+    }
+    // Get the slider value.
+    function valueGet(unencoded) {
+        if (unencoded === void 0) unencoded = false;
+        if (unencoded) // return a copy of the raw values
+        return scope_Values.length === 1 ? scope_Values[0] : scope_Values.slice(0);
+        var values = scope_Values.map(options.format.to);
+        // If only one handle is used, return a single value.
+        if (values.length === 1) return values[0];
+        return values;
+    }
+    // Removes classes from the root and empties it.
+    function destroy() {
+        // remove protected internal listeners
+        removeEvent(INTERNAL_EVENT_NS.aria);
+        removeEvent(INTERNAL_EVENT_NS.tooltips);
+        Object.keys(options.cssClasses).forEach(function(key) {
+            removeClass(scope_Target, options.cssClasses[key]);
+        });
+        while(scope_Target.firstChild)scope_Target.removeChild(scope_Target.firstChild);
+        delete scope_Target.noUiSlider;
+    }
+    function getNextStepsForHandle(handleNumber) {
+        var location = scope_Locations[handleNumber];
+        var nearbySteps = scope_Spectrum.getNearbySteps(location);
+        var value = scope_Values[handleNumber];
+        var increment = nearbySteps.thisStep.step;
+        var decrement = null;
+        // If snapped, directly use defined step value
+        if (options.snap) return [
+            value - nearbySteps.stepBefore.startValue || null,
+            nearbySteps.stepAfter.startValue - value || null
+        ];
+        // If the next value in this step moves into the next step,
+        // the increment is the start of the next step - the current value
+        if (increment !== false) {
+            if (value + increment > nearbySteps.stepAfter.startValue) increment = nearbySteps.stepAfter.startValue - value;
+        }
+        // If the value is beyond the starting point
+        if (value > nearbySteps.thisStep.startValue) decrement = nearbySteps.thisStep.step;
+        else if (nearbySteps.stepBefore.step === false) decrement = false;
+        else decrement = value - nearbySteps.stepBefore.highestStep;
+        // Now, if at the slider edges, there is no in/decrement
+        if (location === 100) increment = null;
+        else if (location === 0) decrement = null;
+        // As per #391, the comparison for the decrement step can have some rounding issues.
+        var stepDecimals = scope_Spectrum.countStepDecimals();
+        // Round per #391
+        if (increment !== null && increment !== false) increment = Number(increment.toFixed(stepDecimals));
+        if (decrement !== null && decrement !== false) decrement = Number(decrement.toFixed(stepDecimals));
+        return [
+            decrement,
+            increment
+        ];
+    }
+    // Get the current step size for the slider.
+    function getNextSteps() {
+        return scope_HandleNumbers.map(getNextStepsForHandle);
+    }
+    // Updatable: margin, limit, padding, step, range, animate, snap
+    function updateOptions(optionsToUpdate, fireSetEvent) {
+        // Spectrum is created using the range, snap, direction and step options.
+        // 'snap' and 'step' can be updated.
+        // If 'snap' and 'step' are not passed, they should remain unchanged.
+        var v = valueGet();
+        var updateAble = [
+            "margin",
+            "limit",
+            "padding",
+            "range",
+            "animate",
+            "snap",
+            "step",
+            "format",
+            "pips",
+            "tooltips"
+        ];
+        // Only change options that we're actually passed to update.
+        updateAble.forEach(function(name) {
+            // Check for undefined. null removes the value.
+            if (optionsToUpdate[name] !== undefined) originalOptions[name] = optionsToUpdate[name];
+        });
+        var newOptions = testOptions(originalOptions);
+        // Load new options into the slider state
+        updateAble.forEach(function(name) {
+            if (optionsToUpdate[name] !== undefined) options[name] = newOptions[name];
+        });
+        scope_Spectrum = newOptions.spectrum;
+        // Limit, margin and padding depend on the spectrum but are stored outside of it. (#677)
+        options.margin = newOptions.margin;
+        options.limit = newOptions.limit;
+        options.padding = newOptions.padding;
+        // Update pips, removes existing.
+        if (options.pips) pips(options.pips);
+        else removePips();
+        // Update tooltips, removes existing.
+        if (options.tooltips) tooltips();
+        else removeTooltips();
+        // Invalidate the current positioning so valueSet forces an update.
+        scope_Locations = [];
+        valueSet(isSet(optionsToUpdate.start) ? optionsToUpdate.start : v, fireSetEvent);
+    }
+    // Initialization steps
+    function setupSlider() {
+        // Create the base element, initialize HTML and set classes.
+        // Add handles and connect elements.
+        scope_Base = addSlider(scope_Target);
+        addElements(options.connect, scope_Base);
+        // Attach user events.
+        bindSliderEvents(options.events);
+        // Use the public value method to set the start values.
+        valueSet(options.start);
+        if (options.pips) pips(options.pips);
+        if (options.tooltips) tooltips();
+        aria();
+    }
+    setupSlider();
+    var scope_Self = {
+        destroy: destroy,
+        steps: getNextSteps,
+        on: bindEvent,
+        off: removeEvent,
+        get: valueGet,
+        set: valueSet,
+        setHandle: valueSetHandle,
+        reset: valueReset,
+        disable: disable,
+        enable: enable,
+        // Exposed for unit testing, don't use this in your application.
+        __moveHandles: function(upward, proposal, handleNumbers) {
+            moveHandles(upward, proposal, scope_Locations, handleNumbers);
+        },
+        options: originalOptions,
+        updateOptions: updateOptions,
+        target: scope_Target,
+        removePips: removePips,
+        removeTooltips: removeTooltips,
+        getPositions: function() {
+            return scope_Locations.slice();
+        },
+        getTooltips: function() {
+            return scope_Tooltips;
+        },
+        getOrigins: function() {
+            return scope_Handles;
+        },
+        pips: pips
+    };
+    return scope_Self;
+}
+// Run the standard initializer
+function initialize(target, originalOptions) {
+    if (!target || !target.nodeName) throw new Error("noUiSlider: create requires a single element, got: " + target);
+    // Throw an error if the slider was already initialized.
+    if (target.noUiSlider) throw new Error("noUiSlider: Slider was already initialized.");
+    // Test the options and create the slider environment;
+    var options = testOptions(originalOptions);
+    var api = scope(target, options, originalOptions);
+    target.noUiSlider = api;
+    return api;
+}
+exports.default = {
+    // Exposed for unit testing, don't use this in your application.
+    __spectrum: Spectrum,
+    // A reference to the default classes, allows global changes.
+    // Use the cssClasses option for changes to one slider.
+    cssClasses: cssClasses,
+    create: initialize
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dJWJm":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+var _swiper = require("swiper");
+var _swiperDefault = parcelHelpers.interopDefault(_swiper);
+window.addEventListener("DOMContentLoaded", ()=>{
+    const resizableSwiper = (breakpoint, swiperClass, swiperSettings, callback)=>{
+        let swiper;
+        const sliderElement = document.querySelector(swiperClass);
+        breakpoint = window.matchMedia(breakpoint);
+        const enableSwiper = function(className, settings) {
+            // Check if the slider element with the specified class exists on the page.
+            if (document.querySelector(className)) {
+                swiper = new (0, _swiperDefault.default)(className, settings);
+                if (callback) callback(swiper);
+            }
+        };
+        const checker = function() {
+            if (breakpoint.matches) return enableSwiper(swiperClass, swiperSettings);
+            else {
+                if (swiper !== undefined) swiper.destroy(true, true);
+                return;
+            }
+        };
+        breakpoint.addEventListener("change", checker);
+        checker();
+    };
+    resizableSwiper("(max-width: 576px)", ".promo__slider", {
+        modules: [
+            (0, _swiper.Pagination)
+        ],
+        loop: true,
+        grabCursor: true,
+        spaceBetween: 20,
+        slidesPerView: 1,
+        pagination: {
+            el: ".slider__pagination",
+            clickable: true
+        }
+    });
+});
+
+},{"swiper":"cCbRx","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"21UdT":[function(require,module,exports) {
+const filterBtn = document.querySelector(".sort__btn");
+const filterBtnClose = document.querySelector(".filter__close");
+const filterForm = document.querySelector(".filter");
+const page = document.querySelector(".page");
+filterBtn?.addEventListener("click", ()=>{
+    filterForm.classList.add("filter--active");
+    page.classList.add("open");
+});
+filterBtnClose?.addEventListener("click", ()=>{
+    filterForm.classList.remove("filter--active");
+    page.classList.remove("open");
+});
+
+},{}],"cOOkR":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+var _swiper = require("swiper");
+var _swiperDefault = parcelHelpers.interopDefault(_swiper);
+const sliderOptions = {
+    slidesPerView: 1,
+    modules: [
+        (0, _swiper.Autoplay),
+        (0, _swiper.Pagination),
+        (0, _swiper.Navigation)
+    ],
+    dragable: true,
+    grabCursor: true,
+    pagination: {
+        el: ".single-slider__pagination"
+    },
+    navigation: {
+        nextEl: ".single-slider__next",
+        prevEl: ".single-slider__prev"
+    }
+};
+const reviewsSlider = new (0, _swiperDefault.default)(".single-slider", sliderOptions);
+
+},{"swiper":"cCbRx","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fhTRd":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+var _swiper = require("swiper");
+var _swiperDefault = parcelHelpers.interopDefault(_swiper);
+const sliderOptions = {
+    slidesPerView: 2,
+    spaceBetween: 5,
+    modules: [
+        (0, _swiper.Autoplay),
+        (0, _swiper.Pagination),
+        (0, _swiper.Navigation)
+    ],
+    dragable: true,
+    grabCursor: true,
+    breakpoints: {
+        576: {
+            slidesPerView: 3,
+            spaceBetween: 10
+        },
+        768: {
+            slidesPerView: 4,
+            spaceBetween: 20
+        },
+        992: {
+            slidesPerView: 5,
+            spaceBetween: 30
+        }
+    },
+    // pagination: {
+    //   el: '.swiper-pagination',
+    // },
+    navigation: {
+        nextEl: ".recent-slider__next",
+        prevEl: ".recent-slider__prev"
+    },
+    pagination: {
+        el: ".recent-slider__pagination"
+    }
+};
+const recentSlider = new (0, _swiperDefault.default)(".recent-slider", sliderOptions);
+
+},{"swiper":"cCbRx","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3bsGg":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+var _starryRating = require("starry-rating");
+var _starryRatingDefault = parcelHelpers.interopDefault(_starryRating);
+const starElements = document.querySelectorAll(".form-reviews__star");
+if (starElements.length > 0) starElements.forEach((starElement)=>{
+    const starRating = new (0, _starryRatingDefault.default)(starElement);
+});
+
+},{"starry-rating":"MSIxi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"MSIxi":[function(require,module,exports) {
+"use strict";
+function _createForOfIteratorHelper(o, allowArrayLike) {
+    var it;
+    if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
+        if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+            if (it) o = it;
+            var i = 0;
+            var F = function F() {};
+            return {
+                s: F,
+                n: function n() {
+                    if (i >= o.length) return {
+                        done: true
+                    };
+                    return {
+                        done: false,
+                        value: o[i++]
+                    };
+                },
+                e: function e(_e) {
+                    throw _e;
+                },
+                f: F
+            };
+        }
+        throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    }
+    var normalCompletion = true, didErr = false, err;
+    return {
+        s: function s() {
+            it = o[Symbol.iterator]();
+        },
+        n: function n() {
+            var step = it.next();
+            normalCompletion = step.done;
+            return step;
+        },
+        e: function e(_e2) {
+            didErr = true;
+            err = _e2;
+        },
+        f: function f() {
+            try {
+                if (!normalCompletion && it["return"] != null) it["return"]();
+            } finally{
+                if (didErr) throw err;
+            }
+        }
+    };
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+}
+function _defineProperties(target, props) {
+    for(var i = 0; i < props.length; i++){
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+    }
+}
+function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+}
+/**
+ * author:		Andre Sieverding https://github.com/Teddy95
+ * license:		MIT http://opensource.org/licenses/MIT
+ *
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2020 Andre Sieverding
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */ // Import default icons
+var icon = {
+    blank: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPg0KICAgIDx0aXRsZT5ibGFuazwvdGl0bGU+DQogICAgPGcgaWQ9ImJsYW5rIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4NCiAgICAgICAgPHBhdGggZD0iTTExLjA0NDAxNDEsMS4zNjcyMTIxNyBMNy45OTAyNTM2MSw3LjU1Mzg5NTc5IEwxLjE2MjcwNzcyLDguNTQ2NDAxNSBDMC45MzA3MDc2MTgsOC41ODAxMTMwOSAwLjcxNjI5MDcwNSw4LjY4OTM2Mzk2IDAuNTUyNjUxMjE3LDguODU3MjQwODIgTDAuNDY1MjYzMjc2LDguOTU4NzkwNTkgQzAuMTQ1NDc5MzEyLDkuMzgxMDkyODMgMC4xODI3NjQ1MjUsOS45ODUzMzE0MyAwLjU3MTkxODczNywxMC4zNjQ2NjMgTDUuNTEyMTA5NTYsMTUuMTgwOTI0NSBMNC4zNDYyNDE5MywyMS45ODA4MzU0IEM0LjMwNjYxMTU4LDIyLjIxMTg5ODEgNC4zNDQyNTY4NywyMi40NDk1ODEgNC40NTMzNDk4NiwyMi42NTcwODgyIEw0LjUxNzU0Nzg4LDIyLjc2Mzc4ODMgQzQuODE4NzU3NTUsMjMuMjA0Mzk1OSA1LjQwOTA2MzI5LDIzLjM1ODk3NTggNS44OTI5NDc1NywyMy4xMDQ1ODI4IEwxMS45OTk5NTAxLDE5Ljg5MzM5MzYgTDE4LjEwNjkxNCwyMy4xMDQ1ODI4IEMxOC4zMTQ0MjEyLDIzLjIxMzY3NTggMTguNTUyMTA0MiwyMy4yNTEzMjExIDE4Ljc4MzE2NjgsMjMuMjExNjkwNyBMMTguODk2NTg5OCwyMy4xODU4OTA3IEMxOS40MTMyMTQ3LDIzLjAzODU2MjIgMTkuNzQ2NTA3MiwyMi41MjI0MTE2IDE5LjY1MzYxOTYsMjEuOTgwODM1NCBMMTguNDg2NzY2MiwxNS4xODA5MjQ1IEwyMy40Mjc5NDI4LDEwLjM2NDY2MyBDMjMuNTk1ODE5NywxMC4yMDEwMjM1IDIzLjcwNTA3MDYsOS45ODY2MDY2MyAyMy43Mzg3ODIxLDkuNzU0NjA2NTMgTDIzLjc0OTI5NDUsOS42Mzg3NjIyNiBDMjMuNzY4ODIyNiw5LjEwMTg5NTc4IDIzLjM4MDkyNzMsOC42MjU0MTY0MSAyMi44MzcxNTM4LDguNTQ2NDAxNSBMMTYuMDA4NjIyMiw3LjU1Mzg5NTc5IEwxMi45NTU4NDc0LDEuMzY3MjEyMTcgQzEyLjg1MjA5MzgsMS4xNTY5ODQ0MSAxMi42ODE5MzE2LDAuOTg2ODIyMTgzIDEyLjQ3MTcwMzksMC44ODMwNjg1ODIgQzExLjk0Mzc2NTcsMC42MjI1MTU1MDggMTEuMzA0NTY3MiwwLjgzOTI3Mzk3NCAxMS4wNDQwMTQxLDEuMzY3MjEyMTcgWiBNMTEuOTk4OTI1NywyLjkwMTg2OTI3IEwxNC42OTQ2ODk3LDguMzYyNjg3MDIgTDE0Ljc2MjI4ODQsOC40ODI3MjYyMyBDMTQuOTU4Njc0Nyw4Ljc5MDkwMjk5IDE1LjI4MDY1MDksOS4wMDExOTA0IDE1LjY0NjczMDEsOS4wNTQzODQ4MyBMMjEuNjcxNzgwNiw5LjkyOTU5NDg2IEwxNy4zMTIxODI3LDE0LjE4MDEyMDkgTDE3LjIxODkwNzgsMTQuMjgxNTA1MyBDMTYuOTg2NTAxLDE0LjU2MzUxMTYgMTYuODg2MDAxOSwxNC45MzQ3MTE1IDE2Ljk0ODUzNTcsMTUuMjk5MzExNSBMMTcuOTc2NTkwMiwyMS4yOTk5NjMxIEwxMi41ODgzMjQxLDE4LjQ2NzE5MDYgTDEyLjQ0NzEwNzksMTguNDAzNjQ2NSBDMTIuMTExMDY3OCwxOC4yNzY1NTgyIDExLjczMzg1MjYsMTguMjk3NzM5NiAxMS40MTE1Mzc1LDE4LjQ2NzE5MDYgTDYuMDIyMjg1NTYsMjEuMjk5OTYzMSBMNy4wNTEzMjU5MiwxNS4yOTkzMTE1IEw3LjA2NzE5NDcyLDE1LjE2MjQ2NDIgQzcuMDg5NDU2NjIsMTQuNzk3NzExIDYuOTUyNTc2MjcsMTQuNDM4MzMyMSA2LjY4NzY3ODg2LDE0LjE4MDEyMDkgTDIuMzI3MDk1MTUsOS45Mjk1OTQ4NiBMOC4zNTMxMzE0OCw5LjA1NDM4NDgzIEM4Ljc2NDk3MDU5LDguOTk0NTQxMSA5LjEyMDk5MTc5LDguNzM1ODc2NTYgOS4zMDUxNzE4NCw4LjM2MjY4NzAyIEwxMS45OTg5MjU3LDIuOTAxODY5MjcgWiIgZmlsbD0iI0ZBREIzNyIgZmlsbC1ydWxlPSJub256ZXJvIj48L3BhdGg+DQogICAgPC9nPg0KPC9zdmc+",
+    active: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPg0KICAgIDx0aXRsZT5hY3RpdmU8L3RpdGxlPg0KICAgIDxnIGlkPSJhY3RpdmUiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPg0KICAgICAgICA8cGF0aCBkPSJNMTEuMDQ0MDE0MSwxLjM2NzIxMjE3IEw3Ljk5MDI1MzYxLDcuNTUzODk1NzkgTDEuMTYyNzA3NzIsOC41NDY0MDE1IEMwLjkzMDcwNzYxOCw4LjU4MDExMzA5IDAuNzE2MjkwNzA1LDguNjg5MzYzOTYgMC41NTI2NTEyMTcsOC44NTcyNDA4MiBMMC40NjUyNjMyNzYsOC45NTg3OTA1OSBDMC4xNDU0NzkzMTIsOS4zODEwOTI4MyAwLjE4Mjc2NDUyNSw5Ljk4NTMzMTQzIDAuNTcxOTE4NzM3LDEwLjM2NDY2MyBMNS41MTIxMDk1NiwxNS4xODA5MjQ1IEw0LjM0NjI0MTkzLDIxLjk4MDgzNTQgQzQuMzA2NjExNTgsMjIuMjExODk4MSA0LjM0NDI1Njg3LDIyLjQ0OTU4MSA0LjQ1MzM0OTg2LDIyLjY1NzA4ODIgTDQuNTE3NTQ3ODgsMjIuNzYzNzg4MyBDNC44MTg3NTc1NSwyMy4yMDQzOTU5IDUuNDA5MDYzMjksMjMuMzU4OTc1OCA1Ljg5Mjk0NzU3LDIzLjEwNDU4MjggTDExLjk5OTk1MDEsMTkuODkzMzkzNiBMMTguMTA2OTE0LDIzLjEwNDU4MjggQzE4LjMxNDQyMTIsMjMuMjEzNjc1OCAxOC41NTIxMDQyLDIzLjI1MTMyMTEgMTguNzgzMTY2OCwyMy4yMTE2OTA3IEwxOC44OTY1ODk4LDIzLjE4NTg5MDcgQzE5LjQxMzIxNDcsMjMuMDM4NTYyMiAxOS43NDY1MDcyLDIyLjUyMjQxMTYgMTkuNjUzNjE5NiwyMS45ODA4MzU0IEwxOC40ODY3NjYyLDE1LjE4MDkyNDUgTDIzLjQyNzk0MjgsMTAuMzY0NjYzIEMyMy41OTU4MTk3LDEwLjIwMTAyMzUgMjMuNzA1MDcwNiw5Ljk4NjYwNjYzIDIzLjczODc4MjEsOS43NTQ2MDY1MyBMMjMuNzQ5Mjk0NSw5LjYzODc2MjI2IEMyMy43Njg4MjI2LDkuMTAxODk1NzggMjMuMzgwOTI3Myw4LjYyNTQxNjQxIDIyLjgzNzE1MzgsOC41NDY0MDE1IEwxNi4wMDg2MjIyLDcuNTUzODk1NzkgTDEyLjk1NTg0NzQsMS4zNjcyMTIxNyBDMTIuODUyMDkzOCwxLjE1Njk4NDQxIDEyLjY4MTkzMTYsMC45ODY4MjIxODMgMTIuNDcxNzAzOSwwLjg4MzA2ODU4MiBDMTEuOTQzNzY1NywwLjYyMjUxNTUwOCAxMS4zMDQ1NjcyLDAuODM5MjczOTc0IDExLjA0NDAxNDEsMS4zNjcyMTIxNyBaIiBmaWxsPSIjRkFEQjM3IiBmaWxsLXJ1bGU9Im5vbnplcm8iPjwvcGF0aD4NCiAgICA8L2c+DQo8L3N2Zz4=",
+    hover: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPg0KICAgIDx0aXRsZT5ob3ZlcjwvdGl0bGU+DQogICAgPGcgaWQ9ImhvdmVyIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4NCiAgICAgICAgPHBhdGggZD0iTTExLjA0NDAxNDEsMS4zNjcyMTIxNyBMNy45OTAyNTM2MSw3LjU1Mzg5NTc5IEwxLjE2MjcwNzcyLDguNTQ2NDAxNSBDMC45MzA3MDc2MTgsOC41ODAxMTMwOSAwLjcxNjI5MDcwNSw4LjY4OTM2Mzk2IDAuNTUyNjUxMjE3LDguODU3MjQwODIgTDAuNDY1MjYzMjc2LDguOTU4NzkwNTkgQzAuMTQ1NDc5MzEyLDkuMzgxMDkyODMgMC4xODI3NjQ1MjUsOS45ODUzMzE0MyAwLjU3MTkxODczNywxMC4zNjQ2NjMgTDUuNTEyMTA5NTYsMTUuMTgwOTI0NSBMNC4zNDYyNDE5MywyMS45ODA4MzU0IEM0LjMwNjYxMTU4LDIyLjIxMTg5ODEgNC4zNDQyNTY4NywyMi40NDk1ODEgNC40NTMzNDk4NiwyMi42NTcwODgyIEw0LjUxNzU0Nzg4LDIyLjc2Mzc4ODMgQzQuODE4NzU3NTUsMjMuMjA0Mzk1OSA1LjQwOTA2MzI5LDIzLjM1ODk3NTggNS44OTI5NDc1NywyMy4xMDQ1ODI4IEwxMS45OTk5NTAxLDE5Ljg5MzM5MzYgTDE4LjEwNjkxNCwyMy4xMDQ1ODI4IEMxOC4zMTQ0MjEyLDIzLjIxMzY3NTggMTguNTUyMTA0MiwyMy4yNTEzMjExIDE4Ljc4MzE2NjgsMjMuMjExNjkwNyBMMTguODk2NTg5OCwyMy4xODU4OTA3IEMxOS40MTMyMTQ3LDIzLjAzODU2MjIgMTkuNzQ2NTA3MiwyMi41MjI0MTE2IDE5LjY1MzYxOTYsMjEuOTgwODM1NCBMMTguNDg2NzY2MiwxNS4xODA5MjQ1IEwyMy40Mjc5NDI4LDEwLjM2NDY2MyBDMjMuNTk1ODE5NywxMC4yMDEwMjM1IDIzLjcwNTA3MDYsOS45ODY2MDY2MyAyMy43Mzg3ODIxLDkuNzU0NjA2NTMgTDIzLjc0OTI5NDUsOS42Mzg3NjIyNiBDMjMuNzY4ODIyNiw5LjEwMTg5NTc4IDIzLjM4MDkyNzMsOC42MjU0MTY0MSAyMi44MzcxNTM4LDguNTQ2NDAxNSBMMTYuMDA4NjIyMiw3LjU1Mzg5NTc5IEwxMi45NTU4NDc0LDEuMzY3MjEyMTcgQzEyLjg1MjA5MzgsMS4xNTY5ODQ0MSAxMi42ODE5MzE2LDAuOTg2ODIyMTgzIDEyLjQ3MTcwMzksMC44ODMwNjg1ODIgQzExLjk0Mzc2NTcsMC42MjI1MTU1MDggMTEuMzA0NTY3MiwwLjgzOTI3Mzk3NCAxMS4wNDQwMTQxLDEuMzY3MjEyMTcgWiIgZmlsbD0iI0ZGOTUwMCIgZmlsbC1ydWxlPSJub256ZXJvIj48L3BhdGg+DQogICAgPC9nPg0KPC9zdmc+"
+}; // Star rating class
+var Starry = /*#__PURE__*/ function() {
+    // Constructor method -> saves configs to Starry object & calls build method
+    function Starry() {
+        var domElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+        var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        _classCallCheck(this, Starry);
+        if (!domElement) {
+            console.error("Starry: Missing DOM element!");
+            return false;
+        }
+        if (!this.setConfig(config)) return false;
+        this.domElement = domElement;
+        this.build();
+    } // Save configs to Starry object
+    _createClass(Starry, [
+        {
+            key: "setConfig",
+            value: function setConfig(config) {
+                this.config = config;
+                if (typeof this.config.stars === "undefined") this.config.stars = 5;
+                if (typeof this.config.multiRating === "undefined") this.config.multiRating = true;
+                if (typeof this.config.beginWith === "undefined") this.config.beginWith = 0;
+                if (typeof this.config.readOnly === "undefined") this.config.readOnly = false;
+                if (typeof this.config.staticActiveRating === "undefined") this.config.staticActiveRating = true;
+                if (typeof this.config.setStarsAfterRating === "undefined") this.config.setStarsAfterRating = true;
+                if (typeof this.config.labels === "undefined" || !Array.isArray(this.config.labels)) this.config.labels = false;
+                if (typeof this.config.onRate === "undefined") this.config.onRate = function(value) {
+                    return true;
+                };
+                if (typeof this.currentRating === "undefined") this.currentRating = 0;
+                if (typeof this.config.icons === "undefined" || typeof this.config.icons.blank === "undefined" || typeof this.config.icons.hover === "undefined" || typeof this.config.icons.active === "undefined") this.config.icons = icon;
+                if (this.config.beginWith < 0) this.config.beginWith = 0;
+                if (this.config.beginWith > 100) this.config.beginWith = 100;
+                if (typeof this.config.name === "undefined") {
+                    if (this.config.multiRating === false) {
+                        console.error("Starry: Give your Starry star rating elements with multi rating a name!");
+                        return false;
+                    } else this.config.name = "Starry_" + Date.now();
+                }
+                return true;
+            } // Set read only option by cookie
+        },
+        {
+            key: "checkCookie",
+            value: function checkCookie() {
+                var cookies = document.cookie;
+                cookies = cookies.split(";");
+                var _iterator = _createForOfIteratorHelper(cookies), _step;
+                try {
+                    for(_iterator.s(); !(_step = _iterator.n()).done;){
+                        var cookie = _step.value;
+                        if (cookie.trim() === "Starry_" + this.config.name + "=true") this.config.readOnly = true;
+                    }
+                } catch (err) {
+                    _iterator.e(err);
+                } finally{
+                    _iterator.f();
+                }
+            } // Set rated cookie
+        },
+        {
+            key: "setCookie",
+            value: function setCookie() {
+                var time = new Date();
+                time.setTime(time.getTime() + 311040000000);
+                document.cookie = "Starry_" + this.config.name + "=true; expires=" + time.toGMTString() + "; sameSite=Lax";
+                this.config.multiRating = false;
+                this.config.readOnly = true;
+            } // Create star rating html
+        },
+        {
+            key: "build",
+            value: function build() {
+                this.clear();
+                if (this.config.multiRating === false) this.checkCookie();
+                 // Build starry wrapper
+                var starryWrapper = document.createElement("div");
+                starryWrapper.classList.add("Starry");
+                starryWrapper.setAttribute("data-name", this.config.name); // Build starry inners -> blank stars
+                var starryInnerBlank = document.createElement("div");
+                starryInnerBlank.classList.add("Starry-blank"); // Add stars to starry inners -> blank stars
+                var _iterator2 = _createForOfIteratorHelper(this.getStarRow("blank")), _step2;
+                try {
+                    for(_iterator2.s(); !(_step2 = _iterator2.n()).done;){
+                        var starEl = _step2.value;
+                        starryInnerBlank.appendChild(starEl);
+                    } // Build starry inners -> active stars
+                } catch (err) {
+                    _iterator2.e(err);
+                } finally{
+                    _iterator2.f();
+                }
+                var starryInnerActive = document.createElement("div");
+                starryInnerActive.classList.add("Starry-active");
+                if (this.config.staticActiveRating === true || this.config.readOnly === true) starryInnerActive.classList.add("Starry-static");
+                starryInnerActive.style.width = "".concat(this.config.beginWith, "%"); // Add stars to starry inners -> active stars
+                var _iterator3 = _createForOfIteratorHelper(this.getStarRow("active")), _step3;
+                try {
+                    for(_iterator3.s(); !(_step3 = _iterator3.n()).done;){
+                        var starEl = _step3.value;
+                        starryInnerActive.appendChild(starEl);
+                    }
+                } catch (err) {
+                    _iterator3.e(err);
+                } finally{
+                    _iterator3.f();
+                }
+                if (this.config.readOnly === false) {
+                    // Build starry inners -> hover stars
+                    var starryInnerHover = document.createElement("div");
+                    starryInnerHover.classList.add("Starry-hover"); // Add stars to starry inners -> hover stars
+                    var _iterator4 = _createForOfIteratorHelper(this.getStarRow("hover")), _step4;
+                    try {
+                        for(_iterator4.s(); !(_step4 = _iterator4.n()).done;){
+                            var starEl = _step4.value;
+                            starryInnerHover.appendChild(starEl);
+                        }
+                    } catch (err) {
+                        _iterator4.e(err);
+                    } finally{
+                        _iterator4.f();
+                    }
+                } // Append starry inners to starry wrapper
+                starryWrapper.appendChild(starryInnerBlank);
+                starryWrapper.appendChild(starryInnerActive);
+                if (this.config.readOnly === false) starryWrapper.appendChild(starryInnerHover); // Append Starry element to star rating dom element
+                this.domElement.appendChild(starryWrapper); // Perform on render method if it exists
+                if (typeof this.config.onRender !== "undefined" && typeof this.config.onRender === "function") this.config.onRender();
+            } // Get stars html
+        },
+        {
+            key: "getStarRow",
+            value: function getStarRow(type) {
+                var _this = this;
+                var stars = [];
+                for(var i = this.config.stars; i > 0; i--){
+                    // Build star element
+                    var starElement = document.createElement("div");
+                    starElement.classList.add("Starry-star"); // Add event listener for hovering stars
+                    if (type === "hover") {
+                        starElement.setAttribute("data-value", i);
+                        if (Array.isArray(this.config.labels)) {
+                            starElement.setAttribute("title", this.config.labels[i - 1]);
+                            starElement.setAttribute("data-label", this.config.labels[i - 1]);
+                            starElement.setAttribute("data-tooltip", this.config.labels[i - 1]);
+                        }
+                        starElement.addEventListener("click", function(event) {
+                            var targetEl = event.target;
+                            if (!targetEl.classList.contains("Starry-star")) targetEl = event.target.closest(".Starry-star");
+                            var onRateResult = _this.config.onRate(targetEl.getAttribute("data-value"));
+                            if (onRateResult !== false) {
+                                _this.currentRating = parseInt(targetEl.getAttribute("data-value"));
+                                if (_this.config.setStarsAfterRating === true) _this.config.beginWith = _this.currentRating / _this.config.stars * 100;
+                            }
+                            if (_this.config.multiRating === false) _this.setCookie();
+                            _this.build();
+                        });
+                    } // Build star visual
+                    var starVisual = document.createElement("img");
+                    starVisual.setAttribute("src", this.config.icons[type]);
+                    starElement.appendChild(starVisual); // Push star element to stars array
+                    stars.push(starElement);
+                }
+                return stars;
+            } // Clear Starry html DOM
+        },
+        {
+            key: "clear",
+            value: function clear() {
+                if (typeof this.config.onClear !== "undefined" && typeof this.config.onClear === "function") this.config.onClear();
+                this.domElement.innerHTML = "";
+            } // Update starry
+        },
+        {
+            key: "update",
+            value: function update(config) {
+                this.setConfig(Object.assign({}, this.config, config));
+                this.build();
+            } // Get current rating
+        },
+        {
+            key: "getCurrentRating",
+            value: function getCurrentRating() {
+                return this.currentRating;
+            } // Get config object
+        },
+        {
+            key: "getConfig",
+            value: function getConfig() {
+                return this.config;
+            } // Custom event listener
+        },
+        {
+            key: "on",
+            value: function on(eventName, callbackFunction) {
+                switch(eventName){
+                    case "rate":
+                        this.config.onRate = callbackFunction;
+                        break;
+                    case "render":
+                        this.config.onRender = callbackFunction;
+                        break;
+                    case "clear":
+                        this.config.onClear = callbackFunction;
+                        break;
+                    default:
+                        console.error("Starry: Event '".concat(eventName, "' doesn't exists!"));
+                        return;
+                }
+            }
+        }
+    ]);
+    return Starry;
+}();
+module.exports = Starry;
+
+},{}],"cD0bk":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+var _lightgallery = require("lightgallery");
+var _lightgalleryDefault = parcelHelpers.interopDefault(_lightgallery);
+var _swiper = require("swiper");
+var _swiperDefault = parcelHelpers.interopDefault(_swiper);
+let $lgSwiper = document.getElementById("lg-swipper");
+const reviewsSlider = new (0, _swiperDefault.default)(".single-slider", {
+    // other parameters
+    navigation: {
+        nextEl: ".single-slider__next",
+        prevEl: ".single-slider__prev"
+    },
+    on: {
+        init: function() {
+            const lg = (0, _lightgalleryDefault.default)($lgSwiper, {
+                speed: 300
+            });
+            $lgSwiper.addEventListener("lgBeforeClose", ()=>{
+                reviewsSlider.slideTo(lg.index, 0);
+            });
+        }
+    }
+});
+
+},{"lightgallery":"lrONo","swiper":"cCbRx","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lrONo":[function(require,module,exports) {
+/*!
+ * lightgallery | 2.7.2 | September 20th 2023
+ * http://www.lightgalleryjs.com/
+ * Copyright (c) 2020 Sachin Neravath;
+ * @license GPLv3
+ */ /*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for(var s, i = 1, n = arguments.length; i < n; i++){
+            s = arguments[i];
+            for(var p in s)if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+function __spreadArrays() {
+    for(var s = 0, i = 0, il = arguments.length; i < il; i++)s += arguments[i].length;
+    for(var r = Array(s), k = 0, i = 0; i < il; i++)for(var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)r[k] = a[j];
+    return r;
+}
+/**
+ * List of lightGallery events
+ * All events should be documented here
+ * Below interfaces are used to build the website documentations
+ * */ var lGEvents = {
+    afterAppendSlide: "lgAfterAppendSlide",
+    init: "lgInit",
+    hasVideo: "lgHasVideo",
+    containerResize: "lgContainerResize",
+    updateSlides: "lgUpdateSlides",
+    afterAppendSubHtml: "lgAfterAppendSubHtml",
+    beforeOpen: "lgBeforeOpen",
+    afterOpen: "lgAfterOpen",
+    slideItemLoad: "lgSlideItemLoad",
+    beforeSlide: "lgBeforeSlide",
+    afterSlide: "lgAfterSlide",
+    posterClick: "lgPosterClick",
+    dragStart: "lgDragStart",
+    dragMove: "lgDragMove",
+    dragEnd: "lgDragEnd",
+    beforeNextSlide: "lgBeforeNextSlide",
+    beforePrevSlide: "lgBeforePrevSlide",
+    beforeClose: "lgBeforeClose",
+    afterClose: "lgAfterClose",
+    rotateLeft: "lgRotateLeft",
+    rotateRight: "lgRotateRight",
+    flipHorizontal: "lgFlipHorizontal",
+    flipVertical: "lgFlipVertical",
+    autoplay: "lgAutoplay",
+    autoplayStart: "lgAutoplayStart",
+    autoplayStop: "lgAutoplayStop"
+};
+var lightGalleryCoreSettings = {
+    mode: "lg-slide",
+    easing: "ease",
+    speed: 400,
+    licenseKey: "0000-0000-000-0000",
+    height: "100%",
+    width: "100%",
+    addClass: "",
+    startClass: "lg-start-zoom",
+    backdropDuration: 300,
+    container: "",
+    startAnimationDuration: 400,
+    zoomFromOrigin: true,
+    hideBarsDelay: 0,
+    showBarsAfter: 10000,
+    slideDelay: 0,
+    supportLegacyBrowser: true,
+    allowMediaOverlap: false,
+    videoMaxSize: "1280-720",
+    loadYouTubePoster: true,
+    defaultCaptionHeight: 0,
+    ariaLabelledby: "",
+    ariaDescribedby: "",
+    resetScrollPosition: true,
+    hideScrollbar: false,
+    closable: true,
+    swipeToClose: true,
+    closeOnTap: true,
+    showCloseIcon: true,
+    showMaximizeIcon: false,
+    loop: true,
+    escKey: true,
+    keyPress: true,
+    trapFocus: true,
+    controls: true,
+    slideEndAnimation: true,
+    hideControlOnEnd: false,
+    mousewheel: false,
+    getCaptionFromTitleOrAlt: true,
+    appendSubHtmlTo: ".lg-sub-html",
+    subHtmlSelectorRelative: false,
+    preload: 2,
+    numberOfSlideItemsInDom: 10,
+    selector: "",
+    selectWithin: "",
+    nextHtml: "",
+    prevHtml: "",
+    index: 0,
+    iframeWidth: "100%",
+    iframeHeight: "100%",
+    iframeMaxWidth: "100%",
+    iframeMaxHeight: "100%",
+    download: true,
+    counter: true,
+    appendCounterTo: ".lg-toolbar",
+    swipeThreshold: 50,
+    enableSwipe: true,
+    enableDrag: true,
+    dynamic: false,
+    dynamicEl: [],
+    extraProps: [],
+    exThumbImage: "",
+    isMobile: undefined,
+    mobileSettings: {
+        controls: false,
+        showCloseIcon: false,
+        download: false
+    },
+    plugins: [],
+    strings: {
+        closeGallery: "Close gallery",
+        toggleMaximize: "Toggle maximize",
+        previousSlide: "Previous slide",
+        nextSlide: "Next slide",
+        download: "Download",
+        playVideo: "Play video",
+        mediaLoadingFailed: "Oops... Failed to load content..."
+    }
+};
+function initLgPolyfills() {
+    (function() {
+        if (typeof window.CustomEvent === "function") return false;
+        function CustomEvent1(event, params) {
+            params = params || {
+                bubbles: false,
+                cancelable: false,
+                detail: null
+            };
+            var evt = document.createEvent("CustomEvent");
+            evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+            return evt;
+        }
+        window.CustomEvent = CustomEvent1;
+    })();
+    (function() {
+        if (!Element.prototype.matches) Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+    })();
+}
+var lgQuery = /** @class */ function() {
+    function lgQuery(selector) {
+        this.cssVenderPrefixes = [
+            "TransitionDuration",
+            "TransitionTimingFunction",
+            "Transform",
+            "Transition"
+        ];
+        this.selector = this._getSelector(selector);
+        this.firstElement = this._getFirstEl();
+        return this;
+    }
+    lgQuery.generateUUID = function() {
+        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0, v = c == "x" ? r : r & 0x3 | 0x8;
+            return v.toString(16);
+        });
+    };
+    lgQuery.prototype._getSelector = function(selector, context) {
+        if (context === void 0) context = document;
+        if (typeof selector !== "string") return selector;
+        context = context || document;
+        var fl = selector.substring(0, 1);
+        if (fl === "#") return context.querySelector(selector);
+        else return context.querySelectorAll(selector);
+    };
+    lgQuery.prototype._each = function(func) {
+        if (!this.selector) return this;
+        if (this.selector.length !== undefined) [].forEach.call(this.selector, func);
+        else func(this.selector, 0);
+        return this;
+    };
+    lgQuery.prototype._setCssVendorPrefix = function(el, cssProperty, value) {
+        // prettier-ignore
+        var property = cssProperty.replace(/-([a-z])/gi, function(s, group1) {
+            return group1.toUpperCase();
+        });
+        if (this.cssVenderPrefixes.indexOf(property) !== -1) {
+            el.style[property.charAt(0).toLowerCase() + property.slice(1)] = value;
+            el.style["webkit" + property] = value;
+            el.style["moz" + property] = value;
+            el.style["ms" + property] = value;
+            el.style["o" + property] = value;
+        } else el.style[property] = value;
+    };
+    lgQuery.prototype._getFirstEl = function() {
+        if (this.selector && this.selector.length !== undefined) return this.selector[0];
+        else return this.selector;
+    };
+    lgQuery.prototype.isEventMatched = function(event, eventName) {
+        var eventNamespace = eventName.split(".");
+        return event.split(".").filter(function(e) {
+            return e;
+        }).every(function(e) {
+            return eventNamespace.indexOf(e) !== -1;
+        });
+    };
+    lgQuery.prototype.attr = function(attr, value) {
+        if (value === undefined) {
+            if (!this.firstElement) return "";
+            return this.firstElement.getAttribute(attr);
+        }
+        this._each(function(el) {
+            el.setAttribute(attr, value);
+        });
+        return this;
+    };
+    lgQuery.prototype.find = function(selector) {
+        return $LG(this._getSelector(selector, this.selector));
+    };
+    lgQuery.prototype.first = function() {
+        if (this.selector && this.selector.length !== undefined) return $LG(this.selector[0]);
+        else return $LG(this.selector);
+    };
+    lgQuery.prototype.eq = function(index) {
+        return $LG(this.selector[index]);
+    };
+    lgQuery.prototype.parent = function() {
+        return $LG(this.selector.parentElement);
+    };
+    lgQuery.prototype.get = function() {
+        return this._getFirstEl();
+    };
+    lgQuery.prototype.removeAttr = function(attributes) {
+        var attrs = attributes.split(" ");
+        this._each(function(el) {
+            attrs.forEach(function(attr) {
+                return el.removeAttribute(attr);
+            });
+        });
+        return this;
+    };
+    lgQuery.prototype.wrap = function(className) {
+        if (!this.firstElement) return this;
+        var wrapper = document.createElement("div");
+        wrapper.className = className;
+        this.firstElement.parentNode.insertBefore(wrapper, this.firstElement);
+        this.firstElement.parentNode.removeChild(this.firstElement);
+        wrapper.appendChild(this.firstElement);
+        return this;
+    };
+    lgQuery.prototype.addClass = function(classNames) {
+        if (classNames === void 0) classNames = "";
+        this._each(function(el) {
+            // IE doesn't support multiple arguments
+            classNames.split(" ").forEach(function(className) {
+                if (className) el.classList.add(className);
+            });
+        });
+        return this;
+    };
+    lgQuery.prototype.removeClass = function(classNames) {
+        this._each(function(el) {
+            // IE doesn't support multiple arguments
+            classNames.split(" ").forEach(function(className) {
+                if (className) el.classList.remove(className);
+            });
+        });
+        return this;
+    };
+    lgQuery.prototype.hasClass = function(className) {
+        if (!this.firstElement) return false;
+        return this.firstElement.classList.contains(className);
+    };
+    lgQuery.prototype.hasAttribute = function(attribute) {
+        if (!this.firstElement) return false;
+        return this.firstElement.hasAttribute(attribute);
+    };
+    lgQuery.prototype.toggleClass = function(className) {
+        if (!this.firstElement) return this;
+        if (this.hasClass(className)) this.removeClass(className);
+        else this.addClass(className);
+        return this;
+    };
+    lgQuery.prototype.css = function(property, value) {
+        var _this = this;
+        this._each(function(el) {
+            _this._setCssVendorPrefix(el, property, value);
+        });
+        return this;
+    };
+    // Need to pass separate namespaces for separate elements
+    lgQuery.prototype.on = function(events, listener) {
+        var _this = this;
+        if (!this.selector) return this;
+        events.split(" ").forEach(function(event) {
+            if (!Array.isArray(lgQuery.eventListeners[event])) lgQuery.eventListeners[event] = [];
+            lgQuery.eventListeners[event].push(listener);
+            _this.selector.addEventListener(event.split(".")[0], listener);
+        });
+        return this;
+    };
+    // @todo - test this
+    lgQuery.prototype.once = function(event, listener) {
+        var _this = this;
+        this.on(event, function() {
+            _this.off(event);
+            listener(event);
+        });
+        return this;
+    };
+    lgQuery.prototype.off = function(event) {
+        var _this = this;
+        if (!this.selector) return this;
+        Object.keys(lgQuery.eventListeners).forEach(function(eventName) {
+            if (_this.isEventMatched(event, eventName)) {
+                lgQuery.eventListeners[eventName].forEach(function(listener) {
+                    _this.selector.removeEventListener(eventName.split(".")[0], listener);
+                });
+                lgQuery.eventListeners[eventName] = [];
+            }
+        });
+        return this;
+    };
+    lgQuery.prototype.trigger = function(event, detail) {
+        if (!this.firstElement) return this;
+        var customEvent = new CustomEvent(event.split(".")[0], {
+            detail: detail || null
+        });
+        this.firstElement.dispatchEvent(customEvent);
+        return this;
+    };
+    // Does not support IE
+    lgQuery.prototype.load = function(url) {
+        var _this = this;
+        fetch(url).then(function(res) {
+            return res.text();
+        }).then(function(html) {
+            _this.selector.innerHTML = html;
+        });
+        return this;
+    };
+    lgQuery.prototype.html = function(html) {
+        if (html === undefined) {
+            if (!this.firstElement) return "";
+            return this.firstElement.innerHTML;
+        }
+        this._each(function(el) {
+            el.innerHTML = html;
+        });
+        return this;
+    };
+    lgQuery.prototype.append = function(html) {
+        this._each(function(el) {
+            if (typeof html === "string") el.insertAdjacentHTML("beforeend", html);
+            else el.appendChild(html);
+        });
+        return this;
+    };
+    lgQuery.prototype.prepend = function(html) {
+        this._each(function(el) {
+            el.insertAdjacentHTML("afterbegin", html);
+        });
+        return this;
+    };
+    lgQuery.prototype.remove = function() {
+        this._each(function(el) {
+            el.parentNode.removeChild(el);
+        });
+        return this;
+    };
+    lgQuery.prototype.empty = function() {
+        this._each(function(el) {
+            el.innerHTML = "";
+        });
+        return this;
+    };
+    lgQuery.prototype.scrollTop = function(scrollTop) {
+        if (scrollTop !== undefined) {
+            document.body.scrollTop = scrollTop;
+            document.documentElement.scrollTop = scrollTop;
+            return this;
+        } else return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    };
+    lgQuery.prototype.scrollLeft = function(scrollLeft) {
+        if (scrollLeft !== undefined) {
+            document.body.scrollLeft = scrollLeft;
+            document.documentElement.scrollLeft = scrollLeft;
+            return this;
+        } else return window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;
+    };
+    lgQuery.prototype.offset = function() {
+        if (!this.firstElement) return {
+            left: 0,
+            top: 0
+        };
+        var rect = this.firstElement.getBoundingClientRect();
+        var bodyMarginLeft = $LG("body").style().marginLeft;
+        // Minus body margin - https://stackoverflow.com/questions/30711548/is-getboundingclientrect-left-returning-a-wrong-value
+        return {
+            left: rect.left - parseFloat(bodyMarginLeft) + this.scrollLeft(),
+            top: rect.top + this.scrollTop()
+        };
+    };
+    lgQuery.prototype.style = function() {
+        if (!this.firstElement) return {};
+        return this.firstElement.currentStyle || window.getComputedStyle(this.firstElement);
+    };
+    // Width without padding and border even if box-sizing is used.
+    lgQuery.prototype.width = function() {
+        var style = this.style();
+        return this.firstElement.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+    };
+    // Height without padding and border even if box-sizing is used.
+    lgQuery.prototype.height = function() {
+        var style = this.style();
+        return this.firstElement.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+    };
+    lgQuery.eventListeners = {};
+    return lgQuery;
+}();
+function $LG(selector) {
+    initLgPolyfills();
+    return new lgQuery(selector);
+}
+var defaultDynamicOptions = [
+    "src",
+    "sources",
+    "subHtml",
+    "subHtmlUrl",
+    "html",
+    "video",
+    "poster",
+    "slideName",
+    "responsive",
+    "srcset",
+    "sizes",
+    "iframe",
+    "downloadUrl",
+    "download",
+    "width",
+    "facebookShareUrl",
+    "tweetText",
+    "iframeTitle",
+    "twitterShareUrl",
+    "pinterestShareUrl",
+    "pinterestText",
+    "fbHtml",
+    "disqusIdentifier",
+    "disqusUrl"
+];
+// Convert html data-attribute to camalcase
+function convertToData(attr) {
+    // FInd a way for lgsize
+    if (attr === "href") return "src";
+    attr = attr.replace("data-", "");
+    attr = attr.charAt(0).toLowerCase() + attr.slice(1);
+    attr = attr.replace(/-([a-z])/g, function(g) {
+        return g[1].toUpperCase();
+    });
+    return attr;
+}
+var utils = {
+    /**
+     * get possible width and height from the lgSize attribute. Used for ZoomFromOrigin option
+     */ getSize: function(el, container, spacing, defaultLgSize) {
+        if (spacing === void 0) spacing = 0;
+        var LGel = $LG(el);
+        var lgSize = LGel.attr("data-lg-size") || defaultLgSize;
+        if (!lgSize) return;
+        var isResponsiveSizes = lgSize.split(",");
+        // if at-least two viewport sizes are available
+        if (isResponsiveSizes[1]) {
+            var wWidth = window.innerWidth;
+            for(var i = 0; i < isResponsiveSizes.length; i++){
+                var size_1 = isResponsiveSizes[i];
+                var responsiveWidth = parseInt(size_1.split("-")[2], 10);
+                if (responsiveWidth > wWidth) {
+                    lgSize = size_1;
+                    break;
+                }
+                // take last item as last option
+                if (i === isResponsiveSizes.length - 1) lgSize = size_1;
+            }
+        }
+        var size = lgSize.split("-");
+        var width = parseInt(size[0], 10);
+        var height = parseInt(size[1], 10);
+        var cWidth = container.width();
+        var cHeight = container.height() - spacing;
+        var maxWidth = Math.min(cWidth, width);
+        var maxHeight = Math.min(cHeight, height);
+        var ratio = Math.min(maxWidth / width, maxHeight / height);
+        return {
+            width: width * ratio,
+            height: height * ratio
+        };
+    },
+    /**
+     * @desc Get transform value based on the imageSize. Used for ZoomFromOrigin option
+     * @param {jQuery Element}
+     * @returns {String} Transform CSS string
+     */ getTransform: function(el, container, top, bottom, imageSize) {
+        if (!imageSize) return;
+        var LGel = $LG(el).find("img").first();
+        if (!LGel.get()) return;
+        var containerRect = container.get().getBoundingClientRect();
+        var wWidth = containerRect.width;
+        // using innerWidth to include mobile safari bottom bar
+        var wHeight = container.height() - (top + bottom);
+        var elWidth = LGel.width();
+        var elHeight = LGel.height();
+        var elStyle = LGel.style();
+        var x = (wWidth - elWidth) / 2 - LGel.offset().left + (parseFloat(elStyle.paddingLeft) || 0) + (parseFloat(elStyle.borderLeft) || 0) + $LG(window).scrollLeft() + containerRect.left;
+        var y = (wHeight - elHeight) / 2 - LGel.offset().top + (parseFloat(elStyle.paddingTop) || 0) + (parseFloat(elStyle.borderTop) || 0) + $LG(window).scrollTop() + top;
+        var scX = elWidth / imageSize.width;
+        var scY = elHeight / imageSize.height;
+        var transform = "translate3d(" + (x *= -1) + "px, " + (y *= -1) + "px, 0) scale3d(" + scX + ", " + scY + ", 1)";
+        return transform;
+    },
+    getIframeMarkup: function(iframeWidth, iframeHeight, iframeMaxWidth, iframeMaxHeight, src, iframeTitle) {
+        var title = iframeTitle ? 'title="' + iframeTitle + '"' : "";
+        return '<div class="lg-video-cont lg-has-iframe" style="width:' + iframeWidth + "; max-width:" + iframeMaxWidth + "; height: " + iframeHeight + "; max-height:" + iframeMaxHeight + '">\n                    <iframe class="lg-object" frameborder="0" ' + title + ' src="' + src + '"  allowfullscreen="true"></iframe>\n                </div>';
+    },
+    getImgMarkup: function(index, src, altAttr, srcset, sizes, sources) {
+        var srcsetAttr = srcset ? 'srcset="' + srcset + '"' : "";
+        var sizesAttr = sizes ? 'sizes="' + sizes + '"' : "";
+        var imgMarkup = "<img " + altAttr + " " + srcsetAttr + "  " + sizesAttr + ' class="lg-object lg-image" data-index="' + index + '" src="' + src + '" />';
+        var sourceTag = "";
+        if (sources) {
+            var sourceObj = typeof sources === "string" ? JSON.parse(sources) : sources;
+            sourceTag = sourceObj.map(function(source) {
+                var attrs = "";
+                Object.keys(source).forEach(function(key) {
+                    // Do not remove the first space as it is required to separate the attributes
+                    attrs += " " + key + '="' + source[key] + '"';
+                });
+                return "<source " + attrs + "></source>";
+            });
+        }
+        return "" + sourceTag + imgMarkup;
+    },
+    // Get src from responsive src
+    getResponsiveSrc: function(srcItms) {
+        var rsWidth = [];
+        var rsSrc = [];
+        var src = "";
+        for(var i = 0; i < srcItms.length; i++){
+            var _src = srcItms[i].split(" ");
+            // Manage empty space
+            if (_src[0] === "") _src.splice(0, 1);
+            rsSrc.push(_src[0]);
+            rsWidth.push(_src[1]);
+        }
+        var wWidth = window.innerWidth;
+        for(var j = 0; j < rsWidth.length; j++)if (parseInt(rsWidth[j], 10) > wWidth) {
+            src = rsSrc[j];
+            break;
+        }
+        return src;
+    },
+    isImageLoaded: function(img) {
+        if (!img) return false;
+        // During the onload event, IE correctly identifies any images that
+        // weren’t downloaded as not complete. Others should too. Gecko-based
+        // browsers act like NS4 in that they report this incorrectly.
+        if (!img.complete) return false;
+        // However, they do have two very useful properties: naturalWidth and
+        // naturalHeight. These give the true size of the image. If it failed
+        // to load, either of these should be zero.
+        if (img.naturalWidth === 0) return false;
+        // No other way of checking: assume it’s ok.
+        return true;
+    },
+    getVideoPosterMarkup: function(_poster, dummyImg, videoContStyle, playVideoString, _isVideo) {
+        var videoClass = "";
+        if (_isVideo && _isVideo.youtube) videoClass = "lg-has-youtube";
+        else if (_isVideo && _isVideo.vimeo) videoClass = "lg-has-vimeo";
+        else videoClass = "lg-has-html5";
+        return '<div class="lg-video-cont ' + videoClass + '" style="' + videoContStyle + '">\n                <div class="lg-video-play-button">\n                <svg\n                    viewBox="0 0 20 20"\n                    preserveAspectRatio="xMidYMid"\n                    focusable="false"\n                    aria-labelledby="' + playVideoString + '"\n                    role="img"\n                    class="lg-video-play-icon"\n                >\n                    <title>' + playVideoString + '</title>\n                    <polygon class="lg-video-play-icon-inner" points="1,0 20,10 1,20"></polygon>\n                </svg>\n                <svg class="lg-video-play-icon-bg" viewBox="0 0 50 50" focusable="false">\n                    <circle cx="50%" cy="50%" r="20"></circle></svg>\n                <svg class="lg-video-play-icon-circle" viewBox="0 0 50 50" focusable="false">\n                    <circle cx="50%" cy="50%" r="20"></circle>\n                </svg>\n            </div>\n            ' + (dummyImg || "") + '\n            <img class="lg-object lg-video-poster" src="' + _poster + '" />\n        </div>';
+    },
+    getFocusableElements: function(container) {
+        var elements = container.querySelectorAll('a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])');
+        var visibleElements = [].filter.call(elements, function(element) {
+            var style = window.getComputedStyle(element);
+            return style.display !== "none" && style.visibility !== "hidden";
+        });
+        return visibleElements;
+    },
+    /**
+     * @desc Create dynamic elements array from gallery items when dynamic option is false
+     * It helps to avoid frequent DOM interaction
+     * and avoid multiple checks for dynamic elments
+     *
+     * @returns {Array} dynamicEl
+     */ getDynamicOptions: function(items, extraProps, getCaptionFromTitleOrAlt, exThumbImage) {
+        var dynamicElements = [];
+        var availableDynamicOptions = __spreadArrays(defaultDynamicOptions, extraProps);
+        [].forEach.call(items, function(item) {
+            var dynamicEl = {};
+            for(var i = 0; i < item.attributes.length; i++){
+                var attr = item.attributes[i];
+                if (attr.specified) {
+                    var dynamicAttr = convertToData(attr.name);
+                    var label = "";
+                    if (availableDynamicOptions.indexOf(dynamicAttr) > -1) label = dynamicAttr;
+                    if (label) dynamicEl[label] = attr.value;
+                }
+            }
+            var currentItem = $LG(item);
+            var alt = currentItem.find("img").first().attr("alt");
+            var title = currentItem.attr("title");
+            var thumb = exThumbImage ? currentItem.attr(exThumbImage) : currentItem.find("img").first().attr("src");
+            dynamicEl.thumb = thumb;
+            if (getCaptionFromTitleOrAlt && !dynamicEl.subHtml) dynamicEl.subHtml = title || alt || "";
+            dynamicEl.alt = alt || title || "";
+            dynamicElements.push(dynamicEl);
+        });
+        return dynamicElements;
+    },
+    isMobile: function() {
+        return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    },
+    /**
+     * @desc Check the given src is video
+     * @param {String} src
+     * @return {Object} video type
+     * Ex:{ youtube  :  ["//www.youtube.com/watch?v=c0asJgSyxcY", "c0asJgSyxcY"] }
+     *
+     * @todo - this information can be moved to dynamicEl to avoid frequent calls
+     */ isVideo: function(src, isHTML5VIdeo, index) {
+        if (!src) {
+            if (isHTML5VIdeo) return {
+                html5: true
+            };
+            else {
+                console.error("lightGallery :- data-src is not provided on slide item " + (index + 1) + ". Please make sure the selector property is properly configured. More info - https://www.lightgalleryjs.com/demos/html-markup/");
+                return;
+            }
+        }
+        var youtube = src.match(/\/\/(?:www\.)?youtu(?:\.be|be\.com|be-nocookie\.com)\/(?:watch\?v=|embed\/)?([a-z0-9\-\_\%]+)([\&|?][\S]*)*/i);
+        var vimeo = src.match(/\/\/(?:www\.)?(?:player\.)?vimeo.com\/(?:video\/)?([0-9a-z\-_]+)(.*)?/i);
+        var wistia = src.match(/https?:\/\/(.+)?(wistia\.com|wi\.st)\/(medias|embed)\/([0-9a-z\-_]+)(.*)/);
+        if (youtube) return {
+            youtube: youtube
+        };
+        else if (vimeo) return {
+            vimeo: vimeo
+        };
+        else if (wistia) return {
+            wistia: wistia
+        };
+    }
+};
+// @ref - https://stackoverflow.com/questions/3971841/how-to-resize-images-proportionally-keeping-the-aspect-ratio
+// @ref - https://2ality.com/2017/04/setting-up-multi-platform-packages.html
+// Unique id for each gallery
+var lgId = 0;
+var LightGallery = /** @class */ function() {
+    function LightGallery(element, options) {
+        this.lgOpened = false;
+        this.index = 0;
+        // lightGallery modules
+        this.plugins = [];
+        // false when lightGallery load first slide content;
+        this.lGalleryOn = false;
+        // True when a slide animation is in progress
+        this.lgBusy = false;
+        this.currentItemsInDom = [];
+        // Scroll top value before lightGallery is opened
+        this.prevScrollTop = 0;
+        this.bodyPaddingRight = 0;
+        this.isDummyImageRemoved = false;
+        this.dragOrSwipeEnabled = false;
+        this.mediaContainerPosition = {
+            top: 0,
+            bottom: 0
+        };
+        if (!element) return this;
+        lgId++;
+        this.lgId = lgId;
+        this.el = element;
+        this.LGel = $LG(element);
+        this.generateSettings(options);
+        this.buildModules();
+        // When using dynamic mode, ensure dynamicEl is an array
+        if (this.settings.dynamic && this.settings.dynamicEl !== undefined && !Array.isArray(this.settings.dynamicEl)) throw "When using dynamic mode, you must also define dynamicEl as an Array.";
+        this.galleryItems = this.getItems();
+        this.normalizeSettings();
+        // Gallery items
+        this.init();
+        this.validateLicense();
+        return this;
+    }
+    LightGallery.prototype.generateSettings = function(options) {
+        // lightGallery settings
+        this.settings = __assign(__assign({}, lightGalleryCoreSettings), options);
+        if (this.settings.isMobile && typeof this.settings.isMobile === "function" ? this.settings.isMobile() : utils.isMobile()) {
+            var mobileSettings = __assign(__assign({}, this.settings.mobileSettings), this.settings.mobileSettings);
+            this.settings = __assign(__assign({}, this.settings), mobileSettings);
+        }
+    };
+    LightGallery.prototype.normalizeSettings = function() {
+        if (this.settings.slideEndAnimation) this.settings.hideControlOnEnd = false;
+        if (!this.settings.closable) this.settings.swipeToClose = false;
+        // And reset it on close to get the correct value next time
+        this.zoomFromOrigin = this.settings.zoomFromOrigin;
+        // At the moment, Zoom from image doesn't support dynamic options
+        // @todo add zoomFromOrigin support for dynamic images
+        if (this.settings.dynamic) this.zoomFromOrigin = false;
+        if (!this.settings.container) this.settings.container = document.body;
+        // settings.preload should not be grater than $item.length
+        this.settings.preload = Math.min(this.settings.preload, this.galleryItems.length);
+    };
+    LightGallery.prototype.init = function() {
+        var _this = this;
+        this.addSlideVideoInfo(this.galleryItems);
+        this.buildStructure();
+        this.LGel.trigger(lGEvents.init, {
+            instance: this
+        });
+        if (this.settings.keyPress) this.keyPress();
+        setTimeout(function() {
+            _this.enableDrag();
+            _this.enableSwipe();
+            _this.triggerPosterClick();
+        }, 50);
+        this.arrow();
+        if (this.settings.mousewheel) this.mousewheel();
+        if (!this.settings.dynamic) this.openGalleryOnItemClick();
+    };
+    LightGallery.prototype.openGalleryOnItemClick = function() {
+        var _this = this;
+        var _loop_1 = function(index) {
+            var element = this_1.items[index];
+            var $element = $LG(element);
+            // Using different namespace for click because click event should not unbind if selector is same object('this')
+            // @todo manage all event listners - should have namespace that represent element
+            var uuid = lgQuery.generateUUID();
+            $element.attr("data-lg-id", uuid).on("click.lgcustom-item-" + uuid, function(e) {
+                e.preventDefault();
+                var currentItemIndex = _this.settings.index || index;
+                _this.openGallery(currentItemIndex, element);
+            });
+        };
+        var this_1 = this;
+        // Using for loop instead of using bubbling as the items can be any html element.
+        for(var index = 0; index < this.items.length; index++)_loop_1(index);
+    };
+    /**
+     * Module constructor
+     * Modules are build incrementally.
+     * Gallery should be opened only once all the modules are initialized.
+     * use moduleBuildTimeout to make sure this
+     */ LightGallery.prototype.buildModules = function() {
+        var _this = this;
+        this.settings.plugins.forEach(function(plugin) {
+            _this.plugins.push(new plugin(_this, $LG));
+        });
+    };
+    LightGallery.prototype.validateLicense = function() {
+        if (!this.settings.licenseKey) console.error("Please provide a valid license key");
+        else if (this.settings.licenseKey === "0000-0000-000-0000") console.warn("lightGallery: " + this.settings.licenseKey + " license key is not valid for production use");
+    };
+    LightGallery.prototype.getSlideItem = function(index) {
+        return $LG(this.getSlideItemId(index));
+    };
+    LightGallery.prototype.getSlideItemId = function(index) {
+        return "#lg-item-" + this.lgId + "-" + index;
+    };
+    LightGallery.prototype.getIdName = function(id) {
+        return id + "-" + this.lgId;
+    };
+    LightGallery.prototype.getElementById = function(id) {
+        return $LG("#" + this.getIdName(id));
+    };
+    LightGallery.prototype.manageSingleSlideClassName = function() {
+        if (this.galleryItems.length < 2) this.outer.addClass("lg-single-item");
+        else this.outer.removeClass("lg-single-item");
+    };
+    LightGallery.prototype.buildStructure = function() {
+        var _this = this;
+        var container = this.$container && this.$container.get();
+        if (container) return;
+        var controls = "";
+        var subHtmlCont = "";
+        // Create controls
+        if (this.settings.controls) controls = '<button type="button" id="' + this.getIdName("lg-prev") + '" aria-label="' + this.settings.strings["previousSlide"] + '" class="lg-prev lg-icon"> ' + this.settings.prevHtml + ' </button>\n                <button type="button" id="' + this.getIdName("lg-next") + '" aria-label="' + this.settings.strings["nextSlide"] + '" class="lg-next lg-icon"> ' + this.settings.nextHtml + " </button>";
+        if (this.settings.appendSubHtmlTo !== ".lg-item") subHtmlCont = '<div class="lg-sub-html" role="status" aria-live="polite"></div>';
+        var addClasses = "";
+        if (this.settings.allowMediaOverlap) // Do not remove space before last single quote
+        addClasses += "lg-media-overlap ";
+        var ariaLabelledby = this.settings.ariaLabelledby ? 'aria-labelledby="' + this.settings.ariaLabelledby + '"' : "";
+        var ariaDescribedby = this.settings.ariaDescribedby ? 'aria-describedby="' + this.settings.ariaDescribedby + '"' : "";
+        var containerClassName = "lg-container " + this.settings.addClass + " " + (document.body !== this.settings.container ? "lg-inline" : "");
+        var closeIcon = this.settings.closable && this.settings.showCloseIcon ? '<button type="button" aria-label="' + this.settings.strings["closeGallery"] + '" id="' + this.getIdName("lg-close") + '" class="lg-close lg-icon"></button>' : "";
+        var maximizeIcon = this.settings.showMaximizeIcon ? '<button type="button" aria-label="' + this.settings.strings["toggleMaximize"] + '" id="' + this.getIdName("lg-maximize") + '" class="lg-maximize lg-icon"></button>' : "";
+        var template = '\n        <div class="' + containerClassName + '" id="' + this.getIdName("lg-container") + '" tabindex="-1" aria-modal="true" ' + ariaLabelledby + " " + ariaDescribedby + ' role="dialog"\n        >\n            <div id="' + this.getIdName("lg-backdrop") + '" class="lg-backdrop"></div>\n\n            <div id="' + this.getIdName("lg-outer") + '" class="lg-outer lg-use-css3 lg-css3 lg-hide-items ' + addClasses + ' ">\n\n              <div id="' + this.getIdName("lg-content") + '" class="lg-content">\n                <div id="' + this.getIdName("lg-inner") + '" class="lg-inner">\n                </div>\n                ' + controls + '\n              </div>\n                <div id="' + this.getIdName("lg-toolbar") + '" class="lg-toolbar lg-group">\n                    ' + maximizeIcon + "\n                    " + closeIcon + "\n                    </div>\n                    " + (this.settings.appendSubHtmlTo === ".lg-outer" ? subHtmlCont : "") + '\n                <div id="' + this.getIdName("lg-components") + '" class="lg-components">\n                    ' + (this.settings.appendSubHtmlTo === ".lg-sub-html" ? subHtmlCont : "") + "\n                </div>\n            </div>\n        </div>\n        ";
+        $LG(this.settings.container).append(template);
+        if (document.body !== this.settings.container) $LG(this.settings.container).css("position", "relative");
+        this.outer = this.getElementById("lg-outer");
+        this.$lgComponents = this.getElementById("lg-components");
+        this.$backdrop = this.getElementById("lg-backdrop");
+        this.$container = this.getElementById("lg-container");
+        this.$inner = this.getElementById("lg-inner");
+        this.$content = this.getElementById("lg-content");
+        this.$toolbar = this.getElementById("lg-toolbar");
+        this.$backdrop.css("transition-duration", this.settings.backdropDuration + "ms");
+        var outerClassNames = this.settings.mode + " ";
+        this.manageSingleSlideClassName();
+        if (this.settings.enableDrag) outerClassNames += "lg-grab ";
+        this.outer.addClass(outerClassNames);
+        this.$inner.css("transition-timing-function", this.settings.easing);
+        this.$inner.css("transition-duration", this.settings.speed + "ms");
+        if (this.settings.download) this.$toolbar.append('<a id="' + this.getIdName("lg-download") + '" target="_blank" rel="noopener" aria-label="' + this.settings.strings["download"] + '" download class="lg-download lg-icon"></a>');
+        this.counter();
+        $LG(window).on("resize.lg.global" + this.lgId + " orientationchange.lg.global" + this.lgId, function() {
+            _this.refreshOnResize();
+        });
+        this.hideBars();
+        this.manageCloseGallery();
+        this.toggleMaximize();
+        this.initModules();
+    };
+    LightGallery.prototype.refreshOnResize = function() {
+        if (this.lgOpened) {
+            var currentGalleryItem = this.galleryItems[this.index];
+            var __slideVideoInfo = currentGalleryItem.__slideVideoInfo;
+            this.mediaContainerPosition = this.getMediaContainerPosition();
+            var _a = this.mediaContainerPosition, top_1 = _a.top, bottom = _a.bottom;
+            this.currentImageSize = utils.getSize(this.items[this.index], this.outer, top_1 + bottom, __slideVideoInfo && this.settings.videoMaxSize);
+            if (__slideVideoInfo) this.resizeVideoSlide(this.index, this.currentImageSize);
+            if (this.zoomFromOrigin && !this.isDummyImageRemoved) {
+                var imgStyle = this.getDummyImgStyles(this.currentImageSize);
+                this.outer.find(".lg-current .lg-dummy-img").first().attr("style", imgStyle);
+            }
+            this.LGel.trigger(lGEvents.containerResize);
+        }
+    };
+    LightGallery.prototype.resizeVideoSlide = function(index, imageSize) {
+        var lgVideoStyle = this.getVideoContStyle(imageSize);
+        var currentSlide = this.getSlideItem(index);
+        currentSlide.find(".lg-video-cont").attr("style", lgVideoStyle);
+    };
+    /**
+     * Update slides dynamically.
+     * Add, edit or delete slides dynamically when lightGallery is opened.
+     * Modify the current gallery items and pass it via updateSlides method
+     * @note
+     * - Do not mutate existing lightGallery items directly.
+     * - Always pass new list of gallery items
+     * - You need to take care of thumbnails outside the gallery if any
+     * - user this method only if you want to update slides when the gallery is opened. Otherwise, use `refresh()` method.
+     * @param items Gallery items
+     * @param index After the update operation, which slide gallery should navigate to
+     * @category lGPublicMethods
+     * @example
+     * const plugin = lightGallery();
+     *
+     * // Adding slides dynamically
+     * let galleryItems = [
+     * // Access existing lightGallery items
+     * // galleryItems are automatically generated internally from the gallery HTML markup
+     * // or directly from galleryItems when dynamic gallery is used
+     *   ...plugin.galleryItems,
+     *     ...[
+     *       {
+     *         src: 'img/img-1.png',
+     *           thumb: 'img/thumb1.png',
+     *         },
+     *     ],
+     *   ];
+     *   plugin.updateSlides(
+     *     galleryItems,
+     *     plugin.index,
+     *   );
+     *
+     *
+     * // Remove slides dynamically
+     * galleryItems = JSON.parse(
+     *   JSON.stringify(updateSlideInstance.galleryItems),
+     * );
+     * galleryItems.shift();
+     * updateSlideInstance.updateSlides(galleryItems, 1);
+     * @see <a href="/demos/update-slides/">Demo</a>
+     */ LightGallery.prototype.updateSlides = function(items, index) {
+        if (this.index > items.length - 1) this.index = items.length - 1;
+        if (items.length === 1) this.index = 0;
+        if (!items.length) {
+            this.closeGallery();
+            return;
+        }
+        var currentSrc = this.galleryItems[index].src;
+        this.galleryItems = items;
+        this.updateControls();
+        this.$inner.empty();
+        this.currentItemsInDom = [];
+        var _index = 0;
+        // Find the current index based on source value of the slide
+        this.galleryItems.some(function(galleryItem, itemIndex) {
+            if (galleryItem.src === currentSrc) {
+                _index = itemIndex;
+                return true;
+            }
+            return false;
+        });
+        this.currentItemsInDom = this.organizeSlideItems(_index, -1);
+        this.loadContent(_index, true);
+        this.getSlideItem(_index).addClass("lg-current");
+        this.index = _index;
+        this.updateCurrentCounter(_index);
+        this.LGel.trigger(lGEvents.updateSlides);
+    };
+    // Get gallery items based on multiple conditions
+    LightGallery.prototype.getItems = function() {
+        // Gallery items
+        this.items = [];
+        if (!this.settings.dynamic) {
+            if (this.settings.selector === "this") this.items.push(this.el);
+            else if (this.settings.selector) {
+                if (typeof this.settings.selector === "string") {
+                    if (this.settings.selectWithin) {
+                        var selectWithin = $LG(this.settings.selectWithin);
+                        this.items = selectWithin.find(this.settings.selector).get();
+                    } else this.items = this.el.querySelectorAll(this.settings.selector);
+                } else this.items = this.settings.selector;
+            } else this.items = this.el.children;
+            return utils.getDynamicOptions(this.items, this.settings.extraProps, this.settings.getCaptionFromTitleOrAlt, this.settings.exThumbImage);
+        } else return this.settings.dynamicEl || [];
+    };
+    LightGallery.prototype.shouldHideScrollbar = function() {
+        return this.settings.hideScrollbar && document.body === this.settings.container;
+    };
+    LightGallery.prototype.hideScrollbar = function() {
+        if (!this.shouldHideScrollbar()) return;
+        this.bodyPaddingRight = parseFloat($LG("body").style().paddingRight);
+        var bodyRect = document.documentElement.getBoundingClientRect();
+        var scrollbarWidth = window.innerWidth - bodyRect.width;
+        $LG(document.body).css("padding-right", scrollbarWidth + this.bodyPaddingRight + "px");
+        $LG(document.body).addClass("lg-overlay-open");
+    };
+    LightGallery.prototype.resetScrollBar = function() {
+        if (!this.shouldHideScrollbar()) return;
+        $LG(document.body).css("padding-right", this.bodyPaddingRight + "px");
+        $LG(document.body).removeClass("lg-overlay-open");
+    };
+    /**
+     * Open lightGallery.
+     * Open gallery with specific slide by passing index of the slide as parameter.
+     * @category lGPublicMethods
+     * @param {Number} index  - index of the slide
+     * @param {HTMLElement} element - Which image lightGallery should zoom from
+     *
+     * @example
+     * const $dynamicGallery = document.getElementById('dynamic-gallery-demo');
+     * const dynamicGallery = lightGallery($dynamicGallery, {
+     *     dynamic: true,
+     *     dynamicEl: [
+     *         {
+     *              src: 'img/1.jpg',
+     *              thumb: 'img/thumb-1.jpg',
+     *              subHtml: '<h4>Image 1 title</h4><p>Image 1 descriptions.</p>',
+     *         },
+     *         ...
+     *     ],
+     * });
+     * $dynamicGallery.addEventListener('click', function () {
+     *     // Starts with third item.(Optional).
+     *     // This is useful if you want use dynamic mode with
+     *     // custom thumbnails (thumbnails outside gallery),
+     *     dynamicGallery.openGallery(2);
+     * });
+     *
+     */ LightGallery.prototype.openGallery = function(index, element) {
+        var _this = this;
+        if (index === void 0) index = this.settings.index;
+        // prevent accidental double execution
+        if (this.lgOpened) return;
+        this.lgOpened = true;
+        this.outer.removeClass("lg-hide-items");
+        this.hideScrollbar();
+        // Add display block, but still has opacity 0
+        this.$container.addClass("lg-show");
+        var itemsToBeInsertedToDom = this.getItemsToBeInsertedToDom(index, index);
+        this.currentItemsInDom = itemsToBeInsertedToDom;
+        var items = "";
+        itemsToBeInsertedToDom.forEach(function(item) {
+            items = items + ('<div id="' + item + '" class="lg-item"></div>');
+        });
+        this.$inner.append(items);
+        this.addHtml(index);
+        var transform = "";
+        this.mediaContainerPosition = this.getMediaContainerPosition();
+        var _a = this.mediaContainerPosition, top = _a.top, bottom = _a.bottom;
+        if (!this.settings.allowMediaOverlap) this.setMediaContainerPosition(top, bottom);
+        var __slideVideoInfo = this.galleryItems[index].__slideVideoInfo;
+        if (this.zoomFromOrigin && element) {
+            this.currentImageSize = utils.getSize(element, this.outer, top + bottom, __slideVideoInfo && this.settings.videoMaxSize);
+            transform = utils.getTransform(element, this.outer, top, bottom, this.currentImageSize);
+        }
+        if (!this.zoomFromOrigin || !transform) {
+            this.outer.addClass(this.settings.startClass);
+            this.getSlideItem(index).removeClass("lg-complete");
+        }
+        var timeout = this.settings.zoomFromOrigin ? 100 : this.settings.backdropDuration;
+        setTimeout(function() {
+            _this.outer.addClass("lg-components-open");
+        }, timeout);
+        this.index = index;
+        this.LGel.trigger(lGEvents.beforeOpen);
+        // add class lg-current to remove initial transition
+        this.getSlideItem(index).addClass("lg-current");
+        this.lGalleryOn = false;
+        // Store the current scroll top value to scroll back after closing the gallery..
+        this.prevScrollTop = $LG(window).scrollTop();
+        setTimeout(function() {
+            // Need to check both zoomFromOrigin and transform values as we need to set set the
+            // default opening animation if user missed to add the lg-size attribute
+            if (_this.zoomFromOrigin && transform) {
+                var currentSlide_1 = _this.getSlideItem(index);
+                currentSlide_1.css("transform", transform);
+                setTimeout(function() {
+                    currentSlide_1.addClass("lg-start-progress lg-start-end-progress").css("transition-duration", _this.settings.startAnimationDuration + "ms");
+                    _this.outer.addClass("lg-zoom-from-image");
+                });
+                setTimeout(function() {
+                    currentSlide_1.css("transform", "translate3d(0, 0, 0)");
+                }, 100);
+            }
+            setTimeout(function() {
+                _this.$backdrop.addClass("in");
+                _this.$container.addClass("lg-show-in");
+            }, 10);
+            setTimeout(function() {
+                if (_this.settings.trapFocus && document.body === _this.settings.container) _this.trapFocus();
+            }, _this.settings.backdropDuration + 50);
+            // lg-visible class resets gallery opacity to 1
+            if (!_this.zoomFromOrigin || !transform) setTimeout(function() {
+                _this.outer.addClass("lg-visible");
+            }, _this.settings.backdropDuration);
+            // initiate slide function
+            _this.slide(index, false, false, false);
+            _this.LGel.trigger(lGEvents.afterOpen);
+        });
+        if (document.body === this.settings.container) $LG("html").addClass("lg-on");
+    };
+    /**
+     * Note - Changing the position of the media on every slide transition creates a flickering effect.
+     * Therefore, The height of the caption is calculated dynamically, only once based on the first slide caption.
+     * if you have dynamic captions for each media,
+     * you can provide an appropriate height for the captions via allowMediaOverlap option
+     */ LightGallery.prototype.getMediaContainerPosition = function() {
+        if (this.settings.allowMediaOverlap) return {
+            top: 0,
+            bottom: 0
+        };
+        var top = this.$toolbar.get().clientHeight || 0;
+        var subHtml = this.outer.find(".lg-components .lg-sub-html").get();
+        var captionHeight = this.settings.defaultCaptionHeight || subHtml && subHtml.clientHeight || 0;
+        var thumbContainer = this.outer.find(".lg-thumb-outer").get();
+        var thumbHeight = thumbContainer ? thumbContainer.clientHeight : 0;
+        var bottom = thumbHeight + captionHeight;
+        return {
+            top: top,
+            bottom: bottom
+        };
+    };
+    LightGallery.prototype.setMediaContainerPosition = function(top, bottom) {
+        if (top === void 0) top = 0;
+        if (bottom === void 0) bottom = 0;
+        this.$content.css("top", top + "px").css("bottom", bottom + "px");
+    };
+    LightGallery.prototype.hideBars = function() {
+        var _this = this;
+        // Hide controllers if mouse doesn't move for some period
+        setTimeout(function() {
+            _this.outer.removeClass("lg-hide-items");
+            if (_this.settings.hideBarsDelay > 0) {
+                _this.outer.on("mousemove.lg click.lg touchstart.lg", function() {
+                    _this.outer.removeClass("lg-hide-items");
+                    clearTimeout(_this.hideBarTimeout);
+                    // Timeout will be cleared on each slide movement also
+                    _this.hideBarTimeout = setTimeout(function() {
+                        _this.outer.addClass("lg-hide-items");
+                    }, _this.settings.hideBarsDelay);
+                });
+                _this.outer.trigger("mousemove.lg");
+            }
+        }, this.settings.showBarsAfter);
+    };
+    LightGallery.prototype.initPictureFill = function($img) {
+        if (this.settings.supportLegacyBrowser) try {
+            picturefill({
+                elements: [
+                    $img.get()
+                ]
+            });
+        } catch (e) {
+            console.warn("lightGallery :- If you want srcset or picture tag to be supported for older browser please include picturefil javascript library in your document.");
+        }
+    };
+    /**
+     *  @desc Create image counter
+     *  Ex: 1/10
+     */ LightGallery.prototype.counter = function() {
+        if (this.settings.counter) {
+            var counterHtml = '<div class="lg-counter" role="status" aria-live="polite">\n                <span id="' + this.getIdName("lg-counter-current") + '" class="lg-counter-current">' + (this.index + 1) + ' </span> /\n                <span id="' + this.getIdName("lg-counter-all") + '" class="lg-counter-all">' + this.galleryItems.length + " </span></div>";
+            this.outer.find(this.settings.appendCounterTo).append(counterHtml);
+        }
+    };
+    /**
+     *  @desc add sub-html into the slide
+     *  @param {Number} index - index of the slide
+     */ LightGallery.prototype.addHtml = function(index) {
+        var subHtml;
+        var subHtmlUrl;
+        if (this.galleryItems[index].subHtmlUrl) subHtmlUrl = this.galleryItems[index].subHtmlUrl;
+        else subHtml = this.galleryItems[index].subHtml;
+        if (!subHtmlUrl) {
+            if (subHtml) {
+                // get first letter of sub-html
+                // if first letter starts with . or # get the html form the jQuery object
+                var fL = subHtml.substring(0, 1);
+                if (fL === "." || fL === "#") {
+                    if (this.settings.subHtmlSelectorRelative && !this.settings.dynamic) subHtml = $LG(this.items).eq(index).find(subHtml).first().html();
+                    else subHtml = $LG(subHtml).first().html();
+                }
+            } else subHtml = "";
+        }
+        if (this.settings.appendSubHtmlTo !== ".lg-item") {
+            if (subHtmlUrl) this.outer.find(".lg-sub-html").load(subHtmlUrl);
+            else this.outer.find(".lg-sub-html").html(subHtml);
+        } else {
+            var currentSlide = $LG(this.getSlideItemId(index));
+            if (subHtmlUrl) currentSlide.load(subHtmlUrl);
+            else currentSlide.append('<div class="lg-sub-html">' + subHtml + "</div>");
+        }
+        // Add lg-empty-html class if title doesn't exist
+        if (typeof subHtml !== "undefined" && subHtml !== null) {
+            if (subHtml === "") this.outer.find(this.settings.appendSubHtmlTo).addClass("lg-empty-html");
+            else this.outer.find(this.settings.appendSubHtmlTo).removeClass("lg-empty-html");
+        }
+        this.LGel.trigger(lGEvents.afterAppendSubHtml, {
+            index: index
+        });
+    };
+    /**
+     *  @desc Preload slides
+     *  @param {Number} index - index of the slide
+     * @todo preload not working for the first slide, Also, should work for the first and last slide as well
+     */ LightGallery.prototype.preload = function(index) {
+        for(var i = 1; i <= this.settings.preload; i++){
+            if (i >= this.galleryItems.length - index) break;
+            this.loadContent(index + i, false);
+        }
+        for(var j = 1; j <= this.settings.preload; j++){
+            if (index - j < 0) break;
+            this.loadContent(index - j, false);
+        }
+    };
+    LightGallery.prototype.getDummyImgStyles = function(imageSize) {
+        if (!imageSize) return "";
+        return "width:" + imageSize.width + "px;\n                margin-left: -" + imageSize.width / 2 + "px;\n                margin-top: -" + imageSize.height / 2 + "px;\n                height:" + imageSize.height + "px";
+    };
+    LightGallery.prototype.getVideoContStyle = function(imageSize) {
+        if (!imageSize) return "";
+        return "width:" + imageSize.width + "px;\n                height:" + imageSize.height + "px";
+    };
+    LightGallery.prototype.getDummyImageContent = function($currentSlide, index, alt) {
+        var $currentItem;
+        if (!this.settings.dynamic) $currentItem = $LG(this.items).eq(index);
+        if ($currentItem) {
+            var _dummyImgSrc = void 0;
+            if (!this.settings.exThumbImage) _dummyImgSrc = $currentItem.find("img").first().attr("src");
+            else _dummyImgSrc = $currentItem.attr(this.settings.exThumbImage);
+            if (!_dummyImgSrc) return "";
+            var imgStyle = this.getDummyImgStyles(this.currentImageSize);
+            var dummyImgContent = "<img " + alt + ' style="' + imgStyle + '" class="lg-dummy-img" src="' + _dummyImgSrc + '" />';
+            $currentSlide.addClass("lg-first-slide");
+            this.outer.addClass("lg-first-slide-loading");
+            return dummyImgContent;
+        }
+        return "";
+    };
+    LightGallery.prototype.setImgMarkup = function(src, $currentSlide, index) {
+        var currentGalleryItem = this.galleryItems[index];
+        var alt = currentGalleryItem.alt, srcset = currentGalleryItem.srcset, sizes = currentGalleryItem.sizes, sources = currentGalleryItem.sources;
+        // Use the thumbnail as dummy image which will be resized to actual image size and
+        // displayed on top of actual image
+        var imgContent = "";
+        var altAttr = alt ? 'alt="' + alt + '"' : "";
+        if (this.isFirstSlideWithZoomAnimation()) imgContent = this.getDummyImageContent($currentSlide, index, altAttr);
+        else imgContent = utils.getImgMarkup(index, src, altAttr, srcset, sizes, sources);
+        var imgMarkup = '<picture class="lg-img-wrap"> ' + imgContent + "</picture>";
+        $currentSlide.prepend(imgMarkup);
+    };
+    LightGallery.prototype.onSlideObjectLoad = function($slide, isHTML5VideoWithoutPoster, onLoad, onError) {
+        var mediaObject = $slide.find(".lg-object").first();
+        if (utils.isImageLoaded(mediaObject.get()) || isHTML5VideoWithoutPoster) onLoad();
+        else {
+            mediaObject.on("load.lg error.lg", function() {
+                onLoad && onLoad();
+            });
+            mediaObject.on("error.lg", function() {
+                onError && onError();
+            });
+        }
+    };
+    /**
+     *
+     * @param $el Current slide item
+     * @param index
+     * @param delay Delay is 0 except first time
+     * @param speed Speed is same as delay, except it is 0 if gallery is opened via hash plugin
+     * @param isFirstSlide
+     */ LightGallery.prototype.onLgObjectLoad = function(currentSlide, index, delay, speed, isFirstSlide, isHTML5VideoWithoutPoster) {
+        var _this = this;
+        this.onSlideObjectLoad(currentSlide, isHTML5VideoWithoutPoster, function() {
+            _this.triggerSlideItemLoad(currentSlide, index, delay, speed, isFirstSlide);
+        }, function() {
+            currentSlide.addClass("lg-complete lg-complete_");
+            currentSlide.html('<span class="lg-error-msg">' + _this.settings.strings["mediaLoadingFailed"] + "</span>");
+        });
+    };
+    LightGallery.prototype.triggerSlideItemLoad = function($currentSlide, index, delay, speed, isFirstSlide) {
+        var _this = this;
+        var currentGalleryItem = this.galleryItems[index];
+        // Adding delay for video slides without poster for better performance and user experience
+        // Videos should start playing once once the gallery is completely loaded
+        var _speed = isFirstSlide && this.getSlideType(currentGalleryItem) === "video" && !currentGalleryItem.poster ? speed : 0;
+        setTimeout(function() {
+            $currentSlide.addClass("lg-complete lg-complete_");
+            _this.LGel.trigger(lGEvents.slideItemLoad, {
+                index: index,
+                delay: delay || 0,
+                isFirstSlide: isFirstSlide
+            });
+        }, _speed);
+    };
+    LightGallery.prototype.isFirstSlideWithZoomAnimation = function() {
+        return !!(!this.lGalleryOn && this.zoomFromOrigin && this.currentImageSize);
+    };
+    // Add video slideInfo
+    LightGallery.prototype.addSlideVideoInfo = function(items) {
+        var _this = this;
+        items.forEach(function(element, index) {
+            element.__slideVideoInfo = utils.isVideo(element.src, !!element.video, index);
+            if (element.__slideVideoInfo && _this.settings.loadYouTubePoster && !element.poster && element.__slideVideoInfo.youtube) element.poster = "//img.youtube.com/vi/" + element.__slideVideoInfo.youtube[1] + "/maxresdefault.jpg";
+        });
+    };
+    /**
+     *  Load slide content into slide.
+     *  This is used to load content into slides that is not visible too
+     *  @param {Number} index - index of the slide.
+     *  @param {Boolean} rec - if true call loadcontent() function again.
+     */ LightGallery.prototype.loadContent = function(index, rec) {
+        var _this = this;
+        var currentGalleryItem = this.galleryItems[index];
+        var $currentSlide = $LG(this.getSlideItemId(index));
+        var poster = currentGalleryItem.poster, srcset = currentGalleryItem.srcset, sizes = currentGalleryItem.sizes, sources = currentGalleryItem.sources;
+        var src = currentGalleryItem.src;
+        var video = currentGalleryItem.video;
+        var _html5Video = video && typeof video === "string" ? JSON.parse(video) : video;
+        if (currentGalleryItem.responsive) {
+            var srcDyItms = currentGalleryItem.responsive.split(",");
+            src = utils.getResponsiveSrc(srcDyItms) || src;
+        }
+        var videoInfo = currentGalleryItem.__slideVideoInfo;
+        var lgVideoStyle = "";
+        var iframe = !!currentGalleryItem.iframe;
+        var isFirstSlide = !this.lGalleryOn;
+        // delay for adding complete class. it is 0 except first time.
+        var delay = 0;
+        if (isFirstSlide) {
+            if (this.zoomFromOrigin && this.currentImageSize) delay = this.settings.startAnimationDuration + 10;
+            else delay = this.settings.backdropDuration + 10;
+        }
+        if (!$currentSlide.hasClass("lg-loaded")) {
+            if (videoInfo) {
+                var _a = this.mediaContainerPosition, top_2 = _a.top, bottom = _a.bottom;
+                var videoSize = utils.getSize(this.items[index], this.outer, top_2 + bottom, videoInfo && this.settings.videoMaxSize);
+                lgVideoStyle = this.getVideoContStyle(videoSize);
+            }
+            if (iframe) {
+                var markup = utils.getIframeMarkup(this.settings.iframeWidth, this.settings.iframeHeight, this.settings.iframeMaxWidth, this.settings.iframeMaxHeight, src, currentGalleryItem.iframeTitle);
+                $currentSlide.prepend(markup);
+            } else if (poster) {
+                var dummyImg = "";
+                var hasStartAnimation = isFirstSlide && this.zoomFromOrigin && this.currentImageSize;
+                if (hasStartAnimation) dummyImg = this.getDummyImageContent($currentSlide, index, "");
+                var markup = utils.getVideoPosterMarkup(poster, dummyImg || "", lgVideoStyle, this.settings.strings["playVideo"], videoInfo);
+                $currentSlide.prepend(markup);
+            } else if (videoInfo) {
+                var markup = '<div class="lg-video-cont " style="' + lgVideoStyle + '"></div>';
+                $currentSlide.prepend(markup);
+            } else {
+                this.setImgMarkup(src, $currentSlide, index);
+                if (srcset || sources) {
+                    var $img = $currentSlide.find(".lg-object");
+                    this.initPictureFill($img);
+                }
+            }
+            if (poster || videoInfo) this.LGel.trigger(lGEvents.hasVideo, {
+                index: index,
+                src: src,
+                html5Video: _html5Video,
+                hasPoster: !!poster
+            });
+            this.LGel.trigger(lGEvents.afterAppendSlide, {
+                index: index
+            });
+            if (this.lGalleryOn && this.settings.appendSubHtmlTo === ".lg-item") this.addHtml(index);
+        }
+        // For first time add some delay for displaying the start animation.
+        var _speed = 0;
+        // Do not change the delay value because it is required for zoom plugin.
+        // If gallery opened from direct url (hash) speed value should be 0
+        if (delay && !$LG(document.body).hasClass("lg-from-hash")) _speed = delay;
+        // Only for first slide and zoomFromOrigin is enabled
+        if (this.isFirstSlideWithZoomAnimation()) {
+            setTimeout(function() {
+                $currentSlide.removeClass("lg-start-end-progress lg-start-progress").removeAttr("style");
+            }, this.settings.startAnimationDuration + 100);
+            if (!$currentSlide.hasClass("lg-loaded")) setTimeout(function() {
+                if (_this.getSlideType(currentGalleryItem) === "image") {
+                    var alt = currentGalleryItem.alt;
+                    var altAttr = alt ? 'alt="' + alt + '"' : "";
+                    $currentSlide.find(".lg-img-wrap").append(utils.getImgMarkup(index, src, altAttr, srcset, sizes, currentGalleryItem.sources));
+                    if (srcset || sources) {
+                        var $img = $currentSlide.find(".lg-object");
+                        _this.initPictureFill($img);
+                    }
+                }
+                if (_this.getSlideType(currentGalleryItem) === "image" || _this.getSlideType(currentGalleryItem) === "video" && poster) {
+                    _this.onLgObjectLoad($currentSlide, index, delay, _speed, true, false);
+                    // load remaining slides once the slide is completely loaded
+                    _this.onSlideObjectLoad($currentSlide, !!(videoInfo && videoInfo.html5 && !poster), function() {
+                        _this.loadContentOnFirstSlideLoad(index, $currentSlide, _speed);
+                    }, function() {
+                        _this.loadContentOnFirstSlideLoad(index, $currentSlide, _speed);
+                    });
+                }
+            }, this.settings.startAnimationDuration + 100);
+        }
+        // SLide content has been added to dom
+        $currentSlide.addClass("lg-loaded");
+        if (!this.isFirstSlideWithZoomAnimation() || this.getSlideType(currentGalleryItem) === "video" && !poster) this.onLgObjectLoad($currentSlide, index, delay, _speed, isFirstSlide, !!(videoInfo && videoInfo.html5 && !poster));
+        // When gallery is opened once content is loaded (second time) need to add lg-complete class for css styling
+        if ((!this.zoomFromOrigin || !this.currentImageSize) && $currentSlide.hasClass("lg-complete_") && !this.lGalleryOn) setTimeout(function() {
+            $currentSlide.addClass("lg-complete");
+        }, this.settings.backdropDuration);
+        // Content loaded
+        // Need to set lGalleryOn before calling preload function
+        this.lGalleryOn = true;
+        if (rec === true) {
+            if (!$currentSlide.hasClass("lg-complete_")) $currentSlide.find(".lg-object").first().on("load.lg error.lg", function() {
+                _this.preload(index);
+            });
+            else this.preload(index);
+        }
+    };
+    /**
+     * @desc Remove dummy image content and load next slides
+     * Called only for the first time if zoomFromOrigin animation is enabled
+     * @param index
+     * @param $currentSlide
+     * @param speed
+     */ LightGallery.prototype.loadContentOnFirstSlideLoad = function(index, $currentSlide, speed) {
+        var _this = this;
+        setTimeout(function() {
+            $currentSlide.find(".lg-dummy-img").remove();
+            $currentSlide.removeClass("lg-first-slide");
+            _this.outer.removeClass("lg-first-slide-loading");
+            _this.isDummyImageRemoved = true;
+            _this.preload(index);
+        }, speed + 300);
+    };
+    LightGallery.prototype.getItemsToBeInsertedToDom = function(index, prevIndex, numberOfItems) {
+        var _this = this;
+        if (numberOfItems === void 0) numberOfItems = 0;
+        var itemsToBeInsertedToDom = [];
+        // Minimum 2 items should be there
+        var possibleNumberOfItems = Math.max(numberOfItems, 3);
+        possibleNumberOfItems = Math.min(possibleNumberOfItems, this.galleryItems.length);
+        var prevIndexItem = "lg-item-" + this.lgId + "-" + prevIndex;
+        if (this.galleryItems.length <= 3) {
+            this.galleryItems.forEach(function(_element, index) {
+                itemsToBeInsertedToDom.push("lg-item-" + _this.lgId + "-" + index);
+            });
+            return itemsToBeInsertedToDom;
+        }
+        if (index < (this.galleryItems.length - 1) / 2) {
+            for(var idx = index; idx > index - possibleNumberOfItems / 2 && idx >= 0; idx--)itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + idx);
+            var numberOfExistingItems = itemsToBeInsertedToDom.length;
+            for(var idx = 0; idx < possibleNumberOfItems - numberOfExistingItems; idx++)itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + (index + idx + 1));
+        } else {
+            for(var idx = index; idx <= this.galleryItems.length - 1 && idx < index + possibleNumberOfItems / 2; idx++)itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + idx);
+            var numberOfExistingItems = itemsToBeInsertedToDom.length;
+            for(var idx = 0; idx < possibleNumberOfItems - numberOfExistingItems; idx++)itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + (index - idx - 1));
+        }
+        if (this.settings.loop) {
+            if (index === this.galleryItems.length - 1) itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + 0);
+            else if (index === 0) itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + (this.galleryItems.length - 1));
+        }
+        if (itemsToBeInsertedToDom.indexOf(prevIndexItem) === -1) itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + prevIndex);
+        return itemsToBeInsertedToDom;
+    };
+    LightGallery.prototype.organizeSlideItems = function(index, prevIndex) {
+        var _this = this;
+        var itemsToBeInsertedToDom = this.getItemsToBeInsertedToDom(index, prevIndex, this.settings.numberOfSlideItemsInDom);
+        itemsToBeInsertedToDom.forEach(function(item) {
+            if (_this.currentItemsInDom.indexOf(item) === -1) _this.$inner.append('<div id="' + item + '" class="lg-item"></div>');
+        });
+        this.currentItemsInDom.forEach(function(item) {
+            if (itemsToBeInsertedToDom.indexOf(item) === -1) $LG("#" + item).remove();
+        });
+        return itemsToBeInsertedToDom;
+    };
+    /**
+     * Get previous index of the slide
+     */ LightGallery.prototype.getPreviousSlideIndex = function() {
+        var prevIndex = 0;
+        try {
+            var currentItemId = this.outer.find(".lg-current").first().attr("id");
+            prevIndex = parseInt(currentItemId.split("-")[3]) || 0;
+        } catch (error) {
+            prevIndex = 0;
+        }
+        return prevIndex;
+    };
+    LightGallery.prototype.setDownloadValue = function(index) {
+        if (this.settings.download) {
+            var currentGalleryItem = this.galleryItems[index];
+            var hideDownloadBtn = currentGalleryItem.downloadUrl === false || currentGalleryItem.downloadUrl === "false";
+            if (hideDownloadBtn) this.outer.addClass("lg-hide-download");
+            else {
+                var $download = this.getElementById("lg-download");
+                this.outer.removeClass("lg-hide-download");
+                $download.attr("href", currentGalleryItem.downloadUrl || currentGalleryItem.src);
+                if (currentGalleryItem.download) $download.attr("download", currentGalleryItem.download);
+            }
+        }
+    };
+    LightGallery.prototype.makeSlideAnimation = function(direction, currentSlideItem, previousSlideItem) {
+        var _this = this;
+        if (this.lGalleryOn) previousSlideItem.addClass("lg-slide-progress");
+        setTimeout(function() {
+            // remove all transitions
+            _this.outer.addClass("lg-no-trans");
+            _this.outer.find(".lg-item").removeClass("lg-prev-slide lg-next-slide");
+            if (direction === "prev") {
+                //prevslide
+                currentSlideItem.addClass("lg-prev-slide");
+                previousSlideItem.addClass("lg-next-slide");
+            } else {
+                // next slide
+                currentSlideItem.addClass("lg-next-slide");
+                previousSlideItem.addClass("lg-prev-slide");
+            }
+            // give 50 ms for browser to add/remove class
+            setTimeout(function() {
+                _this.outer.find(".lg-item").removeClass("lg-current");
+                currentSlideItem.addClass("lg-current");
+                // reset all transitions
+                _this.outer.removeClass("lg-no-trans");
+            }, 50);
+        }, this.lGalleryOn ? this.settings.slideDelay : 0);
+    };
+    /**
+     * Goto a specific slide.
+     * @param {Number} index - index of the slide
+     * @param {Boolean} fromTouch - true if slide function called via touch event or mouse drag
+     * @param {Boolean} fromThumb - true if slide function called via thumbnail click
+     * @param {String} direction - Direction of the slide(next/prev)
+     * @category lGPublicMethods
+     * @example
+     *  const plugin = lightGallery();
+     *  // to go to 3rd slide
+     *  plugin.slide(2);
+     *
+     */ LightGallery.prototype.slide = function(index, fromTouch, fromThumb, direction) {
+        var _this = this;
+        var prevIndex = this.getPreviousSlideIndex();
+        this.currentItemsInDom = this.organizeSlideItems(index, prevIndex);
+        // Prevent multiple call, Required for hsh plugin
+        if (this.lGalleryOn && prevIndex === index) return;
+        var numberOfGalleryItems = this.galleryItems.length;
+        if (!this.lgBusy) {
+            if (this.settings.counter) this.updateCurrentCounter(index);
+            var currentSlideItem = this.getSlideItem(index);
+            var previousSlideItem_1 = this.getSlideItem(prevIndex);
+            var currentGalleryItem = this.galleryItems[index];
+            var videoInfo = currentGalleryItem.__slideVideoInfo;
+            this.outer.attr("data-lg-slide-type", this.getSlideType(currentGalleryItem));
+            this.setDownloadValue(index);
+            if (videoInfo) {
+                var _a = this.mediaContainerPosition, top_3 = _a.top, bottom = _a.bottom;
+                var videoSize = utils.getSize(this.items[index], this.outer, top_3 + bottom, videoInfo && this.settings.videoMaxSize);
+                this.resizeVideoSlide(index, videoSize);
+            }
+            this.LGel.trigger(lGEvents.beforeSlide, {
+                prevIndex: prevIndex,
+                index: index,
+                fromTouch: !!fromTouch,
+                fromThumb: !!fromThumb
+            });
+            this.lgBusy = true;
+            clearTimeout(this.hideBarTimeout);
+            this.arrowDisable(index);
+            if (!direction) {
+                if (index < prevIndex) direction = "prev";
+                else if (index > prevIndex) direction = "next";
+            }
+            if (!fromTouch) this.makeSlideAnimation(direction, currentSlideItem, previousSlideItem_1);
+            else {
+                this.outer.find(".lg-item").removeClass("lg-prev-slide lg-current lg-next-slide");
+                var touchPrev = void 0;
+                var touchNext = void 0;
+                if (numberOfGalleryItems > 2) {
+                    touchPrev = index - 1;
+                    touchNext = index + 1;
+                    if (index === 0 && prevIndex === numberOfGalleryItems - 1) {
+                        // next slide
+                        touchNext = 0;
+                        touchPrev = numberOfGalleryItems - 1;
+                    } else if (index === numberOfGalleryItems - 1 && prevIndex === 0) {
+                        // prev slide
+                        touchNext = 0;
+                        touchPrev = numberOfGalleryItems - 1;
+                    }
+                } else {
+                    touchPrev = 0;
+                    touchNext = 1;
+                }
+                if (direction === "prev") this.getSlideItem(touchNext).addClass("lg-next-slide");
+                else this.getSlideItem(touchPrev).addClass("lg-prev-slide");
+                currentSlideItem.addClass("lg-current");
+            }
+            // Do not put load content in set timeout as it needs to load immediately when the gallery is opened
+            if (!this.lGalleryOn) this.loadContent(index, true);
+            else setTimeout(function() {
+                _this.loadContent(index, true);
+                // Add title if this.settings.appendSubHtmlTo === lg-sub-html
+                if (_this.settings.appendSubHtmlTo !== ".lg-item") _this.addHtml(index);
+            }, this.settings.speed + 50 + (fromTouch ? 0 : this.settings.slideDelay));
+            setTimeout(function() {
+                _this.lgBusy = false;
+                previousSlideItem_1.removeClass("lg-slide-progress");
+                _this.LGel.trigger(lGEvents.afterSlide, {
+                    prevIndex: prevIndex,
+                    index: index,
+                    fromTouch: fromTouch,
+                    fromThumb: fromThumb
+                });
+            }, (this.lGalleryOn ? this.settings.speed + 100 : 100) + (fromTouch ? 0 : this.settings.slideDelay));
+        }
+        this.index = index;
+    };
+    LightGallery.prototype.updateCurrentCounter = function(index) {
+        this.getElementById("lg-counter-current").html(index + 1 + "");
+    };
+    LightGallery.prototype.updateCounterTotal = function() {
+        this.getElementById("lg-counter-all").html(this.galleryItems.length + "");
+    };
+    LightGallery.prototype.getSlideType = function(item) {
+        if (item.__slideVideoInfo) return "video";
+        else if (item.iframe) return "iframe";
+        else return "image";
+    };
+    LightGallery.prototype.touchMove = function(startCoords, endCoords, e) {
+        var distanceX = endCoords.pageX - startCoords.pageX;
+        var distanceY = endCoords.pageY - startCoords.pageY;
+        var allowSwipe = false;
+        if (this.swipeDirection) allowSwipe = true;
+        else {
+            if (Math.abs(distanceX) > 15) {
+                this.swipeDirection = "horizontal";
+                allowSwipe = true;
+            } else if (Math.abs(distanceY) > 15) {
+                this.swipeDirection = "vertical";
+                allowSwipe = true;
+            }
+        }
+        if (!allowSwipe) return;
+        var $currentSlide = this.getSlideItem(this.index);
+        if (this.swipeDirection === "horizontal") {
+            e === null || e === void 0 || e.preventDefault();
+            // reset opacity and transition duration
+            this.outer.addClass("lg-dragging");
+            // move current slide
+            this.setTranslate($currentSlide, distanceX, 0);
+            // move next and prev slide with current slide
+            var width = $currentSlide.get().offsetWidth;
+            var slideWidthAmount = width * 15 / 100;
+            var gutter = slideWidthAmount - Math.abs(distanceX * 10 / 100);
+            this.setTranslate(this.outer.find(".lg-prev-slide").first(), -width + distanceX - gutter, 0);
+            this.setTranslate(this.outer.find(".lg-next-slide").first(), width + distanceX + gutter, 0);
+        } else if (this.swipeDirection === "vertical") {
+            if (this.settings.swipeToClose) {
+                e === null || e === void 0 || e.preventDefault();
+                this.$container.addClass("lg-dragging-vertical");
+                var opacity = 1 - Math.abs(distanceY) / window.innerHeight;
+                this.$backdrop.css("opacity", opacity);
+                var scale = 1 - Math.abs(distanceY) / (window.innerWidth * 2);
+                this.setTranslate($currentSlide, 0, distanceY, scale, scale);
+                if (Math.abs(distanceY) > 100) this.outer.addClass("lg-hide-items").removeClass("lg-components-open");
+            }
+        }
+    };
+    LightGallery.prototype.touchEnd = function(endCoords, startCoords, event) {
+        var _this = this;
+        var distance;
+        // keep slide animation for any mode while dragg/swipe
+        if (this.settings.mode !== "lg-slide") this.outer.addClass("lg-slide");
+        // set transition duration
+        setTimeout(function() {
+            _this.$container.removeClass("lg-dragging-vertical");
+            _this.outer.removeClass("lg-dragging lg-hide-items").addClass("lg-components-open");
+            var triggerClick = true;
+            if (_this.swipeDirection === "horizontal") {
+                distance = endCoords.pageX - startCoords.pageX;
+                var distanceAbs = Math.abs(endCoords.pageX - startCoords.pageX);
+                if (distance < 0 && distanceAbs > _this.settings.swipeThreshold) {
+                    _this.goToNextSlide(true);
+                    triggerClick = false;
+                } else if (distance > 0 && distanceAbs > _this.settings.swipeThreshold) {
+                    _this.goToPrevSlide(true);
+                    triggerClick = false;
+                }
+            } else if (_this.swipeDirection === "vertical") {
+                distance = Math.abs(endCoords.pageY - startCoords.pageY);
+                if (_this.settings.closable && _this.settings.swipeToClose && distance > 100) {
+                    _this.closeGallery();
+                    return;
+                } else _this.$backdrop.css("opacity", 1);
+            }
+            _this.outer.find(".lg-item").removeAttr("style");
+            if (triggerClick && Math.abs(endCoords.pageX - startCoords.pageX) < 5) {
+                // Trigger click if distance is less than 5 pix
+                var target = $LG(event.target);
+                if (_this.isPosterElement(target)) _this.LGel.trigger(lGEvents.posterClick);
+            }
+            _this.swipeDirection = undefined;
+        });
+        // remove slide class once drag/swipe is completed if mode is not slide
+        setTimeout(function() {
+            if (!_this.outer.hasClass("lg-dragging") && _this.settings.mode !== "lg-slide") _this.outer.removeClass("lg-slide");
+        }, this.settings.speed + 100);
+    };
+    LightGallery.prototype.enableSwipe = function() {
+        var _this = this;
+        var startCoords = {};
+        var endCoords = {};
+        var isMoved = false;
+        var isSwiping = false;
+        if (this.settings.enableSwipe) {
+            this.$inner.on("touchstart.lg", function(e) {
+                _this.dragOrSwipeEnabled = true;
+                var $item = _this.getSlideItem(_this.index);
+                if (($LG(e.target).hasClass("lg-item") || $item.get().contains(e.target)) && !_this.outer.hasClass("lg-zoomed") && !_this.lgBusy && e.touches.length === 1) {
+                    isSwiping = true;
+                    _this.touchAction = "swipe";
+                    _this.manageSwipeClass();
+                    startCoords = {
+                        pageX: e.touches[0].pageX,
+                        pageY: e.touches[0].pageY
+                    };
+                }
+            });
+            this.$inner.on("touchmove.lg", function(e) {
+                if (isSwiping && _this.touchAction === "swipe" && e.touches.length === 1) {
+                    endCoords = {
+                        pageX: e.touches[0].pageX,
+                        pageY: e.touches[0].pageY
+                    };
+                    _this.touchMove(startCoords, endCoords, e);
+                    isMoved = true;
+                }
+            });
+            this.$inner.on("touchend.lg", function(event) {
+                if (_this.touchAction === "swipe") {
+                    if (isMoved) {
+                        isMoved = false;
+                        _this.touchEnd(endCoords, startCoords, event);
+                    } else if (isSwiping) {
+                        var target = $LG(event.target);
+                        if (_this.isPosterElement(target)) _this.LGel.trigger(lGEvents.posterClick);
+                    }
+                    _this.touchAction = undefined;
+                    isSwiping = false;
+                }
+            });
+        }
+    };
+    LightGallery.prototype.enableDrag = function() {
+        var _this = this;
+        var startCoords = {};
+        var endCoords = {};
+        var isDraging = false;
+        var isMoved = false;
+        if (this.settings.enableDrag) {
+            this.outer.on("mousedown.lg", function(e) {
+                _this.dragOrSwipeEnabled = true;
+                var $item = _this.getSlideItem(_this.index);
+                if ($LG(e.target).hasClass("lg-item") || $item.get().contains(e.target)) {
+                    if (!_this.outer.hasClass("lg-zoomed") && !_this.lgBusy) {
+                        e.preventDefault();
+                        if (!_this.lgBusy) {
+                            _this.manageSwipeClass();
+                            startCoords = {
+                                pageX: e.pageX,
+                                pageY: e.pageY
+                            };
+                            isDraging = true;
+                            // ** Fix for webkit cursor issue https://code.google.com/p/chromium/issues/detail?id=26723
+                            _this.outer.get().scrollLeft += 1;
+                            _this.outer.get().scrollLeft -= 1;
+                            // *
+                            _this.outer.removeClass("lg-grab").addClass("lg-grabbing");
+                            _this.LGel.trigger(lGEvents.dragStart);
+                        }
+                    }
+                }
+            });
+            $LG(window).on("mousemove.lg.global" + this.lgId, function(e) {
+                if (isDraging && _this.lgOpened) {
+                    isMoved = true;
+                    endCoords = {
+                        pageX: e.pageX,
+                        pageY: e.pageY
+                    };
+                    _this.touchMove(startCoords, endCoords);
+                    _this.LGel.trigger(lGEvents.dragMove);
+                }
+            });
+            $LG(window).on("mouseup.lg.global" + this.lgId, function(event) {
+                if (!_this.lgOpened) return;
+                var target = $LG(event.target);
+                if (isMoved) {
+                    isMoved = false;
+                    _this.touchEnd(endCoords, startCoords, event);
+                    _this.LGel.trigger(lGEvents.dragEnd);
+                } else if (_this.isPosterElement(target)) _this.LGel.trigger(lGEvents.posterClick);
+                // Prevent execution on click
+                if (isDraging) {
+                    isDraging = false;
+                    _this.outer.removeClass("lg-grabbing").addClass("lg-grab");
+                }
+            });
+        }
+    };
+    LightGallery.prototype.triggerPosterClick = function() {
+        var _this = this;
+        this.$inner.on("click.lg", function(event) {
+            if (!_this.dragOrSwipeEnabled && _this.isPosterElement($LG(event.target))) _this.LGel.trigger(lGEvents.posterClick);
+        });
+    };
+    LightGallery.prototype.manageSwipeClass = function() {
+        var _touchNext = this.index + 1;
+        var _touchPrev = this.index - 1;
+        if (this.settings.loop && this.galleryItems.length > 2) {
+            if (this.index === 0) _touchPrev = this.galleryItems.length - 1;
+            else if (this.index === this.galleryItems.length - 1) _touchNext = 0;
+        }
+        this.outer.find(".lg-item").removeClass("lg-next-slide lg-prev-slide");
+        if (_touchPrev > -1) this.getSlideItem(_touchPrev).addClass("lg-prev-slide");
+        this.getSlideItem(_touchNext).addClass("lg-next-slide");
+    };
+    /**
+     * Go to next slide
+     * @param {Boolean} fromTouch - true if slide function called via touch event
+     * @category lGPublicMethods
+     * @example
+     *  const plugin = lightGallery();
+     *  plugin.goToNextSlide();
+     * @see <a href="/demos/methods/">Demo</a>
+     */ LightGallery.prototype.goToNextSlide = function(fromTouch) {
+        var _this = this;
+        var _loop = this.settings.loop;
+        if (fromTouch && this.galleryItems.length < 3) _loop = false;
+        if (!this.lgBusy) {
+            if (this.index + 1 < this.galleryItems.length) {
+                this.index++;
+                this.LGel.trigger(lGEvents.beforeNextSlide, {
+                    index: this.index
+                });
+                this.slide(this.index, !!fromTouch, false, "next");
+            } else {
+                if (_loop) {
+                    this.index = 0;
+                    this.LGel.trigger(lGEvents.beforeNextSlide, {
+                        index: this.index
+                    });
+                    this.slide(this.index, !!fromTouch, false, "next");
+                } else if (this.settings.slideEndAnimation && !fromTouch) {
+                    this.outer.addClass("lg-right-end");
+                    setTimeout(function() {
+                        _this.outer.removeClass("lg-right-end");
+                    }, 400);
+                }
+            }
+        }
+    };
+    /**
+     * Go to previous slides
+     * @param {Boolean} fromTouch - true if slide function called via touch event
+     * @category lGPublicMethods
+     * @example
+     *  const plugin = lightGallery({});
+     *  plugin.goToPrevSlide();
+     * @see <a href="/demos/methods/">Demo</a>
+     *
+     */ LightGallery.prototype.goToPrevSlide = function(fromTouch) {
+        var _this = this;
+        var _loop = this.settings.loop;
+        if (fromTouch && this.galleryItems.length < 3) _loop = false;
+        if (!this.lgBusy) {
+            if (this.index > 0) {
+                this.index--;
+                this.LGel.trigger(lGEvents.beforePrevSlide, {
+                    index: this.index,
+                    fromTouch: fromTouch
+                });
+                this.slide(this.index, !!fromTouch, false, "prev");
+            } else {
+                if (_loop) {
+                    this.index = this.galleryItems.length - 1;
+                    this.LGel.trigger(lGEvents.beforePrevSlide, {
+                        index: this.index,
+                        fromTouch: fromTouch
+                    });
+                    this.slide(this.index, !!fromTouch, false, "prev");
+                } else if (this.settings.slideEndAnimation && !fromTouch) {
+                    this.outer.addClass("lg-left-end");
+                    setTimeout(function() {
+                        _this.outer.removeClass("lg-left-end");
+                    }, 400);
+                }
+            }
+        }
+    };
+    LightGallery.prototype.keyPress = function() {
+        var _this = this;
+        $LG(window).on("keydown.lg.global" + this.lgId, function(e) {
+            if (_this.lgOpened && _this.settings.escKey === true && e.keyCode === 27) {
+                e.preventDefault();
+                if (_this.settings.allowMediaOverlap && _this.outer.hasClass("lg-can-toggle") && _this.outer.hasClass("lg-components-open")) _this.outer.removeClass("lg-components-open");
+                else _this.closeGallery();
+            }
+            if (_this.lgOpened && _this.galleryItems.length > 1) {
+                if (e.keyCode === 37) {
+                    e.preventDefault();
+                    _this.goToPrevSlide();
+                }
+                if (e.keyCode === 39) {
+                    e.preventDefault();
+                    _this.goToNextSlide();
+                }
+            }
+        });
+    };
+    LightGallery.prototype.arrow = function() {
+        var _this = this;
+        this.getElementById("lg-prev").on("click.lg", function() {
+            _this.goToPrevSlide();
+        });
+        this.getElementById("lg-next").on("click.lg", function() {
+            _this.goToNextSlide();
+        });
+    };
+    LightGallery.prototype.arrowDisable = function(index) {
+        // Disable arrows if settings.hideControlOnEnd is true
+        if (!this.settings.loop && this.settings.hideControlOnEnd) {
+            var $prev = this.getElementById("lg-prev");
+            var $next = this.getElementById("lg-next");
+            if (index + 1 === this.galleryItems.length) $next.attr("disabled", "disabled").addClass("disabled");
+            else $next.removeAttr("disabled").removeClass("disabled");
+            if (index === 0) $prev.attr("disabled", "disabled").addClass("disabled");
+            else $prev.removeAttr("disabled").removeClass("disabled");
+        }
+    };
+    LightGallery.prototype.setTranslate = function($el, xValue, yValue, scaleX, scaleY) {
+        if (scaleX === void 0) scaleX = 1;
+        if (scaleY === void 0) scaleY = 1;
+        $el.css("transform", "translate3d(" + xValue + "px, " + yValue + "px, 0px) scale3d(" + scaleX + ", " + scaleY + ", 1)");
+    };
+    LightGallery.prototype.mousewheel = function() {
+        var _this = this;
+        var lastCall = 0;
+        this.outer.on("wheel.lg", function(e) {
+            if (!e.deltaY || _this.galleryItems.length < 2) return;
+            e.preventDefault();
+            var now = new Date().getTime();
+            if (now - lastCall < 1000) return;
+            lastCall = now;
+            if (e.deltaY > 0) _this.goToNextSlide();
+            else if (e.deltaY < 0) _this.goToPrevSlide();
+        });
+    };
+    LightGallery.prototype.isSlideElement = function(target) {
+        return target.hasClass("lg-outer") || target.hasClass("lg-item") || target.hasClass("lg-img-wrap");
+    };
+    LightGallery.prototype.isPosterElement = function(target) {
+        var playButton = this.getSlideItem(this.index).find(".lg-video-play-button").get();
+        return target.hasClass("lg-video-poster") || target.hasClass("lg-video-play-button") || playButton && playButton.contains(target.get());
+    };
+    /**
+     * Maximize minimize inline gallery.
+     * @category lGPublicMethods
+     */ LightGallery.prototype.toggleMaximize = function() {
+        var _this = this;
+        this.getElementById("lg-maximize").on("click.lg", function() {
+            _this.$container.toggleClass("lg-inline");
+            _this.refreshOnResize();
+        });
+    };
+    LightGallery.prototype.invalidateItems = function() {
+        for(var index = 0; index < this.items.length; index++){
+            var element = this.items[index];
+            var $element = $LG(element);
+            $element.off("click.lgcustom-item-" + $element.attr("data-lg-id"));
+        }
+    };
+    LightGallery.prototype.trapFocus = function() {
+        var _this = this;
+        this.$container.get().focus({
+            preventScroll: true
+        });
+        $LG(window).on("keydown.lg.global" + this.lgId, function(e) {
+            if (!_this.lgOpened) return;
+            var isTabPressed = e.key === "Tab" || e.keyCode === 9;
+            if (!isTabPressed) return;
+            var focusableEls = utils.getFocusableElements(_this.$container.get());
+            var firstFocusableEl = focusableEls[0];
+            var lastFocusableEl = focusableEls[focusableEls.length - 1];
+            if (e.shiftKey) {
+                if (document.activeElement === firstFocusableEl) {
+                    lastFocusableEl.focus();
+                    e.preventDefault();
+                }
+            } else if (document.activeElement === lastFocusableEl) {
+                firstFocusableEl.focus();
+                e.preventDefault();
+            }
+        });
+    };
+    LightGallery.prototype.manageCloseGallery = function() {
+        var _this = this;
+        if (!this.settings.closable) return;
+        var mousedown = false;
+        this.getElementById("lg-close").on("click.lg", function() {
+            _this.closeGallery();
+        });
+        if (this.settings.closeOnTap) {
+            // If you drag the slide and release outside gallery gets close on chrome
+            // for preventing this check mousedown and mouseup happened on .lg-item or lg-outer
+            this.outer.on("mousedown.lg", function(e) {
+                var target = $LG(e.target);
+                if (_this.isSlideElement(target)) mousedown = true;
+                else mousedown = false;
+            });
+            this.outer.on("mousemove.lg", function() {
+                mousedown = false;
+            });
+            this.outer.on("mouseup.lg", function(e) {
+                var target = $LG(e.target);
+                if (_this.isSlideElement(target) && mousedown) {
+                    if (!_this.outer.hasClass("lg-dragging")) _this.closeGallery();
+                }
+            });
+        }
+    };
+    /**
+     * Close lightGallery if it is opened.
+     *
+     * @description If closable is false in the settings, you need to pass true via closeGallery method to force close gallery
+     * @return returns the estimated time to close gallery completely including the close animation duration
+     * @category lGPublicMethods
+     * @example
+     *  const plugin = lightGallery();
+     *  plugin.closeGallery();
+     *
+     */ LightGallery.prototype.closeGallery = function(force) {
+        var _this = this;
+        if (!this.lgOpened || !this.settings.closable && !force) return 0;
+        this.LGel.trigger(lGEvents.beforeClose);
+        if (this.settings.resetScrollPosition && !this.settings.hideScrollbar) $LG(window).scrollTop(this.prevScrollTop);
+        var currentItem = this.items[this.index];
+        var transform;
+        if (this.zoomFromOrigin && currentItem) {
+            var _a = this.mediaContainerPosition, top_4 = _a.top, bottom = _a.bottom;
+            var _b = this.galleryItems[this.index], __slideVideoInfo = _b.__slideVideoInfo, poster = _b.poster;
+            var imageSize = utils.getSize(currentItem, this.outer, top_4 + bottom, __slideVideoInfo && poster && this.settings.videoMaxSize);
+            transform = utils.getTransform(currentItem, this.outer, top_4, bottom, imageSize);
+        }
+        if (this.zoomFromOrigin && transform) {
+            this.outer.addClass("lg-closing lg-zoom-from-image");
+            this.getSlideItem(this.index).addClass("lg-start-end-progress").css("transition-duration", this.settings.startAnimationDuration + "ms").css("transform", transform);
+        } else {
+            this.outer.addClass("lg-hide-items");
+            // lg-zoom-from-image is used for setting the opacity to 1 if zoomFromOrigin is true
+            // If the closing item doesn't have the lg-size attribute, remove this class to avoid the closing css conflicts
+            this.outer.removeClass("lg-zoom-from-image");
+        }
+        // Unbind all events added by lightGallery
+        // @todo
+        //this.$el.off('.lg.tm');
+        this.destroyModules();
+        this.lGalleryOn = false;
+        this.isDummyImageRemoved = false;
+        this.zoomFromOrigin = this.settings.zoomFromOrigin;
+        clearTimeout(this.hideBarTimeout);
+        this.hideBarTimeout = false;
+        $LG("html").removeClass("lg-on");
+        this.outer.removeClass("lg-visible lg-components-open");
+        // Resetting opacity to 0 isd required as  vertical swipe to close function adds inline opacity.
+        this.$backdrop.removeClass("in").css("opacity", 0);
+        var removeTimeout = this.zoomFromOrigin && transform ? Math.max(this.settings.startAnimationDuration, this.settings.backdropDuration) : this.settings.backdropDuration;
+        this.$container.removeClass("lg-show-in");
+        // Once the closign animation is completed and gallery is invisible
+        setTimeout(function() {
+            if (_this.zoomFromOrigin && transform) _this.outer.removeClass("lg-zoom-from-image");
+            _this.$container.removeClass("lg-show");
+            // Reset scrollbar
+            _this.resetScrollBar();
+            // Need to remove inline opacity as it is used in the stylesheet as well
+            _this.$backdrop.removeAttr("style").css("transition-duration", _this.settings.backdropDuration + "ms");
+            _this.outer.removeClass("lg-closing " + _this.settings.startClass);
+            _this.getSlideItem(_this.index).removeClass("lg-start-end-progress");
+            _this.$inner.empty();
+            if (_this.lgOpened) _this.LGel.trigger(lGEvents.afterClose, {
+                instance: _this
+            });
+            if (_this.$container.get()) _this.$container.get().blur();
+            _this.lgOpened = false;
+        }, removeTimeout + 100);
+        return removeTimeout + 100;
+    };
+    LightGallery.prototype.initModules = function() {
+        this.plugins.forEach(function(module) {
+            try {
+                module.init();
+            } catch (err) {
+                console.warn("lightGallery:- make sure lightGallery module is properly initiated");
+            }
+        });
+    };
+    LightGallery.prototype.destroyModules = function(destroy) {
+        this.plugins.forEach(function(module) {
+            try {
+                if (destroy) module.destroy();
+                else module.closeGallery && module.closeGallery();
+            } catch (err) {
+                console.warn("lightGallery:- make sure lightGallery module is properly destroyed");
+            }
+        });
+    };
+    /**
+     * Refresh lightGallery with new set of children.
+     *
+     * @description This is useful to update the gallery when the child elements are changed without calling destroy method.
+     *
+     * If you are using dynamic mode, you can pass the modified array of dynamicEl as the first parameter to refresh the dynamic gallery
+     * @see <a href="/demos/dynamic-mode/">Demo</a>
+     * @category lGPublicMethods
+     * @example
+     *  const plugin = lightGallery();
+     *  // Delete or add children, then call
+     *  plugin.refresh();
+     *
+     */ LightGallery.prototype.refresh = function(galleryItems) {
+        if (!this.settings.dynamic) this.invalidateItems();
+        if (galleryItems) this.galleryItems = galleryItems;
+        else this.galleryItems = this.getItems();
+        this.updateControls();
+        this.openGalleryOnItemClick();
+        this.LGel.trigger(lGEvents.updateSlides);
+    };
+    LightGallery.prototype.updateControls = function() {
+        this.addSlideVideoInfo(this.galleryItems);
+        this.updateCounterTotal();
+        this.manageSingleSlideClassName();
+    };
+    LightGallery.prototype.destroyGallery = function() {
+        this.destroyModules(true);
+        if (!this.settings.dynamic) this.invalidateItems();
+        $LG(window).off(".lg.global" + this.lgId);
+        this.LGel.off(".lg");
+        this.$container.remove();
+    };
+    /**
+     * Destroy lightGallery.
+     * Destroy lightGallery and its plugin instances completely
+     *
+     * @description This method also calls CloseGallery function internally. Returns the time takes to completely close and destroy the instance.
+     * In case if you want to re-initialize lightGallery right after destroying it, initialize it only once the destroy process is completed.
+     * You can use refresh method most of the times.
+     * @category lGPublicMethods
+     * @example
+     *  const plugin = lightGallery();
+     *  plugin.destroy();
+     *
+     */ LightGallery.prototype.destroy = function() {
+        var closeTimeout = this.closeGallery(true);
+        if (closeTimeout) setTimeout(this.destroyGallery.bind(this), closeTimeout);
+        else this.destroyGallery();
+        return closeTimeout;
+    };
+    return LightGallery;
+}();
+function lightGallery(el, options) {
+    return new LightGallery(el, options);
+}
+exports.default = lightGallery;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gv3s4":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _choicesJs = require("choices.js");
 var _choicesJsDefault = parcelHelpers.interopDefault(_choicesJs);
-const elementChoices = Array.from(document.querySelectorAll(".choices__input"));
+const elementChoices = Array.from(document.querySelectorAll(".is-choices"));
 if (elementChoices.length > 0) elementChoices.forEach((el)=>{
     const choicesNum = new (0, _choicesJsDefault.default)(el, {
         searchEnabled: false,
@@ -16114,4721 +20828,6 @@ if (elementChoices.length > 0) elementChoices.forEach((el)=>{
     /******/ }();
 });
 
-},{}],"gNtZe":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _nouislider = require("nouislider");
-var _nouisliderDefault = parcelHelpers.interopDefault(_nouislider);
-(function() {
-    const a = document.querySelectorAll(".range-slider");
-    for(let e = 0; e < a.length; e++)(function(e) {
-        const t = a[e].querySelector(".range-slider__body");
-        const r = a[e].querySelector(".range-slider__input--min");
-        const n = a[e].querySelector(".range-slider__input--max");
-        const dataAttributes = {
-            dataStartMin: parseInt(a[e].dataset.startMin, 10),
-            dataStartMax: parseInt(a[e].dataset.startMax, 10),
-            dataMin: parseInt(a[e].dataset.min, 10),
-            dataMax: parseInt(a[e].dataset.max, 10),
-            dataStep: parseInt(a[e].dataset.step, 10)
-        };
-        (0, _nouisliderDefault.default).create(t, {
-            start: [
-                dataAttributes.dataStartMin,
-                dataAttributes.dataStartMax
-            ],
-            connect: true,
-            step: dataAttributes.dataStep,
-            pips: {
-                mode: "count",
-                values: 5
-            },
-            tooltips: true,
-            range: {
-                min: dataAttributes.dataMin,
-                max: dataAttributes.dataMax
-            },
-            format: {
-                to: function(value) {
-                    return "грн" + parseInt(value, 10);
-                },
-                from: function(value) {
-                    return Number(value);
-                }
-            }
-        });
-        if (r !== null && n !== null) {
-            t.noUiSlider.on("update", function(values, handle) {
-                const value = values[handle].replace(/\D/g, "");
-                if (handle) n.value = Math.round(value);
-                else r.value = Math.round(value);
-            });
-            r.addEventListener("change", function() {
-                t.noUiSlider.set([
-                    this.value,
-                    null
-                ]);
-            });
-            n.addEventListener("change", function() {
-                t.noUiSlider.set([
-                    null,
-                    this.value
-                ]);
-            });
-        }
-    })(e);
-})();
-
-},{"nouislider":"gI00O","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gI00O":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "PipsMode", ()=>PipsMode);
-parcelHelpers.export(exports, "PipsType", ()=>PipsType);
-parcelHelpers.export(exports, "create", ()=>initialize);
-parcelHelpers.export(exports, "cssClasses", ()=>cssClasses);
-"use strict";
-var PipsMode;
-(function(PipsMode) {
-    PipsMode["Range"] = "range";
-    PipsMode["Steps"] = "steps";
-    PipsMode["Positions"] = "positions";
-    PipsMode["Count"] = "count";
-    PipsMode["Values"] = "values";
-})(PipsMode || (PipsMode = {}));
-var PipsType;
-(function(PipsType) {
-    PipsType[PipsType["None"] = -1] = "None";
-    PipsType[PipsType["NoValue"] = 0] = "NoValue";
-    PipsType[PipsType["LargeValue"] = 1] = "LargeValue";
-    PipsType[PipsType["SmallValue"] = 2] = "SmallValue";
-})(PipsType || (PipsType = {}));
-//region Helper Methods
-function isValidFormatter(entry) {
-    return isValidPartialFormatter(entry) && typeof entry.from === "function";
-}
-function isValidPartialFormatter(entry) {
-    // partial formatters only need a to function and not a from function
-    return typeof entry === "object" && typeof entry.to === "function";
-}
-function removeElement(el) {
-    el.parentElement.removeChild(el);
-}
-function isSet(value) {
-    return value !== null && value !== undefined;
-}
-// Bindable version
-function preventDefault(e) {
-    e.preventDefault();
-}
-// Removes duplicates from an array.
-function unique(array) {
-    return array.filter(function(a) {
-        return !this[a] ? this[a] = true : false;
-    }, {});
-}
-// Round a value to the closest 'to'.
-function closest(value, to) {
-    return Math.round(value / to) * to;
-}
-// Current position of an element relative to the document.
-function offset(elem, orientation) {
-    var rect = elem.getBoundingClientRect();
-    var doc = elem.ownerDocument;
-    var docElem = doc.documentElement;
-    var pageOffset = getPageOffset(doc);
-    // getBoundingClientRect contains left scroll in Chrome on Android.
-    // I haven't found a feature detection that proves this. Worst case
-    // scenario on mis-match: the 'tap' feature on horizontal sliders breaks.
-    if (/webkit.*Chrome.*Mobile/i.test(navigator.userAgent)) pageOffset.x = 0;
-    return orientation ? rect.top + pageOffset.y - docElem.clientTop : rect.left + pageOffset.x - docElem.clientLeft;
-}
-// Checks whether a value is numerical.
-function isNumeric(a) {
-    return typeof a === "number" && !isNaN(a) && isFinite(a);
-}
-// Sets a class and removes it after [duration] ms.
-function addClassFor(element, className, duration) {
-    if (duration > 0) {
-        addClass(element, className);
-        setTimeout(function() {
-            removeClass(element, className);
-        }, duration);
-    }
-}
-// Limits a value to 0 - 100
-function limit(a) {
-    return Math.max(Math.min(a, 100), 0);
-}
-// Wraps a variable as an array, if it isn't one yet.
-// Note that an input array is returned by reference!
-function asArray(a) {
-    return Array.isArray(a) ? a : [
-        a
-    ];
-}
-// Counts decimals
-function countDecimals(numStr) {
-    numStr = String(numStr);
-    var pieces = numStr.split(".");
-    return pieces.length > 1 ? pieces[1].length : 0;
-}
-// http://youmightnotneedjquery.com/#add_class
-function addClass(el, className) {
-    if (el.classList && !/\s/.test(className)) el.classList.add(className);
-    else el.className += " " + className;
-}
-// http://youmightnotneedjquery.com/#remove_class
-function removeClass(el, className) {
-    if (el.classList && !/\s/.test(className)) el.classList.remove(className);
-    else el.className = el.className.replace(new RegExp("(^|\\b)" + className.split(" ").join("|") + "(\\b|$)", "gi"), " ");
-}
-// https://plainjs.com/javascript/attributes/adding-removing-and-testing-for-classes-9/
-function hasClass(el, className) {
-    return el.classList ? el.classList.contains(className) : new RegExp("\\b" + className + "\\b").test(el.className);
-}
-// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollY#Notes
-function getPageOffset(doc) {
-    var supportPageOffset = window.pageXOffset !== undefined;
-    var isCSS1Compat = (doc.compatMode || "") === "CSS1Compat";
-    var x = supportPageOffset ? window.pageXOffset : isCSS1Compat ? doc.documentElement.scrollLeft : doc.body.scrollLeft;
-    var y = supportPageOffset ? window.pageYOffset : isCSS1Compat ? doc.documentElement.scrollTop : doc.body.scrollTop;
-    return {
-        x: x,
-        y: y
-    };
-}
-// we provide a function to compute constants instead
-// of accessing window.* as soon as the module needs it
-// so that we do not compute anything if not needed
-function getActions() {
-    // Determine the events to bind. IE11 implements pointerEvents without
-    // a prefix, which breaks compatibility with the IE10 implementation.
-    return window.navigator.pointerEnabled ? {
-        start: "pointerdown",
-        move: "pointermove",
-        end: "pointerup"
-    } : window.navigator.msPointerEnabled ? {
-        start: "MSPointerDown",
-        move: "MSPointerMove",
-        end: "MSPointerUp"
-    } : {
-        start: "mousedown touchstart",
-        move: "mousemove touchmove",
-        end: "mouseup touchend"
-    };
-}
-// https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
-// Issue #785
-function getSupportsPassive() {
-    var supportsPassive = false;
-    /* eslint-disable */ try {
-        var opts = Object.defineProperty({}, "passive", {
-            get: function() {
-                supportsPassive = true;
-            }
-        });
-        // @ts-ignore
-        window.addEventListener("test", null, opts);
-    } catch (e) {}
-    /* eslint-enable */ return supportsPassive;
-}
-function getSupportsTouchActionNone() {
-    return window.CSS && CSS.supports && CSS.supports("touch-action", "none");
-}
-//endregion
-//region Range Calculation
-// Determine the size of a sub-range in relation to a full range.
-function subRangeRatio(pa, pb) {
-    return 100 / (pb - pa);
-}
-// (percentage) How many percent is this value of this range?
-function fromPercentage(range, value, startRange) {
-    return value * 100 / (range[startRange + 1] - range[startRange]);
-}
-// (percentage) Where is this value on this range?
-function toPercentage(range, value) {
-    return fromPercentage(range, range[0] < 0 ? value + Math.abs(range[0]) : value - range[0], 0);
-}
-// (value) How much is this percentage on this range?
-function isPercentage(range, value) {
-    return value * (range[1] - range[0]) / 100 + range[0];
-}
-function getJ(value, arr) {
-    var j = 1;
-    while(value >= arr[j])j += 1;
-    return j;
-}
-// (percentage) Input a value, find where, on a scale of 0-100, it applies.
-function toStepping(xVal, xPct, value) {
-    if (value >= xVal.slice(-1)[0]) return 100;
-    var j = getJ(value, xVal);
-    var va = xVal[j - 1];
-    var vb = xVal[j];
-    var pa = xPct[j - 1];
-    var pb = xPct[j];
-    return pa + toPercentage([
-        va,
-        vb
-    ], value) / subRangeRatio(pa, pb);
-}
-// (value) Input a percentage, find where it is on the specified range.
-function fromStepping(xVal, xPct, value) {
-    // There is no range group that fits 100
-    if (value >= 100) return xVal.slice(-1)[0];
-    var j = getJ(value, xPct);
-    var va = xVal[j - 1];
-    var vb = xVal[j];
-    var pa = xPct[j - 1];
-    var pb = xPct[j];
-    return isPercentage([
-        va,
-        vb
-    ], (value - pa) * subRangeRatio(pa, pb));
-}
-// (percentage) Get the step that applies at a certain value.
-function getStep(xPct, xSteps, snap, value) {
-    if (value === 100) return value;
-    var j = getJ(value, xPct);
-    var a = xPct[j - 1];
-    var b = xPct[j];
-    // If 'snap' is set, steps are used as fixed points on the slider.
-    if (snap) {
-        // Find the closest position, a or b.
-        if (value - a > (b - a) / 2) return b;
-        return a;
-    }
-    if (!xSteps[j - 1]) return value;
-    return xPct[j - 1] + closest(value - xPct[j - 1], xSteps[j - 1]);
-}
-//endregion
-//region Spectrum
-var Spectrum = /** @class */ function() {
-    function Spectrum(entry, snap, singleStep) {
-        this.xPct = [];
-        this.xVal = [];
-        this.xSteps = [];
-        this.xNumSteps = [];
-        this.xHighestCompleteStep = [];
-        this.xSteps = [
-            singleStep || false
-        ];
-        this.xNumSteps = [
-            false
-        ];
-        this.snap = snap;
-        var index;
-        var ordered = [];
-        // Map the object keys to an array.
-        Object.keys(entry).forEach(function(index) {
-            ordered.push([
-                asArray(entry[index]),
-                index
-            ]);
-        });
-        // Sort all entries by value (numeric sort).
-        ordered.sort(function(a, b) {
-            return a[0][0] - b[0][0];
-        });
-        // Convert all entries to subranges.
-        for(index = 0; index < ordered.length; index++)this.handleEntryPoint(ordered[index][1], ordered[index][0]);
-        // Store the actual step values.
-        // xSteps is sorted in the same order as xPct and xVal.
-        this.xNumSteps = this.xSteps.slice(0);
-        // Convert all numeric steps to the percentage of the subrange they represent.
-        for(index = 0; index < this.xNumSteps.length; index++)this.handleStepPoint(index, this.xNumSteps[index]);
-    }
-    Spectrum.prototype.getDistance = function(value) {
-        var distances = [];
-        for(var index = 0; index < this.xNumSteps.length - 1; index++)distances[index] = fromPercentage(this.xVal, value, index);
-        return distances;
-    };
-    // Calculate the percentual distance over the whole scale of ranges.
-    // direction: 0 = backwards / 1 = forwards
-    Spectrum.prototype.getAbsoluteDistance = function(value, distances, direction) {
-        var xPct_index = 0;
-        // Calculate range where to start calculation
-        if (value < this.xPct[this.xPct.length - 1]) while(value > this.xPct[xPct_index + 1])xPct_index++;
-        else if (value === this.xPct[this.xPct.length - 1]) xPct_index = this.xPct.length - 2;
-        // If looking backwards and the value is exactly at a range separator then look one range further
-        if (!direction && value === this.xPct[xPct_index + 1]) xPct_index++;
-        if (distances === null) distances = [];
-        var start_factor;
-        var rest_factor = 1;
-        var rest_rel_distance = distances[xPct_index];
-        var range_pct = 0;
-        var rel_range_distance = 0;
-        var abs_distance_counter = 0;
-        var range_counter = 0;
-        // Calculate what part of the start range the value is
-        if (direction) start_factor = (value - this.xPct[xPct_index]) / (this.xPct[xPct_index + 1] - this.xPct[xPct_index]);
-        else start_factor = (this.xPct[xPct_index + 1] - value) / (this.xPct[xPct_index + 1] - this.xPct[xPct_index]);
-        // Do until the complete distance across ranges is calculated
-        while(rest_rel_distance > 0){
-            // Calculate the percentage of total range
-            range_pct = this.xPct[xPct_index + 1 + range_counter] - this.xPct[xPct_index + range_counter];
-            // Detect if the margin, padding or limit is larger then the current range and calculate
-            if (distances[xPct_index + range_counter] * rest_factor + 100 - start_factor * 100 > 100) {
-                // If larger then take the percentual distance of the whole range
-                rel_range_distance = range_pct * start_factor;
-                // Rest factor of relative percentual distance still to be calculated
-                rest_factor = (rest_rel_distance - 100 * start_factor) / distances[xPct_index + range_counter];
-                // Set start factor to 1 as for next range it does not apply.
-                start_factor = 1;
-            } else {
-                // If smaller or equal then take the percentual distance of the calculate percentual part of that range
-                rel_range_distance = distances[xPct_index + range_counter] * range_pct / 100 * rest_factor;
-                // No rest left as the rest fits in current range
-                rest_factor = 0;
-            }
-            if (direction) {
-                abs_distance_counter = abs_distance_counter - rel_range_distance;
-                // Limit range to first range when distance becomes outside of minimum range
-                if (this.xPct.length + range_counter >= 1) range_counter--;
-            } else {
-                abs_distance_counter = abs_distance_counter + rel_range_distance;
-                // Limit range to last range when distance becomes outside of maximum range
-                if (this.xPct.length - range_counter >= 1) range_counter++;
-            }
-            // Rest of relative percentual distance still to be calculated
-            rest_rel_distance = distances[xPct_index + range_counter] * rest_factor;
-        }
-        return value + abs_distance_counter;
-    };
-    Spectrum.prototype.toStepping = function(value) {
-        value = toStepping(this.xVal, this.xPct, value);
-        return value;
-    };
-    Spectrum.prototype.fromStepping = function(value) {
-        return fromStepping(this.xVal, this.xPct, value);
-    };
-    Spectrum.prototype.getStep = function(value) {
-        value = getStep(this.xPct, this.xSteps, this.snap, value);
-        return value;
-    };
-    Spectrum.prototype.getDefaultStep = function(value, isDown, size) {
-        var j = getJ(value, this.xPct);
-        // When at the top or stepping down, look at the previous sub-range
-        if (value === 100 || isDown && value === this.xPct[j - 1]) j = Math.max(j - 1, 1);
-        return (this.xVal[j] - this.xVal[j - 1]) / size;
-    };
-    Spectrum.prototype.getNearbySteps = function(value) {
-        var j = getJ(value, this.xPct);
-        return {
-            stepBefore: {
-                startValue: this.xVal[j - 2],
-                step: this.xNumSteps[j - 2],
-                highestStep: this.xHighestCompleteStep[j - 2]
-            },
-            thisStep: {
-                startValue: this.xVal[j - 1],
-                step: this.xNumSteps[j - 1],
-                highestStep: this.xHighestCompleteStep[j - 1]
-            },
-            stepAfter: {
-                startValue: this.xVal[j],
-                step: this.xNumSteps[j],
-                highestStep: this.xHighestCompleteStep[j]
-            }
-        };
-    };
-    Spectrum.prototype.countStepDecimals = function() {
-        var stepDecimals = this.xNumSteps.map(countDecimals);
-        return Math.max.apply(null, stepDecimals);
-    };
-    Spectrum.prototype.hasNoSize = function() {
-        return this.xVal[0] === this.xVal[this.xVal.length - 1];
-    };
-    // Outside testing
-    Spectrum.prototype.convert = function(value) {
-        return this.getStep(this.toStepping(value));
-    };
-    Spectrum.prototype.handleEntryPoint = function(index, value) {
-        var percentage;
-        // Covert min/max syntax to 0 and 100.
-        if (index === "min") percentage = 0;
-        else if (index === "max") percentage = 100;
-        else percentage = parseFloat(index);
-        // Check for correct input.
-        if (!isNumeric(percentage) || !isNumeric(value[0])) throw new Error("noUiSlider: 'range' value isn't numeric.");
-        // Store values.
-        this.xPct.push(percentage);
-        this.xVal.push(value[0]);
-        var value1 = Number(value[1]);
-        // NaN will evaluate to false too, but to keep
-        // logging clear, set step explicitly. Make sure
-        // not to override the 'step' setting with false.
-        if (!percentage) {
-            if (!isNaN(value1)) this.xSteps[0] = value1;
-        } else this.xSteps.push(isNaN(value1) ? false : value1);
-        this.xHighestCompleteStep.push(0);
-    };
-    Spectrum.prototype.handleStepPoint = function(i, n) {
-        // Ignore 'false' stepping.
-        if (!n) return;
-        // Step over zero-length ranges (#948);
-        if (this.xVal[i] === this.xVal[i + 1]) {
-            this.xSteps[i] = this.xHighestCompleteStep[i] = this.xVal[i];
-            return;
-        }
-        // Factor to range ratio
-        this.xSteps[i] = fromPercentage([
-            this.xVal[i],
-            this.xVal[i + 1]
-        ], n, 0) / subRangeRatio(this.xPct[i], this.xPct[i + 1]);
-        var totalSteps = (this.xVal[i + 1] - this.xVal[i]) / this.xNumSteps[i];
-        var highestStep = Math.ceil(Number(totalSteps.toFixed(3)) - 1);
-        var step = this.xVal[i] + this.xNumSteps[i] * highestStep;
-        this.xHighestCompleteStep[i] = step;
-    };
-    return Spectrum;
-}();
-//endregion
-//region Options
-/*	Every input option is tested and parsed. This will prevent
-    endless validation in internal methods. These tests are
-    structured with an item for every option available. An
-    option can be marked as required by setting the 'r' flag.
-    The testing function is provided with three arguments:
-        - The provided value for the option;
-        - A reference to the options object;
-        - The name for the option;
-
-    The testing function returns false when an error is detected,
-    or true when everything is OK. It can also modify the option
-    object, to make sure all values can be correctly looped elsewhere. */ //region Defaults
-var defaultFormatter = {
-    to: function(value) {
-        return value === undefined ? "" : value.toFixed(2);
-    },
-    from: Number
-};
-var cssClasses = {
-    target: "target",
-    base: "base",
-    origin: "origin",
-    handle: "handle",
-    handleLower: "handle-lower",
-    handleUpper: "handle-upper",
-    touchArea: "touch-area",
-    horizontal: "horizontal",
-    vertical: "vertical",
-    background: "background",
-    connect: "connect",
-    connects: "connects",
-    ltr: "ltr",
-    rtl: "rtl",
-    textDirectionLtr: "txt-dir-ltr",
-    textDirectionRtl: "txt-dir-rtl",
-    draggable: "draggable",
-    drag: "state-drag",
-    tap: "state-tap",
-    active: "active",
-    tooltip: "tooltip",
-    pips: "pips",
-    pipsHorizontal: "pips-horizontal",
-    pipsVertical: "pips-vertical",
-    marker: "marker",
-    markerHorizontal: "marker-horizontal",
-    markerVertical: "marker-vertical",
-    markerNormal: "marker-normal",
-    markerLarge: "marker-large",
-    markerSub: "marker-sub",
-    value: "value",
-    valueHorizontal: "value-horizontal",
-    valueVertical: "value-vertical",
-    valueNormal: "value-normal",
-    valueLarge: "value-large",
-    valueSub: "value-sub"
-};
-// Namespaces of internal event listeners
-var INTERNAL_EVENT_NS = {
-    tooltips: ".__tooltips",
-    aria: ".__aria"
-};
-//endregion
-function testStep(parsed, entry) {
-    if (!isNumeric(entry)) throw new Error("noUiSlider: 'step' is not numeric.");
-    // The step option can still be used to set stepping
-    // for linear sliders. Overwritten if set in 'range'.
-    parsed.singleStep = entry;
-}
-function testKeyboardPageMultiplier(parsed, entry) {
-    if (!isNumeric(entry)) throw new Error("noUiSlider: 'keyboardPageMultiplier' is not numeric.");
-    parsed.keyboardPageMultiplier = entry;
-}
-function testKeyboardMultiplier(parsed, entry) {
-    if (!isNumeric(entry)) throw new Error("noUiSlider: 'keyboardMultiplier' is not numeric.");
-    parsed.keyboardMultiplier = entry;
-}
-function testKeyboardDefaultStep(parsed, entry) {
-    if (!isNumeric(entry)) throw new Error("noUiSlider: 'keyboardDefaultStep' is not numeric.");
-    parsed.keyboardDefaultStep = entry;
-}
-function testRange(parsed, entry) {
-    // Filter incorrect input.
-    if (typeof entry !== "object" || Array.isArray(entry)) throw new Error("noUiSlider: 'range' is not an object.");
-    // Catch missing start or end.
-    if (entry.min === undefined || entry.max === undefined) throw new Error("noUiSlider: Missing 'min' or 'max' in 'range'.");
-    parsed.spectrum = new Spectrum(entry, parsed.snap || false, parsed.singleStep);
-}
-function testStart(parsed, entry) {
-    entry = asArray(entry);
-    // Validate input. Values aren't tested, as the public .val method
-    // will always provide a valid location.
-    if (!Array.isArray(entry) || !entry.length) throw new Error("noUiSlider: 'start' option is incorrect.");
-    // Store the number of handles.
-    parsed.handles = entry.length;
-    // When the slider is initialized, the .val method will
-    // be called with the start options.
-    parsed.start = entry;
-}
-function testSnap(parsed, entry) {
-    if (typeof entry !== "boolean") throw new Error("noUiSlider: 'snap' option must be a boolean.");
-    // Enforce 100% stepping within subranges.
-    parsed.snap = entry;
-}
-function testAnimate(parsed, entry) {
-    if (typeof entry !== "boolean") throw new Error("noUiSlider: 'animate' option must be a boolean.");
-    // Enforce 100% stepping within subranges.
-    parsed.animate = entry;
-}
-function testAnimationDuration(parsed, entry) {
-    if (typeof entry !== "number") throw new Error("noUiSlider: 'animationDuration' option must be a number.");
-    parsed.animationDuration = entry;
-}
-function testConnect(parsed, entry) {
-    var connect = [
-        false
-    ];
-    var i;
-    // Map legacy options
-    if (entry === "lower") entry = [
-        true,
-        false
-    ];
-    else if (entry === "upper") entry = [
-        false,
-        true
-    ];
-    // Handle boolean options
-    if (entry === true || entry === false) {
-        for(i = 1; i < parsed.handles; i++)connect.push(entry);
-        connect.push(false);
-    } else if (!Array.isArray(entry) || !entry.length || entry.length !== parsed.handles + 1) throw new Error("noUiSlider: 'connect' option doesn't match handle count.");
-    else connect = entry;
-    parsed.connect = connect;
-}
-function testOrientation(parsed, entry) {
-    // Set orientation to an a numerical value for easy
-    // array selection.
-    switch(entry){
-        case "horizontal":
-            parsed.ort = 0;
-            break;
-        case "vertical":
-            parsed.ort = 1;
-            break;
-        default:
-            throw new Error("noUiSlider: 'orientation' option is invalid.");
-    }
-}
-function testMargin(parsed, entry) {
-    if (!isNumeric(entry)) throw new Error("noUiSlider: 'margin' option must be numeric.");
-    // Issue #582
-    if (entry === 0) return;
-    parsed.margin = parsed.spectrum.getDistance(entry);
-}
-function testLimit(parsed, entry) {
-    if (!isNumeric(entry)) throw new Error("noUiSlider: 'limit' option must be numeric.");
-    parsed.limit = parsed.spectrum.getDistance(entry);
-    if (!parsed.limit || parsed.handles < 2) throw new Error("noUiSlider: 'limit' option is only supported on linear sliders with 2 or more handles.");
-}
-function testPadding(parsed, entry) {
-    var index;
-    if (!isNumeric(entry) && !Array.isArray(entry)) throw new Error("noUiSlider: 'padding' option must be numeric or array of exactly 2 numbers.");
-    if (Array.isArray(entry) && !(entry.length === 2 || isNumeric(entry[0]) || isNumeric(entry[1]))) throw new Error("noUiSlider: 'padding' option must be numeric or array of exactly 2 numbers.");
-    if (entry === 0) return;
-    if (!Array.isArray(entry)) entry = [
-        entry,
-        entry
-    ];
-    // 'getDistance' returns false for invalid values.
-    parsed.padding = [
-        parsed.spectrum.getDistance(entry[0]),
-        parsed.spectrum.getDistance(entry[1])
-    ];
-    for(index = 0; index < parsed.spectrum.xNumSteps.length - 1; index++){
-        // last "range" can't contain step size as it is purely an endpoint.
-        if (parsed.padding[0][index] < 0 || parsed.padding[1][index] < 0) throw new Error("noUiSlider: 'padding' option must be a positive number(s).");
-    }
-    var totalPadding = entry[0] + entry[1];
-    var firstValue = parsed.spectrum.xVal[0];
-    var lastValue = parsed.spectrum.xVal[parsed.spectrum.xVal.length - 1];
-    if (totalPadding / (lastValue - firstValue) > 1) throw new Error("noUiSlider: 'padding' option must not exceed 100% of the range.");
-}
-function testDirection(parsed, entry) {
-    // Set direction as a numerical value for easy parsing.
-    // Invert connection for RTL sliders, so that the proper
-    // handles get the connect/background classes.
-    switch(entry){
-        case "ltr":
-            parsed.dir = 0;
-            break;
-        case "rtl":
-            parsed.dir = 1;
-            break;
-        default:
-            throw new Error("noUiSlider: 'direction' option was not recognized.");
-    }
-}
-function testBehaviour(parsed, entry) {
-    // Make sure the input is a string.
-    if (typeof entry !== "string") throw new Error("noUiSlider: 'behaviour' must be a string containing options.");
-    // Check if the string contains any keywords.
-    // None are required.
-    var tap = entry.indexOf("tap") >= 0;
-    var drag = entry.indexOf("drag") >= 0;
-    var fixed = entry.indexOf("fixed") >= 0;
-    var snap = entry.indexOf("snap") >= 0;
-    var hover = entry.indexOf("hover") >= 0;
-    var unconstrained = entry.indexOf("unconstrained") >= 0;
-    var dragAll = entry.indexOf("drag-all") >= 0;
-    var smoothSteps = entry.indexOf("smooth-steps") >= 0;
-    if (fixed) {
-        if (parsed.handles !== 2) throw new Error("noUiSlider: 'fixed' behaviour must be used with 2 handles");
-        // Use margin to enforce fixed state
-        testMargin(parsed, parsed.start[1] - parsed.start[0]);
-    }
-    if (unconstrained && (parsed.margin || parsed.limit)) throw new Error("noUiSlider: 'unconstrained' behaviour cannot be used with margin or limit");
-    parsed.events = {
-        tap: tap || snap,
-        drag: drag,
-        dragAll: dragAll,
-        smoothSteps: smoothSteps,
-        fixed: fixed,
-        snap: snap,
-        hover: hover,
-        unconstrained: unconstrained
-    };
-}
-function testTooltips(parsed, entry) {
-    if (entry === false) return;
-    if (entry === true || isValidPartialFormatter(entry)) {
-        parsed.tooltips = [];
-        for(var i = 0; i < parsed.handles; i++)parsed.tooltips.push(entry);
-    } else {
-        entry = asArray(entry);
-        if (entry.length !== parsed.handles) throw new Error("noUiSlider: must pass a formatter for all handles.");
-        entry.forEach(function(formatter) {
-            if (typeof formatter !== "boolean" && !isValidPartialFormatter(formatter)) throw new Error("noUiSlider: 'tooltips' must be passed a formatter or 'false'.");
-        });
-        parsed.tooltips = entry;
-    }
-}
-function testHandleAttributes(parsed, entry) {
-    if (entry.length !== parsed.handles) throw new Error("noUiSlider: must pass a attributes for all handles.");
-    parsed.handleAttributes = entry;
-}
-function testAriaFormat(parsed, entry) {
-    if (!isValidPartialFormatter(entry)) throw new Error("noUiSlider: 'ariaFormat' requires 'to' method.");
-    parsed.ariaFormat = entry;
-}
-function testFormat(parsed, entry) {
-    if (!isValidFormatter(entry)) throw new Error("noUiSlider: 'format' requires 'to' and 'from' methods.");
-    parsed.format = entry;
-}
-function testKeyboardSupport(parsed, entry) {
-    if (typeof entry !== "boolean") throw new Error("noUiSlider: 'keyboardSupport' option must be a boolean.");
-    parsed.keyboardSupport = entry;
-}
-function testDocumentElement(parsed, entry) {
-    // This is an advanced option. Passed values are used without validation.
-    parsed.documentElement = entry;
-}
-function testCssPrefix(parsed, entry) {
-    if (typeof entry !== "string" && entry !== false) throw new Error("noUiSlider: 'cssPrefix' must be a string or `false`.");
-    parsed.cssPrefix = entry;
-}
-function testCssClasses(parsed, entry) {
-    if (typeof entry !== "object") throw new Error("noUiSlider: 'cssClasses' must be an object.");
-    if (typeof parsed.cssPrefix === "string") {
-        parsed.cssClasses = {};
-        Object.keys(entry).forEach(function(key) {
-            parsed.cssClasses[key] = parsed.cssPrefix + entry[key];
-        });
-    } else parsed.cssClasses = entry;
-}
-// Test all developer settings and parse to assumption-safe values.
-function testOptions(options) {
-    // To prove a fix for #537, freeze options here.
-    // If the object is modified, an error will be thrown.
-    // Object.freeze(options);
-    var parsed = {
-        margin: null,
-        limit: null,
-        padding: null,
-        animate: true,
-        animationDuration: 300,
-        ariaFormat: defaultFormatter,
-        format: defaultFormatter
-    };
-    // Tests are executed in the order they are presented here.
-    var tests = {
-        step: {
-            r: false,
-            t: testStep
-        },
-        keyboardPageMultiplier: {
-            r: false,
-            t: testKeyboardPageMultiplier
-        },
-        keyboardMultiplier: {
-            r: false,
-            t: testKeyboardMultiplier
-        },
-        keyboardDefaultStep: {
-            r: false,
-            t: testKeyboardDefaultStep
-        },
-        start: {
-            r: true,
-            t: testStart
-        },
-        connect: {
-            r: true,
-            t: testConnect
-        },
-        direction: {
-            r: true,
-            t: testDirection
-        },
-        snap: {
-            r: false,
-            t: testSnap
-        },
-        animate: {
-            r: false,
-            t: testAnimate
-        },
-        animationDuration: {
-            r: false,
-            t: testAnimationDuration
-        },
-        range: {
-            r: true,
-            t: testRange
-        },
-        orientation: {
-            r: false,
-            t: testOrientation
-        },
-        margin: {
-            r: false,
-            t: testMargin
-        },
-        limit: {
-            r: false,
-            t: testLimit
-        },
-        padding: {
-            r: false,
-            t: testPadding
-        },
-        behaviour: {
-            r: true,
-            t: testBehaviour
-        },
-        ariaFormat: {
-            r: false,
-            t: testAriaFormat
-        },
-        format: {
-            r: false,
-            t: testFormat
-        },
-        tooltips: {
-            r: false,
-            t: testTooltips
-        },
-        keyboardSupport: {
-            r: true,
-            t: testKeyboardSupport
-        },
-        documentElement: {
-            r: false,
-            t: testDocumentElement
-        },
-        cssPrefix: {
-            r: true,
-            t: testCssPrefix
-        },
-        cssClasses: {
-            r: true,
-            t: testCssClasses
-        },
-        handleAttributes: {
-            r: false,
-            t: testHandleAttributes
-        }
-    };
-    var defaults = {
-        connect: false,
-        direction: "ltr",
-        behaviour: "tap",
-        orientation: "horizontal",
-        keyboardSupport: true,
-        cssPrefix: "noUi-",
-        cssClasses: cssClasses,
-        keyboardPageMultiplier: 5,
-        keyboardMultiplier: 1,
-        keyboardDefaultStep: 10
-    };
-    // AriaFormat defaults to regular format, if any.
-    if (options.format && !options.ariaFormat) options.ariaFormat = options.format;
-    // Run all options through a testing mechanism to ensure correct
-    // input. It should be noted that options might get modified to
-    // be handled properly. E.g. wrapping integers in arrays.
-    Object.keys(tests).forEach(function(name) {
-        // If the option isn't set, but it is required, throw an error.
-        if (!isSet(options[name]) && defaults[name] === undefined) {
-            if (tests[name].r) throw new Error("noUiSlider: '" + name + "' is required.");
-            return;
-        }
-        tests[name].t(parsed, !isSet(options[name]) ? defaults[name] : options[name]);
-    });
-    // Forward pips options
-    parsed.pips = options.pips;
-    // All recent browsers accept unprefixed transform.
-    // We need -ms- for IE9 and -webkit- for older Android;
-    // Assume use of -webkit- if unprefixed and -ms- are not supported.
-    // https://caniuse.com/#feat=transforms2d
-    var d = document.createElement("div");
-    var msPrefix = d.style.msTransform !== undefined;
-    var noPrefix = d.style.transform !== undefined;
-    parsed.transformRule = noPrefix ? "transform" : msPrefix ? "msTransform" : "webkitTransform";
-    // Pips don't move, so we can place them using left/top.
-    var styles = [
-        [
-            "left",
-            "top"
-        ],
-        [
-            "right",
-            "bottom"
-        ]
-    ];
-    parsed.style = styles[parsed.dir][parsed.ort];
-    return parsed;
-}
-//endregion
-function scope(target, options, originalOptions) {
-    var actions = getActions();
-    var supportsTouchActionNone = getSupportsTouchActionNone();
-    var supportsPassive = supportsTouchActionNone && getSupportsPassive();
-    // All variables local to 'scope' are prefixed with 'scope_'
-    // Slider DOM Nodes
-    var scope_Target = target;
-    var scope_Base;
-    var scope_Handles;
-    var scope_Connects;
-    var scope_Pips;
-    var scope_Tooltips;
-    // Slider state values
-    var scope_Spectrum = options.spectrum;
-    var scope_Values = [];
-    var scope_Locations = [];
-    var scope_HandleNumbers = [];
-    var scope_ActiveHandlesCount = 0;
-    var scope_Events = {};
-    // Document Nodes
-    var scope_Document = target.ownerDocument;
-    var scope_DocumentElement = options.documentElement || scope_Document.documentElement;
-    var scope_Body = scope_Document.body;
-    // For horizontal sliders in standard ltr documents,
-    // make .noUi-origin overflow to the left so the document doesn't scroll.
-    var scope_DirOffset = scope_Document.dir === "rtl" || options.ort === 1 ? 0 : 100;
-    // Creates a node, adds it to target, returns the new node.
-    function addNodeTo(addTarget, className) {
-        var div = scope_Document.createElement("div");
-        if (className) addClass(div, className);
-        addTarget.appendChild(div);
-        return div;
-    }
-    // Append a origin to the base
-    function addOrigin(base, handleNumber) {
-        var origin = addNodeTo(base, options.cssClasses.origin);
-        var handle = addNodeTo(origin, options.cssClasses.handle);
-        addNodeTo(handle, options.cssClasses.touchArea);
-        handle.setAttribute("data-handle", String(handleNumber));
-        if (options.keyboardSupport) {
-            // https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex
-            // 0 = focusable and reachable
-            handle.setAttribute("tabindex", "0");
-            handle.addEventListener("keydown", function(event) {
-                return eventKeydown(event, handleNumber);
-            });
-        }
-        if (options.handleAttributes !== undefined) {
-            var attributes_1 = options.handleAttributes[handleNumber];
-            Object.keys(attributes_1).forEach(function(attribute) {
-                handle.setAttribute(attribute, attributes_1[attribute]);
-            });
-        }
-        handle.setAttribute("role", "slider");
-        handle.setAttribute("aria-orientation", options.ort ? "vertical" : "horizontal");
-        if (handleNumber === 0) addClass(handle, options.cssClasses.handleLower);
-        else if (handleNumber === options.handles - 1) addClass(handle, options.cssClasses.handleUpper);
-        origin.handle = handle;
-        return origin;
-    }
-    // Insert nodes for connect elements
-    function addConnect(base, add) {
-        if (!add) return false;
-        return addNodeTo(base, options.cssClasses.connect);
-    }
-    // Add handles to the slider base.
-    function addElements(connectOptions, base) {
-        var connectBase = addNodeTo(base, options.cssClasses.connects);
-        scope_Handles = [];
-        scope_Connects = [];
-        scope_Connects.push(addConnect(connectBase, connectOptions[0]));
-        // [::::O====O====O====]
-        // connectOptions = [0, 1, 1, 1]
-        for(var i = 0; i < options.handles; i++){
-            // Keep a list of all added handles.
-            scope_Handles.push(addOrigin(base, i));
-            scope_HandleNumbers[i] = i;
-            scope_Connects.push(addConnect(connectBase, connectOptions[i + 1]));
-        }
-    }
-    // Initialize a single slider.
-    function addSlider(addTarget) {
-        // Apply classes and data to the target.
-        addClass(addTarget, options.cssClasses.target);
-        if (options.dir === 0) addClass(addTarget, options.cssClasses.ltr);
-        else addClass(addTarget, options.cssClasses.rtl);
-        if (options.ort === 0) addClass(addTarget, options.cssClasses.horizontal);
-        else addClass(addTarget, options.cssClasses.vertical);
-        var textDirection = getComputedStyle(addTarget).direction;
-        if (textDirection === "rtl") addClass(addTarget, options.cssClasses.textDirectionRtl);
-        else addClass(addTarget, options.cssClasses.textDirectionLtr);
-        return addNodeTo(addTarget, options.cssClasses.base);
-    }
-    function addTooltip(handle, handleNumber) {
-        if (!options.tooltips || !options.tooltips[handleNumber]) return false;
-        return addNodeTo(handle.firstChild, options.cssClasses.tooltip);
-    }
-    function isSliderDisabled() {
-        return scope_Target.hasAttribute("disabled");
-    }
-    // Disable the slider dragging if any handle is disabled
-    function isHandleDisabled(handleNumber) {
-        var handleOrigin = scope_Handles[handleNumber];
-        return handleOrigin.hasAttribute("disabled");
-    }
-    function disable(handleNumber) {
-        if (handleNumber !== null && handleNumber !== undefined) {
-            scope_Handles[handleNumber].setAttribute("disabled", "");
-            scope_Handles[handleNumber].handle.removeAttribute("tabindex");
-        } else {
-            scope_Target.setAttribute("disabled", "");
-            scope_Handles.forEach(function(handle) {
-                handle.handle.removeAttribute("tabindex");
-            });
-        }
-    }
-    function enable(handleNumber) {
-        if (handleNumber !== null && handleNumber !== undefined) {
-            scope_Handles[handleNumber].removeAttribute("disabled");
-            scope_Handles[handleNumber].handle.setAttribute("tabindex", "0");
-        } else {
-            scope_Target.removeAttribute("disabled");
-            scope_Handles.forEach(function(handle) {
-                handle.removeAttribute("disabled");
-                handle.handle.setAttribute("tabindex", "0");
-            });
-        }
-    }
-    function removeTooltips() {
-        if (scope_Tooltips) {
-            removeEvent("update" + INTERNAL_EVENT_NS.tooltips);
-            scope_Tooltips.forEach(function(tooltip) {
-                if (tooltip) removeElement(tooltip);
-            });
-            scope_Tooltips = null;
-        }
-    }
-    // The tooltips option is a shorthand for using the 'update' event.
-    function tooltips() {
-        removeTooltips();
-        // Tooltips are added with options.tooltips in original order.
-        scope_Tooltips = scope_Handles.map(addTooltip);
-        bindEvent("update" + INTERNAL_EVENT_NS.tooltips, function(values, handleNumber, unencoded) {
-            if (!scope_Tooltips || !options.tooltips) return;
-            if (scope_Tooltips[handleNumber] === false) return;
-            var formattedValue = values[handleNumber];
-            if (options.tooltips[handleNumber] !== true) formattedValue = options.tooltips[handleNumber].to(unencoded[handleNumber]);
-            scope_Tooltips[handleNumber].innerHTML = formattedValue;
-        });
-    }
-    function aria() {
-        removeEvent("update" + INTERNAL_EVENT_NS.aria);
-        bindEvent("update" + INTERNAL_EVENT_NS.aria, function(values, handleNumber, unencoded, tap, positions) {
-            // Update Aria Values for all handles, as a change in one changes min and max values for the next.
-            scope_HandleNumbers.forEach(function(index) {
-                var handle = scope_Handles[index];
-                var min = checkHandlePosition(scope_Locations, index, 0, true, true, true);
-                var max = checkHandlePosition(scope_Locations, index, 100, true, true, true);
-                var now = positions[index];
-                // Formatted value for display
-                var text = String(options.ariaFormat.to(unencoded[index]));
-                // Map to slider range values
-                min = scope_Spectrum.fromStepping(min).toFixed(1);
-                max = scope_Spectrum.fromStepping(max).toFixed(1);
-                now = scope_Spectrum.fromStepping(now).toFixed(1);
-                handle.children[0].setAttribute("aria-valuemin", min);
-                handle.children[0].setAttribute("aria-valuemax", max);
-                handle.children[0].setAttribute("aria-valuenow", now);
-                handle.children[0].setAttribute("aria-valuetext", text);
-            });
-        });
-    }
-    function getGroup(pips) {
-        // Use the range.
-        if (pips.mode === PipsMode.Range || pips.mode === PipsMode.Steps) return scope_Spectrum.xVal;
-        if (pips.mode === PipsMode.Count) {
-            if (pips.values < 2) throw new Error("noUiSlider: 'values' (>= 2) required for mode 'count'.");
-            // Divide 0 - 100 in 'count' parts.
-            var interval = pips.values - 1;
-            var spread = 100 / interval;
-            var values = [];
-            // List these parts and have them handled as 'positions'.
-            while(interval--)values[interval] = interval * spread;
-            values.push(100);
-            return mapToRange(values, pips.stepped);
-        }
-        if (pips.mode === PipsMode.Positions) // Map all percentages to on-range values.
-        return mapToRange(pips.values, pips.stepped);
-        if (pips.mode === PipsMode.Values) {
-            // If the value must be stepped, it needs to be converted to a percentage first.
-            if (pips.stepped) return pips.values.map(function(value) {
-                // Convert to percentage, apply step, return to value.
-                return scope_Spectrum.fromStepping(scope_Spectrum.getStep(scope_Spectrum.toStepping(value)));
-            });
-            // Otherwise, we can simply use the values.
-            return pips.values;
-        }
-        return []; // pips.mode = never
-    }
-    function mapToRange(values, stepped) {
-        return values.map(function(value) {
-            return scope_Spectrum.fromStepping(stepped ? scope_Spectrum.getStep(value) : value);
-        });
-    }
-    function generateSpread(pips) {
-        function safeIncrement(value, increment) {
-            // Avoid floating point variance by dropping the smallest decimal places.
-            return Number((value + increment).toFixed(7));
-        }
-        var group = getGroup(pips);
-        var indexes = {};
-        var firstInRange = scope_Spectrum.xVal[0];
-        var lastInRange = scope_Spectrum.xVal[scope_Spectrum.xVal.length - 1];
-        var ignoreFirst = false;
-        var ignoreLast = false;
-        var prevPct = 0;
-        // Create a copy of the group, sort it and filter away all duplicates.
-        group = unique(group.slice().sort(function(a, b) {
-            return a - b;
-        }));
-        // Make sure the range starts with the first element.
-        if (group[0] !== firstInRange) {
-            group.unshift(firstInRange);
-            ignoreFirst = true;
-        }
-        // Likewise for the last one.
-        if (group[group.length - 1] !== lastInRange) {
-            group.push(lastInRange);
-            ignoreLast = true;
-        }
-        group.forEach(function(current, index) {
-            // Get the current step and the lower + upper positions.
-            var step;
-            var i;
-            var q;
-            var low = current;
-            var high = group[index + 1];
-            var newPct;
-            var pctDifference;
-            var pctPos;
-            var type;
-            var steps;
-            var realSteps;
-            var stepSize;
-            var isSteps = pips.mode === PipsMode.Steps;
-            // When using 'steps' mode, use the provided steps.
-            // Otherwise, we'll step on to the next subrange.
-            if (isSteps) step = scope_Spectrum.xNumSteps[index];
-            // Default to a 'full' step.
-            if (!step) step = high - low;
-            // If high is undefined we are at the last subrange. Make sure it iterates once (#1088)
-            if (high === undefined) high = low;
-            // Make sure step isn't 0, which would cause an infinite loop (#654)
-            step = Math.max(step, 0.0000001);
-            // Find all steps in the subrange.
-            for(i = low; i <= high; i = safeIncrement(i, step)){
-                // Get the percentage value for the current step,
-                // calculate the size for the subrange.
-                newPct = scope_Spectrum.toStepping(i);
-                pctDifference = newPct - prevPct;
-                steps = pctDifference / (pips.density || 1);
-                realSteps = Math.round(steps);
-                // This ratio represents the amount of percentage-space a point indicates.
-                // For a density 1 the points/percentage = 1. For density 2, that percentage needs to be re-divided.
-                // Round the percentage offset to an even number, then divide by two
-                // to spread the offset on both sides of the range.
-                stepSize = pctDifference / realSteps;
-                // Divide all points evenly, adding the correct number to this subrange.
-                // Run up to <= so that 100% gets a point, event if ignoreLast is set.
-                for(q = 1; q <= realSteps; q += 1){
-                    // The ratio between the rounded value and the actual size might be ~1% off.
-                    // Correct the percentage offset by the number of points
-                    // per subrange. density = 1 will result in 100 points on the
-                    // full range, 2 for 50, 4 for 25, etc.
-                    pctPos = prevPct + q * stepSize;
-                    indexes[pctPos.toFixed(5)] = [
-                        scope_Spectrum.fromStepping(pctPos),
-                        0
-                    ];
-                }
-                // Determine the point type.
-                type = group.indexOf(i) > -1 ? PipsType.LargeValue : isSteps ? PipsType.SmallValue : PipsType.NoValue;
-                // Enforce the 'ignoreFirst' option by overwriting the type for 0.
-                if (!index && ignoreFirst && i !== high) type = 0;
-                if (!(i === high && ignoreLast)) // Mark the 'type' of this point. 0 = plain, 1 = real value, 2 = step value.
-                indexes[newPct.toFixed(5)] = [
-                    i,
-                    type
-                ];
-                // Update the percentage count.
-                prevPct = newPct;
-            }
-        });
-        return indexes;
-    }
-    function addMarking(spread, filterFunc, formatter) {
-        var _a, _b;
-        var element = scope_Document.createElement("div");
-        var valueSizeClasses = (_a = {}, _a[PipsType.None] = "", _a[PipsType.NoValue] = options.cssClasses.valueNormal, _a[PipsType.LargeValue] = options.cssClasses.valueLarge, _a[PipsType.SmallValue] = options.cssClasses.valueSub, _a);
-        var markerSizeClasses = (_b = {}, _b[PipsType.None] = "", _b[PipsType.NoValue] = options.cssClasses.markerNormal, _b[PipsType.LargeValue] = options.cssClasses.markerLarge, _b[PipsType.SmallValue] = options.cssClasses.markerSub, _b);
-        var valueOrientationClasses = [
-            options.cssClasses.valueHorizontal,
-            options.cssClasses.valueVertical
-        ];
-        var markerOrientationClasses = [
-            options.cssClasses.markerHorizontal,
-            options.cssClasses.markerVertical
-        ];
-        addClass(element, options.cssClasses.pips);
-        addClass(element, options.ort === 0 ? options.cssClasses.pipsHorizontal : options.cssClasses.pipsVertical);
-        function getClasses(type, source) {
-            var a = source === options.cssClasses.value;
-            var orientationClasses = a ? valueOrientationClasses : markerOrientationClasses;
-            var sizeClasses = a ? valueSizeClasses : markerSizeClasses;
-            return source + " " + orientationClasses[options.ort] + " " + sizeClasses[type];
-        }
-        function addSpread(offset, value, type) {
-            // Apply the filter function, if it is set.
-            type = filterFunc ? filterFunc(value, type) : type;
-            if (type === PipsType.None) return;
-            // Add a marker for every point
-            var node = addNodeTo(element, false);
-            node.className = getClasses(type, options.cssClasses.marker);
-            node.style[options.style] = offset + "%";
-            // Values are only appended for points marked '1' or '2'.
-            if (type > PipsType.NoValue) {
-                node = addNodeTo(element, false);
-                node.className = getClasses(type, options.cssClasses.value);
-                node.setAttribute("data-value", String(value));
-                node.style[options.style] = offset + "%";
-                node.innerHTML = String(formatter.to(value));
-            }
-        }
-        // Append all points.
-        Object.keys(spread).forEach(function(offset) {
-            addSpread(offset, spread[offset][0], spread[offset][1]);
-        });
-        return element;
-    }
-    function removePips() {
-        if (scope_Pips) {
-            removeElement(scope_Pips);
-            scope_Pips = null;
-        }
-    }
-    function pips(pips) {
-        // Fix #669
-        removePips();
-        var spread = generateSpread(pips);
-        var filter = pips.filter;
-        var format = pips.format || {
-            to: function(value) {
-                return String(Math.round(value));
-            }
-        };
-        scope_Pips = scope_Target.appendChild(addMarking(spread, filter, format));
-        return scope_Pips;
-    }
-    // Shorthand for base dimensions.
-    function baseSize() {
-        var rect = scope_Base.getBoundingClientRect();
-        var alt = "offset" + [
-            "Width",
-            "Height"
-        ][options.ort];
-        return options.ort === 0 ? rect.width || scope_Base[alt] : rect.height || scope_Base[alt];
-    }
-    // Handler for attaching events trough a proxy.
-    function attachEvent(events, element, callback, data) {
-        // This function can be used to 'filter' events to the slider.
-        // element is a node, not a nodeList
-        var method = function(event) {
-            var e = fixEvent(event, data.pageOffset, data.target || element);
-            // fixEvent returns false if this event has a different target
-            // when handling (multi-) touch events;
-            if (!e) return false;
-            // doNotReject is passed by all end events to make sure released touches
-            // are not rejected, leaving the slider "stuck" to the cursor;
-            if (isSliderDisabled() && !data.doNotReject) return false;
-            // Stop if an active 'tap' transition is taking place.
-            if (hasClass(scope_Target, options.cssClasses.tap) && !data.doNotReject) return false;
-            // Ignore right or middle clicks on start #454
-            if (events === actions.start && e.buttons !== undefined && e.buttons > 1) return false;
-            // Ignore right or middle clicks on start #454
-            if (data.hover && e.buttons) return false;
-            // 'supportsPassive' is only true if a browser also supports touch-action: none in CSS.
-            // iOS safari does not, so it doesn't get to benefit from passive scrolling. iOS does support
-            // touch-action: manipulation, but that allows panning, which breaks
-            // sliders after zooming/on non-responsive pages.
-            // See: https://bugs.webkit.org/show_bug.cgi?id=133112
-            if (!supportsPassive) e.preventDefault();
-            e.calcPoint = e.points[options.ort];
-            // Call the event handler with the event [ and additional data ].
-            callback(e, data);
-            return;
-        };
-        var methods = [];
-        // Bind a closure on the target for every event type.
-        events.split(" ").forEach(function(eventName) {
-            element.addEventListener(eventName, method, supportsPassive ? {
-                passive: true
-            } : false);
-            methods.push([
-                eventName,
-                method
-            ]);
-        });
-        return methods;
-    }
-    // Provide a clean event with standardized offset values.
-    function fixEvent(e, pageOffset, eventTarget) {
-        // Filter the event to register the type, which can be
-        // touch, mouse or pointer. Offset changes need to be
-        // made on an event specific basis.
-        var touch = e.type.indexOf("touch") === 0;
-        var mouse = e.type.indexOf("mouse") === 0;
-        var pointer = e.type.indexOf("pointer") === 0;
-        var x = 0;
-        var y = 0;
-        // IE10 implemented pointer events with a prefix;
-        if (e.type.indexOf("MSPointer") === 0) pointer = true;
-        // Erroneous events seem to be passed in occasionally on iOS/iPadOS after user finishes interacting with
-        // the slider. They appear to be of type MouseEvent, yet they don't have usual properties set. Ignore
-        // events that have no touches or buttons associated with them. (#1057, #1079, #1095)
-        if (e.type === "mousedown" && !e.buttons && !e.touches) return false;
-        // The only thing one handle should be concerned about is the touches that originated on top of it.
-        if (touch) {
-            // Returns true if a touch originated on the target.
-            var isTouchOnTarget = function(checkTouch) {
-                var target = checkTouch.target;
-                return target === eventTarget || eventTarget.contains(target) || e.composed && e.composedPath().shift() === eventTarget;
-            };
-            // In the case of touchstart events, we need to make sure there is still no more than one
-            // touch on the target so we look amongst all touches.
-            if (e.type === "touchstart") {
-                var targetTouches = Array.prototype.filter.call(e.touches, isTouchOnTarget);
-                // Do not support more than one touch per handle.
-                if (targetTouches.length > 1) return false;
-                x = targetTouches[0].pageX;
-                y = targetTouches[0].pageY;
-            } else {
-                // In the other cases, find on changedTouches is enough.
-                var targetTouch = Array.prototype.find.call(e.changedTouches, isTouchOnTarget);
-                // Cancel if the target touch has not moved.
-                if (!targetTouch) return false;
-                x = targetTouch.pageX;
-                y = targetTouch.pageY;
-            }
-        }
-        pageOffset = pageOffset || getPageOffset(scope_Document);
-        if (mouse || pointer) {
-            x = e.clientX + pageOffset.x;
-            y = e.clientY + pageOffset.y;
-        }
-        e.pageOffset = pageOffset;
-        e.points = [
-            x,
-            y
-        ];
-        e.cursor = mouse || pointer; // Fix #435
-        return e;
-    }
-    // Translate a coordinate in the document to a percentage on the slider
-    function calcPointToPercentage(calcPoint) {
-        var location = calcPoint - offset(scope_Base, options.ort);
-        var proposal = location * 100 / baseSize();
-        // Clamp proposal between 0% and 100%
-        // Out-of-bound coordinates may occur when .noUi-base pseudo-elements
-        // are used (e.g. contained handles feature)
-        proposal = limit(proposal);
-        return options.dir ? 100 - proposal : proposal;
-    }
-    // Find handle closest to a certain percentage on the slider
-    function getClosestHandle(clickedPosition) {
-        var smallestDifference = 100;
-        var handleNumber = false;
-        scope_Handles.forEach(function(handle, index) {
-            // Disabled handles are ignored
-            if (isHandleDisabled(index)) return;
-            var handlePosition = scope_Locations[index];
-            var differenceWithThisHandle = Math.abs(handlePosition - clickedPosition);
-            // Initial state
-            var clickAtEdge = differenceWithThisHandle === 100 && smallestDifference === 100;
-            // Difference with this handle is smaller than the previously checked handle
-            var isCloser = differenceWithThisHandle < smallestDifference;
-            var isCloserAfter = differenceWithThisHandle <= smallestDifference && clickedPosition > handlePosition;
-            if (isCloser || isCloserAfter || clickAtEdge) {
-                handleNumber = index;
-                smallestDifference = differenceWithThisHandle;
-            }
-        });
-        return handleNumber;
-    }
-    // Fire 'end' when a mouse or pen leaves the document.
-    function documentLeave(event, data) {
-        if (event.type === "mouseout" && event.target.nodeName === "HTML" && event.relatedTarget === null) eventEnd(event, data);
-    }
-    // Handle movement on document for handle and range drag.
-    function eventMove(event, data) {
-        // Fix #498
-        // Check value of .buttons in 'start' to work around a bug in IE10 mobile (data.buttonsProperty).
-        // https://connect.microsoft.com/IE/feedback/details/927005/mobile-ie10-windows-phone-buttons-property-of-pointermove-event-always-zero
-        // IE9 has .buttons and .which zero on mousemove.
-        // Firefox breaks the spec MDN defines.
-        if (navigator.appVersion.indexOf("MSIE 9") === -1 && event.buttons === 0 && data.buttonsProperty !== 0) return eventEnd(event, data);
-        // Check if we are moving up or down
-        var movement = (options.dir ? -1 : 1) * (event.calcPoint - data.startCalcPoint);
-        // Convert the movement into a percentage of the slider width/height
-        var proposal = movement * 100 / data.baseSize;
-        moveHandles(movement > 0, proposal, data.locations, data.handleNumbers, data.connect);
-    }
-    // Unbind move events on document, call callbacks.
-    function eventEnd(event, data) {
-        // The handle is no longer active, so remove the class.
-        if (data.handle) {
-            removeClass(data.handle, options.cssClasses.active);
-            scope_ActiveHandlesCount -= 1;
-        }
-        // Unbind the move and end events, which are added on 'start'.
-        data.listeners.forEach(function(c) {
-            scope_DocumentElement.removeEventListener(c[0], c[1]);
-        });
-        if (scope_ActiveHandlesCount === 0) {
-            // Remove dragging class.
-            removeClass(scope_Target, options.cssClasses.drag);
-            setZindex();
-            // Remove cursor styles and text-selection events bound to the body.
-            if (event.cursor) {
-                scope_Body.style.cursor = "";
-                scope_Body.removeEventListener("selectstart", preventDefault);
-            }
-        }
-        if (options.events.smoothSteps) {
-            data.handleNumbers.forEach(function(handleNumber) {
-                setHandle(handleNumber, scope_Locations[handleNumber], true, true, false, false);
-            });
-            data.handleNumbers.forEach(function(handleNumber) {
-                fireEvent("update", handleNumber);
-            });
-        }
-        data.handleNumbers.forEach(function(handleNumber) {
-            fireEvent("change", handleNumber);
-            fireEvent("set", handleNumber);
-            fireEvent("end", handleNumber);
-        });
-    }
-    // Bind move events on document.
-    function eventStart(event, data) {
-        // Ignore event if any handle is disabled
-        if (data.handleNumbers.some(isHandleDisabled)) return;
-        var handle;
-        if (data.handleNumbers.length === 1) {
-            var handleOrigin = scope_Handles[data.handleNumbers[0]];
-            handle = handleOrigin.children[0];
-            scope_ActiveHandlesCount += 1;
-            // Mark the handle as 'active' so it can be styled.
-            addClass(handle, options.cssClasses.active);
-        }
-        // A drag should never propagate up to the 'tap' event.
-        event.stopPropagation();
-        // Record the event listeners.
-        var listeners = [];
-        // Attach the move and end events.
-        var moveEvent = attachEvent(actions.move, scope_DocumentElement, eventMove, {
-            // The event target has changed so we need to propagate the original one so that we keep
-            // relying on it to extract target touches.
-            target: event.target,
-            handle: handle,
-            connect: data.connect,
-            listeners: listeners,
-            startCalcPoint: event.calcPoint,
-            baseSize: baseSize(),
-            pageOffset: event.pageOffset,
-            handleNumbers: data.handleNumbers,
-            buttonsProperty: event.buttons,
-            locations: scope_Locations.slice()
-        });
-        var endEvent = attachEvent(actions.end, scope_DocumentElement, eventEnd, {
-            target: event.target,
-            handle: handle,
-            listeners: listeners,
-            doNotReject: true,
-            handleNumbers: data.handleNumbers
-        });
-        var outEvent = attachEvent("mouseout", scope_DocumentElement, documentLeave, {
-            target: event.target,
-            handle: handle,
-            listeners: listeners,
-            doNotReject: true,
-            handleNumbers: data.handleNumbers
-        });
-        // We want to make sure we pushed the listeners in the listener list rather than creating
-        // a new one as it has already been passed to the event handlers.
-        listeners.push.apply(listeners, moveEvent.concat(endEvent, outEvent));
-        // Text selection isn't an issue on touch devices,
-        // so adding cursor styles can be skipped.
-        if (event.cursor) {
-            // Prevent the 'I' cursor and extend the range-drag cursor.
-            scope_Body.style.cursor = getComputedStyle(event.target).cursor;
-            // Mark the target with a dragging state.
-            if (scope_Handles.length > 1) addClass(scope_Target, options.cssClasses.drag);
-            // Prevent text selection when dragging the handles.
-            // In noUiSlider <= 9.2.0, this was handled by calling preventDefault on mouse/touch start/move,
-            // which is scroll blocking. The selectstart event is supported by FireFox starting from version 52,
-            // meaning the only holdout is iOS Safari. This doesn't matter: text selection isn't triggered there.
-            // The 'cursor' flag is false.
-            // See: http://caniuse.com/#search=selectstart
-            scope_Body.addEventListener("selectstart", preventDefault, false);
-        }
-        data.handleNumbers.forEach(function(handleNumber) {
-            fireEvent("start", handleNumber);
-        });
-    }
-    // Move closest handle to tapped location.
-    function eventTap(event) {
-        // The tap event shouldn't propagate up
-        event.stopPropagation();
-        var proposal = calcPointToPercentage(event.calcPoint);
-        var handleNumber = getClosestHandle(proposal);
-        // Tackle the case that all handles are 'disabled'.
-        if (handleNumber === false) return;
-        // Flag the slider as it is now in a transitional state.
-        // Transition takes a configurable amount of ms (default 300). Re-enable the slider after that.
-        if (!options.events.snap) addClassFor(scope_Target, options.cssClasses.tap, options.animationDuration);
-        setHandle(handleNumber, proposal, true, true);
-        setZindex();
-        fireEvent("slide", handleNumber, true);
-        fireEvent("update", handleNumber, true);
-        if (!options.events.snap) {
-            fireEvent("change", handleNumber, true);
-            fireEvent("set", handleNumber, true);
-        } else eventStart(event, {
-            handleNumbers: [
-                handleNumber
-            ]
-        });
-    }
-    // Fires a 'hover' event for a hovered mouse/pen position.
-    function eventHover(event) {
-        var proposal = calcPointToPercentage(event.calcPoint);
-        var to = scope_Spectrum.getStep(proposal);
-        var value = scope_Spectrum.fromStepping(to);
-        Object.keys(scope_Events).forEach(function(targetEvent) {
-            if ("hover" === targetEvent.split(".")[0]) scope_Events[targetEvent].forEach(function(callback) {
-                callback.call(scope_Self, value);
-            });
-        });
-    }
-    // Handles keydown on focused handles
-    // Don't move the document when pressing arrow keys on focused handles
-    function eventKeydown(event, handleNumber) {
-        if (isSliderDisabled() || isHandleDisabled(handleNumber)) return false;
-        var horizontalKeys = [
-            "Left",
-            "Right"
-        ];
-        var verticalKeys = [
-            "Down",
-            "Up"
-        ];
-        var largeStepKeys = [
-            "PageDown",
-            "PageUp"
-        ];
-        var edgeKeys = [
-            "Home",
-            "End"
-        ];
-        if (options.dir && !options.ort) // On an right-to-left slider, the left and right keys act inverted
-        horizontalKeys.reverse();
-        else if (options.ort && !options.dir) {
-            // On a top-to-bottom slider, the up and down keys act inverted
-            verticalKeys.reverse();
-            largeStepKeys.reverse();
-        }
-        // Strip "Arrow" for IE compatibility. https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
-        var key = event.key.replace("Arrow", "");
-        var isLargeDown = key === largeStepKeys[0];
-        var isLargeUp = key === largeStepKeys[1];
-        var isDown = key === verticalKeys[0] || key === horizontalKeys[0] || isLargeDown;
-        var isUp = key === verticalKeys[1] || key === horizontalKeys[1] || isLargeUp;
-        var isMin = key === edgeKeys[0];
-        var isMax = key === edgeKeys[1];
-        if (!isDown && !isUp && !isMin && !isMax) return true;
-        event.preventDefault();
-        var to;
-        if (isUp || isDown) {
-            var direction = isDown ? 0 : 1;
-            var steps = getNextStepsForHandle(handleNumber);
-            var step = steps[direction];
-            // At the edge of a slider, do nothing
-            if (step === null) return false;
-            // No step set, use the default of 10% of the sub-range
-            if (step === false) step = scope_Spectrum.getDefaultStep(scope_Locations[handleNumber], isDown, options.keyboardDefaultStep);
-            if (isLargeUp || isLargeDown) step *= options.keyboardPageMultiplier;
-            else step *= options.keyboardMultiplier;
-            // Step over zero-length ranges (#948);
-            step = Math.max(step, 0.0000001);
-            // Decrement for down steps
-            step = (isDown ? -1 : 1) * step;
-            to = scope_Values[handleNumber] + step;
-        } else if (isMax) // End key
-        to = options.spectrum.xVal[options.spectrum.xVal.length - 1];
-        else // Home key
-        to = options.spectrum.xVal[0];
-        setHandle(handleNumber, scope_Spectrum.toStepping(to), true, true);
-        fireEvent("slide", handleNumber);
-        fireEvent("update", handleNumber);
-        fireEvent("change", handleNumber);
-        fireEvent("set", handleNumber);
-        return false;
-    }
-    // Attach events to several slider parts.
-    function bindSliderEvents(behaviour) {
-        // Attach the standard drag event to the handles.
-        if (!behaviour.fixed) scope_Handles.forEach(function(handle, index) {
-            // These events are only bound to the visual handle
-            // element, not the 'real' origin element.
-            attachEvent(actions.start, handle.children[0], eventStart, {
-                handleNumbers: [
-                    index
-                ]
-            });
-        });
-        // Attach the tap event to the slider base.
-        if (behaviour.tap) attachEvent(actions.start, scope_Base, eventTap, {});
-        // Fire hover events
-        if (behaviour.hover) attachEvent(actions.move, scope_Base, eventHover, {
-            hover: true
-        });
-        // Make the range draggable.
-        if (behaviour.drag) scope_Connects.forEach(function(connect, index) {
-            if (connect === false || index === 0 || index === scope_Connects.length - 1) return;
-            var handleBefore = scope_Handles[index - 1];
-            var handleAfter = scope_Handles[index];
-            var eventHolders = [
-                connect
-            ];
-            var handlesToDrag = [
-                handleBefore,
-                handleAfter
-            ];
-            var handleNumbersToDrag = [
-                index - 1,
-                index
-            ];
-            addClass(connect, options.cssClasses.draggable);
-            // When the range is fixed, the entire range can
-            // be dragged by the handles. The handle in the first
-            // origin will propagate the start event upward,
-            // but it needs to be bound manually on the other.
-            if (behaviour.fixed) {
-                eventHolders.push(handleBefore.children[0]);
-                eventHolders.push(handleAfter.children[0]);
-            }
-            if (behaviour.dragAll) {
-                handlesToDrag = scope_Handles;
-                handleNumbersToDrag = scope_HandleNumbers;
-            }
-            eventHolders.forEach(function(eventHolder) {
-                attachEvent(actions.start, eventHolder, eventStart, {
-                    handles: handlesToDrag,
-                    handleNumbers: handleNumbersToDrag,
-                    connect: connect
-                });
-            });
-        });
-    }
-    // Attach an event to this slider, possibly including a namespace
-    function bindEvent(namespacedEvent, callback) {
-        scope_Events[namespacedEvent] = scope_Events[namespacedEvent] || [];
-        scope_Events[namespacedEvent].push(callback);
-        // If the event bound is 'update,' fire it immediately for all handles.
-        if (namespacedEvent.split(".")[0] === "update") scope_Handles.forEach(function(a, index) {
-            fireEvent("update", index);
-        });
-    }
-    function isInternalNamespace(namespace) {
-        return namespace === INTERNAL_EVENT_NS.aria || namespace === INTERNAL_EVENT_NS.tooltips;
-    }
-    // Undo attachment of event
-    function removeEvent(namespacedEvent) {
-        var event = namespacedEvent && namespacedEvent.split(".")[0];
-        var namespace = event ? namespacedEvent.substring(event.length) : namespacedEvent;
-        Object.keys(scope_Events).forEach(function(bind) {
-            var tEvent = bind.split(".")[0];
-            var tNamespace = bind.substring(tEvent.length);
-            if ((!event || event === tEvent) && (!namespace || namespace === tNamespace)) // only delete protected internal event if intentional
-            {
-                if (!isInternalNamespace(tNamespace) || namespace === tNamespace) delete scope_Events[bind];
-            }
-        });
-    }
-    // External event handling
-    function fireEvent(eventName, handleNumber, tap) {
-        Object.keys(scope_Events).forEach(function(targetEvent) {
-            var eventType = targetEvent.split(".")[0];
-            if (eventName === eventType) scope_Events[targetEvent].forEach(function(callback) {
-                callback.call(// Use the slider public API as the scope ('this')
-                scope_Self, // Return values as array, so arg_1[arg_2] is always valid.
-                scope_Values.map(options.format.to), // Handle index, 0 or 1
-                handleNumber, // Un-formatted slider values
-                scope_Values.slice(), // Event is fired by tap, true or false
-                tap || false, // Left offset of the handle, in relation to the slider
-                scope_Locations.slice(), // add the slider public API to an accessible parameter when this is unavailable
-                scope_Self);
-            });
-        });
-    }
-    // Split out the handle positioning logic so the Move event can use it, too
-    function checkHandlePosition(reference, handleNumber, to, lookBackward, lookForward, getValue, smoothSteps) {
-        var distance;
-        // For sliders with multiple handles, limit movement to the other handle.
-        // Apply the margin option by adding it to the handle positions.
-        if (scope_Handles.length > 1 && !options.events.unconstrained) {
-            if (lookBackward && handleNumber > 0) {
-                distance = scope_Spectrum.getAbsoluteDistance(reference[handleNumber - 1], options.margin, false);
-                to = Math.max(to, distance);
-            }
-            if (lookForward && handleNumber < scope_Handles.length - 1) {
-                distance = scope_Spectrum.getAbsoluteDistance(reference[handleNumber + 1], options.margin, true);
-                to = Math.min(to, distance);
-            }
-        }
-        // The limit option has the opposite effect, limiting handles to a
-        // maximum distance from another. Limit must be > 0, as otherwise
-        // handles would be unmovable.
-        if (scope_Handles.length > 1 && options.limit) {
-            if (lookBackward && handleNumber > 0) {
-                distance = scope_Spectrum.getAbsoluteDistance(reference[handleNumber - 1], options.limit, false);
-                to = Math.min(to, distance);
-            }
-            if (lookForward && handleNumber < scope_Handles.length - 1) {
-                distance = scope_Spectrum.getAbsoluteDistance(reference[handleNumber + 1], options.limit, true);
-                to = Math.max(to, distance);
-            }
-        }
-        // The padding option keeps the handles a certain distance from the
-        // edges of the slider. Padding must be > 0.
-        if (options.padding) {
-            if (handleNumber === 0) {
-                distance = scope_Spectrum.getAbsoluteDistance(0, options.padding[0], false);
-                to = Math.max(to, distance);
-            }
-            if (handleNumber === scope_Handles.length - 1) {
-                distance = scope_Spectrum.getAbsoluteDistance(100, options.padding[1], true);
-                to = Math.min(to, distance);
-            }
-        }
-        if (!smoothSteps) to = scope_Spectrum.getStep(to);
-        // Limit percentage to the 0 - 100 range
-        to = limit(to);
-        // Return false if handle can't move
-        if (to === reference[handleNumber] && !getValue) return false;
-        return to;
-    }
-    // Uses slider orientation to create CSS rules. a = base value;
-    function inRuleOrder(v, a) {
-        var o = options.ort;
-        return (o ? a : v) + ", " + (o ? v : a);
-    }
-    // Moves handle(s) by a percentage
-    // (bool, % to move, [% where handle started, ...], [index in scope_Handles, ...])
-    function moveHandles(upward, proposal, locations, handleNumbers, connect) {
-        var proposals = locations.slice();
-        // Store first handle now, so we still have it in case handleNumbers is reversed
-        var firstHandle = handleNumbers[0];
-        var smoothSteps = options.events.smoothSteps;
-        var b = [
-            !upward,
-            upward
-        ];
-        var f = [
-            upward,
-            !upward
-        ];
-        // Copy handleNumbers so we don't change the dataset
-        handleNumbers = handleNumbers.slice();
-        // Check to see which handle is 'leading'.
-        // If that one can't move the second can't either.
-        if (upward) handleNumbers.reverse();
-        // Step 1: get the maximum percentage that any of the handles can move
-        if (handleNumbers.length > 1) handleNumbers.forEach(function(handleNumber, o) {
-            var to = checkHandlePosition(proposals, handleNumber, proposals[handleNumber] + proposal, b[o], f[o], false, smoothSteps);
-            // Stop if one of the handles can't move.
-            if (to === false) proposal = 0;
-            else {
-                proposal = to - proposals[handleNumber];
-                proposals[handleNumber] = to;
-            }
-        });
-        else b = f = [
-            true
-        ];
-        var state = false;
-        // Step 2: Try to set the handles with the found percentage
-        handleNumbers.forEach(function(handleNumber, o) {
-            state = setHandle(handleNumber, locations[handleNumber] + proposal, b[o], f[o], false, smoothSteps) || state;
-        });
-        // Step 3: If a handle moved, fire events
-        if (state) {
-            handleNumbers.forEach(function(handleNumber) {
-                fireEvent("update", handleNumber);
-                fireEvent("slide", handleNumber);
-            });
-            // If target is a connect, then fire drag event
-            if (connect != undefined) fireEvent("drag", firstHandle);
-        }
-    }
-    // Takes a base value and an offset. This offset is used for the connect bar size.
-    // In the initial design for this feature, the origin element was 1% wide.
-    // Unfortunately, a rounding bug in Chrome makes it impossible to implement this feature
-    // in this manner: https://bugs.chromium.org/p/chromium/issues/detail?id=798223
-    function transformDirection(a, b) {
-        return options.dir ? 100 - a - b : a;
-    }
-    // Updates scope_Locations and scope_Values, updates visual state
-    function updateHandlePosition(handleNumber, to) {
-        // Update locations.
-        scope_Locations[handleNumber] = to;
-        // Convert the value to the slider stepping/range.
-        scope_Values[handleNumber] = scope_Spectrum.fromStepping(to);
-        var translation = transformDirection(to, 0) - scope_DirOffset;
-        var translateRule = "translate(" + inRuleOrder(translation + "%", "0") + ")";
-        scope_Handles[handleNumber].style[options.transformRule] = translateRule;
-        updateConnect(handleNumber);
-        updateConnect(handleNumber + 1);
-    }
-    // Handles before the slider middle are stacked later = higher,
-    // Handles after the middle later is lower
-    // [[7] [8] .......... | .......... [5] [4]
-    function setZindex() {
-        scope_HandleNumbers.forEach(function(handleNumber) {
-            var dir = scope_Locations[handleNumber] > 50 ? -1 : 1;
-            var zIndex = 3 + (scope_Handles.length + dir * handleNumber);
-            scope_Handles[handleNumber].style.zIndex = String(zIndex);
-        });
-    }
-    // Test suggested values and apply margin, step.
-    // if exactInput is true, don't run checkHandlePosition, then the handle can be placed in between steps (#436)
-    function setHandle(handleNumber, to, lookBackward, lookForward, exactInput, smoothSteps) {
-        if (!exactInput) to = checkHandlePosition(scope_Locations, handleNumber, to, lookBackward, lookForward, false, smoothSteps);
-        if (to === false) return false;
-        updateHandlePosition(handleNumber, to);
-        return true;
-    }
-    // Updates style attribute for connect nodes
-    function updateConnect(index) {
-        // Skip connects set to false
-        if (!scope_Connects[index]) return;
-        var l = 0;
-        var h = 100;
-        if (index !== 0) l = scope_Locations[index - 1];
-        if (index !== scope_Connects.length - 1) h = scope_Locations[index];
-        // We use two rules:
-        // 'translate' to change the left/top offset;
-        // 'scale' to change the width of the element;
-        // As the element has a width of 100%, a translation of 100% is equal to 100% of the parent (.noUi-base)
-        var connectWidth = h - l;
-        var translateRule = "translate(" + inRuleOrder(transformDirection(l, connectWidth) + "%", "0") + ")";
-        var scaleRule = "scale(" + inRuleOrder(connectWidth / 100, "1") + ")";
-        scope_Connects[index].style[options.transformRule] = translateRule + " " + scaleRule;
-    }
-    // Parses value passed to .set method. Returns current value if not parse-able.
-    function resolveToValue(to, handleNumber) {
-        // Setting with null indicates an 'ignore'.
-        // Inputting 'false' is invalid.
-        if (to === null || to === false || to === undefined) return scope_Locations[handleNumber];
-        // If a formatted number was passed, attempt to decode it.
-        if (typeof to === "number") to = String(to);
-        to = options.format.from(to);
-        if (to !== false) to = scope_Spectrum.toStepping(to);
-        // If parsing the number failed, use the current value.
-        if (to === false || isNaN(to)) return scope_Locations[handleNumber];
-        return to;
-    }
-    // Set the slider value.
-    function valueSet(input, fireSetEvent, exactInput) {
-        var values = asArray(input);
-        var isInit = scope_Locations[0] === undefined;
-        // Event fires by default
-        fireSetEvent = fireSetEvent === undefined ? true : fireSetEvent;
-        // Animation is optional.
-        // Make sure the initial values were set before using animated placement.
-        if (options.animate && !isInit) addClassFor(scope_Target, options.cssClasses.tap, options.animationDuration);
-        // First pass, without lookAhead but with lookBackward. Values are set from left to right.
-        scope_HandleNumbers.forEach(function(handleNumber) {
-            setHandle(handleNumber, resolveToValue(values[handleNumber], handleNumber), true, false, exactInput);
-        });
-        var i = scope_HandleNumbers.length === 1 ? 0 : 1;
-        // Spread handles evenly across the slider if the range has no size (min=max)
-        if (isInit && scope_Spectrum.hasNoSize()) {
-            exactInput = true;
-            scope_Locations[0] = 0;
-            if (scope_HandleNumbers.length > 1) {
-                var space_1 = 100 / (scope_HandleNumbers.length - 1);
-                scope_HandleNumbers.forEach(function(handleNumber) {
-                    scope_Locations[handleNumber] = handleNumber * space_1;
-                });
-            }
-        }
-        // Secondary passes. Now that all base values are set, apply constraints.
-        // Iterate all handles to ensure constraints are applied for the entire slider (Issue #1009)
-        for(; i < scope_HandleNumbers.length; ++i)scope_HandleNumbers.forEach(function(handleNumber) {
-            setHandle(handleNumber, scope_Locations[handleNumber], true, true, exactInput);
-        });
-        setZindex();
-        scope_HandleNumbers.forEach(function(handleNumber) {
-            fireEvent("update", handleNumber);
-            // Fire the event only for handles that received a new value, as per #579
-            if (values[handleNumber] !== null && fireSetEvent) fireEvent("set", handleNumber);
-        });
-    }
-    // Reset slider to initial values
-    function valueReset(fireSetEvent) {
-        valueSet(options.start, fireSetEvent);
-    }
-    // Set value for a single handle
-    function valueSetHandle(handleNumber, value, fireSetEvent, exactInput) {
-        // Ensure numeric input
-        handleNumber = Number(handleNumber);
-        if (!(handleNumber >= 0 && handleNumber < scope_HandleNumbers.length)) throw new Error("noUiSlider: invalid handle number, got: " + handleNumber);
-        // Look both backward and forward, since we don't want this handle to "push" other handles (#960);
-        // The exactInput argument can be used to ignore slider stepping (#436)
-        setHandle(handleNumber, resolveToValue(value, handleNumber), true, true, exactInput);
-        fireEvent("update", handleNumber);
-        if (fireSetEvent) fireEvent("set", handleNumber);
-    }
-    // Get the slider value.
-    function valueGet(unencoded) {
-        if (unencoded === void 0) unencoded = false;
-        if (unencoded) // return a copy of the raw values
-        return scope_Values.length === 1 ? scope_Values[0] : scope_Values.slice(0);
-        var values = scope_Values.map(options.format.to);
-        // If only one handle is used, return a single value.
-        if (values.length === 1) return values[0];
-        return values;
-    }
-    // Removes classes from the root and empties it.
-    function destroy() {
-        // remove protected internal listeners
-        removeEvent(INTERNAL_EVENT_NS.aria);
-        removeEvent(INTERNAL_EVENT_NS.tooltips);
-        Object.keys(options.cssClasses).forEach(function(key) {
-            removeClass(scope_Target, options.cssClasses[key]);
-        });
-        while(scope_Target.firstChild)scope_Target.removeChild(scope_Target.firstChild);
-        delete scope_Target.noUiSlider;
-    }
-    function getNextStepsForHandle(handleNumber) {
-        var location = scope_Locations[handleNumber];
-        var nearbySteps = scope_Spectrum.getNearbySteps(location);
-        var value = scope_Values[handleNumber];
-        var increment = nearbySteps.thisStep.step;
-        var decrement = null;
-        // If snapped, directly use defined step value
-        if (options.snap) return [
-            value - nearbySteps.stepBefore.startValue || null,
-            nearbySteps.stepAfter.startValue - value || null
-        ];
-        // If the next value in this step moves into the next step,
-        // the increment is the start of the next step - the current value
-        if (increment !== false) {
-            if (value + increment > nearbySteps.stepAfter.startValue) increment = nearbySteps.stepAfter.startValue - value;
-        }
-        // If the value is beyond the starting point
-        if (value > nearbySteps.thisStep.startValue) decrement = nearbySteps.thisStep.step;
-        else if (nearbySteps.stepBefore.step === false) decrement = false;
-        else decrement = value - nearbySteps.stepBefore.highestStep;
-        // Now, if at the slider edges, there is no in/decrement
-        if (location === 100) increment = null;
-        else if (location === 0) decrement = null;
-        // As per #391, the comparison for the decrement step can have some rounding issues.
-        var stepDecimals = scope_Spectrum.countStepDecimals();
-        // Round per #391
-        if (increment !== null && increment !== false) increment = Number(increment.toFixed(stepDecimals));
-        if (decrement !== null && decrement !== false) decrement = Number(decrement.toFixed(stepDecimals));
-        return [
-            decrement,
-            increment
-        ];
-    }
-    // Get the current step size for the slider.
-    function getNextSteps() {
-        return scope_HandleNumbers.map(getNextStepsForHandle);
-    }
-    // Updatable: margin, limit, padding, step, range, animate, snap
-    function updateOptions(optionsToUpdate, fireSetEvent) {
-        // Spectrum is created using the range, snap, direction and step options.
-        // 'snap' and 'step' can be updated.
-        // If 'snap' and 'step' are not passed, they should remain unchanged.
-        var v = valueGet();
-        var updateAble = [
-            "margin",
-            "limit",
-            "padding",
-            "range",
-            "animate",
-            "snap",
-            "step",
-            "format",
-            "pips",
-            "tooltips"
-        ];
-        // Only change options that we're actually passed to update.
-        updateAble.forEach(function(name) {
-            // Check for undefined. null removes the value.
-            if (optionsToUpdate[name] !== undefined) originalOptions[name] = optionsToUpdate[name];
-        });
-        var newOptions = testOptions(originalOptions);
-        // Load new options into the slider state
-        updateAble.forEach(function(name) {
-            if (optionsToUpdate[name] !== undefined) options[name] = newOptions[name];
-        });
-        scope_Spectrum = newOptions.spectrum;
-        // Limit, margin and padding depend on the spectrum but are stored outside of it. (#677)
-        options.margin = newOptions.margin;
-        options.limit = newOptions.limit;
-        options.padding = newOptions.padding;
-        // Update pips, removes existing.
-        if (options.pips) pips(options.pips);
-        else removePips();
-        // Update tooltips, removes existing.
-        if (options.tooltips) tooltips();
-        else removeTooltips();
-        // Invalidate the current positioning so valueSet forces an update.
-        scope_Locations = [];
-        valueSet(isSet(optionsToUpdate.start) ? optionsToUpdate.start : v, fireSetEvent);
-    }
-    // Initialization steps
-    function setupSlider() {
-        // Create the base element, initialize HTML and set classes.
-        // Add handles and connect elements.
-        scope_Base = addSlider(scope_Target);
-        addElements(options.connect, scope_Base);
-        // Attach user events.
-        bindSliderEvents(options.events);
-        // Use the public value method to set the start values.
-        valueSet(options.start);
-        if (options.pips) pips(options.pips);
-        if (options.tooltips) tooltips();
-        aria();
-    }
-    setupSlider();
-    var scope_Self = {
-        destroy: destroy,
-        steps: getNextSteps,
-        on: bindEvent,
-        off: removeEvent,
-        get: valueGet,
-        set: valueSet,
-        setHandle: valueSetHandle,
-        reset: valueReset,
-        disable: disable,
-        enable: enable,
-        // Exposed for unit testing, don't use this in your application.
-        __moveHandles: function(upward, proposal, handleNumbers) {
-            moveHandles(upward, proposal, scope_Locations, handleNumbers);
-        },
-        options: originalOptions,
-        updateOptions: updateOptions,
-        target: scope_Target,
-        removePips: removePips,
-        removeTooltips: removeTooltips,
-        getPositions: function() {
-            return scope_Locations.slice();
-        },
-        getTooltips: function() {
-            return scope_Tooltips;
-        },
-        getOrigins: function() {
-            return scope_Handles;
-        },
-        pips: pips
-    };
-    return scope_Self;
-}
-// Run the standard initializer
-function initialize(target, originalOptions) {
-    if (!target || !target.nodeName) throw new Error("noUiSlider: create requires a single element, got: " + target);
-    // Throw an error if the slider was already initialized.
-    if (target.noUiSlider) throw new Error("noUiSlider: Slider was already initialized.");
-    // Test the options and create the slider environment;
-    var options = testOptions(originalOptions);
-    var api = scope(target, options, originalOptions);
-    target.noUiSlider = api;
-    return api;
-}
-exports.default = {
-    // Exposed for unit testing, don't use this in your application.
-    __spectrum: Spectrum,
-    // A reference to the default classes, allows global changes.
-    // Use the cssClasses option for changes to one slider.
-    cssClasses: cssClasses,
-    create: initialize
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dJWJm":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _swiper = require("swiper");
-var _swiperDefault = parcelHelpers.interopDefault(_swiper);
-window.addEventListener("DOMContentLoaded", ()=>{
-    const resizableSwiper = (breakpoint, swiperClass, swiperSettings, callback)=>{
-        let swiper;
-        const sliderElement = document.querySelector(swiperClass);
-        breakpoint = window.matchMedia(breakpoint);
-        const enableSwiper = function(className, settings) {
-            // Check if the slider element with the specified class exists on the page.
-            if (document.querySelector(className)) {
-                swiper = new (0, _swiperDefault.default)(className, settings);
-                if (callback) callback(swiper);
-            }
-        };
-        const checker = function() {
-            if (breakpoint.matches) return enableSwiper(swiperClass, swiperSettings);
-            else {
-                if (swiper !== undefined) swiper.destroy(true, true);
-                return;
-            }
-        };
-        breakpoint.addEventListener("change", checker);
-        checker();
-    };
-    resizableSwiper("(max-width: 576px)", ".promo__slider", {
-        modules: [
-            (0, _swiper.Pagination)
-        ],
-        loop: true,
-        grabCursor: true,
-        spaceBetween: 20,
-        slidesPerView: 1,
-        pagination: {
-            el: ".slider__pagination",
-            clickable: true
-        }
-    });
-});
-
-},{"swiper":"cCbRx","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"21UdT":[function(require,module,exports) {
-const filterBtn = document.querySelector(".sort__btn");
-const filterBtnClose = document.querySelector(".filter__close");
-const filterForm = document.querySelector(".filter");
-const page = document.querySelector(".page");
-filterBtn?.addEventListener("click", ()=>{
-    filterForm.classList.add("filter--active");
-    page.classList.add("open");
-});
-filterBtnClose?.addEventListener("click", ()=>{
-    filterForm.classList.remove("filter--active");
-    page.classList.remove("open");
-});
-
-},{}],"cOOkR":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _swiper = require("swiper");
-var _swiperDefault = parcelHelpers.interopDefault(_swiper);
-const sliderOptions = {
-    slidesPerView: 1,
-    modules: [
-        (0, _swiper.Autoplay),
-        (0, _swiper.Pagination),
-        (0, _swiper.Navigation)
-    ],
-    dragable: true,
-    grabCursor: true,
-    pagination: {
-        el: ".single-slider__pagination"
-    },
-    navigation: {
-        nextEl: ".single-slider__next",
-        prevEl: ".single-slider__prev"
-    }
-};
-const reviewsSlider = new (0, _swiperDefault.default)(".single-slider", sliderOptions);
-
-},{"swiper":"cCbRx","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fhTRd":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _swiper = require("swiper");
-var _swiperDefault = parcelHelpers.interopDefault(_swiper);
-const sliderOptions = {
-    slidesPerView: 2,
-    spaceBetween: 5,
-    modules: [
-        (0, _swiper.Autoplay),
-        (0, _swiper.Pagination),
-        (0, _swiper.Navigation)
-    ],
-    dragable: true,
-    grabCursor: true,
-    breakpoints: {
-        576: {
-            slidesPerView: 3,
-            spaceBetween: 10
-        },
-        768: {
-            slidesPerView: 4,
-            spaceBetween: 20
-        },
-        992: {
-            slidesPerView: 5,
-            spaceBetween: 30
-        }
-    },
-    // pagination: {
-    //   el: '.swiper-pagination',
-    // },
-    navigation: {
-        nextEl: ".recent-slider__next",
-        prevEl: ".recent-slider__prev"
-    },
-    pagination: {
-        el: ".recent-slider__pagination"
-    }
-};
-const recentSlider = new (0, _swiperDefault.default)(".recent-slider", sliderOptions);
-
-},{"swiper":"cCbRx","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3bsGg":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _starryRating = require("starry-rating");
-var _starryRatingDefault = parcelHelpers.interopDefault(_starryRating);
-const starElements = document.querySelectorAll(".form-reviews__star");
-if (starElements.length > 0) starElements.forEach((starElement)=>{
-    const starRating = new (0, _starryRatingDefault.default)(starElement);
-});
-
-},{"starry-rating":"MSIxi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"MSIxi":[function(require,module,exports) {
-"use strict";
-function _createForOfIteratorHelper(o, allowArrayLike) {
-    var it;
-    if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
-        if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
-            if (it) o = it;
-            var i = 0;
-            var F = function F() {};
-            return {
-                s: F,
-                n: function n() {
-                    if (i >= o.length) return {
-                        done: true
-                    };
-                    return {
-                        done: false,
-                        value: o[i++]
-                    };
-                },
-                e: function e(_e) {
-                    throw _e;
-                },
-                f: F
-            };
-        }
-        throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-    }
-    var normalCompletion = true, didErr = false, err;
-    return {
-        s: function s() {
-            it = o[Symbol.iterator]();
-        },
-        n: function n() {
-            var step = it.next();
-            normalCompletion = step.done;
-            return step;
-        },
-        e: function e(_e2) {
-            didErr = true;
-            err = _e2;
-        },
-        f: function f() {
-            try {
-                if (!normalCompletion && it["return"] != null) it["return"]();
-            } finally{
-                if (didErr) throw err;
-            }
-        }
-    };
-}
-function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n = Object.prototype.toString.call(o).slice(8, -1);
-    if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(o);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
-    return arr2;
-}
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-/**
- * author:		Andre Sieverding https://github.com/Teddy95
- * license:		MIT http://opensource.org/licenses/MIT
- *
- * The MIT License (MIT)
- *
- * Copyright (c) 2020 Andre Sieverding
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */ // Import default icons
-var icon = {
-    blank: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPg0KICAgIDx0aXRsZT5ibGFuazwvdGl0bGU+DQogICAgPGcgaWQ9ImJsYW5rIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4NCiAgICAgICAgPHBhdGggZD0iTTExLjA0NDAxNDEsMS4zNjcyMTIxNyBMNy45OTAyNTM2MSw3LjU1Mzg5NTc5IEwxLjE2MjcwNzcyLDguNTQ2NDAxNSBDMC45MzA3MDc2MTgsOC41ODAxMTMwOSAwLjcxNjI5MDcwNSw4LjY4OTM2Mzk2IDAuNTUyNjUxMjE3LDguODU3MjQwODIgTDAuNDY1MjYzMjc2LDguOTU4NzkwNTkgQzAuMTQ1NDc5MzEyLDkuMzgxMDkyODMgMC4xODI3NjQ1MjUsOS45ODUzMzE0MyAwLjU3MTkxODczNywxMC4zNjQ2NjMgTDUuNTEyMTA5NTYsMTUuMTgwOTI0NSBMNC4zNDYyNDE5MywyMS45ODA4MzU0IEM0LjMwNjYxMTU4LDIyLjIxMTg5ODEgNC4zNDQyNTY4NywyMi40NDk1ODEgNC40NTMzNDk4NiwyMi42NTcwODgyIEw0LjUxNzU0Nzg4LDIyLjc2Mzc4ODMgQzQuODE4NzU3NTUsMjMuMjA0Mzk1OSA1LjQwOTA2MzI5LDIzLjM1ODk3NTggNS44OTI5NDc1NywyMy4xMDQ1ODI4IEwxMS45OTk5NTAxLDE5Ljg5MzM5MzYgTDE4LjEwNjkxNCwyMy4xMDQ1ODI4IEMxOC4zMTQ0MjEyLDIzLjIxMzY3NTggMTguNTUyMTA0MiwyMy4yNTEzMjExIDE4Ljc4MzE2NjgsMjMuMjExNjkwNyBMMTguODk2NTg5OCwyMy4xODU4OTA3IEMxOS40MTMyMTQ3LDIzLjAzODU2MjIgMTkuNzQ2NTA3MiwyMi41MjI0MTE2IDE5LjY1MzYxOTYsMjEuOTgwODM1NCBMMTguNDg2NzY2MiwxNS4xODA5MjQ1IEwyMy40Mjc5NDI4LDEwLjM2NDY2MyBDMjMuNTk1ODE5NywxMC4yMDEwMjM1IDIzLjcwNTA3MDYsOS45ODY2MDY2MyAyMy43Mzg3ODIxLDkuNzU0NjA2NTMgTDIzLjc0OTI5NDUsOS42Mzg3NjIyNiBDMjMuNzY4ODIyNiw5LjEwMTg5NTc4IDIzLjM4MDkyNzMsOC42MjU0MTY0MSAyMi44MzcxNTM4LDguNTQ2NDAxNSBMMTYuMDA4NjIyMiw3LjU1Mzg5NTc5IEwxMi45NTU4NDc0LDEuMzY3MjEyMTcgQzEyLjg1MjA5MzgsMS4xNTY5ODQ0MSAxMi42ODE5MzE2LDAuOTg2ODIyMTgzIDEyLjQ3MTcwMzksMC44ODMwNjg1ODIgQzExLjk0Mzc2NTcsMC42MjI1MTU1MDggMTEuMzA0NTY3MiwwLjgzOTI3Mzk3NCAxMS4wNDQwMTQxLDEuMzY3MjEyMTcgWiBNMTEuOTk4OTI1NywyLjkwMTg2OTI3IEwxNC42OTQ2ODk3LDguMzYyNjg3MDIgTDE0Ljc2MjI4ODQsOC40ODI3MjYyMyBDMTQuOTU4Njc0Nyw4Ljc5MDkwMjk5IDE1LjI4MDY1MDksOS4wMDExOTA0IDE1LjY0NjczMDEsOS4wNTQzODQ4MyBMMjEuNjcxNzgwNiw5LjkyOTU5NDg2IEwxNy4zMTIxODI3LDE0LjE4MDEyMDkgTDE3LjIxODkwNzgsMTQuMjgxNTA1MyBDMTYuOTg2NTAxLDE0LjU2MzUxMTYgMTYuODg2MDAxOSwxNC45MzQ3MTE1IDE2Ljk0ODUzNTcsMTUuMjk5MzExNSBMMTcuOTc2NTkwMiwyMS4yOTk5NjMxIEwxMi41ODgzMjQxLDE4LjQ2NzE5MDYgTDEyLjQ0NzEwNzksMTguNDAzNjQ2NSBDMTIuMTExMDY3OCwxOC4yNzY1NTgyIDExLjczMzg1MjYsMTguMjk3NzM5NiAxMS40MTE1Mzc1LDE4LjQ2NzE5MDYgTDYuMDIyMjg1NTYsMjEuMjk5OTYzMSBMNy4wNTEzMjU5MiwxNS4yOTkzMTE1IEw3LjA2NzE5NDcyLDE1LjE2MjQ2NDIgQzcuMDg5NDU2NjIsMTQuNzk3NzExIDYuOTUyNTc2MjcsMTQuNDM4MzMyMSA2LjY4NzY3ODg2LDE0LjE4MDEyMDkgTDIuMzI3MDk1MTUsOS45Mjk1OTQ4NiBMOC4zNTMxMzE0OCw5LjA1NDM4NDgzIEM4Ljc2NDk3MDU5LDguOTk0NTQxMSA5LjEyMDk5MTc5LDguNzM1ODc2NTYgOS4zMDUxNzE4NCw4LjM2MjY4NzAyIEwxMS45OTg5MjU3LDIuOTAxODY5MjcgWiIgZmlsbD0iI0ZBREIzNyIgZmlsbC1ydWxlPSJub256ZXJvIj48L3BhdGg+DQogICAgPC9nPg0KPC9zdmc+",
-    active: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPg0KICAgIDx0aXRsZT5hY3RpdmU8L3RpdGxlPg0KICAgIDxnIGlkPSJhY3RpdmUiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPg0KICAgICAgICA8cGF0aCBkPSJNMTEuMDQ0MDE0MSwxLjM2NzIxMjE3IEw3Ljk5MDI1MzYxLDcuNTUzODk1NzkgTDEuMTYyNzA3NzIsOC41NDY0MDE1IEMwLjkzMDcwNzYxOCw4LjU4MDExMzA5IDAuNzE2MjkwNzA1LDguNjg5MzYzOTYgMC41NTI2NTEyMTcsOC44NTcyNDA4MiBMMC40NjUyNjMyNzYsOC45NTg3OTA1OSBDMC4xNDU0NzkzMTIsOS4zODEwOTI4MyAwLjE4Mjc2NDUyNSw5Ljk4NTMzMTQzIDAuNTcxOTE4NzM3LDEwLjM2NDY2MyBMNS41MTIxMDk1NiwxNS4xODA5MjQ1IEw0LjM0NjI0MTkzLDIxLjk4MDgzNTQgQzQuMzA2NjExNTgsMjIuMjExODk4MSA0LjM0NDI1Njg3LDIyLjQ0OTU4MSA0LjQ1MzM0OTg2LDIyLjY1NzA4ODIgTDQuNTE3NTQ3ODgsMjIuNzYzNzg4MyBDNC44MTg3NTc1NSwyMy4yMDQzOTU5IDUuNDA5MDYzMjksMjMuMzU4OTc1OCA1Ljg5Mjk0NzU3LDIzLjEwNDU4MjggTDExLjk5OTk1MDEsMTkuODkzMzkzNiBMMTguMTA2OTE0LDIzLjEwNDU4MjggQzE4LjMxNDQyMTIsMjMuMjEzNjc1OCAxOC41NTIxMDQyLDIzLjI1MTMyMTEgMTguNzgzMTY2OCwyMy4yMTE2OTA3IEwxOC44OTY1ODk4LDIzLjE4NTg5MDcgQzE5LjQxMzIxNDcsMjMuMDM4NTYyMiAxOS43NDY1MDcyLDIyLjUyMjQxMTYgMTkuNjUzNjE5NiwyMS45ODA4MzU0IEwxOC40ODY3NjYyLDE1LjE4MDkyNDUgTDIzLjQyNzk0MjgsMTAuMzY0NjYzIEMyMy41OTU4MTk3LDEwLjIwMTAyMzUgMjMuNzA1MDcwNiw5Ljk4NjYwNjYzIDIzLjczODc4MjEsOS43NTQ2MDY1MyBMMjMuNzQ5Mjk0NSw5LjYzODc2MjI2IEMyMy43Njg4MjI2LDkuMTAxODk1NzggMjMuMzgwOTI3Myw4LjYyNTQxNjQxIDIyLjgzNzE1MzgsOC41NDY0MDE1IEwxNi4wMDg2MjIyLDcuNTUzODk1NzkgTDEyLjk1NTg0NzQsMS4zNjcyMTIxNyBDMTIuODUyMDkzOCwxLjE1Njk4NDQxIDEyLjY4MTkzMTYsMC45ODY4MjIxODMgMTIuNDcxNzAzOSwwLjg4MzA2ODU4MiBDMTEuOTQzNzY1NywwLjYyMjUxNTUwOCAxMS4zMDQ1NjcyLDAuODM5MjczOTc0IDExLjA0NDAxNDEsMS4zNjcyMTIxNyBaIiBmaWxsPSIjRkFEQjM3IiBmaWxsLXJ1bGU9Im5vbnplcm8iPjwvcGF0aD4NCiAgICA8L2c+DQo8L3N2Zz4=",
-    hover: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPg0KICAgIDx0aXRsZT5ob3ZlcjwvdGl0bGU+DQogICAgPGcgaWQ9ImhvdmVyIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4NCiAgICAgICAgPHBhdGggZD0iTTExLjA0NDAxNDEsMS4zNjcyMTIxNyBMNy45OTAyNTM2MSw3LjU1Mzg5NTc5IEwxLjE2MjcwNzcyLDguNTQ2NDAxNSBDMC45MzA3MDc2MTgsOC41ODAxMTMwOSAwLjcxNjI5MDcwNSw4LjY4OTM2Mzk2IDAuNTUyNjUxMjE3LDguODU3MjQwODIgTDAuNDY1MjYzMjc2LDguOTU4NzkwNTkgQzAuMTQ1NDc5MzEyLDkuMzgxMDkyODMgMC4xODI3NjQ1MjUsOS45ODUzMzE0MyAwLjU3MTkxODczNywxMC4zNjQ2NjMgTDUuNTEyMTA5NTYsMTUuMTgwOTI0NSBMNC4zNDYyNDE5MywyMS45ODA4MzU0IEM0LjMwNjYxMTU4LDIyLjIxMTg5ODEgNC4zNDQyNTY4NywyMi40NDk1ODEgNC40NTMzNDk4NiwyMi42NTcwODgyIEw0LjUxNzU0Nzg4LDIyLjc2Mzc4ODMgQzQuODE4NzU3NTUsMjMuMjA0Mzk1OSA1LjQwOTA2MzI5LDIzLjM1ODk3NTggNS44OTI5NDc1NywyMy4xMDQ1ODI4IEwxMS45OTk5NTAxLDE5Ljg5MzM5MzYgTDE4LjEwNjkxNCwyMy4xMDQ1ODI4IEMxOC4zMTQ0MjEyLDIzLjIxMzY3NTggMTguNTUyMTA0MiwyMy4yNTEzMjExIDE4Ljc4MzE2NjgsMjMuMjExNjkwNyBMMTguODk2NTg5OCwyMy4xODU4OTA3IEMxOS40MTMyMTQ3LDIzLjAzODU2MjIgMTkuNzQ2NTA3MiwyMi41MjI0MTE2IDE5LjY1MzYxOTYsMjEuOTgwODM1NCBMMTguNDg2NzY2MiwxNS4xODA5MjQ1IEwyMy40Mjc5NDI4LDEwLjM2NDY2MyBDMjMuNTk1ODE5NywxMC4yMDEwMjM1IDIzLjcwNTA3MDYsOS45ODY2MDY2MyAyMy43Mzg3ODIxLDkuNzU0NjA2NTMgTDIzLjc0OTI5NDUsOS42Mzg3NjIyNiBDMjMuNzY4ODIyNiw5LjEwMTg5NTc4IDIzLjM4MDkyNzMsOC42MjU0MTY0MSAyMi44MzcxNTM4LDguNTQ2NDAxNSBMMTYuMDA4NjIyMiw3LjU1Mzg5NTc5IEwxMi45NTU4NDc0LDEuMzY3MjEyMTcgQzEyLjg1MjA5MzgsMS4xNTY5ODQ0MSAxMi42ODE5MzE2LDAuOTg2ODIyMTgzIDEyLjQ3MTcwMzksMC44ODMwNjg1ODIgQzExLjk0Mzc2NTcsMC42MjI1MTU1MDggMTEuMzA0NTY3MiwwLjgzOTI3Mzk3NCAxMS4wNDQwMTQxLDEuMzY3MjEyMTcgWiIgZmlsbD0iI0ZGOTUwMCIgZmlsbC1ydWxlPSJub256ZXJvIj48L3BhdGg+DQogICAgPC9nPg0KPC9zdmc+"
-}; // Star rating class
-var Starry = /*#__PURE__*/ function() {
-    // Constructor method -> saves configs to Starry object & calls build method
-    function Starry() {
-        var domElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-        var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-        _classCallCheck(this, Starry);
-        if (!domElement) {
-            console.error("Starry: Missing DOM element!");
-            return false;
-        }
-        if (!this.setConfig(config)) return false;
-        this.domElement = domElement;
-        this.build();
-    } // Save configs to Starry object
-    _createClass(Starry, [
-        {
-            key: "setConfig",
-            value: function setConfig(config) {
-                this.config = config;
-                if (typeof this.config.stars === "undefined") this.config.stars = 5;
-                if (typeof this.config.multiRating === "undefined") this.config.multiRating = true;
-                if (typeof this.config.beginWith === "undefined") this.config.beginWith = 0;
-                if (typeof this.config.readOnly === "undefined") this.config.readOnly = false;
-                if (typeof this.config.staticActiveRating === "undefined") this.config.staticActiveRating = true;
-                if (typeof this.config.setStarsAfterRating === "undefined") this.config.setStarsAfterRating = true;
-                if (typeof this.config.labels === "undefined" || !Array.isArray(this.config.labels)) this.config.labels = false;
-                if (typeof this.config.onRate === "undefined") this.config.onRate = function(value) {
-                    return true;
-                };
-                if (typeof this.currentRating === "undefined") this.currentRating = 0;
-                if (typeof this.config.icons === "undefined" || typeof this.config.icons.blank === "undefined" || typeof this.config.icons.hover === "undefined" || typeof this.config.icons.active === "undefined") this.config.icons = icon;
-                if (this.config.beginWith < 0) this.config.beginWith = 0;
-                if (this.config.beginWith > 100) this.config.beginWith = 100;
-                if (typeof this.config.name === "undefined") {
-                    if (this.config.multiRating === false) {
-                        console.error("Starry: Give your Starry star rating elements with multi rating a name!");
-                        return false;
-                    } else this.config.name = "Starry_" + Date.now();
-                }
-                return true;
-            } // Set read only option by cookie
-        },
-        {
-            key: "checkCookie",
-            value: function checkCookie() {
-                var cookies = document.cookie;
-                cookies = cookies.split(";");
-                var _iterator = _createForOfIteratorHelper(cookies), _step;
-                try {
-                    for(_iterator.s(); !(_step = _iterator.n()).done;){
-                        var cookie = _step.value;
-                        if (cookie.trim() === "Starry_" + this.config.name + "=true") this.config.readOnly = true;
-                    }
-                } catch (err) {
-                    _iterator.e(err);
-                } finally{
-                    _iterator.f();
-                }
-            } // Set rated cookie
-        },
-        {
-            key: "setCookie",
-            value: function setCookie() {
-                var time = new Date();
-                time.setTime(time.getTime() + 311040000000);
-                document.cookie = "Starry_" + this.config.name + "=true; expires=" + time.toGMTString() + "; sameSite=Lax";
-                this.config.multiRating = false;
-                this.config.readOnly = true;
-            } // Create star rating html
-        },
-        {
-            key: "build",
-            value: function build() {
-                this.clear();
-                if (this.config.multiRating === false) this.checkCookie();
-                 // Build starry wrapper
-                var starryWrapper = document.createElement("div");
-                starryWrapper.classList.add("Starry");
-                starryWrapper.setAttribute("data-name", this.config.name); // Build starry inners -> blank stars
-                var starryInnerBlank = document.createElement("div");
-                starryInnerBlank.classList.add("Starry-blank"); // Add stars to starry inners -> blank stars
-                var _iterator2 = _createForOfIteratorHelper(this.getStarRow("blank")), _step2;
-                try {
-                    for(_iterator2.s(); !(_step2 = _iterator2.n()).done;){
-                        var starEl = _step2.value;
-                        starryInnerBlank.appendChild(starEl);
-                    } // Build starry inners -> active stars
-                } catch (err) {
-                    _iterator2.e(err);
-                } finally{
-                    _iterator2.f();
-                }
-                var starryInnerActive = document.createElement("div");
-                starryInnerActive.classList.add("Starry-active");
-                if (this.config.staticActiveRating === true || this.config.readOnly === true) starryInnerActive.classList.add("Starry-static");
-                starryInnerActive.style.width = "".concat(this.config.beginWith, "%"); // Add stars to starry inners -> active stars
-                var _iterator3 = _createForOfIteratorHelper(this.getStarRow("active")), _step3;
-                try {
-                    for(_iterator3.s(); !(_step3 = _iterator3.n()).done;){
-                        var starEl = _step3.value;
-                        starryInnerActive.appendChild(starEl);
-                    }
-                } catch (err) {
-                    _iterator3.e(err);
-                } finally{
-                    _iterator3.f();
-                }
-                if (this.config.readOnly === false) {
-                    // Build starry inners -> hover stars
-                    var starryInnerHover = document.createElement("div");
-                    starryInnerHover.classList.add("Starry-hover"); // Add stars to starry inners -> hover stars
-                    var _iterator4 = _createForOfIteratorHelper(this.getStarRow("hover")), _step4;
-                    try {
-                        for(_iterator4.s(); !(_step4 = _iterator4.n()).done;){
-                            var starEl = _step4.value;
-                            starryInnerHover.appendChild(starEl);
-                        }
-                    } catch (err) {
-                        _iterator4.e(err);
-                    } finally{
-                        _iterator4.f();
-                    }
-                } // Append starry inners to starry wrapper
-                starryWrapper.appendChild(starryInnerBlank);
-                starryWrapper.appendChild(starryInnerActive);
-                if (this.config.readOnly === false) starryWrapper.appendChild(starryInnerHover); // Append Starry element to star rating dom element
-                this.domElement.appendChild(starryWrapper); // Perform on render method if it exists
-                if (typeof this.config.onRender !== "undefined" && typeof this.config.onRender === "function") this.config.onRender();
-            } // Get stars html
-        },
-        {
-            key: "getStarRow",
-            value: function getStarRow(type) {
-                var _this = this;
-                var stars = [];
-                for(var i = this.config.stars; i > 0; i--){
-                    // Build star element
-                    var starElement = document.createElement("div");
-                    starElement.classList.add("Starry-star"); // Add event listener for hovering stars
-                    if (type === "hover") {
-                        starElement.setAttribute("data-value", i);
-                        if (Array.isArray(this.config.labels)) {
-                            starElement.setAttribute("title", this.config.labels[i - 1]);
-                            starElement.setAttribute("data-label", this.config.labels[i - 1]);
-                            starElement.setAttribute("data-tooltip", this.config.labels[i - 1]);
-                        }
-                        starElement.addEventListener("click", function(event) {
-                            var targetEl = event.target;
-                            if (!targetEl.classList.contains("Starry-star")) targetEl = event.target.closest(".Starry-star");
-                            var onRateResult = _this.config.onRate(targetEl.getAttribute("data-value"));
-                            if (onRateResult !== false) {
-                                _this.currentRating = parseInt(targetEl.getAttribute("data-value"));
-                                if (_this.config.setStarsAfterRating === true) _this.config.beginWith = _this.currentRating / _this.config.stars * 100;
-                            }
-                            if (_this.config.multiRating === false) _this.setCookie();
-                            _this.build();
-                        });
-                    } // Build star visual
-                    var starVisual = document.createElement("img");
-                    starVisual.setAttribute("src", this.config.icons[type]);
-                    starElement.appendChild(starVisual); // Push star element to stars array
-                    stars.push(starElement);
-                }
-                return stars;
-            } // Clear Starry html DOM
-        },
-        {
-            key: "clear",
-            value: function clear() {
-                if (typeof this.config.onClear !== "undefined" && typeof this.config.onClear === "function") this.config.onClear();
-                this.domElement.innerHTML = "";
-            } // Update starry
-        },
-        {
-            key: "update",
-            value: function update(config) {
-                this.setConfig(Object.assign({}, this.config, config));
-                this.build();
-            } // Get current rating
-        },
-        {
-            key: "getCurrentRating",
-            value: function getCurrentRating() {
-                return this.currentRating;
-            } // Get config object
-        },
-        {
-            key: "getConfig",
-            value: function getConfig() {
-                return this.config;
-            } // Custom event listener
-        },
-        {
-            key: "on",
-            value: function on(eventName, callbackFunction) {
-                switch(eventName){
-                    case "rate":
-                        this.config.onRate = callbackFunction;
-                        break;
-                    case "render":
-                        this.config.onRender = callbackFunction;
-                        break;
-                    case "clear":
-                        this.config.onClear = callbackFunction;
-                        break;
-                    default:
-                        console.error("Starry: Event '".concat(eventName, "' doesn't exists!"));
-                        return;
-                }
-            }
-        }
-    ]);
-    return Starry;
-}();
-module.exports = Starry;
-
-},{}],"cD0bk":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _lightgallery = require("lightgallery");
-var _lightgalleryDefault = parcelHelpers.interopDefault(_lightgallery);
-var _swiper = require("swiper");
-var _swiperDefault = parcelHelpers.interopDefault(_swiper);
-let $lgSwiper = document.getElementById("lg-swipper");
-const reviewsSlider = new (0, _swiperDefault.default)(".single-slider", {
-    // other parameters
-    navigation: {
-        nextEl: ".single-slider__next",
-        prevEl: ".single-slider__prev"
-    },
-    on: {
-        init: function() {
-            const lg = (0, _lightgalleryDefault.default)($lgSwiper, {
-                speed: 300
-            });
-            $lgSwiper.addEventListener("lgBeforeClose", ()=>{
-                reviewsSlider.slideTo(lg.index, 0);
-            });
-        }
-    }
-});
-
-},{"lightgallery":"lrONo","swiper":"cCbRx","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lrONo":[function(require,module,exports) {
-/*!
- * lightgallery | 2.7.2 | September 20th 2023
- * http://www.lightgalleryjs.com/
- * Copyright (c) 2020 Sachin Neravath;
- * @license GPLv3
- */ /*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var __assign = function() {
-    __assign = Object.assign || function __assign(t) {
-        for(var s, i = 1, n = arguments.length; i < n; i++){
-            s = arguments[i];
-            for(var p in s)if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-function __spreadArrays() {
-    for(var s = 0, i = 0, il = arguments.length; i < il; i++)s += arguments[i].length;
-    for(var r = Array(s), k = 0, i = 0; i < il; i++)for(var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)r[k] = a[j];
-    return r;
-}
-/**
- * List of lightGallery events
- * All events should be documented here
- * Below interfaces are used to build the website documentations
- * */ var lGEvents = {
-    afterAppendSlide: "lgAfterAppendSlide",
-    init: "lgInit",
-    hasVideo: "lgHasVideo",
-    containerResize: "lgContainerResize",
-    updateSlides: "lgUpdateSlides",
-    afterAppendSubHtml: "lgAfterAppendSubHtml",
-    beforeOpen: "lgBeforeOpen",
-    afterOpen: "lgAfterOpen",
-    slideItemLoad: "lgSlideItemLoad",
-    beforeSlide: "lgBeforeSlide",
-    afterSlide: "lgAfterSlide",
-    posterClick: "lgPosterClick",
-    dragStart: "lgDragStart",
-    dragMove: "lgDragMove",
-    dragEnd: "lgDragEnd",
-    beforeNextSlide: "lgBeforeNextSlide",
-    beforePrevSlide: "lgBeforePrevSlide",
-    beforeClose: "lgBeforeClose",
-    afterClose: "lgAfterClose",
-    rotateLeft: "lgRotateLeft",
-    rotateRight: "lgRotateRight",
-    flipHorizontal: "lgFlipHorizontal",
-    flipVertical: "lgFlipVertical",
-    autoplay: "lgAutoplay",
-    autoplayStart: "lgAutoplayStart",
-    autoplayStop: "lgAutoplayStop"
-};
-var lightGalleryCoreSettings = {
-    mode: "lg-slide",
-    easing: "ease",
-    speed: 400,
-    licenseKey: "0000-0000-000-0000",
-    height: "100%",
-    width: "100%",
-    addClass: "",
-    startClass: "lg-start-zoom",
-    backdropDuration: 300,
-    container: "",
-    startAnimationDuration: 400,
-    zoomFromOrigin: true,
-    hideBarsDelay: 0,
-    showBarsAfter: 10000,
-    slideDelay: 0,
-    supportLegacyBrowser: true,
-    allowMediaOverlap: false,
-    videoMaxSize: "1280-720",
-    loadYouTubePoster: true,
-    defaultCaptionHeight: 0,
-    ariaLabelledby: "",
-    ariaDescribedby: "",
-    resetScrollPosition: true,
-    hideScrollbar: false,
-    closable: true,
-    swipeToClose: true,
-    closeOnTap: true,
-    showCloseIcon: true,
-    showMaximizeIcon: false,
-    loop: true,
-    escKey: true,
-    keyPress: true,
-    trapFocus: true,
-    controls: true,
-    slideEndAnimation: true,
-    hideControlOnEnd: false,
-    mousewheel: false,
-    getCaptionFromTitleOrAlt: true,
-    appendSubHtmlTo: ".lg-sub-html",
-    subHtmlSelectorRelative: false,
-    preload: 2,
-    numberOfSlideItemsInDom: 10,
-    selector: "",
-    selectWithin: "",
-    nextHtml: "",
-    prevHtml: "",
-    index: 0,
-    iframeWidth: "100%",
-    iframeHeight: "100%",
-    iframeMaxWidth: "100%",
-    iframeMaxHeight: "100%",
-    download: true,
-    counter: true,
-    appendCounterTo: ".lg-toolbar",
-    swipeThreshold: 50,
-    enableSwipe: true,
-    enableDrag: true,
-    dynamic: false,
-    dynamicEl: [],
-    extraProps: [],
-    exThumbImage: "",
-    isMobile: undefined,
-    mobileSettings: {
-        controls: false,
-        showCloseIcon: false,
-        download: false
-    },
-    plugins: [],
-    strings: {
-        closeGallery: "Close gallery",
-        toggleMaximize: "Toggle maximize",
-        previousSlide: "Previous slide",
-        nextSlide: "Next slide",
-        download: "Download",
-        playVideo: "Play video",
-        mediaLoadingFailed: "Oops... Failed to load content..."
-    }
-};
-function initLgPolyfills() {
-    (function() {
-        if (typeof window.CustomEvent === "function") return false;
-        function CustomEvent1(event, params) {
-            params = params || {
-                bubbles: false,
-                cancelable: false,
-                detail: null
-            };
-            var evt = document.createEvent("CustomEvent");
-            evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-            return evt;
-        }
-        window.CustomEvent = CustomEvent1;
-    })();
-    (function() {
-        if (!Element.prototype.matches) Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
-    })();
-}
-var lgQuery = /** @class */ function() {
-    function lgQuery(selector) {
-        this.cssVenderPrefixes = [
-            "TransitionDuration",
-            "TransitionTimingFunction",
-            "Transform",
-            "Transition"
-        ];
-        this.selector = this._getSelector(selector);
-        this.firstElement = this._getFirstEl();
-        return this;
-    }
-    lgQuery.generateUUID = function() {
-        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
-            var r = Math.random() * 16 | 0, v = c == "x" ? r : r & 0x3 | 0x8;
-            return v.toString(16);
-        });
-    };
-    lgQuery.prototype._getSelector = function(selector, context) {
-        if (context === void 0) context = document;
-        if (typeof selector !== "string") return selector;
-        context = context || document;
-        var fl = selector.substring(0, 1);
-        if (fl === "#") return context.querySelector(selector);
-        else return context.querySelectorAll(selector);
-    };
-    lgQuery.prototype._each = function(func) {
-        if (!this.selector) return this;
-        if (this.selector.length !== undefined) [].forEach.call(this.selector, func);
-        else func(this.selector, 0);
-        return this;
-    };
-    lgQuery.prototype._setCssVendorPrefix = function(el, cssProperty, value) {
-        // prettier-ignore
-        var property = cssProperty.replace(/-([a-z])/gi, function(s, group1) {
-            return group1.toUpperCase();
-        });
-        if (this.cssVenderPrefixes.indexOf(property) !== -1) {
-            el.style[property.charAt(0).toLowerCase() + property.slice(1)] = value;
-            el.style["webkit" + property] = value;
-            el.style["moz" + property] = value;
-            el.style["ms" + property] = value;
-            el.style["o" + property] = value;
-        } else el.style[property] = value;
-    };
-    lgQuery.prototype._getFirstEl = function() {
-        if (this.selector && this.selector.length !== undefined) return this.selector[0];
-        else return this.selector;
-    };
-    lgQuery.prototype.isEventMatched = function(event, eventName) {
-        var eventNamespace = eventName.split(".");
-        return event.split(".").filter(function(e) {
-            return e;
-        }).every(function(e) {
-            return eventNamespace.indexOf(e) !== -1;
-        });
-    };
-    lgQuery.prototype.attr = function(attr, value) {
-        if (value === undefined) {
-            if (!this.firstElement) return "";
-            return this.firstElement.getAttribute(attr);
-        }
-        this._each(function(el) {
-            el.setAttribute(attr, value);
-        });
-        return this;
-    };
-    lgQuery.prototype.find = function(selector) {
-        return $LG(this._getSelector(selector, this.selector));
-    };
-    lgQuery.prototype.first = function() {
-        if (this.selector && this.selector.length !== undefined) return $LG(this.selector[0]);
-        else return $LG(this.selector);
-    };
-    lgQuery.prototype.eq = function(index) {
-        return $LG(this.selector[index]);
-    };
-    lgQuery.prototype.parent = function() {
-        return $LG(this.selector.parentElement);
-    };
-    lgQuery.prototype.get = function() {
-        return this._getFirstEl();
-    };
-    lgQuery.prototype.removeAttr = function(attributes) {
-        var attrs = attributes.split(" ");
-        this._each(function(el) {
-            attrs.forEach(function(attr) {
-                return el.removeAttribute(attr);
-            });
-        });
-        return this;
-    };
-    lgQuery.prototype.wrap = function(className) {
-        if (!this.firstElement) return this;
-        var wrapper = document.createElement("div");
-        wrapper.className = className;
-        this.firstElement.parentNode.insertBefore(wrapper, this.firstElement);
-        this.firstElement.parentNode.removeChild(this.firstElement);
-        wrapper.appendChild(this.firstElement);
-        return this;
-    };
-    lgQuery.prototype.addClass = function(classNames) {
-        if (classNames === void 0) classNames = "";
-        this._each(function(el) {
-            // IE doesn't support multiple arguments
-            classNames.split(" ").forEach(function(className) {
-                if (className) el.classList.add(className);
-            });
-        });
-        return this;
-    };
-    lgQuery.prototype.removeClass = function(classNames) {
-        this._each(function(el) {
-            // IE doesn't support multiple arguments
-            classNames.split(" ").forEach(function(className) {
-                if (className) el.classList.remove(className);
-            });
-        });
-        return this;
-    };
-    lgQuery.prototype.hasClass = function(className) {
-        if (!this.firstElement) return false;
-        return this.firstElement.classList.contains(className);
-    };
-    lgQuery.prototype.hasAttribute = function(attribute) {
-        if (!this.firstElement) return false;
-        return this.firstElement.hasAttribute(attribute);
-    };
-    lgQuery.prototype.toggleClass = function(className) {
-        if (!this.firstElement) return this;
-        if (this.hasClass(className)) this.removeClass(className);
-        else this.addClass(className);
-        return this;
-    };
-    lgQuery.prototype.css = function(property, value) {
-        var _this = this;
-        this._each(function(el) {
-            _this._setCssVendorPrefix(el, property, value);
-        });
-        return this;
-    };
-    // Need to pass separate namespaces for separate elements
-    lgQuery.prototype.on = function(events, listener) {
-        var _this = this;
-        if (!this.selector) return this;
-        events.split(" ").forEach(function(event) {
-            if (!Array.isArray(lgQuery.eventListeners[event])) lgQuery.eventListeners[event] = [];
-            lgQuery.eventListeners[event].push(listener);
-            _this.selector.addEventListener(event.split(".")[0], listener);
-        });
-        return this;
-    };
-    // @todo - test this
-    lgQuery.prototype.once = function(event, listener) {
-        var _this = this;
-        this.on(event, function() {
-            _this.off(event);
-            listener(event);
-        });
-        return this;
-    };
-    lgQuery.prototype.off = function(event) {
-        var _this = this;
-        if (!this.selector) return this;
-        Object.keys(lgQuery.eventListeners).forEach(function(eventName) {
-            if (_this.isEventMatched(event, eventName)) {
-                lgQuery.eventListeners[eventName].forEach(function(listener) {
-                    _this.selector.removeEventListener(eventName.split(".")[0], listener);
-                });
-                lgQuery.eventListeners[eventName] = [];
-            }
-        });
-        return this;
-    };
-    lgQuery.prototype.trigger = function(event, detail) {
-        if (!this.firstElement) return this;
-        var customEvent = new CustomEvent(event.split(".")[0], {
-            detail: detail || null
-        });
-        this.firstElement.dispatchEvent(customEvent);
-        return this;
-    };
-    // Does not support IE
-    lgQuery.prototype.load = function(url) {
-        var _this = this;
-        fetch(url).then(function(res) {
-            return res.text();
-        }).then(function(html) {
-            _this.selector.innerHTML = html;
-        });
-        return this;
-    };
-    lgQuery.prototype.html = function(html) {
-        if (html === undefined) {
-            if (!this.firstElement) return "";
-            return this.firstElement.innerHTML;
-        }
-        this._each(function(el) {
-            el.innerHTML = html;
-        });
-        return this;
-    };
-    lgQuery.prototype.append = function(html) {
-        this._each(function(el) {
-            if (typeof html === "string") el.insertAdjacentHTML("beforeend", html);
-            else el.appendChild(html);
-        });
-        return this;
-    };
-    lgQuery.prototype.prepend = function(html) {
-        this._each(function(el) {
-            el.insertAdjacentHTML("afterbegin", html);
-        });
-        return this;
-    };
-    lgQuery.prototype.remove = function() {
-        this._each(function(el) {
-            el.parentNode.removeChild(el);
-        });
-        return this;
-    };
-    lgQuery.prototype.empty = function() {
-        this._each(function(el) {
-            el.innerHTML = "";
-        });
-        return this;
-    };
-    lgQuery.prototype.scrollTop = function(scrollTop) {
-        if (scrollTop !== undefined) {
-            document.body.scrollTop = scrollTop;
-            document.documentElement.scrollTop = scrollTop;
-            return this;
-        } else return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    };
-    lgQuery.prototype.scrollLeft = function(scrollLeft) {
-        if (scrollLeft !== undefined) {
-            document.body.scrollLeft = scrollLeft;
-            document.documentElement.scrollLeft = scrollLeft;
-            return this;
-        } else return window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;
-    };
-    lgQuery.prototype.offset = function() {
-        if (!this.firstElement) return {
-            left: 0,
-            top: 0
-        };
-        var rect = this.firstElement.getBoundingClientRect();
-        var bodyMarginLeft = $LG("body").style().marginLeft;
-        // Minus body margin - https://stackoverflow.com/questions/30711548/is-getboundingclientrect-left-returning-a-wrong-value
-        return {
-            left: rect.left - parseFloat(bodyMarginLeft) + this.scrollLeft(),
-            top: rect.top + this.scrollTop()
-        };
-    };
-    lgQuery.prototype.style = function() {
-        if (!this.firstElement) return {};
-        return this.firstElement.currentStyle || window.getComputedStyle(this.firstElement);
-    };
-    // Width without padding and border even if box-sizing is used.
-    lgQuery.prototype.width = function() {
-        var style = this.style();
-        return this.firstElement.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-    };
-    // Height without padding and border even if box-sizing is used.
-    lgQuery.prototype.height = function() {
-        var style = this.style();
-        return this.firstElement.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
-    };
-    lgQuery.eventListeners = {};
-    return lgQuery;
-}();
-function $LG(selector) {
-    initLgPolyfills();
-    return new lgQuery(selector);
-}
-var defaultDynamicOptions = [
-    "src",
-    "sources",
-    "subHtml",
-    "subHtmlUrl",
-    "html",
-    "video",
-    "poster",
-    "slideName",
-    "responsive",
-    "srcset",
-    "sizes",
-    "iframe",
-    "downloadUrl",
-    "download",
-    "width",
-    "facebookShareUrl",
-    "tweetText",
-    "iframeTitle",
-    "twitterShareUrl",
-    "pinterestShareUrl",
-    "pinterestText",
-    "fbHtml",
-    "disqusIdentifier",
-    "disqusUrl"
-];
-// Convert html data-attribute to camalcase
-function convertToData(attr) {
-    // FInd a way for lgsize
-    if (attr === "href") return "src";
-    attr = attr.replace("data-", "");
-    attr = attr.charAt(0).toLowerCase() + attr.slice(1);
-    attr = attr.replace(/-([a-z])/g, function(g) {
-        return g[1].toUpperCase();
-    });
-    return attr;
-}
-var utils = {
-    /**
-     * get possible width and height from the lgSize attribute. Used for ZoomFromOrigin option
-     */ getSize: function(el, container, spacing, defaultLgSize) {
-        if (spacing === void 0) spacing = 0;
-        var LGel = $LG(el);
-        var lgSize = LGel.attr("data-lg-size") || defaultLgSize;
-        if (!lgSize) return;
-        var isResponsiveSizes = lgSize.split(",");
-        // if at-least two viewport sizes are available
-        if (isResponsiveSizes[1]) {
-            var wWidth = window.innerWidth;
-            for(var i = 0; i < isResponsiveSizes.length; i++){
-                var size_1 = isResponsiveSizes[i];
-                var responsiveWidth = parseInt(size_1.split("-")[2], 10);
-                if (responsiveWidth > wWidth) {
-                    lgSize = size_1;
-                    break;
-                }
-                // take last item as last option
-                if (i === isResponsiveSizes.length - 1) lgSize = size_1;
-            }
-        }
-        var size = lgSize.split("-");
-        var width = parseInt(size[0], 10);
-        var height = parseInt(size[1], 10);
-        var cWidth = container.width();
-        var cHeight = container.height() - spacing;
-        var maxWidth = Math.min(cWidth, width);
-        var maxHeight = Math.min(cHeight, height);
-        var ratio = Math.min(maxWidth / width, maxHeight / height);
-        return {
-            width: width * ratio,
-            height: height * ratio
-        };
-    },
-    /**
-     * @desc Get transform value based on the imageSize. Used for ZoomFromOrigin option
-     * @param {jQuery Element}
-     * @returns {String} Transform CSS string
-     */ getTransform: function(el, container, top, bottom, imageSize) {
-        if (!imageSize) return;
-        var LGel = $LG(el).find("img").first();
-        if (!LGel.get()) return;
-        var containerRect = container.get().getBoundingClientRect();
-        var wWidth = containerRect.width;
-        // using innerWidth to include mobile safari bottom bar
-        var wHeight = container.height() - (top + bottom);
-        var elWidth = LGel.width();
-        var elHeight = LGel.height();
-        var elStyle = LGel.style();
-        var x = (wWidth - elWidth) / 2 - LGel.offset().left + (parseFloat(elStyle.paddingLeft) || 0) + (parseFloat(elStyle.borderLeft) || 0) + $LG(window).scrollLeft() + containerRect.left;
-        var y = (wHeight - elHeight) / 2 - LGel.offset().top + (parseFloat(elStyle.paddingTop) || 0) + (parseFloat(elStyle.borderTop) || 0) + $LG(window).scrollTop() + top;
-        var scX = elWidth / imageSize.width;
-        var scY = elHeight / imageSize.height;
-        var transform = "translate3d(" + (x *= -1) + "px, " + (y *= -1) + "px, 0) scale3d(" + scX + ", " + scY + ", 1)";
-        return transform;
-    },
-    getIframeMarkup: function(iframeWidth, iframeHeight, iframeMaxWidth, iframeMaxHeight, src, iframeTitle) {
-        var title = iframeTitle ? 'title="' + iframeTitle + '"' : "";
-        return '<div class="lg-video-cont lg-has-iframe" style="width:' + iframeWidth + "; max-width:" + iframeMaxWidth + "; height: " + iframeHeight + "; max-height:" + iframeMaxHeight + '">\n                    <iframe class="lg-object" frameborder="0" ' + title + ' src="' + src + '"  allowfullscreen="true"></iframe>\n                </div>';
-    },
-    getImgMarkup: function(index, src, altAttr, srcset, sizes, sources) {
-        var srcsetAttr = srcset ? 'srcset="' + srcset + '"' : "";
-        var sizesAttr = sizes ? 'sizes="' + sizes + '"' : "";
-        var imgMarkup = "<img " + altAttr + " " + srcsetAttr + "  " + sizesAttr + ' class="lg-object lg-image" data-index="' + index + '" src="' + src + '" />';
-        var sourceTag = "";
-        if (sources) {
-            var sourceObj = typeof sources === "string" ? JSON.parse(sources) : sources;
-            sourceTag = sourceObj.map(function(source) {
-                var attrs = "";
-                Object.keys(source).forEach(function(key) {
-                    // Do not remove the first space as it is required to separate the attributes
-                    attrs += " " + key + '="' + source[key] + '"';
-                });
-                return "<source " + attrs + "></source>";
-            });
-        }
-        return "" + sourceTag + imgMarkup;
-    },
-    // Get src from responsive src
-    getResponsiveSrc: function(srcItms) {
-        var rsWidth = [];
-        var rsSrc = [];
-        var src = "";
-        for(var i = 0; i < srcItms.length; i++){
-            var _src = srcItms[i].split(" ");
-            // Manage empty space
-            if (_src[0] === "") _src.splice(0, 1);
-            rsSrc.push(_src[0]);
-            rsWidth.push(_src[1]);
-        }
-        var wWidth = window.innerWidth;
-        for(var j = 0; j < rsWidth.length; j++)if (parseInt(rsWidth[j], 10) > wWidth) {
-            src = rsSrc[j];
-            break;
-        }
-        return src;
-    },
-    isImageLoaded: function(img) {
-        if (!img) return false;
-        // During the onload event, IE correctly identifies any images that
-        // weren’t downloaded as not complete. Others should too. Gecko-based
-        // browsers act like NS4 in that they report this incorrectly.
-        if (!img.complete) return false;
-        // However, they do have two very useful properties: naturalWidth and
-        // naturalHeight. These give the true size of the image. If it failed
-        // to load, either of these should be zero.
-        if (img.naturalWidth === 0) return false;
-        // No other way of checking: assume it’s ok.
-        return true;
-    },
-    getVideoPosterMarkup: function(_poster, dummyImg, videoContStyle, playVideoString, _isVideo) {
-        var videoClass = "";
-        if (_isVideo && _isVideo.youtube) videoClass = "lg-has-youtube";
-        else if (_isVideo && _isVideo.vimeo) videoClass = "lg-has-vimeo";
-        else videoClass = "lg-has-html5";
-        return '<div class="lg-video-cont ' + videoClass + '" style="' + videoContStyle + '">\n                <div class="lg-video-play-button">\n                <svg\n                    viewBox="0 0 20 20"\n                    preserveAspectRatio="xMidYMid"\n                    focusable="false"\n                    aria-labelledby="' + playVideoString + '"\n                    role="img"\n                    class="lg-video-play-icon"\n                >\n                    <title>' + playVideoString + '</title>\n                    <polygon class="lg-video-play-icon-inner" points="1,0 20,10 1,20"></polygon>\n                </svg>\n                <svg class="lg-video-play-icon-bg" viewBox="0 0 50 50" focusable="false">\n                    <circle cx="50%" cy="50%" r="20"></circle></svg>\n                <svg class="lg-video-play-icon-circle" viewBox="0 0 50 50" focusable="false">\n                    <circle cx="50%" cy="50%" r="20"></circle>\n                </svg>\n            </div>\n            ' + (dummyImg || "") + '\n            <img class="lg-object lg-video-poster" src="' + _poster + '" />\n        </div>';
-    },
-    getFocusableElements: function(container) {
-        var elements = container.querySelectorAll('a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])');
-        var visibleElements = [].filter.call(elements, function(element) {
-            var style = window.getComputedStyle(element);
-            return style.display !== "none" && style.visibility !== "hidden";
-        });
-        return visibleElements;
-    },
-    /**
-     * @desc Create dynamic elements array from gallery items when dynamic option is false
-     * It helps to avoid frequent DOM interaction
-     * and avoid multiple checks for dynamic elments
-     *
-     * @returns {Array} dynamicEl
-     */ getDynamicOptions: function(items, extraProps, getCaptionFromTitleOrAlt, exThumbImage) {
-        var dynamicElements = [];
-        var availableDynamicOptions = __spreadArrays(defaultDynamicOptions, extraProps);
-        [].forEach.call(items, function(item) {
-            var dynamicEl = {};
-            for(var i = 0; i < item.attributes.length; i++){
-                var attr = item.attributes[i];
-                if (attr.specified) {
-                    var dynamicAttr = convertToData(attr.name);
-                    var label = "";
-                    if (availableDynamicOptions.indexOf(dynamicAttr) > -1) label = dynamicAttr;
-                    if (label) dynamicEl[label] = attr.value;
-                }
-            }
-            var currentItem = $LG(item);
-            var alt = currentItem.find("img").first().attr("alt");
-            var title = currentItem.attr("title");
-            var thumb = exThumbImage ? currentItem.attr(exThumbImage) : currentItem.find("img").first().attr("src");
-            dynamicEl.thumb = thumb;
-            if (getCaptionFromTitleOrAlt && !dynamicEl.subHtml) dynamicEl.subHtml = title || alt || "";
-            dynamicEl.alt = alt || title || "";
-            dynamicElements.push(dynamicEl);
-        });
-        return dynamicElements;
-    },
-    isMobile: function() {
-        return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    },
-    /**
-     * @desc Check the given src is video
-     * @param {String} src
-     * @return {Object} video type
-     * Ex:{ youtube  :  ["//www.youtube.com/watch?v=c0asJgSyxcY", "c0asJgSyxcY"] }
-     *
-     * @todo - this information can be moved to dynamicEl to avoid frequent calls
-     */ isVideo: function(src, isHTML5VIdeo, index) {
-        if (!src) {
-            if (isHTML5VIdeo) return {
-                html5: true
-            };
-            else {
-                console.error("lightGallery :- data-src is not provided on slide item " + (index + 1) + ". Please make sure the selector property is properly configured. More info - https://www.lightgalleryjs.com/demos/html-markup/");
-                return;
-            }
-        }
-        var youtube = src.match(/\/\/(?:www\.)?youtu(?:\.be|be\.com|be-nocookie\.com)\/(?:watch\?v=|embed\/)?([a-z0-9\-\_\%]+)([\&|?][\S]*)*/i);
-        var vimeo = src.match(/\/\/(?:www\.)?(?:player\.)?vimeo.com\/(?:video\/)?([0-9a-z\-_]+)(.*)?/i);
-        var wistia = src.match(/https?:\/\/(.+)?(wistia\.com|wi\.st)\/(medias|embed)\/([0-9a-z\-_]+)(.*)/);
-        if (youtube) return {
-            youtube: youtube
-        };
-        else if (vimeo) return {
-            vimeo: vimeo
-        };
-        else if (wistia) return {
-            wistia: wistia
-        };
-    }
-};
-// @ref - https://stackoverflow.com/questions/3971841/how-to-resize-images-proportionally-keeping-the-aspect-ratio
-// @ref - https://2ality.com/2017/04/setting-up-multi-platform-packages.html
-// Unique id for each gallery
-var lgId = 0;
-var LightGallery = /** @class */ function() {
-    function LightGallery(element, options) {
-        this.lgOpened = false;
-        this.index = 0;
-        // lightGallery modules
-        this.plugins = [];
-        // false when lightGallery load first slide content;
-        this.lGalleryOn = false;
-        // True when a slide animation is in progress
-        this.lgBusy = false;
-        this.currentItemsInDom = [];
-        // Scroll top value before lightGallery is opened
-        this.prevScrollTop = 0;
-        this.bodyPaddingRight = 0;
-        this.isDummyImageRemoved = false;
-        this.dragOrSwipeEnabled = false;
-        this.mediaContainerPosition = {
-            top: 0,
-            bottom: 0
-        };
-        if (!element) return this;
-        lgId++;
-        this.lgId = lgId;
-        this.el = element;
-        this.LGel = $LG(element);
-        this.generateSettings(options);
-        this.buildModules();
-        // When using dynamic mode, ensure dynamicEl is an array
-        if (this.settings.dynamic && this.settings.dynamicEl !== undefined && !Array.isArray(this.settings.dynamicEl)) throw "When using dynamic mode, you must also define dynamicEl as an Array.";
-        this.galleryItems = this.getItems();
-        this.normalizeSettings();
-        // Gallery items
-        this.init();
-        this.validateLicense();
-        return this;
-    }
-    LightGallery.prototype.generateSettings = function(options) {
-        // lightGallery settings
-        this.settings = __assign(__assign({}, lightGalleryCoreSettings), options);
-        if (this.settings.isMobile && typeof this.settings.isMobile === "function" ? this.settings.isMobile() : utils.isMobile()) {
-            var mobileSettings = __assign(__assign({}, this.settings.mobileSettings), this.settings.mobileSettings);
-            this.settings = __assign(__assign({}, this.settings), mobileSettings);
-        }
-    };
-    LightGallery.prototype.normalizeSettings = function() {
-        if (this.settings.slideEndAnimation) this.settings.hideControlOnEnd = false;
-        if (!this.settings.closable) this.settings.swipeToClose = false;
-        // And reset it on close to get the correct value next time
-        this.zoomFromOrigin = this.settings.zoomFromOrigin;
-        // At the moment, Zoom from image doesn't support dynamic options
-        // @todo add zoomFromOrigin support for dynamic images
-        if (this.settings.dynamic) this.zoomFromOrigin = false;
-        if (!this.settings.container) this.settings.container = document.body;
-        // settings.preload should not be grater than $item.length
-        this.settings.preload = Math.min(this.settings.preload, this.galleryItems.length);
-    };
-    LightGallery.prototype.init = function() {
-        var _this = this;
-        this.addSlideVideoInfo(this.galleryItems);
-        this.buildStructure();
-        this.LGel.trigger(lGEvents.init, {
-            instance: this
-        });
-        if (this.settings.keyPress) this.keyPress();
-        setTimeout(function() {
-            _this.enableDrag();
-            _this.enableSwipe();
-            _this.triggerPosterClick();
-        }, 50);
-        this.arrow();
-        if (this.settings.mousewheel) this.mousewheel();
-        if (!this.settings.dynamic) this.openGalleryOnItemClick();
-    };
-    LightGallery.prototype.openGalleryOnItemClick = function() {
-        var _this = this;
-        var _loop_1 = function(index) {
-            var element = this_1.items[index];
-            var $element = $LG(element);
-            // Using different namespace for click because click event should not unbind if selector is same object('this')
-            // @todo manage all event listners - should have namespace that represent element
-            var uuid = lgQuery.generateUUID();
-            $element.attr("data-lg-id", uuid).on("click.lgcustom-item-" + uuid, function(e) {
-                e.preventDefault();
-                var currentItemIndex = _this.settings.index || index;
-                _this.openGallery(currentItemIndex, element);
-            });
-        };
-        var this_1 = this;
-        // Using for loop instead of using bubbling as the items can be any html element.
-        for(var index = 0; index < this.items.length; index++)_loop_1(index);
-    };
-    /**
-     * Module constructor
-     * Modules are build incrementally.
-     * Gallery should be opened only once all the modules are initialized.
-     * use moduleBuildTimeout to make sure this
-     */ LightGallery.prototype.buildModules = function() {
-        var _this = this;
-        this.settings.plugins.forEach(function(plugin) {
-            _this.plugins.push(new plugin(_this, $LG));
-        });
-    };
-    LightGallery.prototype.validateLicense = function() {
-        if (!this.settings.licenseKey) console.error("Please provide a valid license key");
-        else if (this.settings.licenseKey === "0000-0000-000-0000") console.warn("lightGallery: " + this.settings.licenseKey + " license key is not valid for production use");
-    };
-    LightGallery.prototype.getSlideItem = function(index) {
-        return $LG(this.getSlideItemId(index));
-    };
-    LightGallery.prototype.getSlideItemId = function(index) {
-        return "#lg-item-" + this.lgId + "-" + index;
-    };
-    LightGallery.prototype.getIdName = function(id) {
-        return id + "-" + this.lgId;
-    };
-    LightGallery.prototype.getElementById = function(id) {
-        return $LG("#" + this.getIdName(id));
-    };
-    LightGallery.prototype.manageSingleSlideClassName = function() {
-        if (this.galleryItems.length < 2) this.outer.addClass("lg-single-item");
-        else this.outer.removeClass("lg-single-item");
-    };
-    LightGallery.prototype.buildStructure = function() {
-        var _this = this;
-        var container = this.$container && this.$container.get();
-        if (container) return;
-        var controls = "";
-        var subHtmlCont = "";
-        // Create controls
-        if (this.settings.controls) controls = '<button type="button" id="' + this.getIdName("lg-prev") + '" aria-label="' + this.settings.strings["previousSlide"] + '" class="lg-prev lg-icon"> ' + this.settings.prevHtml + ' </button>\n                <button type="button" id="' + this.getIdName("lg-next") + '" aria-label="' + this.settings.strings["nextSlide"] + '" class="lg-next lg-icon"> ' + this.settings.nextHtml + " </button>";
-        if (this.settings.appendSubHtmlTo !== ".lg-item") subHtmlCont = '<div class="lg-sub-html" role="status" aria-live="polite"></div>';
-        var addClasses = "";
-        if (this.settings.allowMediaOverlap) // Do not remove space before last single quote
-        addClasses += "lg-media-overlap ";
-        var ariaLabelledby = this.settings.ariaLabelledby ? 'aria-labelledby="' + this.settings.ariaLabelledby + '"' : "";
-        var ariaDescribedby = this.settings.ariaDescribedby ? 'aria-describedby="' + this.settings.ariaDescribedby + '"' : "";
-        var containerClassName = "lg-container " + this.settings.addClass + " " + (document.body !== this.settings.container ? "lg-inline" : "");
-        var closeIcon = this.settings.closable && this.settings.showCloseIcon ? '<button type="button" aria-label="' + this.settings.strings["closeGallery"] + '" id="' + this.getIdName("lg-close") + '" class="lg-close lg-icon"></button>' : "";
-        var maximizeIcon = this.settings.showMaximizeIcon ? '<button type="button" aria-label="' + this.settings.strings["toggleMaximize"] + '" id="' + this.getIdName("lg-maximize") + '" class="lg-maximize lg-icon"></button>' : "";
-        var template = '\n        <div class="' + containerClassName + '" id="' + this.getIdName("lg-container") + '" tabindex="-1" aria-modal="true" ' + ariaLabelledby + " " + ariaDescribedby + ' role="dialog"\n        >\n            <div id="' + this.getIdName("lg-backdrop") + '" class="lg-backdrop"></div>\n\n            <div id="' + this.getIdName("lg-outer") + '" class="lg-outer lg-use-css3 lg-css3 lg-hide-items ' + addClasses + ' ">\n\n              <div id="' + this.getIdName("lg-content") + '" class="lg-content">\n                <div id="' + this.getIdName("lg-inner") + '" class="lg-inner">\n                </div>\n                ' + controls + '\n              </div>\n                <div id="' + this.getIdName("lg-toolbar") + '" class="lg-toolbar lg-group">\n                    ' + maximizeIcon + "\n                    " + closeIcon + "\n                    </div>\n                    " + (this.settings.appendSubHtmlTo === ".lg-outer" ? subHtmlCont : "") + '\n                <div id="' + this.getIdName("lg-components") + '" class="lg-components">\n                    ' + (this.settings.appendSubHtmlTo === ".lg-sub-html" ? subHtmlCont : "") + "\n                </div>\n            </div>\n        </div>\n        ";
-        $LG(this.settings.container).append(template);
-        if (document.body !== this.settings.container) $LG(this.settings.container).css("position", "relative");
-        this.outer = this.getElementById("lg-outer");
-        this.$lgComponents = this.getElementById("lg-components");
-        this.$backdrop = this.getElementById("lg-backdrop");
-        this.$container = this.getElementById("lg-container");
-        this.$inner = this.getElementById("lg-inner");
-        this.$content = this.getElementById("lg-content");
-        this.$toolbar = this.getElementById("lg-toolbar");
-        this.$backdrop.css("transition-duration", this.settings.backdropDuration + "ms");
-        var outerClassNames = this.settings.mode + " ";
-        this.manageSingleSlideClassName();
-        if (this.settings.enableDrag) outerClassNames += "lg-grab ";
-        this.outer.addClass(outerClassNames);
-        this.$inner.css("transition-timing-function", this.settings.easing);
-        this.$inner.css("transition-duration", this.settings.speed + "ms");
-        if (this.settings.download) this.$toolbar.append('<a id="' + this.getIdName("lg-download") + '" target="_blank" rel="noopener" aria-label="' + this.settings.strings["download"] + '" download class="lg-download lg-icon"></a>');
-        this.counter();
-        $LG(window).on("resize.lg.global" + this.lgId + " orientationchange.lg.global" + this.lgId, function() {
-            _this.refreshOnResize();
-        });
-        this.hideBars();
-        this.manageCloseGallery();
-        this.toggleMaximize();
-        this.initModules();
-    };
-    LightGallery.prototype.refreshOnResize = function() {
-        if (this.lgOpened) {
-            var currentGalleryItem = this.galleryItems[this.index];
-            var __slideVideoInfo = currentGalleryItem.__slideVideoInfo;
-            this.mediaContainerPosition = this.getMediaContainerPosition();
-            var _a = this.mediaContainerPosition, top_1 = _a.top, bottom = _a.bottom;
-            this.currentImageSize = utils.getSize(this.items[this.index], this.outer, top_1 + bottom, __slideVideoInfo && this.settings.videoMaxSize);
-            if (__slideVideoInfo) this.resizeVideoSlide(this.index, this.currentImageSize);
-            if (this.zoomFromOrigin && !this.isDummyImageRemoved) {
-                var imgStyle = this.getDummyImgStyles(this.currentImageSize);
-                this.outer.find(".lg-current .lg-dummy-img").first().attr("style", imgStyle);
-            }
-            this.LGel.trigger(lGEvents.containerResize);
-        }
-    };
-    LightGallery.prototype.resizeVideoSlide = function(index, imageSize) {
-        var lgVideoStyle = this.getVideoContStyle(imageSize);
-        var currentSlide = this.getSlideItem(index);
-        currentSlide.find(".lg-video-cont").attr("style", lgVideoStyle);
-    };
-    /**
-     * Update slides dynamically.
-     * Add, edit or delete slides dynamically when lightGallery is opened.
-     * Modify the current gallery items and pass it via updateSlides method
-     * @note
-     * - Do not mutate existing lightGallery items directly.
-     * - Always pass new list of gallery items
-     * - You need to take care of thumbnails outside the gallery if any
-     * - user this method only if you want to update slides when the gallery is opened. Otherwise, use `refresh()` method.
-     * @param items Gallery items
-     * @param index After the update operation, which slide gallery should navigate to
-     * @category lGPublicMethods
-     * @example
-     * const plugin = lightGallery();
-     *
-     * // Adding slides dynamically
-     * let galleryItems = [
-     * // Access existing lightGallery items
-     * // galleryItems are automatically generated internally from the gallery HTML markup
-     * // or directly from galleryItems when dynamic gallery is used
-     *   ...plugin.galleryItems,
-     *     ...[
-     *       {
-     *         src: 'img/img-1.png',
-     *           thumb: 'img/thumb1.png',
-     *         },
-     *     ],
-     *   ];
-     *   plugin.updateSlides(
-     *     galleryItems,
-     *     plugin.index,
-     *   );
-     *
-     *
-     * // Remove slides dynamically
-     * galleryItems = JSON.parse(
-     *   JSON.stringify(updateSlideInstance.galleryItems),
-     * );
-     * galleryItems.shift();
-     * updateSlideInstance.updateSlides(galleryItems, 1);
-     * @see <a href="/demos/update-slides/">Demo</a>
-     */ LightGallery.prototype.updateSlides = function(items, index) {
-        if (this.index > items.length - 1) this.index = items.length - 1;
-        if (items.length === 1) this.index = 0;
-        if (!items.length) {
-            this.closeGallery();
-            return;
-        }
-        var currentSrc = this.galleryItems[index].src;
-        this.galleryItems = items;
-        this.updateControls();
-        this.$inner.empty();
-        this.currentItemsInDom = [];
-        var _index = 0;
-        // Find the current index based on source value of the slide
-        this.galleryItems.some(function(galleryItem, itemIndex) {
-            if (galleryItem.src === currentSrc) {
-                _index = itemIndex;
-                return true;
-            }
-            return false;
-        });
-        this.currentItemsInDom = this.organizeSlideItems(_index, -1);
-        this.loadContent(_index, true);
-        this.getSlideItem(_index).addClass("lg-current");
-        this.index = _index;
-        this.updateCurrentCounter(_index);
-        this.LGel.trigger(lGEvents.updateSlides);
-    };
-    // Get gallery items based on multiple conditions
-    LightGallery.prototype.getItems = function() {
-        // Gallery items
-        this.items = [];
-        if (!this.settings.dynamic) {
-            if (this.settings.selector === "this") this.items.push(this.el);
-            else if (this.settings.selector) {
-                if (typeof this.settings.selector === "string") {
-                    if (this.settings.selectWithin) {
-                        var selectWithin = $LG(this.settings.selectWithin);
-                        this.items = selectWithin.find(this.settings.selector).get();
-                    } else this.items = this.el.querySelectorAll(this.settings.selector);
-                } else this.items = this.settings.selector;
-            } else this.items = this.el.children;
-            return utils.getDynamicOptions(this.items, this.settings.extraProps, this.settings.getCaptionFromTitleOrAlt, this.settings.exThumbImage);
-        } else return this.settings.dynamicEl || [];
-    };
-    LightGallery.prototype.shouldHideScrollbar = function() {
-        return this.settings.hideScrollbar && document.body === this.settings.container;
-    };
-    LightGallery.prototype.hideScrollbar = function() {
-        if (!this.shouldHideScrollbar()) return;
-        this.bodyPaddingRight = parseFloat($LG("body").style().paddingRight);
-        var bodyRect = document.documentElement.getBoundingClientRect();
-        var scrollbarWidth = window.innerWidth - bodyRect.width;
-        $LG(document.body).css("padding-right", scrollbarWidth + this.bodyPaddingRight + "px");
-        $LG(document.body).addClass("lg-overlay-open");
-    };
-    LightGallery.prototype.resetScrollBar = function() {
-        if (!this.shouldHideScrollbar()) return;
-        $LG(document.body).css("padding-right", this.bodyPaddingRight + "px");
-        $LG(document.body).removeClass("lg-overlay-open");
-    };
-    /**
-     * Open lightGallery.
-     * Open gallery with specific slide by passing index of the slide as parameter.
-     * @category lGPublicMethods
-     * @param {Number} index  - index of the slide
-     * @param {HTMLElement} element - Which image lightGallery should zoom from
-     *
-     * @example
-     * const $dynamicGallery = document.getElementById('dynamic-gallery-demo');
-     * const dynamicGallery = lightGallery($dynamicGallery, {
-     *     dynamic: true,
-     *     dynamicEl: [
-     *         {
-     *              src: 'img/1.jpg',
-     *              thumb: 'img/thumb-1.jpg',
-     *              subHtml: '<h4>Image 1 title</h4><p>Image 1 descriptions.</p>',
-     *         },
-     *         ...
-     *     ],
-     * });
-     * $dynamicGallery.addEventListener('click', function () {
-     *     // Starts with third item.(Optional).
-     *     // This is useful if you want use dynamic mode with
-     *     // custom thumbnails (thumbnails outside gallery),
-     *     dynamicGallery.openGallery(2);
-     * });
-     *
-     */ LightGallery.prototype.openGallery = function(index, element) {
-        var _this = this;
-        if (index === void 0) index = this.settings.index;
-        // prevent accidental double execution
-        if (this.lgOpened) return;
-        this.lgOpened = true;
-        this.outer.removeClass("lg-hide-items");
-        this.hideScrollbar();
-        // Add display block, but still has opacity 0
-        this.$container.addClass("lg-show");
-        var itemsToBeInsertedToDom = this.getItemsToBeInsertedToDom(index, index);
-        this.currentItemsInDom = itemsToBeInsertedToDom;
-        var items = "";
-        itemsToBeInsertedToDom.forEach(function(item) {
-            items = items + ('<div id="' + item + '" class="lg-item"></div>');
-        });
-        this.$inner.append(items);
-        this.addHtml(index);
-        var transform = "";
-        this.mediaContainerPosition = this.getMediaContainerPosition();
-        var _a = this.mediaContainerPosition, top = _a.top, bottom = _a.bottom;
-        if (!this.settings.allowMediaOverlap) this.setMediaContainerPosition(top, bottom);
-        var __slideVideoInfo = this.galleryItems[index].__slideVideoInfo;
-        if (this.zoomFromOrigin && element) {
-            this.currentImageSize = utils.getSize(element, this.outer, top + bottom, __slideVideoInfo && this.settings.videoMaxSize);
-            transform = utils.getTransform(element, this.outer, top, bottom, this.currentImageSize);
-        }
-        if (!this.zoomFromOrigin || !transform) {
-            this.outer.addClass(this.settings.startClass);
-            this.getSlideItem(index).removeClass("lg-complete");
-        }
-        var timeout = this.settings.zoomFromOrigin ? 100 : this.settings.backdropDuration;
-        setTimeout(function() {
-            _this.outer.addClass("lg-components-open");
-        }, timeout);
-        this.index = index;
-        this.LGel.trigger(lGEvents.beforeOpen);
-        // add class lg-current to remove initial transition
-        this.getSlideItem(index).addClass("lg-current");
-        this.lGalleryOn = false;
-        // Store the current scroll top value to scroll back after closing the gallery..
-        this.prevScrollTop = $LG(window).scrollTop();
-        setTimeout(function() {
-            // Need to check both zoomFromOrigin and transform values as we need to set set the
-            // default opening animation if user missed to add the lg-size attribute
-            if (_this.zoomFromOrigin && transform) {
-                var currentSlide_1 = _this.getSlideItem(index);
-                currentSlide_1.css("transform", transform);
-                setTimeout(function() {
-                    currentSlide_1.addClass("lg-start-progress lg-start-end-progress").css("transition-duration", _this.settings.startAnimationDuration + "ms");
-                    _this.outer.addClass("lg-zoom-from-image");
-                });
-                setTimeout(function() {
-                    currentSlide_1.css("transform", "translate3d(0, 0, 0)");
-                }, 100);
-            }
-            setTimeout(function() {
-                _this.$backdrop.addClass("in");
-                _this.$container.addClass("lg-show-in");
-            }, 10);
-            setTimeout(function() {
-                if (_this.settings.trapFocus && document.body === _this.settings.container) _this.trapFocus();
-            }, _this.settings.backdropDuration + 50);
-            // lg-visible class resets gallery opacity to 1
-            if (!_this.zoomFromOrigin || !transform) setTimeout(function() {
-                _this.outer.addClass("lg-visible");
-            }, _this.settings.backdropDuration);
-            // initiate slide function
-            _this.slide(index, false, false, false);
-            _this.LGel.trigger(lGEvents.afterOpen);
-        });
-        if (document.body === this.settings.container) $LG("html").addClass("lg-on");
-    };
-    /**
-     * Note - Changing the position of the media on every slide transition creates a flickering effect.
-     * Therefore, The height of the caption is calculated dynamically, only once based on the first slide caption.
-     * if you have dynamic captions for each media,
-     * you can provide an appropriate height for the captions via allowMediaOverlap option
-     */ LightGallery.prototype.getMediaContainerPosition = function() {
-        if (this.settings.allowMediaOverlap) return {
-            top: 0,
-            bottom: 0
-        };
-        var top = this.$toolbar.get().clientHeight || 0;
-        var subHtml = this.outer.find(".lg-components .lg-sub-html").get();
-        var captionHeight = this.settings.defaultCaptionHeight || subHtml && subHtml.clientHeight || 0;
-        var thumbContainer = this.outer.find(".lg-thumb-outer").get();
-        var thumbHeight = thumbContainer ? thumbContainer.clientHeight : 0;
-        var bottom = thumbHeight + captionHeight;
-        return {
-            top: top,
-            bottom: bottom
-        };
-    };
-    LightGallery.prototype.setMediaContainerPosition = function(top, bottom) {
-        if (top === void 0) top = 0;
-        if (bottom === void 0) bottom = 0;
-        this.$content.css("top", top + "px").css("bottom", bottom + "px");
-    };
-    LightGallery.prototype.hideBars = function() {
-        var _this = this;
-        // Hide controllers if mouse doesn't move for some period
-        setTimeout(function() {
-            _this.outer.removeClass("lg-hide-items");
-            if (_this.settings.hideBarsDelay > 0) {
-                _this.outer.on("mousemove.lg click.lg touchstart.lg", function() {
-                    _this.outer.removeClass("lg-hide-items");
-                    clearTimeout(_this.hideBarTimeout);
-                    // Timeout will be cleared on each slide movement also
-                    _this.hideBarTimeout = setTimeout(function() {
-                        _this.outer.addClass("lg-hide-items");
-                    }, _this.settings.hideBarsDelay);
-                });
-                _this.outer.trigger("mousemove.lg");
-            }
-        }, this.settings.showBarsAfter);
-    };
-    LightGallery.prototype.initPictureFill = function($img) {
-        if (this.settings.supportLegacyBrowser) try {
-            picturefill({
-                elements: [
-                    $img.get()
-                ]
-            });
-        } catch (e) {
-            console.warn("lightGallery :- If you want srcset or picture tag to be supported for older browser please include picturefil javascript library in your document.");
-        }
-    };
-    /**
-     *  @desc Create image counter
-     *  Ex: 1/10
-     */ LightGallery.prototype.counter = function() {
-        if (this.settings.counter) {
-            var counterHtml = '<div class="lg-counter" role="status" aria-live="polite">\n                <span id="' + this.getIdName("lg-counter-current") + '" class="lg-counter-current">' + (this.index + 1) + ' </span> /\n                <span id="' + this.getIdName("lg-counter-all") + '" class="lg-counter-all">' + this.galleryItems.length + " </span></div>";
-            this.outer.find(this.settings.appendCounterTo).append(counterHtml);
-        }
-    };
-    /**
-     *  @desc add sub-html into the slide
-     *  @param {Number} index - index of the slide
-     */ LightGallery.prototype.addHtml = function(index) {
-        var subHtml;
-        var subHtmlUrl;
-        if (this.galleryItems[index].subHtmlUrl) subHtmlUrl = this.galleryItems[index].subHtmlUrl;
-        else subHtml = this.galleryItems[index].subHtml;
-        if (!subHtmlUrl) {
-            if (subHtml) {
-                // get first letter of sub-html
-                // if first letter starts with . or # get the html form the jQuery object
-                var fL = subHtml.substring(0, 1);
-                if (fL === "." || fL === "#") {
-                    if (this.settings.subHtmlSelectorRelative && !this.settings.dynamic) subHtml = $LG(this.items).eq(index).find(subHtml).first().html();
-                    else subHtml = $LG(subHtml).first().html();
-                }
-            } else subHtml = "";
-        }
-        if (this.settings.appendSubHtmlTo !== ".lg-item") {
-            if (subHtmlUrl) this.outer.find(".lg-sub-html").load(subHtmlUrl);
-            else this.outer.find(".lg-sub-html").html(subHtml);
-        } else {
-            var currentSlide = $LG(this.getSlideItemId(index));
-            if (subHtmlUrl) currentSlide.load(subHtmlUrl);
-            else currentSlide.append('<div class="lg-sub-html">' + subHtml + "</div>");
-        }
-        // Add lg-empty-html class if title doesn't exist
-        if (typeof subHtml !== "undefined" && subHtml !== null) {
-            if (subHtml === "") this.outer.find(this.settings.appendSubHtmlTo).addClass("lg-empty-html");
-            else this.outer.find(this.settings.appendSubHtmlTo).removeClass("lg-empty-html");
-        }
-        this.LGel.trigger(lGEvents.afterAppendSubHtml, {
-            index: index
-        });
-    };
-    /**
-     *  @desc Preload slides
-     *  @param {Number} index - index of the slide
-     * @todo preload not working for the first slide, Also, should work for the first and last slide as well
-     */ LightGallery.prototype.preload = function(index) {
-        for(var i = 1; i <= this.settings.preload; i++){
-            if (i >= this.galleryItems.length - index) break;
-            this.loadContent(index + i, false);
-        }
-        for(var j = 1; j <= this.settings.preload; j++){
-            if (index - j < 0) break;
-            this.loadContent(index - j, false);
-        }
-    };
-    LightGallery.prototype.getDummyImgStyles = function(imageSize) {
-        if (!imageSize) return "";
-        return "width:" + imageSize.width + "px;\n                margin-left: -" + imageSize.width / 2 + "px;\n                margin-top: -" + imageSize.height / 2 + "px;\n                height:" + imageSize.height + "px";
-    };
-    LightGallery.prototype.getVideoContStyle = function(imageSize) {
-        if (!imageSize) return "";
-        return "width:" + imageSize.width + "px;\n                height:" + imageSize.height + "px";
-    };
-    LightGallery.prototype.getDummyImageContent = function($currentSlide, index, alt) {
-        var $currentItem;
-        if (!this.settings.dynamic) $currentItem = $LG(this.items).eq(index);
-        if ($currentItem) {
-            var _dummyImgSrc = void 0;
-            if (!this.settings.exThumbImage) _dummyImgSrc = $currentItem.find("img").first().attr("src");
-            else _dummyImgSrc = $currentItem.attr(this.settings.exThumbImage);
-            if (!_dummyImgSrc) return "";
-            var imgStyle = this.getDummyImgStyles(this.currentImageSize);
-            var dummyImgContent = "<img " + alt + ' style="' + imgStyle + '" class="lg-dummy-img" src="' + _dummyImgSrc + '" />';
-            $currentSlide.addClass("lg-first-slide");
-            this.outer.addClass("lg-first-slide-loading");
-            return dummyImgContent;
-        }
-        return "";
-    };
-    LightGallery.prototype.setImgMarkup = function(src, $currentSlide, index) {
-        var currentGalleryItem = this.galleryItems[index];
-        var alt = currentGalleryItem.alt, srcset = currentGalleryItem.srcset, sizes = currentGalleryItem.sizes, sources = currentGalleryItem.sources;
-        // Use the thumbnail as dummy image which will be resized to actual image size and
-        // displayed on top of actual image
-        var imgContent = "";
-        var altAttr = alt ? 'alt="' + alt + '"' : "";
-        if (this.isFirstSlideWithZoomAnimation()) imgContent = this.getDummyImageContent($currentSlide, index, altAttr);
-        else imgContent = utils.getImgMarkup(index, src, altAttr, srcset, sizes, sources);
-        var imgMarkup = '<picture class="lg-img-wrap"> ' + imgContent + "</picture>";
-        $currentSlide.prepend(imgMarkup);
-    };
-    LightGallery.prototype.onSlideObjectLoad = function($slide, isHTML5VideoWithoutPoster, onLoad, onError) {
-        var mediaObject = $slide.find(".lg-object").first();
-        if (utils.isImageLoaded(mediaObject.get()) || isHTML5VideoWithoutPoster) onLoad();
-        else {
-            mediaObject.on("load.lg error.lg", function() {
-                onLoad && onLoad();
-            });
-            mediaObject.on("error.lg", function() {
-                onError && onError();
-            });
-        }
-    };
-    /**
-     *
-     * @param $el Current slide item
-     * @param index
-     * @param delay Delay is 0 except first time
-     * @param speed Speed is same as delay, except it is 0 if gallery is opened via hash plugin
-     * @param isFirstSlide
-     */ LightGallery.prototype.onLgObjectLoad = function(currentSlide, index, delay, speed, isFirstSlide, isHTML5VideoWithoutPoster) {
-        var _this = this;
-        this.onSlideObjectLoad(currentSlide, isHTML5VideoWithoutPoster, function() {
-            _this.triggerSlideItemLoad(currentSlide, index, delay, speed, isFirstSlide);
-        }, function() {
-            currentSlide.addClass("lg-complete lg-complete_");
-            currentSlide.html('<span class="lg-error-msg">' + _this.settings.strings["mediaLoadingFailed"] + "</span>");
-        });
-    };
-    LightGallery.prototype.triggerSlideItemLoad = function($currentSlide, index, delay, speed, isFirstSlide) {
-        var _this = this;
-        var currentGalleryItem = this.galleryItems[index];
-        // Adding delay for video slides without poster for better performance and user experience
-        // Videos should start playing once once the gallery is completely loaded
-        var _speed = isFirstSlide && this.getSlideType(currentGalleryItem) === "video" && !currentGalleryItem.poster ? speed : 0;
-        setTimeout(function() {
-            $currentSlide.addClass("lg-complete lg-complete_");
-            _this.LGel.trigger(lGEvents.slideItemLoad, {
-                index: index,
-                delay: delay || 0,
-                isFirstSlide: isFirstSlide
-            });
-        }, _speed);
-    };
-    LightGallery.prototype.isFirstSlideWithZoomAnimation = function() {
-        return !!(!this.lGalleryOn && this.zoomFromOrigin && this.currentImageSize);
-    };
-    // Add video slideInfo
-    LightGallery.prototype.addSlideVideoInfo = function(items) {
-        var _this = this;
-        items.forEach(function(element, index) {
-            element.__slideVideoInfo = utils.isVideo(element.src, !!element.video, index);
-            if (element.__slideVideoInfo && _this.settings.loadYouTubePoster && !element.poster && element.__slideVideoInfo.youtube) element.poster = "//img.youtube.com/vi/" + element.__slideVideoInfo.youtube[1] + "/maxresdefault.jpg";
-        });
-    };
-    /**
-     *  Load slide content into slide.
-     *  This is used to load content into slides that is not visible too
-     *  @param {Number} index - index of the slide.
-     *  @param {Boolean} rec - if true call loadcontent() function again.
-     */ LightGallery.prototype.loadContent = function(index, rec) {
-        var _this = this;
-        var currentGalleryItem = this.galleryItems[index];
-        var $currentSlide = $LG(this.getSlideItemId(index));
-        var poster = currentGalleryItem.poster, srcset = currentGalleryItem.srcset, sizes = currentGalleryItem.sizes, sources = currentGalleryItem.sources;
-        var src = currentGalleryItem.src;
-        var video = currentGalleryItem.video;
-        var _html5Video = video && typeof video === "string" ? JSON.parse(video) : video;
-        if (currentGalleryItem.responsive) {
-            var srcDyItms = currentGalleryItem.responsive.split(",");
-            src = utils.getResponsiveSrc(srcDyItms) || src;
-        }
-        var videoInfo = currentGalleryItem.__slideVideoInfo;
-        var lgVideoStyle = "";
-        var iframe = !!currentGalleryItem.iframe;
-        var isFirstSlide = !this.lGalleryOn;
-        // delay for adding complete class. it is 0 except first time.
-        var delay = 0;
-        if (isFirstSlide) {
-            if (this.zoomFromOrigin && this.currentImageSize) delay = this.settings.startAnimationDuration + 10;
-            else delay = this.settings.backdropDuration + 10;
-        }
-        if (!$currentSlide.hasClass("lg-loaded")) {
-            if (videoInfo) {
-                var _a = this.mediaContainerPosition, top_2 = _a.top, bottom = _a.bottom;
-                var videoSize = utils.getSize(this.items[index], this.outer, top_2 + bottom, videoInfo && this.settings.videoMaxSize);
-                lgVideoStyle = this.getVideoContStyle(videoSize);
-            }
-            if (iframe) {
-                var markup = utils.getIframeMarkup(this.settings.iframeWidth, this.settings.iframeHeight, this.settings.iframeMaxWidth, this.settings.iframeMaxHeight, src, currentGalleryItem.iframeTitle);
-                $currentSlide.prepend(markup);
-            } else if (poster) {
-                var dummyImg = "";
-                var hasStartAnimation = isFirstSlide && this.zoomFromOrigin && this.currentImageSize;
-                if (hasStartAnimation) dummyImg = this.getDummyImageContent($currentSlide, index, "");
-                var markup = utils.getVideoPosterMarkup(poster, dummyImg || "", lgVideoStyle, this.settings.strings["playVideo"], videoInfo);
-                $currentSlide.prepend(markup);
-            } else if (videoInfo) {
-                var markup = '<div class="lg-video-cont " style="' + lgVideoStyle + '"></div>';
-                $currentSlide.prepend(markup);
-            } else {
-                this.setImgMarkup(src, $currentSlide, index);
-                if (srcset || sources) {
-                    var $img = $currentSlide.find(".lg-object");
-                    this.initPictureFill($img);
-                }
-            }
-            if (poster || videoInfo) this.LGel.trigger(lGEvents.hasVideo, {
-                index: index,
-                src: src,
-                html5Video: _html5Video,
-                hasPoster: !!poster
-            });
-            this.LGel.trigger(lGEvents.afterAppendSlide, {
-                index: index
-            });
-            if (this.lGalleryOn && this.settings.appendSubHtmlTo === ".lg-item") this.addHtml(index);
-        }
-        // For first time add some delay for displaying the start animation.
-        var _speed = 0;
-        // Do not change the delay value because it is required for zoom plugin.
-        // If gallery opened from direct url (hash) speed value should be 0
-        if (delay && !$LG(document.body).hasClass("lg-from-hash")) _speed = delay;
-        // Only for first slide and zoomFromOrigin is enabled
-        if (this.isFirstSlideWithZoomAnimation()) {
-            setTimeout(function() {
-                $currentSlide.removeClass("lg-start-end-progress lg-start-progress").removeAttr("style");
-            }, this.settings.startAnimationDuration + 100);
-            if (!$currentSlide.hasClass("lg-loaded")) setTimeout(function() {
-                if (_this.getSlideType(currentGalleryItem) === "image") {
-                    var alt = currentGalleryItem.alt;
-                    var altAttr = alt ? 'alt="' + alt + '"' : "";
-                    $currentSlide.find(".lg-img-wrap").append(utils.getImgMarkup(index, src, altAttr, srcset, sizes, currentGalleryItem.sources));
-                    if (srcset || sources) {
-                        var $img = $currentSlide.find(".lg-object");
-                        _this.initPictureFill($img);
-                    }
-                }
-                if (_this.getSlideType(currentGalleryItem) === "image" || _this.getSlideType(currentGalleryItem) === "video" && poster) {
-                    _this.onLgObjectLoad($currentSlide, index, delay, _speed, true, false);
-                    // load remaining slides once the slide is completely loaded
-                    _this.onSlideObjectLoad($currentSlide, !!(videoInfo && videoInfo.html5 && !poster), function() {
-                        _this.loadContentOnFirstSlideLoad(index, $currentSlide, _speed);
-                    }, function() {
-                        _this.loadContentOnFirstSlideLoad(index, $currentSlide, _speed);
-                    });
-                }
-            }, this.settings.startAnimationDuration + 100);
-        }
-        // SLide content has been added to dom
-        $currentSlide.addClass("lg-loaded");
-        if (!this.isFirstSlideWithZoomAnimation() || this.getSlideType(currentGalleryItem) === "video" && !poster) this.onLgObjectLoad($currentSlide, index, delay, _speed, isFirstSlide, !!(videoInfo && videoInfo.html5 && !poster));
-        // When gallery is opened once content is loaded (second time) need to add lg-complete class for css styling
-        if ((!this.zoomFromOrigin || !this.currentImageSize) && $currentSlide.hasClass("lg-complete_") && !this.lGalleryOn) setTimeout(function() {
-            $currentSlide.addClass("lg-complete");
-        }, this.settings.backdropDuration);
-        // Content loaded
-        // Need to set lGalleryOn before calling preload function
-        this.lGalleryOn = true;
-        if (rec === true) {
-            if (!$currentSlide.hasClass("lg-complete_")) $currentSlide.find(".lg-object").first().on("load.lg error.lg", function() {
-                _this.preload(index);
-            });
-            else this.preload(index);
-        }
-    };
-    /**
-     * @desc Remove dummy image content and load next slides
-     * Called only for the first time if zoomFromOrigin animation is enabled
-     * @param index
-     * @param $currentSlide
-     * @param speed
-     */ LightGallery.prototype.loadContentOnFirstSlideLoad = function(index, $currentSlide, speed) {
-        var _this = this;
-        setTimeout(function() {
-            $currentSlide.find(".lg-dummy-img").remove();
-            $currentSlide.removeClass("lg-first-slide");
-            _this.outer.removeClass("lg-first-slide-loading");
-            _this.isDummyImageRemoved = true;
-            _this.preload(index);
-        }, speed + 300);
-    };
-    LightGallery.prototype.getItemsToBeInsertedToDom = function(index, prevIndex, numberOfItems) {
-        var _this = this;
-        if (numberOfItems === void 0) numberOfItems = 0;
-        var itemsToBeInsertedToDom = [];
-        // Minimum 2 items should be there
-        var possibleNumberOfItems = Math.max(numberOfItems, 3);
-        possibleNumberOfItems = Math.min(possibleNumberOfItems, this.galleryItems.length);
-        var prevIndexItem = "lg-item-" + this.lgId + "-" + prevIndex;
-        if (this.galleryItems.length <= 3) {
-            this.galleryItems.forEach(function(_element, index) {
-                itemsToBeInsertedToDom.push("lg-item-" + _this.lgId + "-" + index);
-            });
-            return itemsToBeInsertedToDom;
-        }
-        if (index < (this.galleryItems.length - 1) / 2) {
-            for(var idx = index; idx > index - possibleNumberOfItems / 2 && idx >= 0; idx--)itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + idx);
-            var numberOfExistingItems = itemsToBeInsertedToDom.length;
-            for(var idx = 0; idx < possibleNumberOfItems - numberOfExistingItems; idx++)itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + (index + idx + 1));
-        } else {
-            for(var idx = index; idx <= this.galleryItems.length - 1 && idx < index + possibleNumberOfItems / 2; idx++)itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + idx);
-            var numberOfExistingItems = itemsToBeInsertedToDom.length;
-            for(var idx = 0; idx < possibleNumberOfItems - numberOfExistingItems; idx++)itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + (index - idx - 1));
-        }
-        if (this.settings.loop) {
-            if (index === this.galleryItems.length - 1) itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + 0);
-            else if (index === 0) itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + (this.galleryItems.length - 1));
-        }
-        if (itemsToBeInsertedToDom.indexOf(prevIndexItem) === -1) itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + prevIndex);
-        return itemsToBeInsertedToDom;
-    };
-    LightGallery.prototype.organizeSlideItems = function(index, prevIndex) {
-        var _this = this;
-        var itemsToBeInsertedToDom = this.getItemsToBeInsertedToDom(index, prevIndex, this.settings.numberOfSlideItemsInDom);
-        itemsToBeInsertedToDom.forEach(function(item) {
-            if (_this.currentItemsInDom.indexOf(item) === -1) _this.$inner.append('<div id="' + item + '" class="lg-item"></div>');
-        });
-        this.currentItemsInDom.forEach(function(item) {
-            if (itemsToBeInsertedToDom.indexOf(item) === -1) $LG("#" + item).remove();
-        });
-        return itemsToBeInsertedToDom;
-    };
-    /**
-     * Get previous index of the slide
-     */ LightGallery.prototype.getPreviousSlideIndex = function() {
-        var prevIndex = 0;
-        try {
-            var currentItemId = this.outer.find(".lg-current").first().attr("id");
-            prevIndex = parseInt(currentItemId.split("-")[3]) || 0;
-        } catch (error) {
-            prevIndex = 0;
-        }
-        return prevIndex;
-    };
-    LightGallery.prototype.setDownloadValue = function(index) {
-        if (this.settings.download) {
-            var currentGalleryItem = this.galleryItems[index];
-            var hideDownloadBtn = currentGalleryItem.downloadUrl === false || currentGalleryItem.downloadUrl === "false";
-            if (hideDownloadBtn) this.outer.addClass("lg-hide-download");
-            else {
-                var $download = this.getElementById("lg-download");
-                this.outer.removeClass("lg-hide-download");
-                $download.attr("href", currentGalleryItem.downloadUrl || currentGalleryItem.src);
-                if (currentGalleryItem.download) $download.attr("download", currentGalleryItem.download);
-            }
-        }
-    };
-    LightGallery.prototype.makeSlideAnimation = function(direction, currentSlideItem, previousSlideItem) {
-        var _this = this;
-        if (this.lGalleryOn) previousSlideItem.addClass("lg-slide-progress");
-        setTimeout(function() {
-            // remove all transitions
-            _this.outer.addClass("lg-no-trans");
-            _this.outer.find(".lg-item").removeClass("lg-prev-slide lg-next-slide");
-            if (direction === "prev") {
-                //prevslide
-                currentSlideItem.addClass("lg-prev-slide");
-                previousSlideItem.addClass("lg-next-slide");
-            } else {
-                // next slide
-                currentSlideItem.addClass("lg-next-slide");
-                previousSlideItem.addClass("lg-prev-slide");
-            }
-            // give 50 ms for browser to add/remove class
-            setTimeout(function() {
-                _this.outer.find(".lg-item").removeClass("lg-current");
-                currentSlideItem.addClass("lg-current");
-                // reset all transitions
-                _this.outer.removeClass("lg-no-trans");
-            }, 50);
-        }, this.lGalleryOn ? this.settings.slideDelay : 0);
-    };
-    /**
-     * Goto a specific slide.
-     * @param {Number} index - index of the slide
-     * @param {Boolean} fromTouch - true if slide function called via touch event or mouse drag
-     * @param {Boolean} fromThumb - true if slide function called via thumbnail click
-     * @param {String} direction - Direction of the slide(next/prev)
-     * @category lGPublicMethods
-     * @example
-     *  const plugin = lightGallery();
-     *  // to go to 3rd slide
-     *  plugin.slide(2);
-     *
-     */ LightGallery.prototype.slide = function(index, fromTouch, fromThumb, direction) {
-        var _this = this;
-        var prevIndex = this.getPreviousSlideIndex();
-        this.currentItemsInDom = this.organizeSlideItems(index, prevIndex);
-        // Prevent multiple call, Required for hsh plugin
-        if (this.lGalleryOn && prevIndex === index) return;
-        var numberOfGalleryItems = this.galleryItems.length;
-        if (!this.lgBusy) {
-            if (this.settings.counter) this.updateCurrentCounter(index);
-            var currentSlideItem = this.getSlideItem(index);
-            var previousSlideItem_1 = this.getSlideItem(prevIndex);
-            var currentGalleryItem = this.galleryItems[index];
-            var videoInfo = currentGalleryItem.__slideVideoInfo;
-            this.outer.attr("data-lg-slide-type", this.getSlideType(currentGalleryItem));
-            this.setDownloadValue(index);
-            if (videoInfo) {
-                var _a = this.mediaContainerPosition, top_3 = _a.top, bottom = _a.bottom;
-                var videoSize = utils.getSize(this.items[index], this.outer, top_3 + bottom, videoInfo && this.settings.videoMaxSize);
-                this.resizeVideoSlide(index, videoSize);
-            }
-            this.LGel.trigger(lGEvents.beforeSlide, {
-                prevIndex: prevIndex,
-                index: index,
-                fromTouch: !!fromTouch,
-                fromThumb: !!fromThumb
-            });
-            this.lgBusy = true;
-            clearTimeout(this.hideBarTimeout);
-            this.arrowDisable(index);
-            if (!direction) {
-                if (index < prevIndex) direction = "prev";
-                else if (index > prevIndex) direction = "next";
-            }
-            if (!fromTouch) this.makeSlideAnimation(direction, currentSlideItem, previousSlideItem_1);
-            else {
-                this.outer.find(".lg-item").removeClass("lg-prev-slide lg-current lg-next-slide");
-                var touchPrev = void 0;
-                var touchNext = void 0;
-                if (numberOfGalleryItems > 2) {
-                    touchPrev = index - 1;
-                    touchNext = index + 1;
-                    if (index === 0 && prevIndex === numberOfGalleryItems - 1) {
-                        // next slide
-                        touchNext = 0;
-                        touchPrev = numberOfGalleryItems - 1;
-                    } else if (index === numberOfGalleryItems - 1 && prevIndex === 0) {
-                        // prev slide
-                        touchNext = 0;
-                        touchPrev = numberOfGalleryItems - 1;
-                    }
-                } else {
-                    touchPrev = 0;
-                    touchNext = 1;
-                }
-                if (direction === "prev") this.getSlideItem(touchNext).addClass("lg-next-slide");
-                else this.getSlideItem(touchPrev).addClass("lg-prev-slide");
-                currentSlideItem.addClass("lg-current");
-            }
-            // Do not put load content in set timeout as it needs to load immediately when the gallery is opened
-            if (!this.lGalleryOn) this.loadContent(index, true);
-            else setTimeout(function() {
-                _this.loadContent(index, true);
-                // Add title if this.settings.appendSubHtmlTo === lg-sub-html
-                if (_this.settings.appendSubHtmlTo !== ".lg-item") _this.addHtml(index);
-            }, this.settings.speed + 50 + (fromTouch ? 0 : this.settings.slideDelay));
-            setTimeout(function() {
-                _this.lgBusy = false;
-                previousSlideItem_1.removeClass("lg-slide-progress");
-                _this.LGel.trigger(lGEvents.afterSlide, {
-                    prevIndex: prevIndex,
-                    index: index,
-                    fromTouch: fromTouch,
-                    fromThumb: fromThumb
-                });
-            }, (this.lGalleryOn ? this.settings.speed + 100 : 100) + (fromTouch ? 0 : this.settings.slideDelay));
-        }
-        this.index = index;
-    };
-    LightGallery.prototype.updateCurrentCounter = function(index) {
-        this.getElementById("lg-counter-current").html(index + 1 + "");
-    };
-    LightGallery.prototype.updateCounterTotal = function() {
-        this.getElementById("lg-counter-all").html(this.galleryItems.length + "");
-    };
-    LightGallery.prototype.getSlideType = function(item) {
-        if (item.__slideVideoInfo) return "video";
-        else if (item.iframe) return "iframe";
-        else return "image";
-    };
-    LightGallery.prototype.touchMove = function(startCoords, endCoords, e) {
-        var distanceX = endCoords.pageX - startCoords.pageX;
-        var distanceY = endCoords.pageY - startCoords.pageY;
-        var allowSwipe = false;
-        if (this.swipeDirection) allowSwipe = true;
-        else {
-            if (Math.abs(distanceX) > 15) {
-                this.swipeDirection = "horizontal";
-                allowSwipe = true;
-            } else if (Math.abs(distanceY) > 15) {
-                this.swipeDirection = "vertical";
-                allowSwipe = true;
-            }
-        }
-        if (!allowSwipe) return;
-        var $currentSlide = this.getSlideItem(this.index);
-        if (this.swipeDirection === "horizontal") {
-            e === null || e === void 0 || e.preventDefault();
-            // reset opacity and transition duration
-            this.outer.addClass("lg-dragging");
-            // move current slide
-            this.setTranslate($currentSlide, distanceX, 0);
-            // move next and prev slide with current slide
-            var width = $currentSlide.get().offsetWidth;
-            var slideWidthAmount = width * 15 / 100;
-            var gutter = slideWidthAmount - Math.abs(distanceX * 10 / 100);
-            this.setTranslate(this.outer.find(".lg-prev-slide").first(), -width + distanceX - gutter, 0);
-            this.setTranslate(this.outer.find(".lg-next-slide").first(), width + distanceX + gutter, 0);
-        } else if (this.swipeDirection === "vertical") {
-            if (this.settings.swipeToClose) {
-                e === null || e === void 0 || e.preventDefault();
-                this.$container.addClass("lg-dragging-vertical");
-                var opacity = 1 - Math.abs(distanceY) / window.innerHeight;
-                this.$backdrop.css("opacity", opacity);
-                var scale = 1 - Math.abs(distanceY) / (window.innerWidth * 2);
-                this.setTranslate($currentSlide, 0, distanceY, scale, scale);
-                if (Math.abs(distanceY) > 100) this.outer.addClass("lg-hide-items").removeClass("lg-components-open");
-            }
-        }
-    };
-    LightGallery.prototype.touchEnd = function(endCoords, startCoords, event) {
-        var _this = this;
-        var distance;
-        // keep slide animation for any mode while dragg/swipe
-        if (this.settings.mode !== "lg-slide") this.outer.addClass("lg-slide");
-        // set transition duration
-        setTimeout(function() {
-            _this.$container.removeClass("lg-dragging-vertical");
-            _this.outer.removeClass("lg-dragging lg-hide-items").addClass("lg-components-open");
-            var triggerClick = true;
-            if (_this.swipeDirection === "horizontal") {
-                distance = endCoords.pageX - startCoords.pageX;
-                var distanceAbs = Math.abs(endCoords.pageX - startCoords.pageX);
-                if (distance < 0 && distanceAbs > _this.settings.swipeThreshold) {
-                    _this.goToNextSlide(true);
-                    triggerClick = false;
-                } else if (distance > 0 && distanceAbs > _this.settings.swipeThreshold) {
-                    _this.goToPrevSlide(true);
-                    triggerClick = false;
-                }
-            } else if (_this.swipeDirection === "vertical") {
-                distance = Math.abs(endCoords.pageY - startCoords.pageY);
-                if (_this.settings.closable && _this.settings.swipeToClose && distance > 100) {
-                    _this.closeGallery();
-                    return;
-                } else _this.$backdrop.css("opacity", 1);
-            }
-            _this.outer.find(".lg-item").removeAttr("style");
-            if (triggerClick && Math.abs(endCoords.pageX - startCoords.pageX) < 5) {
-                // Trigger click if distance is less than 5 pix
-                var target = $LG(event.target);
-                if (_this.isPosterElement(target)) _this.LGel.trigger(lGEvents.posterClick);
-            }
-            _this.swipeDirection = undefined;
-        });
-        // remove slide class once drag/swipe is completed if mode is not slide
-        setTimeout(function() {
-            if (!_this.outer.hasClass("lg-dragging") && _this.settings.mode !== "lg-slide") _this.outer.removeClass("lg-slide");
-        }, this.settings.speed + 100);
-    };
-    LightGallery.prototype.enableSwipe = function() {
-        var _this = this;
-        var startCoords = {};
-        var endCoords = {};
-        var isMoved = false;
-        var isSwiping = false;
-        if (this.settings.enableSwipe) {
-            this.$inner.on("touchstart.lg", function(e) {
-                _this.dragOrSwipeEnabled = true;
-                var $item = _this.getSlideItem(_this.index);
-                if (($LG(e.target).hasClass("lg-item") || $item.get().contains(e.target)) && !_this.outer.hasClass("lg-zoomed") && !_this.lgBusy && e.touches.length === 1) {
-                    isSwiping = true;
-                    _this.touchAction = "swipe";
-                    _this.manageSwipeClass();
-                    startCoords = {
-                        pageX: e.touches[0].pageX,
-                        pageY: e.touches[0].pageY
-                    };
-                }
-            });
-            this.$inner.on("touchmove.lg", function(e) {
-                if (isSwiping && _this.touchAction === "swipe" && e.touches.length === 1) {
-                    endCoords = {
-                        pageX: e.touches[0].pageX,
-                        pageY: e.touches[0].pageY
-                    };
-                    _this.touchMove(startCoords, endCoords, e);
-                    isMoved = true;
-                }
-            });
-            this.$inner.on("touchend.lg", function(event) {
-                if (_this.touchAction === "swipe") {
-                    if (isMoved) {
-                        isMoved = false;
-                        _this.touchEnd(endCoords, startCoords, event);
-                    } else if (isSwiping) {
-                        var target = $LG(event.target);
-                        if (_this.isPosterElement(target)) _this.LGel.trigger(lGEvents.posterClick);
-                    }
-                    _this.touchAction = undefined;
-                    isSwiping = false;
-                }
-            });
-        }
-    };
-    LightGallery.prototype.enableDrag = function() {
-        var _this = this;
-        var startCoords = {};
-        var endCoords = {};
-        var isDraging = false;
-        var isMoved = false;
-        if (this.settings.enableDrag) {
-            this.outer.on("mousedown.lg", function(e) {
-                _this.dragOrSwipeEnabled = true;
-                var $item = _this.getSlideItem(_this.index);
-                if ($LG(e.target).hasClass("lg-item") || $item.get().contains(e.target)) {
-                    if (!_this.outer.hasClass("lg-zoomed") && !_this.lgBusy) {
-                        e.preventDefault();
-                        if (!_this.lgBusy) {
-                            _this.manageSwipeClass();
-                            startCoords = {
-                                pageX: e.pageX,
-                                pageY: e.pageY
-                            };
-                            isDraging = true;
-                            // ** Fix for webkit cursor issue https://code.google.com/p/chromium/issues/detail?id=26723
-                            _this.outer.get().scrollLeft += 1;
-                            _this.outer.get().scrollLeft -= 1;
-                            // *
-                            _this.outer.removeClass("lg-grab").addClass("lg-grabbing");
-                            _this.LGel.trigger(lGEvents.dragStart);
-                        }
-                    }
-                }
-            });
-            $LG(window).on("mousemove.lg.global" + this.lgId, function(e) {
-                if (isDraging && _this.lgOpened) {
-                    isMoved = true;
-                    endCoords = {
-                        pageX: e.pageX,
-                        pageY: e.pageY
-                    };
-                    _this.touchMove(startCoords, endCoords);
-                    _this.LGel.trigger(lGEvents.dragMove);
-                }
-            });
-            $LG(window).on("mouseup.lg.global" + this.lgId, function(event) {
-                if (!_this.lgOpened) return;
-                var target = $LG(event.target);
-                if (isMoved) {
-                    isMoved = false;
-                    _this.touchEnd(endCoords, startCoords, event);
-                    _this.LGel.trigger(lGEvents.dragEnd);
-                } else if (_this.isPosterElement(target)) _this.LGel.trigger(lGEvents.posterClick);
-                // Prevent execution on click
-                if (isDraging) {
-                    isDraging = false;
-                    _this.outer.removeClass("lg-grabbing").addClass("lg-grab");
-                }
-            });
-        }
-    };
-    LightGallery.prototype.triggerPosterClick = function() {
-        var _this = this;
-        this.$inner.on("click.lg", function(event) {
-            if (!_this.dragOrSwipeEnabled && _this.isPosterElement($LG(event.target))) _this.LGel.trigger(lGEvents.posterClick);
-        });
-    };
-    LightGallery.prototype.manageSwipeClass = function() {
-        var _touchNext = this.index + 1;
-        var _touchPrev = this.index - 1;
-        if (this.settings.loop && this.galleryItems.length > 2) {
-            if (this.index === 0) _touchPrev = this.galleryItems.length - 1;
-            else if (this.index === this.galleryItems.length - 1) _touchNext = 0;
-        }
-        this.outer.find(".lg-item").removeClass("lg-next-slide lg-prev-slide");
-        if (_touchPrev > -1) this.getSlideItem(_touchPrev).addClass("lg-prev-slide");
-        this.getSlideItem(_touchNext).addClass("lg-next-slide");
-    };
-    /**
-     * Go to next slide
-     * @param {Boolean} fromTouch - true if slide function called via touch event
-     * @category lGPublicMethods
-     * @example
-     *  const plugin = lightGallery();
-     *  plugin.goToNextSlide();
-     * @see <a href="/demos/methods/">Demo</a>
-     */ LightGallery.prototype.goToNextSlide = function(fromTouch) {
-        var _this = this;
-        var _loop = this.settings.loop;
-        if (fromTouch && this.galleryItems.length < 3) _loop = false;
-        if (!this.lgBusy) {
-            if (this.index + 1 < this.galleryItems.length) {
-                this.index++;
-                this.LGel.trigger(lGEvents.beforeNextSlide, {
-                    index: this.index
-                });
-                this.slide(this.index, !!fromTouch, false, "next");
-            } else {
-                if (_loop) {
-                    this.index = 0;
-                    this.LGel.trigger(lGEvents.beforeNextSlide, {
-                        index: this.index
-                    });
-                    this.slide(this.index, !!fromTouch, false, "next");
-                } else if (this.settings.slideEndAnimation && !fromTouch) {
-                    this.outer.addClass("lg-right-end");
-                    setTimeout(function() {
-                        _this.outer.removeClass("lg-right-end");
-                    }, 400);
-                }
-            }
-        }
-    };
-    /**
-     * Go to previous slides
-     * @param {Boolean} fromTouch - true if slide function called via touch event
-     * @category lGPublicMethods
-     * @example
-     *  const plugin = lightGallery({});
-     *  plugin.goToPrevSlide();
-     * @see <a href="/demos/methods/">Demo</a>
-     *
-     */ LightGallery.prototype.goToPrevSlide = function(fromTouch) {
-        var _this = this;
-        var _loop = this.settings.loop;
-        if (fromTouch && this.galleryItems.length < 3) _loop = false;
-        if (!this.lgBusy) {
-            if (this.index > 0) {
-                this.index--;
-                this.LGel.trigger(lGEvents.beforePrevSlide, {
-                    index: this.index,
-                    fromTouch: fromTouch
-                });
-                this.slide(this.index, !!fromTouch, false, "prev");
-            } else {
-                if (_loop) {
-                    this.index = this.galleryItems.length - 1;
-                    this.LGel.trigger(lGEvents.beforePrevSlide, {
-                        index: this.index,
-                        fromTouch: fromTouch
-                    });
-                    this.slide(this.index, !!fromTouch, false, "prev");
-                } else if (this.settings.slideEndAnimation && !fromTouch) {
-                    this.outer.addClass("lg-left-end");
-                    setTimeout(function() {
-                        _this.outer.removeClass("lg-left-end");
-                    }, 400);
-                }
-            }
-        }
-    };
-    LightGallery.prototype.keyPress = function() {
-        var _this = this;
-        $LG(window).on("keydown.lg.global" + this.lgId, function(e) {
-            if (_this.lgOpened && _this.settings.escKey === true && e.keyCode === 27) {
-                e.preventDefault();
-                if (_this.settings.allowMediaOverlap && _this.outer.hasClass("lg-can-toggle") && _this.outer.hasClass("lg-components-open")) _this.outer.removeClass("lg-components-open");
-                else _this.closeGallery();
-            }
-            if (_this.lgOpened && _this.galleryItems.length > 1) {
-                if (e.keyCode === 37) {
-                    e.preventDefault();
-                    _this.goToPrevSlide();
-                }
-                if (e.keyCode === 39) {
-                    e.preventDefault();
-                    _this.goToNextSlide();
-                }
-            }
-        });
-    };
-    LightGallery.prototype.arrow = function() {
-        var _this = this;
-        this.getElementById("lg-prev").on("click.lg", function() {
-            _this.goToPrevSlide();
-        });
-        this.getElementById("lg-next").on("click.lg", function() {
-            _this.goToNextSlide();
-        });
-    };
-    LightGallery.prototype.arrowDisable = function(index) {
-        // Disable arrows if settings.hideControlOnEnd is true
-        if (!this.settings.loop && this.settings.hideControlOnEnd) {
-            var $prev = this.getElementById("lg-prev");
-            var $next = this.getElementById("lg-next");
-            if (index + 1 === this.galleryItems.length) $next.attr("disabled", "disabled").addClass("disabled");
-            else $next.removeAttr("disabled").removeClass("disabled");
-            if (index === 0) $prev.attr("disabled", "disabled").addClass("disabled");
-            else $prev.removeAttr("disabled").removeClass("disabled");
-        }
-    };
-    LightGallery.prototype.setTranslate = function($el, xValue, yValue, scaleX, scaleY) {
-        if (scaleX === void 0) scaleX = 1;
-        if (scaleY === void 0) scaleY = 1;
-        $el.css("transform", "translate3d(" + xValue + "px, " + yValue + "px, 0px) scale3d(" + scaleX + ", " + scaleY + ", 1)");
-    };
-    LightGallery.prototype.mousewheel = function() {
-        var _this = this;
-        var lastCall = 0;
-        this.outer.on("wheel.lg", function(e) {
-            if (!e.deltaY || _this.galleryItems.length < 2) return;
-            e.preventDefault();
-            var now = new Date().getTime();
-            if (now - lastCall < 1000) return;
-            lastCall = now;
-            if (e.deltaY > 0) _this.goToNextSlide();
-            else if (e.deltaY < 0) _this.goToPrevSlide();
-        });
-    };
-    LightGallery.prototype.isSlideElement = function(target) {
-        return target.hasClass("lg-outer") || target.hasClass("lg-item") || target.hasClass("lg-img-wrap");
-    };
-    LightGallery.prototype.isPosterElement = function(target) {
-        var playButton = this.getSlideItem(this.index).find(".lg-video-play-button").get();
-        return target.hasClass("lg-video-poster") || target.hasClass("lg-video-play-button") || playButton && playButton.contains(target.get());
-    };
-    /**
-     * Maximize minimize inline gallery.
-     * @category lGPublicMethods
-     */ LightGallery.prototype.toggleMaximize = function() {
-        var _this = this;
-        this.getElementById("lg-maximize").on("click.lg", function() {
-            _this.$container.toggleClass("lg-inline");
-            _this.refreshOnResize();
-        });
-    };
-    LightGallery.prototype.invalidateItems = function() {
-        for(var index = 0; index < this.items.length; index++){
-            var element = this.items[index];
-            var $element = $LG(element);
-            $element.off("click.lgcustom-item-" + $element.attr("data-lg-id"));
-        }
-    };
-    LightGallery.prototype.trapFocus = function() {
-        var _this = this;
-        this.$container.get().focus({
-            preventScroll: true
-        });
-        $LG(window).on("keydown.lg.global" + this.lgId, function(e) {
-            if (!_this.lgOpened) return;
-            var isTabPressed = e.key === "Tab" || e.keyCode === 9;
-            if (!isTabPressed) return;
-            var focusableEls = utils.getFocusableElements(_this.$container.get());
-            var firstFocusableEl = focusableEls[0];
-            var lastFocusableEl = focusableEls[focusableEls.length - 1];
-            if (e.shiftKey) {
-                if (document.activeElement === firstFocusableEl) {
-                    lastFocusableEl.focus();
-                    e.preventDefault();
-                }
-            } else if (document.activeElement === lastFocusableEl) {
-                firstFocusableEl.focus();
-                e.preventDefault();
-            }
-        });
-    };
-    LightGallery.prototype.manageCloseGallery = function() {
-        var _this = this;
-        if (!this.settings.closable) return;
-        var mousedown = false;
-        this.getElementById("lg-close").on("click.lg", function() {
-            _this.closeGallery();
-        });
-        if (this.settings.closeOnTap) {
-            // If you drag the slide and release outside gallery gets close on chrome
-            // for preventing this check mousedown and mouseup happened on .lg-item or lg-outer
-            this.outer.on("mousedown.lg", function(e) {
-                var target = $LG(e.target);
-                if (_this.isSlideElement(target)) mousedown = true;
-                else mousedown = false;
-            });
-            this.outer.on("mousemove.lg", function() {
-                mousedown = false;
-            });
-            this.outer.on("mouseup.lg", function(e) {
-                var target = $LG(e.target);
-                if (_this.isSlideElement(target) && mousedown) {
-                    if (!_this.outer.hasClass("lg-dragging")) _this.closeGallery();
-                }
-            });
-        }
-    };
-    /**
-     * Close lightGallery if it is opened.
-     *
-     * @description If closable is false in the settings, you need to pass true via closeGallery method to force close gallery
-     * @return returns the estimated time to close gallery completely including the close animation duration
-     * @category lGPublicMethods
-     * @example
-     *  const plugin = lightGallery();
-     *  plugin.closeGallery();
-     *
-     */ LightGallery.prototype.closeGallery = function(force) {
-        var _this = this;
-        if (!this.lgOpened || !this.settings.closable && !force) return 0;
-        this.LGel.trigger(lGEvents.beforeClose);
-        if (this.settings.resetScrollPosition && !this.settings.hideScrollbar) $LG(window).scrollTop(this.prevScrollTop);
-        var currentItem = this.items[this.index];
-        var transform;
-        if (this.zoomFromOrigin && currentItem) {
-            var _a = this.mediaContainerPosition, top_4 = _a.top, bottom = _a.bottom;
-            var _b = this.galleryItems[this.index], __slideVideoInfo = _b.__slideVideoInfo, poster = _b.poster;
-            var imageSize = utils.getSize(currentItem, this.outer, top_4 + bottom, __slideVideoInfo && poster && this.settings.videoMaxSize);
-            transform = utils.getTransform(currentItem, this.outer, top_4, bottom, imageSize);
-        }
-        if (this.zoomFromOrigin && transform) {
-            this.outer.addClass("lg-closing lg-zoom-from-image");
-            this.getSlideItem(this.index).addClass("lg-start-end-progress").css("transition-duration", this.settings.startAnimationDuration + "ms").css("transform", transform);
-        } else {
-            this.outer.addClass("lg-hide-items");
-            // lg-zoom-from-image is used for setting the opacity to 1 if zoomFromOrigin is true
-            // If the closing item doesn't have the lg-size attribute, remove this class to avoid the closing css conflicts
-            this.outer.removeClass("lg-zoom-from-image");
-        }
-        // Unbind all events added by lightGallery
-        // @todo
-        //this.$el.off('.lg.tm');
-        this.destroyModules();
-        this.lGalleryOn = false;
-        this.isDummyImageRemoved = false;
-        this.zoomFromOrigin = this.settings.zoomFromOrigin;
-        clearTimeout(this.hideBarTimeout);
-        this.hideBarTimeout = false;
-        $LG("html").removeClass("lg-on");
-        this.outer.removeClass("lg-visible lg-components-open");
-        // Resetting opacity to 0 isd required as  vertical swipe to close function adds inline opacity.
-        this.$backdrop.removeClass("in").css("opacity", 0);
-        var removeTimeout = this.zoomFromOrigin && transform ? Math.max(this.settings.startAnimationDuration, this.settings.backdropDuration) : this.settings.backdropDuration;
-        this.$container.removeClass("lg-show-in");
-        // Once the closign animation is completed and gallery is invisible
-        setTimeout(function() {
-            if (_this.zoomFromOrigin && transform) _this.outer.removeClass("lg-zoom-from-image");
-            _this.$container.removeClass("lg-show");
-            // Reset scrollbar
-            _this.resetScrollBar();
-            // Need to remove inline opacity as it is used in the stylesheet as well
-            _this.$backdrop.removeAttr("style").css("transition-duration", _this.settings.backdropDuration + "ms");
-            _this.outer.removeClass("lg-closing " + _this.settings.startClass);
-            _this.getSlideItem(_this.index).removeClass("lg-start-end-progress");
-            _this.$inner.empty();
-            if (_this.lgOpened) _this.LGel.trigger(lGEvents.afterClose, {
-                instance: _this
-            });
-            if (_this.$container.get()) _this.$container.get().blur();
-            _this.lgOpened = false;
-        }, removeTimeout + 100);
-        return removeTimeout + 100;
-    };
-    LightGallery.prototype.initModules = function() {
-        this.plugins.forEach(function(module) {
-            try {
-                module.init();
-            } catch (err) {
-                console.warn("lightGallery:- make sure lightGallery module is properly initiated");
-            }
-        });
-    };
-    LightGallery.prototype.destroyModules = function(destroy) {
-        this.plugins.forEach(function(module) {
-            try {
-                if (destroy) module.destroy();
-                else module.closeGallery && module.closeGallery();
-            } catch (err) {
-                console.warn("lightGallery:- make sure lightGallery module is properly destroyed");
-            }
-        });
-    };
-    /**
-     * Refresh lightGallery with new set of children.
-     *
-     * @description This is useful to update the gallery when the child elements are changed without calling destroy method.
-     *
-     * If you are using dynamic mode, you can pass the modified array of dynamicEl as the first parameter to refresh the dynamic gallery
-     * @see <a href="/demos/dynamic-mode/">Demo</a>
-     * @category lGPublicMethods
-     * @example
-     *  const plugin = lightGallery();
-     *  // Delete or add children, then call
-     *  plugin.refresh();
-     *
-     */ LightGallery.prototype.refresh = function(galleryItems) {
-        if (!this.settings.dynamic) this.invalidateItems();
-        if (galleryItems) this.galleryItems = galleryItems;
-        else this.galleryItems = this.getItems();
-        this.updateControls();
-        this.openGalleryOnItemClick();
-        this.LGel.trigger(lGEvents.updateSlides);
-    };
-    LightGallery.prototype.updateControls = function() {
-        this.addSlideVideoInfo(this.galleryItems);
-        this.updateCounterTotal();
-        this.manageSingleSlideClassName();
-    };
-    LightGallery.prototype.destroyGallery = function() {
-        this.destroyModules(true);
-        if (!this.settings.dynamic) this.invalidateItems();
-        $LG(window).off(".lg.global" + this.lgId);
-        this.LGel.off(".lg");
-        this.$container.remove();
-    };
-    /**
-     * Destroy lightGallery.
-     * Destroy lightGallery and its plugin instances completely
-     *
-     * @description This method also calls CloseGallery function internally. Returns the time takes to completely close and destroy the instance.
-     * In case if you want to re-initialize lightGallery right after destroying it, initialize it only once the destroy process is completed.
-     * You can use refresh method most of the times.
-     * @category lGPublicMethods
-     * @example
-     *  const plugin = lightGallery();
-     *  plugin.destroy();
-     *
-     */ LightGallery.prototype.destroy = function() {
-        var closeTimeout = this.closeGallery(true);
-        if (closeTimeout) setTimeout(this.destroyGallery.bind(this), closeTimeout);
-        else this.destroyGallery();
-        return closeTimeout;
-    };
-    return LightGallery;
-}();
-function lightGallery(el, options) {
-    return new LightGallery(el, options);
-}
-exports.default = lightGallery;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jC2qd","8lqZg"], "8lqZg", "parcelRequire46ec")
+},{}]},["jC2qd","8lqZg"], "8lqZg", "parcelRequire46ec")
 
 //# sourceMappingURL=catalog.975ef6c8.js.map

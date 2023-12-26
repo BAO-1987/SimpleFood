@@ -5,7 +5,7 @@ import './components/_restaurantSlider';
 import './components/_search';
 import './components/_animation';
 import './components/_search';
-import './components/_choiches';
+import './components/_choices';
 import './components/_rangeSlider';
 import './components/_promoSlider';
 import './components/_catalogFilter';
