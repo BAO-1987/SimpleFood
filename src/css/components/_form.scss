@@ -12,6 +12,12 @@
     gap: 0.75rem;
   }
 
+  &__wrapper {
+  padding: 1rem 2.5rem 1rem 1rem;
+  background-color: var(--color-white);
+  border-radius: var(--radius-main);
+  }
+
   &__input {
     border: 1px solid var(--color-gray);
     border-radius: var(--radius-main);
@@ -71,14 +77,20 @@
 
   &__search {
     left: auto;
-    right: 2.81rem;
+    right: 3.5rem;
+  }
+
+  &__close {
+    left: auto;
+    right: 10px;
   }
 
   &--search {
-    max-width: 100%;
+    position: relative;
+    max-width: 550px;
+    z-index: 999;
 
     .form__input {
-      padding: rem(15) rem(18) rem(18) rem(45);
       width: 100%;
     }
   }

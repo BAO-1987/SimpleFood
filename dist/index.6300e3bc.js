@@ -874,4 +874,4 @@ exports.export = function(dest, destName, get) {
 
 },{}]},["4AAI2","lC2J7"], "lC2J7", "parcelRequire46ec")
 
-//# sourceMappingURL=catalog.6300e3bc.js.map
+//# sourceMappingURL=index.6300e3bc.js.map

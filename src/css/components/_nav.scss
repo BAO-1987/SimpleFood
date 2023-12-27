@@ -48,12 +48,24 @@
         margin: 0 0 1.25rem;
       }
     }
+
+    // &:nth-child(3) {
+    //   margin-right: 0;
+    // }
+
+
+
+    &--address {
+      display: none;
+      visibility: hidden;
+      opacity: 0;
+    }
   }
 
   &__link {
     font-size: 1.125rem;
     letter-spacing: 0.01em;
-    word-break: break-all;
+    // word-break: break-all;
     text-transform: capitalize;
     color: var(--color-dark-900);
     transition:
@@ -68,7 +80,7 @@
       text-shadow: 2px 2px 5px rgba(var(--color-green), 0.5);
     }
 
-    &.active{
+    &.active {
       color: var(--color-orange-900);
     }
   }

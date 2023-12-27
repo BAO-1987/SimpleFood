@@ -1,4 +1,3 @@
-//
 
 const navigation = document.querySelector(".header");
 const page = document.querySelector(".page");

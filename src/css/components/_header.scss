@@ -4,23 +4,27 @@
 .header {
   position: relative;
   top: 0;
-  z-index: 99;
   padding: 3.75rem 0;
-  padding: clamp(1rem, calc(1rem + vw(44)), 3.75rem);
+  padding: clamp(1rem, calc(1rem + vw(44)), 3.75rem) 0;
   width: 100%;
   transition: background-color 0.3s ease;
-  
+
   &__inner {
     @include flex-all-sb;
   }
- 
+
   &.is-scroll {
-     position: fixed;
+    z-index: 99;
+    position: fixed;
     padding: 0.8rem 0;
     box-shadow: 0 0 0.8rem 0 rgba(var(--color-orange), 0.2);
     background-color: var(--color-white);
-       animation: slide-up 0.3s ease forwards,
-    fade-in 0.3s ease forwards;
+    animation: slide-up 0.3s ease forwards,
+      fade-in 0.3s ease forwards;
+  }
+
+  &.is-open {
+    background-color: transparent;
   }
 
   &.opened {
