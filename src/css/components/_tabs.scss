@@ -1,5 +1,5 @@
-@use "../utils/functions"as *;
-@use "../utils/mixins"as *;
+@use '../utils/functions' as *;
+@use '../utils/mixins' as *;
 
 .tabs {
   &__nav {
@@ -7,9 +7,10 @@
     grid-template-columns: repeat(5, auto);
     justify-content: center;
     margin-bottom: clamp(1.875rem, calc(1rem + vw(29)), 2.9rem);
-    gap: 1.26rem;
+    gap: clamp(0.62rem, calc(0.5rem + vw(14)), 1.26rem);
 
     @include media(tablet) {
+      justify-content: flex-start;
       overflow-x: scroll;
       padding: rem(10) rem(5) rem(15);
     }
@@ -19,26 +20,28 @@
     @include flex-all-center;
 
     border-radius: var(--radius-main);
-    padding: 0.65em 1.6em;
+    padding: clamp(0.69rem, vw(13), 0.81rem) clamp(1rem, vw(32), 2.1rem);
     max-width: fit-content;
     box-shadow: 0 0 0 1px var(--color-silver-200);
     font-size: clamp(0.875rem, calc(0.784rem + 0.3883vw), 1.25rem);
     line-height: 1.3;
     white-space: nowrap;
     background-color: var(--color-white);
-    transition:
-      box-shadow 0.5s linear,
-      background-color 0.5s linear,
-      color 0.5s linear;
+    transition: box-shadow 0.5s linear, background-color 0.5s linear, color 0.5s linear;
     gap: 0.63rem;
 
     &::before {
       @include mask;
 
       position: relative;
-      mask-image: url("../images/icons/burger.svg");
+      mask-image: url('../images/icons/burger.svg');
       width: 2.75rem;
       height: 2.75rem;
+
+      @include media(mobile-m) {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
     }
 
     &:hover {
@@ -47,38 +50,38 @@
       background-color: rgba(var(--color-orange), 0.1);
     }
 
-    &[aria-selected="true"] {
+    &[aria-selected='true'] {
       color: var(--color-white);
       background-color: var(--color-orange-900);
     }
 
     &--burgers {
       &::before {
-        mask-image: url("../images/icons/burger.svg");
+        mask-image: url('../images/icons/burger.svg');
       }
     }
 
     &--pizza {
       &::before {
-        mask-image: url("../images/icons/pizza.svg");
+        mask-image: url('../images/icons/pizza.svg');
       }
     }
 
     &--sandwich {
       &::before {
-        mask-image: url("../images/icons/sandwich.svg");
+        mask-image: url('../images/icons/sandwich.svg');
       }
     }
 
     &--asian {
       &::before {
-        mask-image: url("../images/icons/dinner.svg");
+        mask-image: url('../images/icons/dinner.svg');
       }
     }
 
     &--set {
       &::before {
-        mask-image: url("../images/icons/dish.svg");
+        mask-image: url('../images/icons/dish.svg');
       }
     }
   }
@@ -88,9 +91,7 @@
   }
 
   &__content {
-    animation:
-      slide-up 0.9s forwards,
-      fade-in 0.9s forwards;
+    animation: slide-up 0.9s forwards, fade-in 0.9s forwards;
   }
 
   &__text {
@@ -104,7 +105,7 @@
     padding-top: 1.88rem;
 
     &::before {
-      content: "";
+      content: '';
       position: absolute;
       top: 0;
       width: 100%;
@@ -135,7 +136,7 @@
         content: none;
       }
 
-      &[aria-selected="true"] {
+      &[aria-selected='true'] {
         color: var(--color-orange-900);
         background-color: transparent;
       }
@@ -144,6 +145,5 @@
         background-color: transparent;
       }
     }
-
   }
 }

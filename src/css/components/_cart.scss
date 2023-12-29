@@ -1,5 +1,5 @@
-@use "../utils/functions/"as*;
-@use "../utils/mixins/"as*;
+@use '../utils/functions/' as *;
+@use '../utils/mixins/' as *;
 
 .cart {
   @include flex-all-center;
@@ -11,6 +11,7 @@
   cursor: pointer;
 
   &__btn {
+    flex-shrink: 0;
     color: var(--color-dark-900);
     transition: color 0.3s linear;
   }
@@ -19,7 +20,7 @@
     @include flex-all-center;
 
     position: absolute;
-    right: rem(7);
+    right: rem(4);
     top: rem(7);
     border-radius: var(--radius-round);
     padding: 0 rem(4);
@@ -29,8 +30,7 @@
     line-height: 1.4;
     color: var(--color-white);
     background-color: var(--color-orange-900);
-    transition: background-color 0.3s linear,
-      color 0.3s linear;
+    transition: background-color 0.3s linear, color 0.3s linear;
 
     &:hover {
       color: var(--color-orange-900);

@@ -4,7 +4,7 @@
 .social {
   @include flex;
 
-  gap: 1rem;
+  gap: rem(13);
 
   &__link {
     @include flex-all-center;

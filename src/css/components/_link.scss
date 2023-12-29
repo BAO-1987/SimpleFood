@@ -6,13 +6,12 @@
   font-size: clamp(1rem, 0.9393rem + 0.2589vw, 1.25rem);
   text-decoration: underline;
   text-decoration-color: currentcolor;
-  transition-property: color, text-decoration-color, text-shadow;
+  transition-property: color, text-shadow;
   transition-duration: 0.5s;
   transition-timing-function: linear;
   text-underline-offset: 3px;
 
   &:hover {
-    text-decoration-color: transparent;
     color: var(--color-orange-900);
   }
 

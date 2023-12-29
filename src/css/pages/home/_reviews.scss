@@ -1,14 +1,12 @@
-@use "../../utils/functions"as *;
-@use "../../utils/mixins"as *;
+@use '../../utils/functions' as *;
+@use '../../utils/mixins' as *;
 
 .reviews-slider {
   position: relative;
   overflow: hidden;
 
   &__list {
-    margin-bottom: clamp(2.5rem, calc(1rem + vw(44)), 3.75rem);
-    width: 100%;
-    max-width: 59.4rem;
+    margin-bottom: rem(25);
   }
 
   &__item {
@@ -27,6 +25,10 @@
       border-radius: var(--radius-round);
       width: 18.75rem;
       aspect-ratio: 1 / 1;
+
+      @include media(mobile-m) {
+        width: 6.25rem;
+      }
     }
   }
 
@@ -43,14 +45,14 @@
   p {
     position: relative;
     padding: 0 clamp(2rem, calc(1rem + vw(24)), 2.5rem);
-    max-width: 35.63rem;
+    max-width: 40.62rem;
 
     &::before,
     &::after {
       @include mask;
 
       left: 0;
-      mask-image: url("../images/icons/quotes.svg");
+      mask-image: url('../images/icons/quotes.svg');
       width: 1.5rem;
       height: 1.2rem;
       background-color: var(--color-gray);
@@ -79,7 +81,7 @@
       color: var(--color-dark);
     }
 
-    @include media (mobile-m) {
+    @include media(mobile-m) {
       text-align: center;
     }
   }
@@ -89,6 +91,10 @@
       position: relative;
       padding: 0 1.5rem;
       width: fit-content;
+
+      @include media(mobile-m) {
+        display: none;
+      }
     }
 
     &.swiper-pagination-bullets {
@@ -100,5 +106,25 @@
     @include flex-all-center;
 
     position: relative;
+
+    @include media(mobile-m) {
+      position: absolute;
+      display: block;
+      top: 10%;
+    }
+  }
+
+  &__next,
+  &__prev {
+    @include media(mobile-m) {
+      position: fixed;
+      left: 2rem;
+    }
+  }
+
+  &__next {
+    @include media(mobile-m) {
+      right: 2rem;
+    }
   }
 }

@@ -68,10 +68,6 @@
     min-height: 2.38rem;
     object-fit: contain;
 
-    // @include media(mobile-l) {
-    //   width: 8rem;
-    // }
-
     @include media(mobile-m) {
       width: 7.2rem;
       min-height: 1.4rem;
@@ -180,7 +176,7 @@
     opacity: 1;
 
     &:not(:last-child) {
-      margin-right: 15px !important;
+      margin: 0 1rem 0 0;
     }
 
     &.swiper-pagination-bullet-active {

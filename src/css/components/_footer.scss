@@ -1,19 +1,20 @@
-@use "../utils/functions/"as *;
-@use "../utils/mixins"as *;
+@use '../utils/functions/' as *;
+@use '../utils/mixins' as *;
 
 .footer {
-  .logo {
-    margin-bottom: 1.88rem;
+  &__logo {
+    margin: 0 0 1.88rem;
   }
 
   &__top {
     display: grid;
-    grid-template-columns: minmax(170px, 200px) auto auto;
-    margin-bottom: clamp(1.88rem, calc(1rem + vw(44)), 3.75rem);
-    gap: clamp(1rem, calc(0.5rem + vw(62)), 4.375rem);
+    grid-template-columns: auto auto auto;
+    margin-bottom:  3.75rem;
+    gap: clamp(1rem, vw(70), 4.375rem);
 
     @include media(mobile-m) {
       grid-template-columns: 1fr;
+      gap: 1.94rem;
     }
   }
 
@@ -31,9 +32,11 @@
   }
 
   &__block {
+    width: rem(200);
     @include media(mobile-m) {
       @include flex-v-center;
       flex-direction: column;
+      order: -1;
     }
   }
 
@@ -45,27 +48,37 @@
 
     @include media(mobile-m) {
       grid-column: auto;
+      margin: 0;
+      order: -1;
     }
   }
 }
 
 .footer-nav {
   &__list {
-    display: grid;
-    grid-auto-flow: column;
-    grid-column-gap: clamp(1rem, calc(0.5rem + vw(62)), 4.375rem);
-    grid-template-columns: repeat(3, auto);
-    grid-template-rows: repeat(4, auto);
+    // display: grid;
+    // grid-auto-flow: column;
+    // grid-column-gap: clamp(1rem, calc(0.5rem + vw(62)), 4.375rem);
+    // grid-template-columns: repeat(3, auto);
+    // grid-template-rows: repeat(4, auto);
+    column-count: 3;
+    gap: clamp(1rem, (vw(60)), 3.75rem);
+
+    @include media(mobile-m) {
+      column-count: 1;
+    }
   }
 
   &__item {
     &:not(:last-child) {
-      margin-bottom: 20px;
+      margin-bottom: rem(20);
     }
   }
 
   &__link {
-    font-size: clamp(1rem, 0.975rem + 0.125vw, 1.125rem);
+    font-size: 1.125rem;
+    line-height: 1.3;
+    letter-spacing: 0.01em;
     overflow-wrap: break-word;
     transition: color 0.3s linear;
 
