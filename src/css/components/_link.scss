@@ -2,8 +2,7 @@
 @use "../utils/mixins"as *;
 
 .link {
-  @include flex-h-center;
-
+  display: inline-flex;
   font-size: clamp(1rem, 0.9393rem + 0.2589vw, 1.25rem);
   text-decoration: underline;
   text-decoration-color: currentcolor;

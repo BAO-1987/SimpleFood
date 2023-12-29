@@ -2,54 +2,18 @@
 @use "../utils/mixins"as *;
 
 .search {
-  margin-right: 0.5rem;
+  margin: 1% auto;
+  top: 0;
+  border: 0;
+  border-radius: var(--radius-main);
+  width: 100%;
+  max-width: 34rem;
 
-  &__form {
-    margin: 10px auto;
-    border: 0;
-
-    &.is-open {
-      position: absolute;
-      left: 0;
-      right: 0;
-      z-index: 995;
-      display: flex;
-      justify-content: center;
-      margin: 0 auto;
-      padding: 0 1rem;
-      top: 10px;
-      animation: slide-up 0.7s forwards;
-
-    }
-
-    &::backdrop {
-      background: rgba(0, 0, 0, 0.5);
-    }
-
-    &[open] {
-      animation: slide-up 0.6s forwards,
-        fade-in 0.6s forwards;
-    }
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.3);
   }
 
-  &__btn {
-    @include flex-all-center;
-    position: relative;
-
-    border-radius: var(--radius-main);
-    padding: 0.68rem;
-    color: var(--color-dark-900);
-    transition:
-      color 0.3s linear,
-      background-color 0.3s linear;
-
-    &:hover {
-      color: var(--color-white);
-      background-color: var(--color-orange-900);
-    }
-
-    &:active {
-      background-color: var(--color-orange-100);
-    }
+  &[open] {
+    animation: slide-up 0.6s forwards, fade-in 0.6s forwards;
   }
 }
