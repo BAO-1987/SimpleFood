@@ -55,6 +55,16 @@
 
     <nav class="nav">
       <ul class="nav__list">
+        <li class="nav__item nav__item--logo">
+          <a class="logo" href="#">
+            <img class="logo__img" src="/logo.cd13699a.svg" alt="Логотип SimpleFood" width="200" height="40" loading="lazy">
+          </a>
+
+          <button class="burger burger--close" type="button" aria-label="Закрити мобільне меню">
+            <span class="burger__line"></span>
+          </button>
+
+        </li>
         <li class="nav__item">
           <a class="nav__link" href="#">
             головна
@@ -109,11 +119,11 @@
       </ul>
 
       <div class="nav__action">
-          <button class="nav__btn" type="button" data-modal="search-form" aria-label="кнопка виклику пошуку">
-            <svg class="icons" arial-hidden="true">
-              <use xlink:href="#32a07a32483e39a9"></use>
-            </svg>
-          </button>
+        <button class="nav__btn" type="button" data-modal="search-form" aria-label="кнопка виклику пошуку">
+          <svg class="icons" arial-hidden="true">
+            <use xlink:href="#32a07a32483e39a9"></use>
+          </svg>
+        </button>
 
         <div class="cart">
           <button class="cart__btn" type="button" aria-label="перейти в корзину">
@@ -128,7 +138,7 @@
 
     </nav>
 
-    <button class="burger" type="button" aria-label="Відкрити меню">
+    <button class="burger burger--open" type="button" aria-label="Відкрити мобільне меню">
       <span class="burger__line"></span>
     </button>
 
@@ -242,7 +252,7 @@
             <p>Зовнішній вигляд товару може відрізнятися від зображень, представлених на сайті.</p>
           </div>
         </div>
-        
+
         <div class="tabs__content" id="Property" aria-labelledby="tab-2">
           <ul class="property">
             <li class="property__item">
@@ -312,7 +322,7 @@
               <p class="form-reviews__label">
                 <span>Ваша оцінка *</span>
               </p>
-              <div class="form-reviews__star" id="form-reviews__star"></div>
+              <div class="form-reviews__star"></div>
             </div>
             <div class="form-reviews__inner">
               <label class="form-reviews__label form-reviews__label--textarea">

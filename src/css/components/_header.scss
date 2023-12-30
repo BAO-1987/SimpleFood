@@ -1,16 +1,26 @@
-@use "../utils/functions/"as *;
-@use "../utils/mixins"as *;
+@use '../utils/functions/' as *;
+@use '../utils/mixins' as *;
 
 .header {
   position: relative;
   top: 0;
-  padding: 3.75rem 0;
+  // padding: 3.75rem 0;
   padding: clamp(1rem, calc(1rem + vw(44)), 3.75rem) 0;
   width: 100%;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.5s;
 
   &__inner {
     @include flex-all-sb;
+  }
+
+  &__logo {
+    margin-right: 0.5rem;
+    img {
+      @include media(mobile-m) {
+        width: 7.2rem;
+        min-height: 1.4rem;
+      }
+    }
   }
 
   &.is-scroll {
@@ -19,8 +29,7 @@
     padding: 0.8rem 0;
     box-shadow: 0 0 0.8rem 0 rgba(var(--color-orange), 0.2);
     background-color: var(--color-white);
-    animation: slide-up 0.3s ease forwards,
-      fade-in 0.3s ease forwards;
+    animation: slide-up-slow 0.5s forwards, fade-in 0.5s forwards;
   }
 
   &.is-open {
@@ -28,7 +37,7 @@
   }
 
   &.opened {
-    z-index: 999;
-    background-color: var(--color-white);
+    background-color: transparent;
+    pointer-events: none;
   }
 }

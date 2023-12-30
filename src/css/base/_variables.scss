@@ -5,7 +5,7 @@
   --container-width: calc(var(--content-width) + (var(--container-offset) * 2));
 
   // base
-  --font-family-primary: "Rubik", sans-serif;
+  --font-family-primary: 'Rubik', sans-serif;
   --fw-300: 300;
   --fw-400: 400;
   --fw-500: 500;
@@ -13,6 +13,7 @@
 
   // colors
   --color-white: #fff;
+  --color-white-rgb: 255, 255, 255;
   --color-black: #000;
   --color-orange-900: #ff6838;
   --color-orange-100: #fff2ed;
@@ -22,6 +23,7 @@
   --color-gray-200: #505050;
   --color-silver-100: #f9faff;
   --color-silver-200: #ececec;
+  --color-silver-300: #eeeff3;
   --color-dark: #31352b;
   --color-dark-900: #363853;
   --color-blue: #00aaff;
@@ -29,7 +31,7 @@
   --color-pink-100: #faeded;
   --color-green: 49, 53, 43;
   --color-dark-rgb: 54, 56, 83;
-  --color-yellow: #FFB800;
+  --color-yellow: #ffb800;
 
   // radius
   --radius-main: 0.3125rem;

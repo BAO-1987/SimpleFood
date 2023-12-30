@@ -3,13 +3,13 @@
 
 .footer {
   &__logo {
-    margin: 0 0 1.88rem;
+    margin-bottom: 1.88rem;
   }
 
   &__top {
     display: grid;
     grid-template-columns: auto auto auto;
-    margin-bottom:  3.75rem;
+    margin-bottom: 3.75rem;
     gap: clamp(1rem, vw(70), 4.375rem);
 
     @include media(mobile-m) {

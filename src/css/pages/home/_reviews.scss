@@ -44,6 +44,7 @@
 
   p {
     position: relative;
+    margin-bottom: 1.25rem;
     padding: 0 clamp(2rem, calc(1rem + vw(24)), 2.5rem);
     max-width: 40.62rem;
 
@@ -80,10 +81,6 @@
       font-size: 0.875rem;
       color: var(--color-dark);
     }
-
-    @include media(mobile-m) {
-      text-align: center;
-    }
   }
 
   &__pagination {
@@ -119,12 +116,14 @@
     @include media(mobile-m) {
       position: fixed;
       left: 2rem;
+      z-index: 5;
     }
   }
 
   &__next {
     @include media(mobile-m) {
       right: 2rem;
+      left: auto;
     }
   }
 }

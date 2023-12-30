@@ -812,25 +812,65 @@ window.addEventListener("scroll", startHeightValue);
 startHeightValue();
 
 },{}],"7Umnm":[function(require,module,exports) {
-// import { _querySelector, _add, _remove } from '../_config.js';
-// let headerHeight = parseFloat(
-//   document.documentElement.style.getPropertyValue('--header-height')
-// );
-// const header = document.querySelector('.header');
-// const first = document.querySelector('.main');
-// const firstHeight = first.offsetHeight;
-// let lastScrollTop = 0;
-// window.addEventListener('scroll', () => {
-//   let scrollDistance = window.scrollY;
-//   if (scrollDistance >= 15 + headerHeight) {
-//   	header.classList.add('is-scroll');
-//   	first.style.paddingTop = headerHeight + 'px';
-//   } else {
-//   	header.classList.remove('is-scroll');
-//   	first.style.paddingTop = null;
-//   }
-//   lastScrollTop = scrollDistance;
-// });
+var _configJs = require("../_config.js");
+let headerHeight = parseFloat(document.documentElement.style.getPropertyValue("--header-height"));
+const header = document.querySelector(".header");
+const first = document.querySelector(".main");
+const firstHeight = first.offsetHeight;
+let lastScrollTop = 0;
+window.addEventListener("scroll", ()=>{
+    let scrollDistance = window.scrollY;
+    if (scrollDistance >= 15 + headerHeight) {
+        header.classList.add("is-scroll");
+        first.style.paddingTop = headerHeight + "px";
+    } else {
+        header.classList.remove("is-scroll");
+        first.style.paddingTop = null;
+    }
+    lastScrollTop = scrollDistance;
+});
+
+},{"../_config.js":"llBLd"}],"llBLd":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "_document", ()=>_document);
+parcelHelpers.export(exports, "_classList", ()=>_classList);
+parcelHelpers.export(exports, "_add", ()=>_add);
+parcelHelpers.export(exports, "_remove", ()=>_remove);
+parcelHelpers.export(exports, "_toggle", ()=>_toggle);
+parcelHelpers.export(exports, "_querySelectorAll", ()=>_querySelectorAll);
+parcelHelpers.export(exports, "_querySelector", ()=>_querySelector);
+const _document = "document", _classList = "classList", _add = "add", _remove = "remove", _toggle = "toggle", _querySelectorAll = "querySelectorAll", _querySelector = "querySelector";
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
 
 },{}]},["4AAI2","lC2J7"], "lC2J7", "parcelRequire46ec")
 

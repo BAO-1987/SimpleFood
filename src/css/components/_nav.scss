@@ -1,5 +1,5 @@
-@use "../utils/functions/"as *;
-@use "../utils/mixins"as *;
+@use '../utils/functions/' as *;
+@use '../utils/mixins' as *;
 
 .nav {
   @include flex-all-center;
@@ -9,41 +9,61 @@
     margin-right: clamp(1rem, calc(0.5rem + vw(45)), 3.31rem);
     gap: clamp(1rem, calc(0.5rem + vw(32)), 2.75rem);
 
-
     @include media(mobile-m) {
       position: absolute;
       left: 0;
-      top: calc(var(--header-height));
-      // z-index: -1;
-      height: calc(var(--vh) - var(--header-height) + 1px);
+      top: 0;
+      z-index: 99;
+      gap: 1.25rem;
+      height: (var(--vh));
       flex-direction: column;
       align-items: flex-start;
       justify-content: flex-start;
       margin: 0;
-      border-top: 1px solid var(--color-orange-900);
-      padding: 1.56rem 0 0 1rem;
+      padding: 1.56rem 1.62rem 0 1rem;
       width: 100%;
       max-width: 18.8rem;
       background-color: var(--color-white);
       transform: translateX(-100%);
       transition: transform 0.5s linear;
+      pointer-events: auto;
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: rem(90);
+        width: 100%;
+        height: 1px;
+        background-color: var(--color-silver-300);
+      }
+
+      &::after {
+        top: rem(245);
+      }
     }
   }
 
   &__item {
-    // // &:not(:last-child) {
-    // //   margin-right: clamp(1rem, calc(0.5rem + vw(32)), 2.75rem);
-
-    //   @include media(mobile-m) {
-    //     margin: 0 0 1.25rem;
-    //   }
-    // }
-
+    &--logo,
     &--address {
       display: none;
       opacity: 0;
       visibility: hidden;
+    }
 
+    &--logo {
+      @include media(mobile-m) {
+        @include flex-all-sb;
+        padding-bottom: 1.56rem;
+        gap: 2.56rem;
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    &--address {
       @include media(mobile-m) {
         display: grid;
         padding-top: 2.5rem;
@@ -58,9 +78,7 @@
     letter-spacing: 0.01em;
     text-transform: capitalize;
     color: var(--color-dark-900);
-    transition:
-      color 0.3s linear,
-      text-shadow 0.3s linear;
+    transition: color 0.3s linear, text-shadow 0.3s linear;
 
     &:hover {
       color: var(--color-orange-900);
@@ -82,9 +100,7 @@
     border-radius: var(--radius-main);
     padding: 0.68rem;
     color: var(--color-dark-900);
-    transition:
-      color 0.3s linear,
-      background-color 0.3s linear;
+    transition: color 0.3s linear, background-color 0.3s linear;
 
     &:hover {
       color: var(--color-white);

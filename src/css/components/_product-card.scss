@@ -11,7 +11,7 @@
   height: 100%;
    box-shadow: 0 0 0 1px var(--color-silver-100);
   background-color: var(--color-white);
-  transition: box-shadow 0.3s ease-in-out;
+  transition: box-shadow 0.3s linear;
   gap: 0.62rem;
 
   a {
@@ -73,6 +73,6 @@
 
 
   &:hover {
-    box-shadow: inset 0 0 0 1px var(--color-orange-900);
+    box-shadow: 0 0 0 1px var(--color-orange-900);
   }
 }

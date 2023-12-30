@@ -35,8 +35,7 @@
     &:focus {
       outline-color: transparent;
       border-color: transparent;
-      box-shadow: 0 0 0 2px rgba(var(--color-orange), 0.7),
-        0 5px 12px 0 rgba(var(--color-orange), 0.2);
+      box-shadow: 0 0 0 2px rgba(var(--color-orange), 0.7);
     }
 
     &--textarea {

@@ -1,5 +1,5 @@
-@use "../utils/functions/"as*;
-@use "../utils/mixins/"as*;
+@use '../utils/functions/' as *;
+@use '../utils/mixins/' as *;
 
 .burger {
   --line-height: 2px;
@@ -11,7 +11,7 @@
   --lines-color: var(--color-dark-900);
 
   position: relative;
-  z-index: 95;
+  z-index: 5;
   display: none;
   width: var(--burger-size);
   height: 20px;
@@ -29,11 +29,12 @@
     width: var(--burger-size);
     background-color: var(--lines-color);
     transform: translateY(-50%);
-    transition: transform var(--transition-time) ease, background-color var(--transition-time) ease 0.15s;
+    transition: transform var(--transition-time) ease,
+      background-color var(--transition-time) ease 0.15s;
 
     &::before,
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       width: var(--burger-size);
       left: 0;
@@ -57,96 +58,31 @@
     opacity: 1;
   }
 
+  &--close {
+    --burger-size: 1.125rem;
+    width: var(--burger-size);
+    --line-height: 1px;
+
+    .burger__line {
+      background-color: transparent;
+
+      &::before {
+        transform: translateY(0) rotate(45deg);
+      }
+
+      &::after {
+        transform: translateY(0) rotate(-45deg);
+      }
+    }
+  }
+
   @include media(mobile-m) {
     display: block;
   }
 }
 
 .opened {
-  .burger__line {
-    background-color: transparent;
-
-    &::before {
-      animation-name: toplinecross;
-    }
-
-    &::after {
-      animation-name: bottomlinecross;
-    }
-  }
-
   .nav__list {
     transform: translate(0);
-  }
-}
-
-.closed.opened {
-  .burger__line {
-    background-color: var(--lines-color);
-    transition: background-color 1s ease;
-
-    &::before {
-      animation-name: toplineburger;
-    }
-
-    &::after {
-      animation-name: bottomlineburger;
-    }
-  }
-}
-
-@keyframes toplinecross {
-  0% {
-    transform: translateY(var(--move-decrement));
-  }
-
-  50% {
-    transform: translateY(0);
-  }
-
-  100% {
-    transform: translateY(0) rotate(45deg);
-  }
-}
-
-@keyframes bottomlinecross {
-  0% {
-    transform: translateY(var(--move));
-  }
-
-  50% {
-    transform: translateY(0);
-  }
-
-  100% {
-    transform: translateY(0) rotate(-45deg);
-  }
-}
-
-@keyframes toplineburger {
-  0% {
-    transform: rotate(45deg);
-  }
-
-  50% {
-    transform: rotate(0);
-  }
-
-  100% {
-    transform: translateY(var(--move-decrement)) rotate(0);
-  }
-}
-
-@keyframes bottomlineburger {
-  0% {
-    transform: translateY(0) rotate(-45deg);
-  }
-
-  50% {
-    transform: rotate(0);
-  }
-
-  100% {
-    transform: translateY(var(--move)) rotate(0);
   }
 }

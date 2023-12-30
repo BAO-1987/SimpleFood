@@ -562,49 +562,7 @@ var _vendor = require("./js/_vendor");
 var _config = require("./js/_config");
 var _components = require("./js/_components");
 
-},{"./js/_functions":"8TNrF","./js/_vendor":"b6bvw","./js/_config":"llBLd","./js/_components":"b1Ec9"}],"llBLd":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "_document", ()=>_document);
-parcelHelpers.export(exports, "_classList", ()=>_classList);
-parcelHelpers.export(exports, "_add", ()=>_add);
-parcelHelpers.export(exports, "_remove", ()=>_remove);
-parcelHelpers.export(exports, "_toggle", ()=>_toggle);
-parcelHelpers.export(exports, "_querySelectorAll", ()=>_querySelectorAll);
-parcelHelpers.export(exports, "_querySelector", ()=>_querySelector);
-const _document = "document", _classList = "classList", _add = "add", _remove = "remove", _toggle = "toggle", _querySelectorAll = "querySelectorAll", _querySelector = "querySelector";
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"b1Ec9":[function(require,module,exports) {
+},{"./js/_functions":"8TNrF","./js/_vendor":"b6bvw","./js/_config":"llBLd","./js/_components":"b1Ec9"}],"b1Ec9":[function(require,module,exports) {
 var _burger = require("./components/_burger");
 var _tabs = require("./components/_tabs");
 var _reviewsSlider = require("./components/_reviewsSlider");
@@ -621,22 +579,86 @@ var _starRating = require("./components/_starRating");
 var _lightGallery = require("./components/_lightGallery");
 
 },{"./components/_burger":"aATkn","./components/_tabs":"egXuX","./components/_reviewsSlider":"lBEkV","./components/_restaurantSlider":"dXwnK","./components/_search":"7pITd","./components/_rangeSlider":"gNtZe","./components/_promoSlider":"dJWJm","./components/_catalogFilter":"21UdT","./components/_singleSlider":"cOOkR","./components/_recentSlider":"fhTRd","./components/_starRating":"3bsGg","./components/_lightGallery":"cD0bk","./components/_animation":"kcXuJ","./components/_choices":"gv3s4"}],"aATkn":[function(require,module,exports) {
+// const navigation = document.querySelector(".header");
+// const page = document.querySelector(".page");
+// const navList = document.querySelector(".nav__list");
+// navigation.addEventListener("click", BurgerBtnClick);
+// function BurgerBtnClick(e) {
+//   if (!e.target.parentNode.matches(".burger") && !e.target.matches(".burger")) return;
+//   e.addEventListener;
+//   this.classList.remove("closed");
+//   page.classList.add("open");
+//   navList.classList.add("active");
+//   if (this.matches(".opened")) {
+//     this.classList.add("closed");
+//     page.classList.remove("open");
+//     navList.classList.remove("active");
+//     setTimeout(() => {
+//       this.classList.remove("opened");
+//     }, 500);
+//   }
+//   this.classList.add("opened");
+// }
+// const navigation = document.querySelector(".header");
+// const page = document.querySelector(".page");
+// const navList = document.querySelector(".nav__list");
+// navigation.addEventListener("click", BurgerBtnClick);
+// document.addEventListener("click", closeMenu);
+// function BurgerBtnClick(e) {
+//   if (!e.target.parentNode.matches(".burger") && !e.target.matches(".burger")) return;
+//   navigation.classList.remove("closed");
+//   page.classList.add("open");
+//   navList.classList.add("active");
+//   if (navigation.classList.contains("opened")) {
+//     navigation.classList.add("closed");
+//     page.classList.remove("open");
+//     navList.classList.remove("active");
+//     setTimeout(() => {
+//       navigation.classList.remove("opened");
+//     }, 500);
+//   }
+//   navigation.classList.add("opened");
+//   e.stopPropagation();
+// }
+// function closeMenu(e) {
+//   const isBurger = e.target.closest(".burger");
+//   const isNavList = e.target.classList.contains("nav__list");
+//   if (!isBurger && !isNavList && navList.classList.contains("active")) {
+//     navigation.classList.add("closed");
+//     page.classList.remove("open");
+//     navList.classList.remove("active");
+//   }
+// }
 const navigation = document.querySelector(".header");
 const page = document.querySelector(".page");
+const navList = document.querySelector(".nav__list");
 navigation.addEventListener("click", BurgerBtnClick);
+document.addEventListener("click", closeMenu);
 function BurgerBtnClick(e) {
     if (!e.target.parentNode.matches(".burger") && !e.target.matches(".burger")) return;
-    e.addEventListener;
-    this.classList.remove("closed");
+    navigation.classList.remove("closed");
     page.classList.add("open");
-    if (this.matches(".opened")) {
-        this.classList.add("closed");
+    navList.classList.add("active");
+    if (navigation.classList.contains("opened")) {
+        navigation.classList.add("closed");
         page.classList.remove("open");
+        navList.classList.remove("active");
         setTimeout(()=>{
-            this.classList.remove("opened");
+            navigation.classList.remove("opened");
         }, 500);
     }
-    this.classList.add("opened");
+    navigation.classList.add("opened");
+    e.stopPropagation();
+}
+function closeMenu(e) {
+    const isBurger = e.target.closest(".burger");
+    const isNavList = e.target.classList.contains("nav__list");
+    if (!isBurger && !isNavList && navList.classList.contains("active")) {
+        navigation.classList.add("closed");
+        page.classList.remove("open");
+        navList.classList.remove("active");
+        navigation.classList.remove("opened");
+    }
 }
 
 },{}],"egXuX":[function(require,module,exports) {

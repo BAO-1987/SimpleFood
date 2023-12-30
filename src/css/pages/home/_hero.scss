@@ -1,5 +1,5 @@
-@use "../../utils/functions" as *;
-@use "../../utils/mixins" as *;
+@use '../../utils/functions' as *;
+@use '../../utils/mixins' as *;
 
 .hero {
   &__content {
@@ -49,8 +49,8 @@
 
     img {
       width: 35rem;
-      max-height: 41.25rem;
-      object-fit: contain;
+      min-height: 41.25rem;
+      aspect-ratio: 0.85 / 1;
     }
 
     @include media(tablet) {
@@ -61,7 +61,7 @@
 
     @include media(mobile-l) {
       img {
-        max-height: 19rem;
+        min-height: 19rem;
       }
     }
   }
