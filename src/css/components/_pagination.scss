@@ -1,5 +1,5 @@
-@use "../utils/functions/"as *;
-@use "../utils/mixins"as *;
+@use '../utils/functions/' as *;
+@use '../utils/mixins' as *;
 
 .pagination {
   @include flex-all-center;
@@ -11,7 +11,16 @@
     gap: 0.38rem;
   }
 
-  &__link {
+  li {
+    @include media(mobile-s) {
+      &:nth-child(3),
+      &:nth-child(5) {
+        display: none;
+      }
+    }
+  }
+
+  a {
     @include flex-all-center;
 
     position: relative;
@@ -24,16 +33,13 @@
     line-height: 1;
     letter-spacing: 0.03em;
     background-color: rgba(var(--color-orange), 0.1);
-    transition-property: color,
-      background-color,
-      box-shadow;
+    transition-property: color, background-color, box-shadow;
     transition-duration: 0.3s;
     transition-timing-function: linear;
 
     &:hover {
       color: var(--color-white);
       background-color: var(--color-orange-900);
-
     }
 
     &:active:not(:hover) {
@@ -45,19 +51,23 @@
       cursor: not-allowed;
     }
 
+    &.active {
+      border-color: var(--color-dark-900);
+    }
+  }
+
+  &__link {
+    position: relative;
+
     &--prev,
     &--next {
       &::before {
         @include mask;
 
-        mask-image: url("../images/icons/chevron.svg");
+        mask-image: url('../images/icons/chevron.svg');
         width: 0.66rem;
         height: 1.125rem;
       }
-    }
-
-    &--active {
-      border-color: var(--color-dark-900);
     }
 
     &--prev {

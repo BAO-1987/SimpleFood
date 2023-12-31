@@ -728,7 +728,6 @@ address {
 
 :focus-visible {
   outline: max(2px, .1em) solid rgba(var(--color-orange), .7);
-  outline-offset: .25em;
   border-radius: var(--radius-main);
 }
 

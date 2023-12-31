@@ -3,11 +3,10 @@ let $lgSwiper = document.getElementById('lg-swipper');
 import Swiper from 'swiper';
 
 
-const reviewsSlider = new Swiper(".single-slider", {
-  // other parameters
+const productSlider = new Swiper(".product-slider", {
  navigation: {
-   nextEl: ".single-slider__next",
-   prevEl: ".single-slider__prev",
+   nextEl: ".product-slider__next",
+   prevEl: ".product-slider__prev",
  },
   on: {
     init: function () {
@@ -15,7 +14,7 @@ const reviewsSlider = new Swiper(".single-slider", {
         speed: 300,
       });
       $lgSwiper.addEventListener("lgBeforeClose", () => {
-        reviewsSlider.slideTo(lg.index, 0);
+        productSlider.slideTo(lg.index, 0);
       });
     }
   }

@@ -98,10 +98,8 @@ address {
   font-style: normal;
 }
 
-
 *:focus-visible {
   outline: max(2px, 0.1em) solid rgba(var(--color-orange), 0.7);
-  outline-offset: 0.25em;
   border-radius: var(--radius-main);
 }
 
@@ -122,9 +120,9 @@ button:disabled {
 }
 
 button,
-[type="button"],
-[type="reset"],
-[type="submit"] {
+[type='button'],
+[type='reset'],
+[type='submit'] {
   -webkit-appearance: button;
 }
 
@@ -143,22 +141,22 @@ input::-webkit-search-results-decoration {
   display: none;
 }
 
-input[type="search"]::-ms-clear {
+input[type='search']::-ms-clear {
   display: none;
   width: 0;
   height: 0;
 }
 
-input[type="search"]::-ms-reveal {
+input[type='search']::-ms-reveal {
   display: none;
   width: 0;
   height: 0;
 }
 
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-results-button,
-input[type="search"]::-webkit-search-results-decoration {
+input[type='search']::-webkit-search-decoration,
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-results-button,
+input[type='search']::-webkit-search-results-decoration {
   display: none;
 }
 
@@ -168,12 +166,12 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type="number"] {
+input[type='number'] {
   /* Firefox */
   -moz-appearance: textfield;
 }
 
-[type="search"] {
+[type='search'] {
   -webkit-appearance: textfield;
   outline-offset: -2px;
 }

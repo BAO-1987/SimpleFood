@@ -9,7 +9,7 @@ import './components/_choices';
 import './components/_rangeSlider';
 import './components/_promoSlider';
 import './components/_catalogFilter';
-import './components/_singleSlider';
+import './components/_productSlider';
 import './components/_recentSlider';
 import './components/_starRating';
 import './components/_lightGallery';

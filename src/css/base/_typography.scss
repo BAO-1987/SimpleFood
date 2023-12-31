@@ -1,5 +1,5 @@
-@use "../utils/functions/"as*;
-@use "../utils/mixins/"as*;
+@use '../utils/functions/' as *;
+@use '../utils/mixins/' as *;
 
 .title {
   margin-bottom: clamp(1.875rem, calc(1rem + vw(44)), 3.75rem);
@@ -9,10 +9,10 @@
   text-align: center;
 }
 
-.title-sec {
+.title-second {
   margin-bottom: 2.19rem;
-  font-size: clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem);
   font-weight: var(--fw-400);
+  font-size: clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem);
   line-height: 1.2;
   letter-spacing: 0.03em;
 }

@@ -57,7 +57,6 @@
       @include media(mobile-m) {
         @include flex-all-sb;
         padding-bottom: 1.56rem;
-        gap: 2.56rem;
         opacity: 1;
         visibility: visible;
       }
@@ -70,6 +69,10 @@
         opacity: 1;
         visibility: visible;
       }
+    }
+
+    @include media(mobile-m) {
+      width: 100%;
     }
   }
 

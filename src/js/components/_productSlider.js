@@ -15,9 +15,9 @@ const sliderOptions = {
   },
 
   navigation: {
-    nextEl: ".single-slider__next",
-    prevEl: ".single-slider__prev",
+    nextEl: ".product-slider__next",
+    prevEl: ".product-slider__prev",
   },
 };
 
-const reviewsSlider = new Swiper('.single-slider', sliderOptions);
+const productSlider = new Swiper('.product-slider', sliderOptions);

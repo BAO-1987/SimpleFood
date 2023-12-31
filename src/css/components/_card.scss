@@ -1,5 +1,5 @@
-@use "../utils/functions"as *;
-@use "../utils/mixins"as *;
+@use '../utils/functions' as *;
+@use '../utils/mixins' as *;
 
 .card {
   @include flex;
@@ -15,7 +15,7 @@
 
   a {
     &::before {
-      content: "";
+      content: '';
       position: absolute;
       inset: 0;
     }
@@ -33,7 +33,7 @@
         @include mask;
         width: 8.75rem;
         height: 8.75rem;
-        mask-image: url("../images/icons/missing-img.svg");
+        mask-image: url('../images/icons/missing-img.svg');
         background-color: var(--color-gray);
         left: 0;
         right: 0;
@@ -79,7 +79,7 @@
       @include mask;
 
       left: 0;
-      mask-image: url("../images/icons/clock.svg");
+      mask-image: url('../images/icons/clock.svg');
       width: 1.375rem;
       height: 1.375rem;
     }
@@ -100,7 +100,7 @@
     &::after {
       @include mask;
 
-      mask-image: url("../images/icons/arrow-right.svg");
+      mask-image: url('../images/icons/arrow-right.svg');
       width: 1.5rem;
       height: 1.5rem;
       background-color: var(--color-white);
@@ -108,7 +108,7 @@
     }
 
     &:hover {
-      box-shadow: 0 0 0 2px rgba(var(--color-orange), 0.7);
+      box-shadow:  0 0 0 2px rgba(var(--color-orange), 0.7);
       background-color: var(--color-white);
 
       &::after {
