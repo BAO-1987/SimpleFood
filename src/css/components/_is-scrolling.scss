@@ -2,8 +2,7 @@
 @use "../utils/mixins"as *;
 
 .is-scrolling {
-  // padding-bottom: 0.5rem;
-  scrollbar-color: var(--color-orange-900) var(--color-white);
+  scrollbar-color: var(--color-orange-900) var(--color-silver-100);
   scrollbar-width: thin;
   scroll-snap-type: x mandatory;
   scroll-snap-align: start;
@@ -16,7 +15,7 @@
   &::-webkit-scrollbar-track {
     -webkit-border-radius: rem(10);
     border-radius: rem(10);
-    background-color: var(--color-white);
+    background-color: var(--color-silver-100);
   }
 
   &::-webkit-scrollbar-thumb {

@@ -1,0 +1,43 @@
+@use '../utils/functions' as *;
+@use '../utils/mixins' as *;
+
+.starry-star {
+  .Starry-star {
+    @include flex-all-center;
+    position: relative;
+
+    &::before {
+      @include mask;
+      mask-image: url('../images/icons/star.svg');
+      width: 1rem;
+      height: 1rem;
+      background-color: var(--color-gray-100);
+    }
+
+    img {
+      max-width: 1rem;
+      height: 1rem;
+      opacity: 0;
+    }
+
+    &:hover {
+      &::before {
+        background-color: var(--color-yellow);
+      }
+    }
+  }
+
+  .Starry > .Starry-blank,
+  .Starry > .Starry-active,
+  .Starry > .Starry-hover {
+    gap: 2px;
+  }
+
+  .Starry-active {
+    .Starry-star {
+      &:before {
+        background-color: var(--color-yellow);
+      }
+    }
+  }
+}

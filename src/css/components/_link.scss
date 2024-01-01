@@ -1,18 +1,19 @@
-@use "../utils/functions/"as *;
-@use "../utils/mixins"as *;
+@use '../utils/functions/' as *;
+@use '../utils/mixins' as *;
 
 .link {
   display: inline-flex;
   font-size: clamp(1rem, 0.9393rem + 0.2589vw, 1.25rem);
   text-decoration: underline;
   text-decoration-color: currentcolor;
-  transition-property: color, text-shadow;
+  transition-property: color, text-shadow, text-decoration-color;
   transition-duration: 0.5s;
   transition-timing-function: linear;
   text-underline-offset: 3px;
 
   &:hover {
     color: var(--color-orange-900);
+    text-decoration-color: transparent;
   }
 
   &:active {
