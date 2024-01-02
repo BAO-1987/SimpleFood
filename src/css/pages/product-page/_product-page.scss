@@ -33,7 +33,7 @@
       margin-bottom: 1.88rem;
       grid-template-columns: repeat(3, auto);
       justify-content: flex-start;
-      gap: 3.75rem;
+      gap: clamp(1.88rem, vw(60), 3.75rem);
     }
 
     .tabs__link {

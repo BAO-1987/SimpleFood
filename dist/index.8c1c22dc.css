@@ -2916,7 +2916,7 @@ p, .text {
 .product-page__tabs .tabs__nav {
   grid-template-columns: repeat(3, auto);
   justify-content: flex-start;
-  gap: 3.75rem;
+  gap: clamp(1.88rem, 3.125vw, 3.75rem);
   margin-bottom: 1.88rem;
 }
 
