@@ -1,5 +1,5 @@
-@use '../utils/functions/' as *;
-@use '../utils/mixins/' as *;
+@use "../utils/functions/"as *;
+@use "../utils/mixins/"as *;
 
 .burger {
   --line-height: 2px;
@@ -29,12 +29,11 @@
     width: var(--burger-size);
     background-color: var(--lines-color);
     transform: translateY(-50%);
-    transition: transform var(--transition-time) ease,
-      background-color var(--transition-time) ease 0.15s;
+    transition: transform var(--transition-time) ease,background-color var(--transition-time) ease 0.15s;
 
     &::before,
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       width: var(--burger-size);
       left: 0;
@@ -81,8 +80,8 @@
   }
 }
 
-.opened {
-  .nav__list {
-    transform: translate(0);
-  }
-}
+// .opened {
+//   .nav__list {
+//     transform: translate(0);
+//   }
+// }

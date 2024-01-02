@@ -586,11 +586,9 @@ navigation.addEventListener("click", BurgerBtnClick);
 document.addEventListener("click", closeMenu);
 function BurgerBtnClick(e) {
     if (!e.target.parentNode.matches(".burger") && !e.target.matches(".burger")) return;
-    navigation.classList.remove("closed");
     page.classList.add("open");
     navList.classList.add("active");
     if (navigation.classList.contains("opened")) {
-        navigation.classList.add("closed");
         page.classList.remove("open");
         navList.classList.remove("active");
         setTimeout(()=>{
@@ -603,15 +601,11 @@ function BurgerBtnClick(e) {
 function closeMenu(e) {
     const isBurger = e.target.closest(".burger");
     const isNavList = e.target.classList.contains("nav__list");
-    if (!isBurger && !isNavList && navList.classList.contains("active")) {
-        navigation.classList.add("closed");
+    if (!isBurger && !isNavList && navList.classList.contains("active")) setTimeout(()=>{
         page.classList.remove("open");
-        navList.classList.remove("active");
         navigation.classList.remove("opened");
-        setTimeout(()=>{
-            navigation.classList.remove("opened");
-        }, 500);
-    }
+        navList.classList.remove("active");
+    }, 500);
 }
 
 },{}],"egXuX":[function(require,module,exports) {
@@ -697,9 +691,7 @@ var _swiper = require("swiper");
 var _swiperDefault = parcelHelpers.interopDefault(_swiper);
 const sliderOptions = {
     slidesPerView: 1,
-    spaceBetween: 20,
     modules: [
-        (0, _swiper.Autoplay),
         (0, _swiper.Pagination),
         (0, _swiper.Navigation)
     ],

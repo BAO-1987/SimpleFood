@@ -18,7 +18,7 @@
     max-width: 20rem;
     background-color: var(--color-white);
     transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -1280, 0, 0, 1) !important;
-    transition: transform 0.4s linear !important;
+    transition: transform 0.6s linear !important;
     overflow-y: scroll;
   }
 

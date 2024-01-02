@@ -13,7 +13,7 @@
 
   &__body {
     position: relative;
-    min-width: 320px;
+    min-width: rem(320);
     min-height: var(--vh);
 
     &::before {
@@ -22,7 +22,7 @@
       z-index: 10;
       width: 0;
       background-color:rgba(0, 0, 0, 0.5);
-      transition: width 0.3s linear;
+      transition: width 0.4s linear;
       inset: 0;
     }
   }
@@ -43,7 +43,7 @@
   max-width: var(--container-width);
 
   &--wrapper {
-    --container-width: 720px;
+    --container-width: rem(720);
   }
 }
 
@@ -55,9 +55,6 @@
   margin-bottom: clamp(1.875rem, calc(1rem + vw(104)), 7.6rem);
 }
 
-// .main {
-//   padding-top: calc(var(--header-height));
-// }
 
 .logo {
   @include flex-all-center;

@@ -13,7 +13,7 @@
   color: var(--color-white);
   background-color: var(--color-orange-900);
   transition-property: color, background-color, box-shadow;
-  transition-duration: 0.4s;
+  transition-duration: 0.5s;
   transition-timing-function: linear;
 
   &:is(:hover, :active) {

@@ -3,6 +3,8 @@
 
 .delivery {
   align-items: center;
+  max-width: rem(1030);
+  margin-inline: auto;
 
   &__content {
     z-index: 1;
@@ -12,7 +14,7 @@
   }
 
   &__image {
-    padding-left: clamp(0.3rem, calc(1rem + vw(64)), 5rem);
+    // padding-left: clamp(0.3rem, calc(1rem + vw(64)), 5rem);
     position: relative;
 
     img {

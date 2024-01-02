@@ -1,3 +1,4 @@
+
 const navigation = document.querySelector(".header");
 const page = document.querySelector(".page");
 const navList = document.querySelector(".nav__list");
@@ -8,12 +9,10 @@ document.addEventListener("click", closeMenu);
 function BurgerBtnClick(e) {
   if (!e.target.parentNode.matches(".burger") && !e.target.matches(".burger")) return;
 
-  navigation.classList.remove("closed");
   page.classList.add("open");
   navList.classList.add("active");
 
   if (navigation.classList.contains("opened")) {
-    navigation.classList.add("closed");
     page.classList.remove("open");
     navList.classList.remove("active");
 
@@ -31,12 +30,11 @@ function closeMenu(e) {
   const isNavList = e.target.classList.contains("nav__list");
 
   if (!isBurger && !isNavList && navList.classList.contains("active")) {
-    navigation.classList.add("closed");
-    page.classList.remove("open");
-    navList.classList.remove("active");
-    navigation.classList.remove("opened");
     setTimeout(() => {
+
+      page.classList.remove("open");
       navigation.classList.remove("opened");
+      navList.classList.remove("active");
     }, 500);
   }
 }

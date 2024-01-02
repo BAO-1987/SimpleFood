@@ -3,9 +3,6 @@ $breakpoints: (
   "mobile-m": 576px,
   "mobile-l":768px,
   "tablet": 992px,
-  "desktop": 1280px,
-  "desktop-wide": 1440px,
-  "desktop-l": 1600px,
 );
 
 @mixin media($width, $type: max) {

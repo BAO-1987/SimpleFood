@@ -1,15 +1,14 @@
 import Swiper, {
-  Autoplay,
   Pagination,
   Navigation,
 } from 'swiper';
 
 const sliderOptions = {
   slidesPerView: 1,
-  spaceBetween: 20,
-  modules: [Autoplay, Pagination, Navigation],
+  modules: [Pagination, Navigation],
   dragable: true,
   grabCursor: true,
+
   pagination: {
     el: '.swiper-pagination',
   },
