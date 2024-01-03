@@ -12,4 +12,5 @@ import './components/_catalogFilter';
 import './components/_productSlider';
 import './components/_recentSlider';
 import './components/_starRating';
-import './components/_lightGallery';
+import './components/_stepper';
+// import './components/_lightGallery';

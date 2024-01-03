@@ -8,7 +8,7 @@
 
   &__list {
     @include flex-v-center;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     gap: 1rem;
 
     li {

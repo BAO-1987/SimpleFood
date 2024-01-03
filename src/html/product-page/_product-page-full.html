@@ -17,16 +17,15 @@
   </nav>
 
   <div class="container product-page__wrapper">
+    
+    <div class="sl slider product-page__slider product-slider">
 
-    <div class="slider product-page__slider product-slider">
       <ul class="product-slider__list swiper-wrapper">
         <li class="product-slider__item swiper-slide">
-          <dialog class="product-slider__dialog">
-            <div class="product-slider__image">
-              <img src="./images/single/сheeseburger-1.jpg?as=webp" alt="Чізбургер з листям салату" width="400"
-                height="400" loading="lazy">
-            </div>
-          </dialog>
+          <div class="product-slider__image">
+            <img src="./images/single/сheeseburger-1.jpg?as=webp" alt="Чізбургер з листям салату" width="400"
+              height="400" loading="lazy">
+          </div>
         </li>
 
         <li class="product-slider__item swiper-slide">
@@ -42,11 +41,13 @@
               height="400" loading="lazy">
           </div>
         </li>
+
       </ul>
+
       <button class="product-slider__prev" type="button" aria-label="кнопка прогорнути назад"></button>
       <button class="product-slider__next" type="button" aria-label="кнопка прогорнути вперед"></button>
 
-      <!-- <div class="swiper-pagination single-slider__pagination"></div> -->
+      <div class="swiper-pagination product-slider__pagination"></div>
     </div>
 
     <div class="product-info">

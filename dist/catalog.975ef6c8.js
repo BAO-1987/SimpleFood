@@ -576,9 +576,9 @@ var _catalogFilter = require("./components/_catalogFilter");
 var _productSlider = require("./components/_productSlider");
 var _recentSlider = require("./components/_recentSlider");
 var _starRating = require("./components/_starRating");
-var _lightGallery = require("./components/_lightGallery");
+var _stepper = require("./components/_stepper"); // import './components/_lightGallery';
 
-},{"./components/_burger":"aATkn","./components/_tabs":"egXuX","./components/_reviewsSlider":"lBEkV","./components/_restaurantSlider":"dXwnK","./components/_search":"7pITd","./components/_rangeSlider":"gNtZe","./components/_promoSlider":"dJWJm","./components/_catalogFilter":"21UdT","./components/_recentSlider":"fhTRd","./components/_starRating":"3bsGg","./components/_lightGallery":"cD0bk","./components/_animation":"kcXuJ","./components/_choices":"gv3s4","./components/_productSlider":"dPJMK"}],"aATkn":[function(require,module,exports) {
+},{"./components/_burger":"aATkn","./components/_tabs":"egXuX","./components/_reviewsSlider":"lBEkV","./components/_restaurantSlider":"dXwnK","./components/_search":"7pITd","./components/_animation":"kcXuJ","./components/_rangeSlider":"gNtZe","./components/_promoSlider":"dJWJm","./components/_catalogFilter":"21UdT","./components/_recentSlider":"fhTRd","./components/_starRating":"3bsGg","./components/_choices":"gv3s4","./components/_productSlider":"dPJMK","./components/_stepper":"6HDrZ"}],"aATkn":[function(require,module,exports) {
 const navigation = document.querySelector(".header");
 const page = document.querySelector(".page");
 const navList = document.querySelector(".nav__list");
@@ -9351,7 +9351,1497 @@ window.addEventListener("DOMContentLoaded", ()=>{
 //   }
 // });
 
-},{}],"gNtZe":[function(require,module,exports) {
+},{}],"kcXuJ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+var _scrollreveal = require("scrollreveal");
+var _scrollrevealDefault = parcelHelpers.interopDefault(_scrollreveal);
+(0, _scrollrevealDefault.default)({
+    easing: "ease"
+});
+(0, _scrollrevealDefault.default)().reveal(".hero__content, .delivery__content, .slider, .app__content,  .catalog__inner, .filter, .sort, .single__content, .tabs, .recent__content", {
+    duration: 1200,
+    distance: "20px",
+    delay: "100",
+    origin: "top"
+});
+(0, _scrollrevealDefault.default)().reveal(".hero__image, .delivery__image, .app__image", {
+    duration: 1000,
+    distance: "20px",
+    delay: "100",
+    origin: "right"
+});
+(0, _scrollrevealDefault.default)().reveal(".delivery__image", {
+    origin: "left"
+});
+(0, _scrollrevealDefault.default)().reveal(".title", {
+    duration: 1200,
+    distance: "20px",
+    delay: "100",
+    origin: "top"
+});
+(0, _scrollrevealDefault.default)().reveal(".footer__top, .categories__btn, .pagination", {
+    duration: 800,
+    distance: "25px",
+    delay: "100",
+    origin: "bottom"
+});
+
+},{"scrollreveal":"2exAg","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2exAg":[function(require,module,exports) {
+/*! @license ScrollReveal v4.0.9
+
+	Copyright 2021 Fisssion LLC.
+
+	Licensed under the GNU General Public License 3.0 for
+	compatible open source projects and non-commercial use.
+
+	For commercial sites, themes, projects, and applications,
+	keep your source code private/proprietary by purchasing
+	a commercial license from https://scrollrevealjs.org/
+*/ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _tealight = require("tealight");
+var _tealightDefault = parcelHelpers.interopDefault(_tealight);
+var _rematrix = require("rematrix");
+var _miniraf = require("miniraf");
+var _minirafDefault = parcelHelpers.interopDefault(_miniraf);
+var defaults = {
+    delay: 0,
+    distance: "0",
+    duration: 600,
+    easing: "cubic-bezier(0.5, 0, 0, 1)",
+    interval: 0,
+    opacity: 0,
+    origin: "bottom",
+    rotate: {
+        x: 0,
+        y: 0,
+        z: 0
+    },
+    scale: 1,
+    cleanup: false,
+    container: document.documentElement,
+    desktop: true,
+    mobile: true,
+    reset: false,
+    useDelay: "always",
+    viewFactor: 0.0,
+    viewOffset: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+    },
+    afterReset: function afterReset() {},
+    afterReveal: function afterReveal() {},
+    beforeReset: function beforeReset() {},
+    beforeReveal: function beforeReveal() {}
+};
+function failure() {
+    document.documentElement.classList.remove("sr");
+    return {
+        clean: function clean() {},
+        destroy: function destroy() {},
+        reveal: function reveal() {},
+        sync: function sync() {},
+        get noop () {
+            return true;
+        }
+    };
+}
+function success() {
+    document.documentElement.classList.add("sr");
+    if (document.body) document.body.style.height = "100%";
+    else document.addEventListener("DOMContentLoaded", function() {
+        document.body.style.height = "100%";
+    });
+}
+var mount = {
+    success: success,
+    failure: failure
+};
+function isObject(x) {
+    return x !== null && x instanceof Object && (x.constructor === Object || Object.prototype.toString.call(x) === "[object Object]");
+}
+function each(collection, callback) {
+    if (isObject(collection)) {
+        var keys = Object.keys(collection);
+        return keys.forEach(function(key) {
+            return callback(collection[key], key, collection);
+        });
+    }
+    if (collection instanceof Array) return collection.forEach(function(item, i) {
+        return callback(item, i, collection);
+    });
+    throw new TypeError("Expected either an array or object literal.");
+}
+function logger(message) {
+    var details = [], len = arguments.length - 1;
+    while(len-- > 0)details[len] = arguments[len + 1];
+    if (this.constructor.debug && console) {
+        var report = "%cScrollReveal: " + message;
+        details.forEach(function(detail) {
+            return report += "\n — " + detail;
+        });
+        console.log(report, "color: #ea654b;"); // eslint-disable-line no-console
+    }
+}
+function rinse() {
+    var this$1 = this;
+    var struct = function() {
+        return {
+            active: [],
+            stale: []
+        };
+    };
+    var elementIds = struct();
+    var sequenceIds = struct();
+    var containerIds = struct();
+    /**
+	 * Take stock of active element IDs.
+	 */ try {
+        each((0, _tealightDefault.default)("[data-sr-id]"), function(node) {
+            var id = parseInt(node.getAttribute("data-sr-id"));
+            elementIds.active.push(id);
+        });
+    } catch (e) {
+        throw e;
+    }
+    /**
+	 * Destroy stale elements.
+	 */ each(this.store.elements, function(element) {
+        if (elementIds.active.indexOf(element.id) === -1) elementIds.stale.push(element.id);
+    });
+    each(elementIds.stale, function(staleId) {
+        return delete this$1.store.elements[staleId];
+    });
+    /**
+	 * Take stock of active container and sequence IDs.
+	 */ each(this.store.elements, function(element) {
+        if (containerIds.active.indexOf(element.containerId) === -1) containerIds.active.push(element.containerId);
+        if (element.hasOwnProperty("sequence")) {
+            if (sequenceIds.active.indexOf(element.sequence.id) === -1) sequenceIds.active.push(element.sequence.id);
+        }
+    });
+    /**
+	 * Destroy stale containers.
+	 */ each(this.store.containers, function(container) {
+        if (containerIds.active.indexOf(container.id) === -1) containerIds.stale.push(container.id);
+    });
+    each(containerIds.stale, function(staleId) {
+        var stale = this$1.store.containers[staleId].node;
+        stale.removeEventListener("scroll", this$1.delegate);
+        stale.removeEventListener("resize", this$1.delegate);
+        delete this$1.store.containers[staleId];
+    });
+    /**
+	 * Destroy stale sequences.
+	 */ each(this.store.sequences, function(sequence) {
+        if (sequenceIds.active.indexOf(sequence.id) === -1) sequenceIds.stale.push(sequence.id);
+    });
+    each(sequenceIds.stale, function(staleId) {
+        return delete this$1.store.sequences[staleId];
+    });
+}
+var getPrefixedCssProp = function() {
+    var properties = {};
+    var style = document.documentElement.style;
+    function getPrefixedCssProperty(name, source) {
+        if (source === void 0) source = style;
+        if (name && typeof name === "string") {
+            if (properties[name]) return properties[name];
+            if (typeof source[name] === "string") return properties[name] = name;
+            if (typeof source["-webkit-" + name] === "string") return properties[name] = "-webkit-" + name;
+            throw new RangeError('Unable to find "' + name + '" style property.');
+        }
+        throw new TypeError("Expected a string.");
+    }
+    getPrefixedCssProperty.clearCache = function() {
+        return properties = {};
+    };
+    return getPrefixedCssProperty;
+}();
+function style(element) {
+    var computed = window.getComputedStyle(element.node);
+    var position = computed.position;
+    var config = element.config;
+    /**
+	 * Generate inline styles
+	 */ var inline = {};
+    var inlineStyle = element.node.getAttribute("style") || "";
+    var inlineMatch = inlineStyle.match(/[\w-]+\s*:\s*[^;]+\s*/gi) || [];
+    inline.computed = inlineMatch ? inlineMatch.map(function(m) {
+        return m.trim();
+    }).join("; ") + ";" : "";
+    inline.generated = inlineMatch.some(function(m) {
+        return m.match(/visibility\s?:\s?visible/i);
+    }) ? inline.computed : inlineMatch.concat([
+        "visibility: visible"
+    ]).map(function(m) {
+        return m.trim();
+    }).join("; ") + ";";
+    /**
+	 * Generate opacity styles
+	 */ var computedOpacity = parseFloat(computed.opacity);
+    var configOpacity = !isNaN(parseFloat(config.opacity)) ? parseFloat(config.opacity) : parseFloat(computed.opacity);
+    var opacity = {
+        computed: computedOpacity !== configOpacity ? "opacity: " + computedOpacity + ";" : "",
+        generated: computedOpacity !== configOpacity ? "opacity: " + configOpacity + ";" : ""
+    };
+    /**
+	 * Generate transformation styles
+	 */ var transformations = [];
+    if (parseFloat(config.distance)) {
+        var axis = config.origin === "top" || config.origin === "bottom" ? "Y" : "X";
+        /**
+		 * Let’s make sure our our pixel distances are negative for top and left.
+		 * e.g. { origin: 'top', distance: '25px' } starts at `top: -25px` in CSS.
+		 */ var distance = config.distance;
+        if (config.origin === "top" || config.origin === "left") distance = /^-/.test(distance) ? distance.substr(1) : "-" + distance;
+        var ref = distance.match(/(^-?\d+\.?\d?)|(em$|px$|%$)/g);
+        var value = ref[0];
+        var unit = ref[1];
+        switch(unit){
+            case "em":
+                distance = parseInt(computed.fontSize) * value;
+                break;
+            case "px":
+                distance = value;
+                break;
+            case "%":
+                /**
+				 * Here we use `getBoundingClientRect` instead of
+				 * the existing data attached to `element.geometry`
+				 * because only the former includes any transformations
+				 * current applied to the element.
+				 *
+				 * If that behavior ends up being unintuitive, this
+				 * logic could instead utilize `element.geometry.height`
+				 * and `element.geoemetry.width` for the distance calculation
+				 */ distance = axis === "Y" ? element.node.getBoundingClientRect().height * value / 100 : element.node.getBoundingClientRect().width * value / 100;
+                break;
+            default:
+                throw new RangeError("Unrecognized or missing distance unit.");
+        }
+        if (axis === "Y") transformations.push((0, _rematrix.translateY)(distance));
+        else transformations.push((0, _rematrix.translateX)(distance));
+    }
+    if (config.rotate.x) transformations.push((0, _rematrix.rotateX)(config.rotate.x));
+    if (config.rotate.y) transformations.push((0, _rematrix.rotateY)(config.rotate.y));
+    if (config.rotate.z) transformations.push((0, _rematrix.rotateZ)(config.rotate.z));
+    if (config.scale !== 1) {
+        if (config.scale === 0) /**
+			 * The CSS Transforms matrix interpolation specification
+			 * basically disallows transitions of non-invertible
+			 * matrixes, which means browsers won't transition
+			 * elements with zero scale.
+			 *
+			 * That’s inconvenient for the API and developer
+			 * experience, so we simply nudge their value
+			 * slightly above zero; this allows browsers
+			 * to transition our element as expected.
+			 *
+			 * `0.0002` was the smallest number
+			 * that performed across browsers.
+			 */ transformations.push((0, _rematrix.scale)(0.0002));
+        else transformations.push((0, _rematrix.scale)(config.scale));
+    }
+    var transform = {};
+    if (transformations.length) {
+        transform.property = getPrefixedCssProp("transform");
+        /**
+		 * The default computed transform value should be one of:
+		 * undefined || 'none' || 'matrix()' || 'matrix3d()'
+		 */ transform.computed = {
+            raw: computed[transform.property],
+            matrix: (0, _rematrix.parse)(computed[transform.property])
+        };
+        transformations.unshift(transform.computed.matrix);
+        var product = transformations.reduce((0, _rematrix.multiply));
+        transform.generated = {
+            initial: transform.property + ": matrix3d(" + product.join(", ") + ");",
+            final: transform.property + ": matrix3d(" + transform.computed.matrix.join(", ") + ");"
+        };
+    } else transform.generated = {
+        initial: "",
+        final: ""
+    };
+    /**
+	 * Generate transition styles
+	 */ var transition = {};
+    if (opacity.generated || transform.generated.initial) {
+        transition.property = getPrefixedCssProp("transition");
+        transition.computed = computed[transition.property];
+        transition.fragments = [];
+        var delay = config.delay;
+        var duration = config.duration;
+        var easing = config.easing;
+        if (opacity.generated) transition.fragments.push({
+            delayed: "opacity " + duration / 1000 + "s " + easing + " " + delay / 1000 + "s",
+            instant: "opacity " + duration / 1000 + "s " + easing + " 0s"
+        });
+        if (transform.generated.initial) transition.fragments.push({
+            delayed: transform.property + " " + duration / 1000 + "s " + easing + " " + delay / 1000 + "s",
+            instant: transform.property + " " + duration / 1000 + "s " + easing + " 0s"
+        });
+        /**
+		 * The default computed transition property should be undefined, or one of:
+		 * '' || 'none 0s ease 0s' || 'all 0s ease 0s' || 'all 0s 0s cubic-bezier()'
+		 */ var hasCustomTransition = transition.computed && !transition.computed.match(/all 0s|none 0s/);
+        if (hasCustomTransition) transition.fragments.unshift({
+            delayed: transition.computed,
+            instant: transition.computed
+        });
+        var composed = transition.fragments.reduce(function(composition, fragment, i) {
+            composition.delayed += i === 0 ? fragment.delayed : ", " + fragment.delayed;
+            composition.instant += i === 0 ? fragment.instant : ", " + fragment.instant;
+            return composition;
+        }, {
+            delayed: "",
+            instant: ""
+        });
+        transition.generated = {
+            delayed: transition.property + ": " + composed.delayed + ";",
+            instant: transition.property + ": " + composed.instant + ";"
+        };
+    } else transition.generated = {
+        delayed: "",
+        instant: ""
+    };
+    return {
+        inline: inline,
+        opacity: opacity,
+        position: position,
+        transform: transform,
+        transition: transition
+    };
+}
+/**
+ * apply a CSS string to an element using the CSSOM (element.style) rather
+ * than setAttribute, which may violate the content security policy.
+ *
+ * @param {Node}   [el]  Element to receive styles.
+ * @param {string} [declaration] Styles to apply.
+ */ function applyStyle(el, declaration) {
+    declaration.split(";").forEach(function(pair) {
+        var ref = pair.split(":");
+        var property = ref[0];
+        var value = ref.slice(1);
+        if (property && value) el.style[property.trim()] = value.join(":");
+    });
+}
+function clean(target) {
+    var this$1 = this;
+    var dirty;
+    try {
+        each((0, _tealightDefault.default)(target), function(node) {
+            var id = node.getAttribute("data-sr-id");
+            if (id !== null) {
+                dirty = true;
+                var element = this$1.store.elements[id];
+                if (element.callbackTimer) window.clearTimeout(element.callbackTimer.clock);
+                applyStyle(element.node, element.styles.inline.generated);
+                node.removeAttribute("data-sr-id");
+                delete this$1.store.elements[id];
+            }
+        });
+    } catch (e) {
+        return logger.call(this, "Clean failed.", e.message);
+    }
+    if (dirty) try {
+        rinse.call(this);
+    } catch (e) {
+        return logger.call(this, "Clean failed.", e.message);
+    }
+}
+function destroy() {
+    var this$1 = this;
+    /**
+	 * Remove all generated styles and element ids
+	 */ each(this.store.elements, function(element) {
+        applyStyle(element.node, element.styles.inline.generated);
+        element.node.removeAttribute("data-sr-id");
+    });
+    /**
+	 * Remove all event listeners.
+	 */ each(this.store.containers, function(container) {
+        var target = container.node === document.documentElement ? window : container.node;
+        target.removeEventListener("scroll", this$1.delegate);
+        target.removeEventListener("resize", this$1.delegate);
+    });
+    /**
+	 * Clear all data from the store
+	 */ this.store = {
+        containers: {},
+        elements: {},
+        history: [],
+        sequences: {}
+    };
+}
+function deepAssign(target) {
+    var sources = [], len = arguments.length - 1;
+    while(len-- > 0)sources[len] = arguments[len + 1];
+    if (isObject(target)) {
+        each(sources, function(source) {
+            each(source, function(data, key) {
+                if (isObject(data)) {
+                    if (!target[key] || !isObject(target[key])) target[key] = {};
+                    deepAssign(target[key], data);
+                } else target[key] = data;
+            });
+        });
+        return target;
+    } else throw new TypeError("Target must be an object literal.");
+}
+function isMobile(agent) {
+    if (agent === void 0) agent = navigator.userAgent;
+    return /Android|iPhone|iPad|iPod/i.test(agent);
+}
+var nextUniqueId = function() {
+    var uid = 0;
+    return function() {
+        return uid++;
+    };
+}();
+function initialize() {
+    var this$1 = this;
+    rinse.call(this);
+    each(this.store.elements, function(element) {
+        var styles = [
+            element.styles.inline.generated
+        ];
+        if (element.visible) {
+            styles.push(element.styles.opacity.computed);
+            styles.push(element.styles.transform.generated.final);
+            element.revealed = true;
+        } else {
+            styles.push(element.styles.opacity.generated);
+            styles.push(element.styles.transform.generated.initial);
+            element.revealed = false;
+        }
+        applyStyle(element.node, styles.filter(function(s) {
+            return s !== "";
+        }).join(" "));
+    });
+    each(this.store.containers, function(container) {
+        var target = container.node === document.documentElement ? window : container.node;
+        target.addEventListener("scroll", this$1.delegate);
+        target.addEventListener("resize", this$1.delegate);
+    });
+    /**
+	 * Manually invoke delegate once to capture
+	 * element and container dimensions, container
+	 * scroll position, and trigger any valid reveals
+	 */ this.delegate();
+    /**
+	 * Wipe any existing `setTimeout` now
+	 * that initialization has completed.
+	 */ this.initTimeout = null;
+}
+function animate(element, force) {
+    if (force === void 0) force = {};
+    var pristine = force.pristine || this.pristine;
+    var delayed = element.config.useDelay === "always" || element.config.useDelay === "onload" && pristine || element.config.useDelay === "once" && !element.seen;
+    var shouldReveal = element.visible && !element.revealed;
+    var shouldReset = !element.visible && element.revealed && element.config.reset;
+    if (force.reveal || shouldReveal) return triggerReveal.call(this, element, delayed);
+    if (force.reset || shouldReset) return triggerReset.call(this, element);
+}
+function triggerReveal(element, delayed) {
+    var styles = [
+        element.styles.inline.generated,
+        element.styles.opacity.computed,
+        element.styles.transform.generated.final
+    ];
+    if (delayed) styles.push(element.styles.transition.generated.delayed);
+    else styles.push(element.styles.transition.generated.instant);
+    element.revealed = element.seen = true;
+    applyStyle(element.node, styles.filter(function(s) {
+        return s !== "";
+    }).join(" "));
+    registerCallbacks.call(this, element, delayed);
+}
+function triggerReset(element) {
+    var styles = [
+        element.styles.inline.generated,
+        element.styles.opacity.generated,
+        element.styles.transform.generated.initial,
+        element.styles.transition.generated.instant
+    ];
+    element.revealed = false;
+    applyStyle(element.node, styles.filter(function(s) {
+        return s !== "";
+    }).join(" "));
+    registerCallbacks.call(this, element);
+}
+function registerCallbacks(element, isDelayed) {
+    var this$1 = this;
+    var duration = isDelayed ? element.config.duration + element.config.delay : element.config.duration;
+    var beforeCallback = element.revealed ? element.config.beforeReveal : element.config.beforeReset;
+    var afterCallback = element.revealed ? element.config.afterReveal : element.config.afterReset;
+    var elapsed = 0;
+    if (element.callbackTimer) {
+        elapsed = Date.now() - element.callbackTimer.start;
+        window.clearTimeout(element.callbackTimer.clock);
+    }
+    beforeCallback(element.node);
+    element.callbackTimer = {
+        start: Date.now(),
+        clock: window.setTimeout(function() {
+            afterCallback(element.node);
+            element.callbackTimer = null;
+            if (element.revealed && !element.config.reset && element.config.cleanup) clean.call(this$1, element.node);
+        }, duration - elapsed)
+    };
+}
+function sequence(element, pristine) {
+    if (pristine === void 0) pristine = this.pristine;
+    /**
+	 * We first check if the element should reset.
+	 */ if (!element.visible && element.revealed && element.config.reset) return animate.call(this, element, {
+        reset: true
+    });
+    var seq = this.store.sequences[element.sequence.id];
+    var i = element.sequence.index;
+    if (seq) {
+        var visible = new SequenceModel(seq, "visible", this.store);
+        var revealed = new SequenceModel(seq, "revealed", this.store);
+        seq.models = {
+            visible: visible,
+            revealed: revealed
+        };
+        /**
+		 * If the sequence has no revealed members,
+		 * then we reveal the first visible element
+		 * within that sequence.
+		 *
+		 * The sequence then cues a recursive call
+		 * in both directions.
+		 */ if (!revealed.body.length) {
+            var nextId = seq.members[visible.body[0]];
+            var nextElement = this.store.elements[nextId];
+            if (nextElement) {
+                cue.call(this, seq, visible.body[0], -1, pristine);
+                cue.call(this, seq, visible.body[0], 1, pristine);
+                return animate.call(this, nextElement, {
+                    reveal: true,
+                    pristine: pristine
+                });
+            }
+        }
+        /**
+		 * If our element isn’t resetting, we check the
+		 * element sequence index against the head, and
+		 * then the foot of the sequence.
+		 */ if (!seq.blocked.head && i === [].concat(revealed.head).pop() && i >= [].concat(visible.body).shift()) {
+            cue.call(this, seq, i, -1, pristine);
+            return animate.call(this, element, {
+                reveal: true,
+                pristine: pristine
+            });
+        }
+        if (!seq.blocked.foot && i === [].concat(revealed.foot).shift() && i <= [].concat(visible.body).pop()) {
+            cue.call(this, seq, i, 1, pristine);
+            return animate.call(this, element, {
+                reveal: true,
+                pristine: pristine
+            });
+        }
+    }
+}
+function Sequence(interval) {
+    var i = Math.abs(interval);
+    if (!isNaN(i)) {
+        this.id = nextUniqueId();
+        this.interval = Math.max(i, 16);
+        this.members = [];
+        this.models = {};
+        this.blocked = {
+            head: false,
+            foot: false
+        };
+    } else throw new RangeError("Invalid sequence interval.");
+}
+function SequenceModel(seq, prop, store) {
+    var this$1 = this;
+    this.head = [];
+    this.body = [];
+    this.foot = [];
+    each(seq.members, function(id, index) {
+        var element = store.elements[id];
+        if (element && element[prop]) this$1.body.push(index);
+    });
+    if (this.body.length) each(seq.members, function(id, index) {
+        var element = store.elements[id];
+        if (element && !element[prop]) {
+            if (index < this$1.body[0]) this$1.head.push(index);
+            else this$1.foot.push(index);
+        }
+    });
+}
+function cue(seq, i, direction, pristine) {
+    var this$1 = this;
+    var blocked = [
+        "head",
+        null,
+        "foot"
+    ][1 + direction];
+    var nextId = seq.members[i + direction];
+    var nextElement = this.store.elements[nextId];
+    seq.blocked[blocked] = true;
+    setTimeout(function() {
+        seq.blocked[blocked] = false;
+        if (nextElement) sequence.call(this$1, nextElement, pristine);
+    }, seq.interval);
+}
+function reveal(target, options, syncing) {
+    var this$1 = this;
+    if (options === void 0) options = {};
+    if (syncing === void 0) syncing = false;
+    var containerBuffer = [];
+    var sequence$$1;
+    var interval = options.interval || defaults.interval;
+    try {
+        if (interval) sequence$$1 = new Sequence(interval);
+        var nodes = (0, _tealightDefault.default)(target);
+        if (!nodes.length) throw new Error("Invalid reveal target.");
+        var elements = nodes.reduce(function(elementBuffer, elementNode) {
+            var element = {};
+            var existingId = elementNode.getAttribute("data-sr-id");
+            if (existingId) {
+                deepAssign(element, this$1.store.elements[existingId]);
+                /**
+				 * In order to prevent previously generated styles
+				 * from throwing off the new styles, the style tag
+				 * has to be reverted to its pre-reveal state.
+				 */ applyStyle(element.node, element.styles.inline.computed);
+            } else {
+                element.id = nextUniqueId();
+                element.node = elementNode;
+                element.seen = false;
+                element.revealed = false;
+                element.visible = false;
+            }
+            var config = deepAssign({}, element.config || this$1.defaults, options);
+            if (!config.mobile && isMobile() || !config.desktop && !isMobile()) {
+                if (existingId) clean.call(this$1, element);
+                return elementBuffer // skip elements that are disabled
+                ;
+            }
+            var containerNode = (0, _tealightDefault.default)(config.container)[0];
+            if (!containerNode) throw new Error("Invalid container.");
+            if (!containerNode.contains(elementNode)) return elementBuffer // skip elements found outside the container
+            ;
+            var containerId;
+            containerId = getContainerId(containerNode, containerBuffer, this$1.store.containers);
+            if (containerId === null) {
+                containerId = nextUniqueId();
+                containerBuffer.push({
+                    id: containerId,
+                    node: containerNode
+                });
+            }
+            element.config = config;
+            element.containerId = containerId;
+            element.styles = style(element);
+            if (sequence$$1) {
+                element.sequence = {
+                    id: sequence$$1.id,
+                    index: sequence$$1.members.length
+                };
+                sequence$$1.members.push(element.id);
+            }
+            elementBuffer.push(element);
+            return elementBuffer;
+        }, []);
+        /**
+		 * Modifying the DOM via setAttribute needs to be handled
+		 * separately from reading computed styles in the map above
+		 * for the browser to batch DOM changes (limiting reflows)
+		 */ each(elements, function(element) {
+            this$1.store.elements[element.id] = element;
+            element.node.setAttribute("data-sr-id", element.id);
+        });
+    } catch (e) {
+        return logger.call(this, "Reveal failed.", e.message);
+    }
+    /**
+	 * Now that element set-up is complete...
+	 * Let’s commit any container and sequence data we have to the store.
+	 */ each(containerBuffer, function(container) {
+        this$1.store.containers[container.id] = {
+            id: container.id,
+            node: container.node
+        };
+    });
+    if (sequence$$1) this.store.sequences[sequence$$1.id] = sequence$$1;
+    /**
+	 * If reveal wasn't invoked by sync, we want to
+	 * make sure to add this call to the history.
+	 */ if (syncing !== true) {
+        this.store.history.push({
+            target: target,
+            options: options
+        });
+        /**
+		 * Push initialization to the event queue, giving
+		 * multiple reveal calls time to be interpreted.
+		 */ if (this.initTimeout) window.clearTimeout(this.initTimeout);
+        this.initTimeout = window.setTimeout(initialize.bind(this), 0);
+    }
+}
+function getContainerId(node) {
+    var collections = [], len = arguments.length - 1;
+    while(len-- > 0)collections[len] = arguments[len + 1];
+    var id = null;
+    each(collections, function(collection) {
+        each(collection, function(container) {
+            if (id === null && container.node === node) id = container.id;
+        });
+    });
+    return id;
+}
+/**
+ * Re-runs the reveal method for each record stored in history,
+ * for capturing new content asynchronously loaded into the DOM.
+ */ function sync() {
+    var this$1 = this;
+    each(this.store.history, function(record) {
+        reveal.call(this$1, record.target, record.options, true);
+    });
+    initialize.call(this);
+}
+var polyfill = function(x) {
+    return (x > 0) - (x < 0) || +x;
+};
+var mathSign = Math.sign || polyfill;
+function getGeometry(target, isContainer) {
+    /**
+	 * We want to ignore padding and scrollbars for container elements.
+	 * More information here: https://goo.gl/vOZpbz
+	 */ var height = isContainer ? target.node.clientHeight : target.node.offsetHeight;
+    var width = isContainer ? target.node.clientWidth : target.node.offsetWidth;
+    var offsetTop = 0;
+    var offsetLeft = 0;
+    var node = target.node;
+    do {
+        if (!isNaN(node.offsetTop)) offsetTop += node.offsetTop;
+        if (!isNaN(node.offsetLeft)) offsetLeft += node.offsetLeft;
+        node = node.offsetParent;
+    }while (node);
+    return {
+        bounds: {
+            top: offsetTop,
+            right: offsetLeft + width,
+            bottom: offsetTop + height,
+            left: offsetLeft
+        },
+        height: height,
+        width: width
+    };
+}
+function getScrolled(container) {
+    var top, left;
+    if (container.node === document.documentElement) {
+        top = window.pageYOffset;
+        left = window.pageXOffset;
+    } else {
+        top = container.node.scrollTop;
+        left = container.node.scrollLeft;
+    }
+    return {
+        top: top,
+        left: left
+    };
+}
+function isElementVisible(element) {
+    if (element === void 0) element = {};
+    var container = this.store.containers[element.containerId];
+    if (!container) return;
+    var viewFactor = Math.max(0, Math.min(1, element.config.viewFactor));
+    var viewOffset = element.config.viewOffset;
+    var elementBounds = {
+        top: element.geometry.bounds.top + element.geometry.height * viewFactor,
+        right: element.geometry.bounds.right - element.geometry.width * viewFactor,
+        bottom: element.geometry.bounds.bottom - element.geometry.height * viewFactor,
+        left: element.geometry.bounds.left + element.geometry.width * viewFactor
+    };
+    var containerBounds = {
+        top: container.geometry.bounds.top + container.scroll.top + viewOffset.top,
+        right: container.geometry.bounds.right + container.scroll.left - viewOffset.right,
+        bottom: container.geometry.bounds.bottom + container.scroll.top - viewOffset.bottom,
+        left: container.geometry.bounds.left + container.scroll.left + viewOffset.left
+    };
+    return elementBounds.top < containerBounds.bottom && elementBounds.right > containerBounds.left && elementBounds.bottom > containerBounds.top && elementBounds.left < containerBounds.right || element.styles.position === "fixed";
+}
+function delegate(event, elements) {
+    var this$1 = this;
+    if (event === void 0) event = {
+        type: "init"
+    };
+    if (elements === void 0) elements = this.store.elements;
+    (0, _minirafDefault.default)(function() {
+        var stale = event.type === "init" || event.type === "resize";
+        each(this$1.store.containers, function(container) {
+            if (stale) container.geometry = getGeometry.call(this$1, container, true);
+            var scroll = getScrolled.call(this$1, container);
+            if (container.scroll) container.direction = {
+                x: mathSign(scroll.left - container.scroll.left),
+                y: mathSign(scroll.top - container.scroll.top)
+            };
+            container.scroll = scroll;
+        });
+        /**
+		 * Due to how the sequencer is implemented, it’s
+		 * important that we update the state of all
+		 * elements, before any animation logic is
+		 * evaluated (in the second loop below).
+		 */ each(elements, function(element) {
+            if (stale || element.geometry === undefined) element.geometry = getGeometry.call(this$1, element);
+            element.visible = isElementVisible.call(this$1, element);
+        });
+        each(elements, function(element) {
+            if (element.sequence) sequence.call(this$1, element);
+            else animate.call(this$1, element);
+        });
+        this$1.pristine = false;
+    });
+}
+function isTransformSupported() {
+    var style = document.documentElement.style;
+    return "transform" in style || "WebkitTransform" in style;
+}
+function isTransitionSupported() {
+    var style = document.documentElement.style;
+    return "transition" in style || "WebkitTransition" in style;
+}
+var version = "4.0.9";
+var boundDelegate;
+var boundDestroy;
+var boundReveal;
+var boundClean;
+var boundSync;
+var config;
+var debug;
+var instance;
+function ScrollReveal(options) {
+    if (options === void 0) options = {};
+    var invokedWithoutNew = typeof this === "undefined" || Object.getPrototypeOf(this) !== ScrollReveal.prototype;
+    if (invokedWithoutNew) return new ScrollReveal(options);
+    if (!ScrollReveal.isSupported()) {
+        logger.call(this, "Instantiation failed.", "This browser is not supported.");
+        return mount.failure();
+    }
+    var buffer;
+    try {
+        buffer = config ? deepAssign({}, config, options) : deepAssign({}, defaults, options);
+    } catch (e) {
+        logger.call(this, "Invalid configuration.", e.message);
+        return mount.failure();
+    }
+    try {
+        var container = (0, _tealightDefault.default)(buffer.container)[0];
+        if (!container) throw new Error("Invalid container.");
+    } catch (e) {
+        logger.call(this, e.message);
+        return mount.failure();
+    }
+    config = buffer;
+    if (!config.mobile && isMobile() || !config.desktop && !isMobile()) {
+        logger.call(this, "This device is disabled.", "desktop: " + config.desktop, "mobile: " + config.mobile);
+        return mount.failure();
+    }
+    mount.success();
+    this.store = {
+        containers: {},
+        elements: {},
+        history: [],
+        sequences: {}
+    };
+    this.pristine = true;
+    boundDelegate = boundDelegate || delegate.bind(this);
+    boundDestroy = boundDestroy || destroy.bind(this);
+    boundReveal = boundReveal || reveal.bind(this);
+    boundClean = boundClean || clean.bind(this);
+    boundSync = boundSync || sync.bind(this);
+    Object.defineProperty(this, "delegate", {
+        get: function() {
+            return boundDelegate;
+        }
+    });
+    Object.defineProperty(this, "destroy", {
+        get: function() {
+            return boundDestroy;
+        }
+    });
+    Object.defineProperty(this, "reveal", {
+        get: function() {
+            return boundReveal;
+        }
+    });
+    Object.defineProperty(this, "clean", {
+        get: function() {
+            return boundClean;
+        }
+    });
+    Object.defineProperty(this, "sync", {
+        get: function() {
+            return boundSync;
+        }
+    });
+    Object.defineProperty(this, "defaults", {
+        get: function() {
+            return config;
+        }
+    });
+    Object.defineProperty(this, "version", {
+        get: function() {
+            return version;
+        }
+    });
+    Object.defineProperty(this, "noop", {
+        get: function() {
+            return false;
+        }
+    });
+    return instance ? instance : instance = this;
+}
+ScrollReveal.isSupported = function() {
+    return isTransformSupported() && isTransitionSupported();
+};
+Object.defineProperty(ScrollReveal, "debug", {
+    get: function() {
+        return debug || false;
+    },
+    set: function(value) {
+        return debug = typeof value === "boolean" ? value : debug;
+    }
+});
+ScrollReveal();
+exports.default = ScrollReveal;
+
+},{"tealight":"9LJi6","rematrix":"iiA0g","miniraf":"cmczW","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9LJi6":[function(require,module,exports) {
+/*! @license Tealight v0.3.6
+
+	Copyright 2018 Fisssion LLC.
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+
+*/ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _isDomNode = require("is-dom-node");
+var _isDomNodeDefault = parcelHelpers.interopDefault(_isDomNode);
+var _isDomNodeList = require("is-dom-node-list");
+var _isDomNodeListDefault = parcelHelpers.interopDefault(_isDomNodeList);
+function tealight(target, context) {
+    if (context === void 0) context = document;
+    if (target instanceof Array) return target.filter((0, _isDomNodeDefault.default));
+    if ((0, _isDomNodeDefault.default)(target)) return [
+        target
+    ];
+    if ((0, _isDomNodeListDefault.default)(target)) return Array.prototype.slice.call(target);
+    if (typeof target === "string") try {
+        var query = context.querySelectorAll(target);
+        return Array.prototype.slice.call(query);
+    } catch (err) {
+        return [];
+    }
+    return [];
+}
+exports.default = tealight;
+
+},{"is-dom-node":"ef65w","is-dom-node-list":"hDni0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ef65w":[function(require,module,exports) {
+/*! @license is-dom-node v1.0.4
+
+	Copyright 2018 Fisssion LLC.
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+
+*/ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+function isDomNode(x) {
+    return typeof window.Node === "object" ? x instanceof window.Node : x !== null && typeof x === "object" && typeof x.nodeType === "number" && typeof x.nodeName === "string";
+}
+exports.default = isDomNode;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hDni0":[function(require,module,exports) {
+/*! @license is-dom-node-list v1.2.1
+
+	Copyright 2018 Fisssion LLC.
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+
+*/ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _isDomNode = require("is-dom-node");
+var _isDomNodeDefault = parcelHelpers.interopDefault(_isDomNode);
+function isDomNodeList(x) {
+    var prototypeToString = Object.prototype.toString.call(x);
+    var regex = /^\[object (HTMLCollection|NodeList|Object)\]$/;
+    return typeof window.NodeList === "object" ? x instanceof window.NodeList : x !== null && typeof x === "object" && typeof x.length === "number" && regex.test(prototypeToString) && (x.length === 0 || (0, _isDomNodeDefault.default)(x[0]));
+}
+exports.default = isDomNodeList;
+
+},{"is-dom-node":"ef65w","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iiA0g":[function(require,module,exports) {
+/*! @license Rematrix v0.3.0
+
+	Copyright 2018 Julian Lloyd.
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in
+	all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+	THE SOFTWARE.
+*/ /**
+ * @module Rematrix
+ */ /**
+ * Transformation matrices in the browser come in two flavors:
+ *
+ *  - `matrix` using 6 values (short)
+ *  - `matrix3d` using 16 values (long)
+ *
+ * This utility follows this [conversion guide](https://goo.gl/EJlUQ1)
+ * to expand short form matrices to their equivalent long form.
+ *
+ * @param  {array} source - Accepts both short and long form matrices.
+ * @return {array}
+ */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "format", ()=>format);
+parcelHelpers.export(exports, "identity", ()=>identity);
+parcelHelpers.export(exports, "inverse", ()=>inverse);
+parcelHelpers.export(exports, "multiply", ()=>multiply);
+parcelHelpers.export(exports, "parse", ()=>parse);
+parcelHelpers.export(exports, "rotate", ()=>rotate);
+parcelHelpers.export(exports, "rotateX", ()=>rotateX);
+parcelHelpers.export(exports, "rotateY", ()=>rotateY);
+parcelHelpers.export(exports, "rotateZ", ()=>rotateZ);
+parcelHelpers.export(exports, "scale", ()=>scale);
+parcelHelpers.export(exports, "scaleX", ()=>scaleX);
+parcelHelpers.export(exports, "scaleY", ()=>scaleY);
+parcelHelpers.export(exports, "scaleZ", ()=>scaleZ);
+parcelHelpers.export(exports, "skew", ()=>skew);
+parcelHelpers.export(exports, "skewX", ()=>skewX);
+parcelHelpers.export(exports, "skewY", ()=>skewY);
+parcelHelpers.export(exports, "toString", ()=>toString);
+parcelHelpers.export(exports, "translate", ()=>translate);
+parcelHelpers.export(exports, "translateX", ()=>translateX);
+parcelHelpers.export(exports, "translateY", ()=>translateY);
+parcelHelpers.export(exports, "translateZ", ()=>translateZ);
+function format(source) {
+    if (source.constructor !== Array) throw new TypeError("Expected array.");
+    if (source.length === 16) return source;
+    if (source.length === 6) {
+        var matrix = identity();
+        matrix[0] = source[0];
+        matrix[1] = source[1];
+        matrix[4] = source[2];
+        matrix[5] = source[3];
+        matrix[12] = source[4];
+        matrix[13] = source[5];
+        return matrix;
+    }
+    throw new RangeError("Expected array with either 6 or 16 values.");
+}
+/**
+ * Returns a matrix representing no transformation. The product of any matrix
+ * multiplied by the identity matrix will be the original matrix.
+ *
+ * > **Tip:** Similar to how `5 * 1 === 5`, where `1` is the identity.
+ *
+ * @return {array}
+ */ function identity() {
+    var matrix = [];
+    for(var i = 0; i < 16; i++)i % 5 == 0 ? matrix.push(1) : matrix.push(0);
+    return matrix;
+}
+/**
+ * Returns a matrix describing the inverse transformation of the source
+ * matrix. The product of any matrix multiplied by its inverse will be the
+ * identity matrix.
+ *
+ * > **Tip:** Similar to how `5 * (1/5) === 1`, where `1/5` is the inverse.
+ *
+ * @param  {array} source - Accepts both short and long form matrices.
+ * @return {array}
+ */ function inverse(source) {
+    var m = format(source);
+    var s0 = m[0] * m[5] - m[4] * m[1];
+    var s1 = m[0] * m[6] - m[4] * m[2];
+    var s2 = m[0] * m[7] - m[4] * m[3];
+    var s3 = m[1] * m[6] - m[5] * m[2];
+    var s4 = m[1] * m[7] - m[5] * m[3];
+    var s5 = m[2] * m[7] - m[6] * m[3];
+    var c5 = m[10] * m[15] - m[14] * m[11];
+    var c4 = m[9] * m[15] - m[13] * m[11];
+    var c3 = m[9] * m[14] - m[13] * m[10];
+    var c2 = m[8] * m[15] - m[12] * m[11];
+    var c1 = m[8] * m[14] - m[12] * m[10];
+    var c0 = m[8] * m[13] - m[12] * m[9];
+    var determinant = 1 / (s0 * c5 - s1 * c4 + s2 * c3 + s3 * c2 - s4 * c1 + s5 * c0);
+    if (isNaN(determinant) || determinant === Infinity) throw new Error("Inverse determinant attempted to divide by zero.");
+    return [
+        (m[5] * c5 - m[6] * c4 + m[7] * c3) * determinant,
+        (-m[1] * c5 + m[2] * c4 - m[3] * c3) * determinant,
+        (m[13] * s5 - m[14] * s4 + m[15] * s3) * determinant,
+        (-m[9] * s5 + m[10] * s4 - m[11] * s3) * determinant,
+        (-m[4] * c5 + m[6] * c2 - m[7] * c1) * determinant,
+        (m[0] * c5 - m[2] * c2 + m[3] * c1) * determinant,
+        (-m[12] * s5 + m[14] * s2 - m[15] * s1) * determinant,
+        (m[8] * s5 - m[10] * s2 + m[11] * s1) * determinant,
+        (m[4] * c4 - m[5] * c2 + m[7] * c0) * determinant,
+        (-m[0] * c4 + m[1] * c2 - m[3] * c0) * determinant,
+        (m[12] * s4 - m[13] * s2 + m[15] * s0) * determinant,
+        (-m[8] * s4 + m[9] * s2 - m[11] * s0) * determinant,
+        (-m[4] * c3 + m[5] * c1 - m[6] * c0) * determinant,
+        (m[0] * c3 - m[1] * c1 + m[2] * c0) * determinant,
+        (-m[12] * s3 + m[13] * s1 - m[14] * s0) * determinant,
+        (m[8] * s3 - m[9] * s1 + m[10] * s0) * determinant
+    ];
+}
+/**
+ * Returns a 4x4 matrix describing the combined transformations
+ * of both arguments.
+ *
+ * > **Note:** Order is very important. For example, rotating 45°
+ * along the Z-axis, followed by translating 500 pixels along the
+ * Y-axis... is not the same as translating 500 pixels along the
+ * Y-axis, followed by rotating 45° along on the Z-axis.
+ *
+ * @param  {array} m - Accepts both short and long form matrices.
+ * @param  {array} x - Accepts both short and long form matrices.
+ * @return {array}
+ */ function multiply(m, x) {
+    var fm = format(m);
+    var fx = format(x);
+    var product = [];
+    for(var i = 0; i < 4; i++){
+        var row = [
+            fm[i],
+            fm[i + 4],
+            fm[i + 8],
+            fm[i + 12]
+        ];
+        for(var j = 0; j < 4; j++){
+            var k = j * 4;
+            var col = [
+                fx[k],
+                fx[k + 1],
+                fx[k + 2],
+                fx[k + 3]
+            ];
+            var result = row[0] * col[0] + row[1] * col[1] + row[2] * col[2] + row[3] * col[3];
+            product[i + k] = result;
+        }
+    }
+    return product;
+}
+/**
+ * Attempts to return a 4x4 matrix describing the CSS transform
+ * matrix passed in, but will return the identity matrix as a
+ * fallback.
+ *
+ * > **Tip:** This method is used to convert a CSS matrix (retrieved as a
+ * `string` from computed styles) to its equivalent array format.
+ *
+ * @param  {string} source - `matrix` or `matrix3d` CSS Transform value.
+ * @return {array}
+ */ function parse(source) {
+    if (typeof source === "string") {
+        var match = source.match(/matrix(3d)?\(([^)]+)\)/);
+        if (match) {
+            var raw = match[2].split(", ").map(parseFloat);
+            return format(raw);
+        }
+    }
+    return identity();
+}
+/**
+ * Returns a 4x4 matrix describing Z-axis rotation.
+ *
+ * > **Tip:** This is just an alias for `Rematrix.rotateZ` for parity with CSS
+ *
+ * @param  {number} angle - Measured in degrees.
+ * @return {array}
+ */ function rotate(angle) {
+    return rotateZ(angle);
+}
+/**
+ * Returns a 4x4 matrix describing X-axis rotation.
+ *
+ * @param  {number} angle - Measured in degrees.
+ * @return {array}
+ */ function rotateX(angle) {
+    var theta = Math.PI / 180 * angle;
+    var matrix = identity();
+    matrix[5] = matrix[10] = Math.cos(theta);
+    matrix[6] = matrix[9] = Math.sin(theta);
+    matrix[9] *= -1;
+    return matrix;
+}
+/**
+ * Returns a 4x4 matrix describing Y-axis rotation.
+ *
+ * @param  {number} angle - Measured in degrees.
+ * @return {array}
+ */ function rotateY(angle) {
+    var theta = Math.PI / 180 * angle;
+    var matrix = identity();
+    matrix[0] = matrix[10] = Math.cos(theta);
+    matrix[2] = matrix[8] = Math.sin(theta);
+    matrix[2] *= -1;
+    return matrix;
+}
+/**
+ * Returns a 4x4 matrix describing Z-axis rotation.
+ *
+ * @param  {number} angle - Measured in degrees.
+ * @return {array}
+ */ function rotateZ(angle) {
+    var theta = Math.PI / 180 * angle;
+    var matrix = identity();
+    matrix[0] = matrix[5] = Math.cos(theta);
+    matrix[1] = matrix[4] = Math.sin(theta);
+    matrix[4] *= -1;
+    return matrix;
+}
+/**
+ * Returns a 4x4 matrix describing 2D scaling. The first argument
+ * is used for both X and Y-axis scaling, unless an optional
+ * second argument is provided to explicitly define Y-axis scaling.
+ *
+ * @param  {number} scalar    - Decimal multiplier.
+ * @param  {number} [scalarY] - Decimal multiplier.
+ * @return {array}
+ */ function scale(scalar, scalarY) {
+    var matrix = identity();
+    matrix[0] = scalar;
+    matrix[5] = typeof scalarY === "number" ? scalarY : scalar;
+    return matrix;
+}
+/**
+ * Returns a 4x4 matrix describing X-axis scaling.
+ *
+ * @param  {number} scalar - Decimal multiplier.
+ * @return {array}
+ */ function scaleX(scalar) {
+    var matrix = identity();
+    matrix[0] = scalar;
+    return matrix;
+}
+/**
+ * Returns a 4x4 matrix describing Y-axis scaling.
+ *
+ * @param  {number} scalar - Decimal multiplier.
+ * @return {array}
+ */ function scaleY(scalar) {
+    var matrix = identity();
+    matrix[5] = scalar;
+    return matrix;
+}
+/**
+ * Returns a 4x4 matrix describing Z-axis scaling.
+ *
+ * @param  {number} scalar - Decimal multiplier.
+ * @return {array}
+ */ function scaleZ(scalar) {
+    var matrix = identity();
+    matrix[10] = scalar;
+    return matrix;
+}
+/**
+ * Returns a 4x4 matrix describing shear. The first argument
+ * defines X-axis shearing, and an optional second argument
+ * defines Y-axis shearing.
+ *
+ * @param  {number} angleX   - Measured in degrees.
+ * @param  {number} [angleY] - Measured in degrees.
+ * @return {array}
+ */ function skew(angleX, angleY) {
+    var thetaX = Math.PI / 180 * angleX;
+    var matrix = identity();
+    matrix[4] = Math.tan(thetaX);
+    if (angleY) {
+        var thetaY = Math.PI / 180 * angleY;
+        matrix[1] = Math.tan(thetaY);
+    }
+    return matrix;
+}
+/**
+ * Returns a 4x4 matrix describing X-axis shear.
+ *
+ * @param  {number} angle - Measured in degrees.
+ * @return {array}
+ */ function skewX(angle) {
+    var theta = Math.PI / 180 * angle;
+    var matrix = identity();
+    matrix[4] = Math.tan(theta);
+    return matrix;
+}
+/**
+ * Returns a 4x4 matrix describing Y-axis shear.
+ *
+ * @param  {number} angle - Measured in degrees
+ * @return {array}
+ */ function skewY(angle) {
+    var theta = Math.PI / 180 * angle;
+    var matrix = identity();
+    matrix[1] = Math.tan(theta);
+    return matrix;
+}
+/**
+ * Returns a CSS Transform property value equivalent to the source matrix.
+ *
+ * @param  {array} source - Accepts both short and long form matrices.
+ * @return {string}
+ */ function toString(source) {
+    return "matrix3d(" + format(source).join(", ") + ")";
+}
+/**
+ * Returns a 4x4 matrix describing 2D translation. The first
+ * argument defines X-axis translation, and an optional second
+ * argument defines Y-axis translation.
+ *
+ * @param  {number} distanceX   - Measured in pixels.
+ * @param  {number} [distanceY] - Measured in pixels.
+ * @return {array}
+ */ function translate(distanceX, distanceY) {
+    var matrix = identity();
+    matrix[12] = distanceX;
+    if (distanceY) matrix[13] = distanceY;
+    return matrix;
+}
+/**
+ * Returns a 4x4 matrix describing X-axis translation.
+ *
+ * @param  {number} distance - Measured in pixels.
+ * @return {array}
+ */ function translateX(distance) {
+    var matrix = identity();
+    matrix[12] = distance;
+    return matrix;
+}
+/**
+ * Returns a 4x4 matrix describing Y-axis translation.
+ *
+ * @param  {number} distance - Measured in pixels.
+ * @return {array}
+ */ function translateY(distance) {
+    var matrix = identity();
+    matrix[13] = distance;
+    return matrix;
+}
+/**
+ * Returns a 4x4 matrix describing Z-axis translation.
+ *
+ * @param  {number} distance - Measured in pixels.
+ * @return {array}
+ */ function translateZ(distance) {
+    var matrix = identity();
+    matrix[14] = distance;
+    return matrix;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cmczW":[function(require,module,exports) {
+/*! @license miniraf v1.0.0
+
+	Copyright 2018 Fisssion LLC.
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+
+*/ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var polyfill = function() {
+    var clock = Date.now();
+    return function(callback) {
+        var currentTime = Date.now();
+        if (currentTime - clock > 16) {
+            clock = currentTime;
+            callback(currentTime);
+        } else setTimeout(function() {
+            return polyfill(callback);
+        }, 0);
+    };
+}();
+var index = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || polyfill;
+exports.default = index;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gNtZe":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _nouislider = require("nouislider");
 var _nouisliderDefault = parcelHelpers.interopDefault(_nouislider);
@@ -11887,3677 +13377,7 @@ var Starry = /*#__PURE__*/ function() {
 }();
 module.exports = Starry;
 
-},{}],"cD0bk":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _lightgallery = require("lightgallery");
-var _lightgalleryDefault = parcelHelpers.interopDefault(_lightgallery);
-var _swiper = require("swiper");
-var _swiperDefault = parcelHelpers.interopDefault(_swiper);
-let $lgSwiper = document.getElementById("lg-swipper");
-const productSlider = new (0, _swiperDefault.default)(".product-slider", {
-    navigation: {
-        nextEl: ".product-slider__next",
-        prevEl: ".product-slider__prev"
-    },
-    modules: [
-        (0, _swiper.Autoplay),
-        (0, _swiper.Pagination),
-        (0, _swiper.Navigation)
-    ],
-    dragable: true,
-    grabCursor: true,
-    on: {
-        init: function() {
-            const lg = (0, _lightgalleryDefault.default)($lgSwiper, {
-                speed: 300
-            });
-            $lgSwiper.addEventListener("lgBeforeClose", ()=>{
-                productSlider.slideTo(lg.index, 0);
-            });
-        }
-    }
-}); //  import Swiper, {
- //    Autoplay,
- //    Pagination,
- //    Navigation,
- //  } from 'swiper';
- // const sliderOptions = {
- //   slidesPerView: 1,
- //   modules: [Autoplay, Pagination, Navigation],
- //   dragable: true,
- //   grabCursor: true,
- //   pagination: {
- //     el: '.single-slider__pagination',
- //   },
- //   navigation: {
- //     nextEl: ".product-slider__next",
- //     prevEl: ".product-slider__prev",
- //   },
- // };
- // const productSlider = new Swiper('.product-slider', sliderOptions);
-
-},{"lightgallery":"lrONo","swiper":"cCbRx","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lrONo":[function(require,module,exports) {
-/*!
- * lightgallery | 2.7.2 | September 20th 2023
- * http://www.lightgalleryjs.com/
- * Copyright (c) 2020 Sachin Neravath;
- * @license GPLv3
- */ /*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var __assign = function() {
-    __assign = Object.assign || function __assign(t) {
-        for(var s, i = 1, n = arguments.length; i < n; i++){
-            s = arguments[i];
-            for(var p in s)if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-function __spreadArrays() {
-    for(var s = 0, i = 0, il = arguments.length; i < il; i++)s += arguments[i].length;
-    for(var r = Array(s), k = 0, i = 0; i < il; i++)for(var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)r[k] = a[j];
-    return r;
-}
-/**
- * List of lightGallery events
- * All events should be documented here
- * Below interfaces are used to build the website documentations
- * */ var lGEvents = {
-    afterAppendSlide: "lgAfterAppendSlide",
-    init: "lgInit",
-    hasVideo: "lgHasVideo",
-    containerResize: "lgContainerResize",
-    updateSlides: "lgUpdateSlides",
-    afterAppendSubHtml: "lgAfterAppendSubHtml",
-    beforeOpen: "lgBeforeOpen",
-    afterOpen: "lgAfterOpen",
-    slideItemLoad: "lgSlideItemLoad",
-    beforeSlide: "lgBeforeSlide",
-    afterSlide: "lgAfterSlide",
-    posterClick: "lgPosterClick",
-    dragStart: "lgDragStart",
-    dragMove: "lgDragMove",
-    dragEnd: "lgDragEnd",
-    beforeNextSlide: "lgBeforeNextSlide",
-    beforePrevSlide: "lgBeforePrevSlide",
-    beforeClose: "lgBeforeClose",
-    afterClose: "lgAfterClose",
-    rotateLeft: "lgRotateLeft",
-    rotateRight: "lgRotateRight",
-    flipHorizontal: "lgFlipHorizontal",
-    flipVertical: "lgFlipVertical",
-    autoplay: "lgAutoplay",
-    autoplayStart: "lgAutoplayStart",
-    autoplayStop: "lgAutoplayStop"
-};
-var lightGalleryCoreSettings = {
-    mode: "lg-slide",
-    easing: "ease",
-    speed: 400,
-    licenseKey: "0000-0000-000-0000",
-    height: "100%",
-    width: "100%",
-    addClass: "",
-    startClass: "lg-start-zoom",
-    backdropDuration: 300,
-    container: "",
-    startAnimationDuration: 400,
-    zoomFromOrigin: true,
-    hideBarsDelay: 0,
-    showBarsAfter: 10000,
-    slideDelay: 0,
-    supportLegacyBrowser: true,
-    allowMediaOverlap: false,
-    videoMaxSize: "1280-720",
-    loadYouTubePoster: true,
-    defaultCaptionHeight: 0,
-    ariaLabelledby: "",
-    ariaDescribedby: "",
-    resetScrollPosition: true,
-    hideScrollbar: false,
-    closable: true,
-    swipeToClose: true,
-    closeOnTap: true,
-    showCloseIcon: true,
-    showMaximizeIcon: false,
-    loop: true,
-    escKey: true,
-    keyPress: true,
-    trapFocus: true,
-    controls: true,
-    slideEndAnimation: true,
-    hideControlOnEnd: false,
-    mousewheel: false,
-    getCaptionFromTitleOrAlt: true,
-    appendSubHtmlTo: ".lg-sub-html",
-    subHtmlSelectorRelative: false,
-    preload: 2,
-    numberOfSlideItemsInDom: 10,
-    selector: "",
-    selectWithin: "",
-    nextHtml: "",
-    prevHtml: "",
-    index: 0,
-    iframeWidth: "100%",
-    iframeHeight: "100%",
-    iframeMaxWidth: "100%",
-    iframeMaxHeight: "100%",
-    download: true,
-    counter: true,
-    appendCounterTo: ".lg-toolbar",
-    swipeThreshold: 50,
-    enableSwipe: true,
-    enableDrag: true,
-    dynamic: false,
-    dynamicEl: [],
-    extraProps: [],
-    exThumbImage: "",
-    isMobile: undefined,
-    mobileSettings: {
-        controls: false,
-        showCloseIcon: false,
-        download: false
-    },
-    plugins: [],
-    strings: {
-        closeGallery: "Close gallery",
-        toggleMaximize: "Toggle maximize",
-        previousSlide: "Previous slide",
-        nextSlide: "Next slide",
-        download: "Download",
-        playVideo: "Play video",
-        mediaLoadingFailed: "Oops... Failed to load content..."
-    }
-};
-function initLgPolyfills() {
-    (function() {
-        if (typeof window.CustomEvent === "function") return false;
-        function CustomEvent1(event, params) {
-            params = params || {
-                bubbles: false,
-                cancelable: false,
-                detail: null
-            };
-            var evt = document.createEvent("CustomEvent");
-            evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-            return evt;
-        }
-        window.CustomEvent = CustomEvent1;
-    })();
-    (function() {
-        if (!Element.prototype.matches) Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
-    })();
-}
-var lgQuery = /** @class */ function() {
-    function lgQuery(selector) {
-        this.cssVenderPrefixes = [
-            "TransitionDuration",
-            "TransitionTimingFunction",
-            "Transform",
-            "Transition"
-        ];
-        this.selector = this._getSelector(selector);
-        this.firstElement = this._getFirstEl();
-        return this;
-    }
-    lgQuery.generateUUID = function() {
-        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
-            var r = Math.random() * 16 | 0, v = c == "x" ? r : r & 0x3 | 0x8;
-            return v.toString(16);
-        });
-    };
-    lgQuery.prototype._getSelector = function(selector, context) {
-        if (context === void 0) context = document;
-        if (typeof selector !== "string") return selector;
-        context = context || document;
-        var fl = selector.substring(0, 1);
-        if (fl === "#") return context.querySelector(selector);
-        else return context.querySelectorAll(selector);
-    };
-    lgQuery.prototype._each = function(func) {
-        if (!this.selector) return this;
-        if (this.selector.length !== undefined) [].forEach.call(this.selector, func);
-        else func(this.selector, 0);
-        return this;
-    };
-    lgQuery.prototype._setCssVendorPrefix = function(el, cssProperty, value) {
-        // prettier-ignore
-        var property = cssProperty.replace(/-([a-z])/gi, function(s, group1) {
-            return group1.toUpperCase();
-        });
-        if (this.cssVenderPrefixes.indexOf(property) !== -1) {
-            el.style[property.charAt(0).toLowerCase() + property.slice(1)] = value;
-            el.style["webkit" + property] = value;
-            el.style["moz" + property] = value;
-            el.style["ms" + property] = value;
-            el.style["o" + property] = value;
-        } else el.style[property] = value;
-    };
-    lgQuery.prototype._getFirstEl = function() {
-        if (this.selector && this.selector.length !== undefined) return this.selector[0];
-        else return this.selector;
-    };
-    lgQuery.prototype.isEventMatched = function(event, eventName) {
-        var eventNamespace = eventName.split(".");
-        return event.split(".").filter(function(e) {
-            return e;
-        }).every(function(e) {
-            return eventNamespace.indexOf(e) !== -1;
-        });
-    };
-    lgQuery.prototype.attr = function(attr, value) {
-        if (value === undefined) {
-            if (!this.firstElement) return "";
-            return this.firstElement.getAttribute(attr);
-        }
-        this._each(function(el) {
-            el.setAttribute(attr, value);
-        });
-        return this;
-    };
-    lgQuery.prototype.find = function(selector) {
-        return $LG(this._getSelector(selector, this.selector));
-    };
-    lgQuery.prototype.first = function() {
-        if (this.selector && this.selector.length !== undefined) return $LG(this.selector[0]);
-        else return $LG(this.selector);
-    };
-    lgQuery.prototype.eq = function(index) {
-        return $LG(this.selector[index]);
-    };
-    lgQuery.prototype.parent = function() {
-        return $LG(this.selector.parentElement);
-    };
-    lgQuery.prototype.get = function() {
-        return this._getFirstEl();
-    };
-    lgQuery.prototype.removeAttr = function(attributes) {
-        var attrs = attributes.split(" ");
-        this._each(function(el) {
-            attrs.forEach(function(attr) {
-                return el.removeAttribute(attr);
-            });
-        });
-        return this;
-    };
-    lgQuery.prototype.wrap = function(className) {
-        if (!this.firstElement) return this;
-        var wrapper = document.createElement("div");
-        wrapper.className = className;
-        this.firstElement.parentNode.insertBefore(wrapper, this.firstElement);
-        this.firstElement.parentNode.removeChild(this.firstElement);
-        wrapper.appendChild(this.firstElement);
-        return this;
-    };
-    lgQuery.prototype.addClass = function(classNames) {
-        if (classNames === void 0) classNames = "";
-        this._each(function(el) {
-            // IE doesn't support multiple arguments
-            classNames.split(" ").forEach(function(className) {
-                if (className) el.classList.add(className);
-            });
-        });
-        return this;
-    };
-    lgQuery.prototype.removeClass = function(classNames) {
-        this._each(function(el) {
-            // IE doesn't support multiple arguments
-            classNames.split(" ").forEach(function(className) {
-                if (className) el.classList.remove(className);
-            });
-        });
-        return this;
-    };
-    lgQuery.prototype.hasClass = function(className) {
-        if (!this.firstElement) return false;
-        return this.firstElement.classList.contains(className);
-    };
-    lgQuery.prototype.hasAttribute = function(attribute) {
-        if (!this.firstElement) return false;
-        return this.firstElement.hasAttribute(attribute);
-    };
-    lgQuery.prototype.toggleClass = function(className) {
-        if (!this.firstElement) return this;
-        if (this.hasClass(className)) this.removeClass(className);
-        else this.addClass(className);
-        return this;
-    };
-    lgQuery.prototype.css = function(property, value) {
-        var _this = this;
-        this._each(function(el) {
-            _this._setCssVendorPrefix(el, property, value);
-        });
-        return this;
-    };
-    // Need to pass separate namespaces for separate elements
-    lgQuery.prototype.on = function(events, listener) {
-        var _this = this;
-        if (!this.selector) return this;
-        events.split(" ").forEach(function(event) {
-            if (!Array.isArray(lgQuery.eventListeners[event])) lgQuery.eventListeners[event] = [];
-            lgQuery.eventListeners[event].push(listener);
-            _this.selector.addEventListener(event.split(".")[0], listener);
-        });
-        return this;
-    };
-    // @todo - test this
-    lgQuery.prototype.once = function(event, listener) {
-        var _this = this;
-        this.on(event, function() {
-            _this.off(event);
-            listener(event);
-        });
-        return this;
-    };
-    lgQuery.prototype.off = function(event) {
-        var _this = this;
-        if (!this.selector) return this;
-        Object.keys(lgQuery.eventListeners).forEach(function(eventName) {
-            if (_this.isEventMatched(event, eventName)) {
-                lgQuery.eventListeners[eventName].forEach(function(listener) {
-                    _this.selector.removeEventListener(eventName.split(".")[0], listener);
-                });
-                lgQuery.eventListeners[eventName] = [];
-            }
-        });
-        return this;
-    };
-    lgQuery.prototype.trigger = function(event, detail) {
-        if (!this.firstElement) return this;
-        var customEvent = new CustomEvent(event.split(".")[0], {
-            detail: detail || null
-        });
-        this.firstElement.dispatchEvent(customEvent);
-        return this;
-    };
-    // Does not support IE
-    lgQuery.prototype.load = function(url) {
-        var _this = this;
-        fetch(url).then(function(res) {
-            return res.text();
-        }).then(function(html) {
-            _this.selector.innerHTML = html;
-        });
-        return this;
-    };
-    lgQuery.prototype.html = function(html) {
-        if (html === undefined) {
-            if (!this.firstElement) return "";
-            return this.firstElement.innerHTML;
-        }
-        this._each(function(el) {
-            el.innerHTML = html;
-        });
-        return this;
-    };
-    lgQuery.prototype.append = function(html) {
-        this._each(function(el) {
-            if (typeof html === "string") el.insertAdjacentHTML("beforeend", html);
-            else el.appendChild(html);
-        });
-        return this;
-    };
-    lgQuery.prototype.prepend = function(html) {
-        this._each(function(el) {
-            el.insertAdjacentHTML("afterbegin", html);
-        });
-        return this;
-    };
-    lgQuery.prototype.remove = function() {
-        this._each(function(el) {
-            el.parentNode.removeChild(el);
-        });
-        return this;
-    };
-    lgQuery.prototype.empty = function() {
-        this._each(function(el) {
-            el.innerHTML = "";
-        });
-        return this;
-    };
-    lgQuery.prototype.scrollTop = function(scrollTop) {
-        if (scrollTop !== undefined) {
-            document.body.scrollTop = scrollTop;
-            document.documentElement.scrollTop = scrollTop;
-            return this;
-        } else return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    };
-    lgQuery.prototype.scrollLeft = function(scrollLeft) {
-        if (scrollLeft !== undefined) {
-            document.body.scrollLeft = scrollLeft;
-            document.documentElement.scrollLeft = scrollLeft;
-            return this;
-        } else return window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;
-    };
-    lgQuery.prototype.offset = function() {
-        if (!this.firstElement) return {
-            left: 0,
-            top: 0
-        };
-        var rect = this.firstElement.getBoundingClientRect();
-        var bodyMarginLeft = $LG("body").style().marginLeft;
-        // Minus body margin - https://stackoverflow.com/questions/30711548/is-getboundingclientrect-left-returning-a-wrong-value
-        return {
-            left: rect.left - parseFloat(bodyMarginLeft) + this.scrollLeft(),
-            top: rect.top + this.scrollTop()
-        };
-    };
-    lgQuery.prototype.style = function() {
-        if (!this.firstElement) return {};
-        return this.firstElement.currentStyle || window.getComputedStyle(this.firstElement);
-    };
-    // Width without padding and border even if box-sizing is used.
-    lgQuery.prototype.width = function() {
-        var style = this.style();
-        return this.firstElement.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-    };
-    // Height without padding and border even if box-sizing is used.
-    lgQuery.prototype.height = function() {
-        var style = this.style();
-        return this.firstElement.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
-    };
-    lgQuery.eventListeners = {};
-    return lgQuery;
-}();
-function $LG(selector) {
-    initLgPolyfills();
-    return new lgQuery(selector);
-}
-var defaultDynamicOptions = [
-    "src",
-    "sources",
-    "subHtml",
-    "subHtmlUrl",
-    "html",
-    "video",
-    "poster",
-    "slideName",
-    "responsive",
-    "srcset",
-    "sizes",
-    "iframe",
-    "downloadUrl",
-    "download",
-    "width",
-    "facebookShareUrl",
-    "tweetText",
-    "iframeTitle",
-    "twitterShareUrl",
-    "pinterestShareUrl",
-    "pinterestText",
-    "fbHtml",
-    "disqusIdentifier",
-    "disqusUrl"
-];
-// Convert html data-attribute to camalcase
-function convertToData(attr) {
-    // FInd a way for lgsize
-    if (attr === "href") return "src";
-    attr = attr.replace("data-", "");
-    attr = attr.charAt(0).toLowerCase() + attr.slice(1);
-    attr = attr.replace(/-([a-z])/g, function(g) {
-        return g[1].toUpperCase();
-    });
-    return attr;
-}
-var utils = {
-    /**
-     * get possible width and height from the lgSize attribute. Used for ZoomFromOrigin option
-     */ getSize: function(el, container, spacing, defaultLgSize) {
-        if (spacing === void 0) spacing = 0;
-        var LGel = $LG(el);
-        var lgSize = LGel.attr("data-lg-size") || defaultLgSize;
-        if (!lgSize) return;
-        var isResponsiveSizes = lgSize.split(",");
-        // if at-least two viewport sizes are available
-        if (isResponsiveSizes[1]) {
-            var wWidth = window.innerWidth;
-            for(var i = 0; i < isResponsiveSizes.length; i++){
-                var size_1 = isResponsiveSizes[i];
-                var responsiveWidth = parseInt(size_1.split("-")[2], 10);
-                if (responsiveWidth > wWidth) {
-                    lgSize = size_1;
-                    break;
-                }
-                // take last item as last option
-                if (i === isResponsiveSizes.length - 1) lgSize = size_1;
-            }
-        }
-        var size = lgSize.split("-");
-        var width = parseInt(size[0], 10);
-        var height = parseInt(size[1], 10);
-        var cWidth = container.width();
-        var cHeight = container.height() - spacing;
-        var maxWidth = Math.min(cWidth, width);
-        var maxHeight = Math.min(cHeight, height);
-        var ratio = Math.min(maxWidth / width, maxHeight / height);
-        return {
-            width: width * ratio,
-            height: height * ratio
-        };
-    },
-    /**
-     * @desc Get transform value based on the imageSize. Used for ZoomFromOrigin option
-     * @param {jQuery Element}
-     * @returns {String} Transform CSS string
-     */ getTransform: function(el, container, top, bottom, imageSize) {
-        if (!imageSize) return;
-        var LGel = $LG(el).find("img").first();
-        if (!LGel.get()) return;
-        var containerRect = container.get().getBoundingClientRect();
-        var wWidth = containerRect.width;
-        // using innerWidth to include mobile safari bottom bar
-        var wHeight = container.height() - (top + bottom);
-        var elWidth = LGel.width();
-        var elHeight = LGel.height();
-        var elStyle = LGel.style();
-        var x = (wWidth - elWidth) / 2 - LGel.offset().left + (parseFloat(elStyle.paddingLeft) || 0) + (parseFloat(elStyle.borderLeft) || 0) + $LG(window).scrollLeft() + containerRect.left;
-        var y = (wHeight - elHeight) / 2 - LGel.offset().top + (parseFloat(elStyle.paddingTop) || 0) + (parseFloat(elStyle.borderTop) || 0) + $LG(window).scrollTop() + top;
-        var scX = elWidth / imageSize.width;
-        var scY = elHeight / imageSize.height;
-        var transform = "translate3d(" + (x *= -1) + "px, " + (y *= -1) + "px, 0) scale3d(" + scX + ", " + scY + ", 1)";
-        return transform;
-    },
-    getIframeMarkup: function(iframeWidth, iframeHeight, iframeMaxWidth, iframeMaxHeight, src, iframeTitle) {
-        var title = iframeTitle ? 'title="' + iframeTitle + '"' : "";
-        return '<div class="lg-video-cont lg-has-iframe" style="width:' + iframeWidth + "; max-width:" + iframeMaxWidth + "; height: " + iframeHeight + "; max-height:" + iframeMaxHeight + '">\n                    <iframe class="lg-object" frameborder="0" ' + title + ' src="' + src + '"  allowfullscreen="true"></iframe>\n                </div>';
-    },
-    getImgMarkup: function(index, src, altAttr, srcset, sizes, sources) {
-        var srcsetAttr = srcset ? 'srcset="' + srcset + '"' : "";
-        var sizesAttr = sizes ? 'sizes="' + sizes + '"' : "";
-        var imgMarkup = "<img " + altAttr + " " + srcsetAttr + "  " + sizesAttr + ' class="lg-object lg-image" data-index="' + index + '" src="' + src + '" />';
-        var sourceTag = "";
-        if (sources) {
-            var sourceObj = typeof sources === "string" ? JSON.parse(sources) : sources;
-            sourceTag = sourceObj.map(function(source) {
-                var attrs = "";
-                Object.keys(source).forEach(function(key) {
-                    // Do not remove the first space as it is required to separate the attributes
-                    attrs += " " + key + '="' + source[key] + '"';
-                });
-                return "<source " + attrs + "></source>";
-            });
-        }
-        return "" + sourceTag + imgMarkup;
-    },
-    // Get src from responsive src
-    getResponsiveSrc: function(srcItms) {
-        var rsWidth = [];
-        var rsSrc = [];
-        var src = "";
-        for(var i = 0; i < srcItms.length; i++){
-            var _src = srcItms[i].split(" ");
-            // Manage empty space
-            if (_src[0] === "") _src.splice(0, 1);
-            rsSrc.push(_src[0]);
-            rsWidth.push(_src[1]);
-        }
-        var wWidth = window.innerWidth;
-        for(var j = 0; j < rsWidth.length; j++)if (parseInt(rsWidth[j], 10) > wWidth) {
-            src = rsSrc[j];
-            break;
-        }
-        return src;
-    },
-    isImageLoaded: function(img) {
-        if (!img) return false;
-        // During the onload event, IE correctly identifies any images that
-        // weren’t downloaded as not complete. Others should too. Gecko-based
-        // browsers act like NS4 in that they report this incorrectly.
-        if (!img.complete) return false;
-        // However, they do have two very useful properties: naturalWidth and
-        // naturalHeight. These give the true size of the image. If it failed
-        // to load, either of these should be zero.
-        if (img.naturalWidth === 0) return false;
-        // No other way of checking: assume it’s ok.
-        return true;
-    },
-    getVideoPosterMarkup: function(_poster, dummyImg, videoContStyle, playVideoString, _isVideo) {
-        var videoClass = "";
-        if (_isVideo && _isVideo.youtube) videoClass = "lg-has-youtube";
-        else if (_isVideo && _isVideo.vimeo) videoClass = "lg-has-vimeo";
-        else videoClass = "lg-has-html5";
-        return '<div class="lg-video-cont ' + videoClass + '" style="' + videoContStyle + '">\n                <div class="lg-video-play-button">\n                <svg\n                    viewBox="0 0 20 20"\n                    preserveAspectRatio="xMidYMid"\n                    focusable="false"\n                    aria-labelledby="' + playVideoString + '"\n                    role="img"\n                    class="lg-video-play-icon"\n                >\n                    <title>' + playVideoString + '</title>\n                    <polygon class="lg-video-play-icon-inner" points="1,0 20,10 1,20"></polygon>\n                </svg>\n                <svg class="lg-video-play-icon-bg" viewBox="0 0 50 50" focusable="false">\n                    <circle cx="50%" cy="50%" r="20"></circle></svg>\n                <svg class="lg-video-play-icon-circle" viewBox="0 0 50 50" focusable="false">\n                    <circle cx="50%" cy="50%" r="20"></circle>\n                </svg>\n            </div>\n            ' + (dummyImg || "") + '\n            <img class="lg-object lg-video-poster" src="' + _poster + '" />\n        </div>';
-    },
-    getFocusableElements: function(container) {
-        var elements = container.querySelectorAll('a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])');
-        var visibleElements = [].filter.call(elements, function(element) {
-            var style = window.getComputedStyle(element);
-            return style.display !== "none" && style.visibility !== "hidden";
-        });
-        return visibleElements;
-    },
-    /**
-     * @desc Create dynamic elements array from gallery items when dynamic option is false
-     * It helps to avoid frequent DOM interaction
-     * and avoid multiple checks for dynamic elments
-     *
-     * @returns {Array} dynamicEl
-     */ getDynamicOptions: function(items, extraProps, getCaptionFromTitleOrAlt, exThumbImage) {
-        var dynamicElements = [];
-        var availableDynamicOptions = __spreadArrays(defaultDynamicOptions, extraProps);
-        [].forEach.call(items, function(item) {
-            var dynamicEl = {};
-            for(var i = 0; i < item.attributes.length; i++){
-                var attr = item.attributes[i];
-                if (attr.specified) {
-                    var dynamicAttr = convertToData(attr.name);
-                    var label = "";
-                    if (availableDynamicOptions.indexOf(dynamicAttr) > -1) label = dynamicAttr;
-                    if (label) dynamicEl[label] = attr.value;
-                }
-            }
-            var currentItem = $LG(item);
-            var alt = currentItem.find("img").first().attr("alt");
-            var title = currentItem.attr("title");
-            var thumb = exThumbImage ? currentItem.attr(exThumbImage) : currentItem.find("img").first().attr("src");
-            dynamicEl.thumb = thumb;
-            if (getCaptionFromTitleOrAlt && !dynamicEl.subHtml) dynamicEl.subHtml = title || alt || "";
-            dynamicEl.alt = alt || title || "";
-            dynamicElements.push(dynamicEl);
-        });
-        return dynamicElements;
-    },
-    isMobile: function() {
-        return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    },
-    /**
-     * @desc Check the given src is video
-     * @param {String} src
-     * @return {Object} video type
-     * Ex:{ youtube  :  ["//www.youtube.com/watch?v=c0asJgSyxcY", "c0asJgSyxcY"] }
-     *
-     * @todo - this information can be moved to dynamicEl to avoid frequent calls
-     */ isVideo: function(src, isHTML5VIdeo, index) {
-        if (!src) {
-            if (isHTML5VIdeo) return {
-                html5: true
-            };
-            else {
-                console.error("lightGallery :- data-src is not provided on slide item " + (index + 1) + ". Please make sure the selector property is properly configured. More info - https://www.lightgalleryjs.com/demos/html-markup/");
-                return;
-            }
-        }
-        var youtube = src.match(/\/\/(?:www\.)?youtu(?:\.be|be\.com|be-nocookie\.com)\/(?:watch\?v=|embed\/)?([a-z0-9\-\_\%]+)([\&|?][\S]*)*/i);
-        var vimeo = src.match(/\/\/(?:www\.)?(?:player\.)?vimeo.com\/(?:video\/)?([0-9a-z\-_]+)(.*)?/i);
-        var wistia = src.match(/https?:\/\/(.+)?(wistia\.com|wi\.st)\/(medias|embed)\/([0-9a-z\-_]+)(.*)/);
-        if (youtube) return {
-            youtube: youtube
-        };
-        else if (vimeo) return {
-            vimeo: vimeo
-        };
-        else if (wistia) return {
-            wistia: wistia
-        };
-    }
-};
-// @ref - https://stackoverflow.com/questions/3971841/how-to-resize-images-proportionally-keeping-the-aspect-ratio
-// @ref - https://2ality.com/2017/04/setting-up-multi-platform-packages.html
-// Unique id for each gallery
-var lgId = 0;
-var LightGallery = /** @class */ function() {
-    function LightGallery(element, options) {
-        this.lgOpened = false;
-        this.index = 0;
-        // lightGallery modules
-        this.plugins = [];
-        // false when lightGallery load first slide content;
-        this.lGalleryOn = false;
-        // True when a slide animation is in progress
-        this.lgBusy = false;
-        this.currentItemsInDom = [];
-        // Scroll top value before lightGallery is opened
-        this.prevScrollTop = 0;
-        this.bodyPaddingRight = 0;
-        this.isDummyImageRemoved = false;
-        this.dragOrSwipeEnabled = false;
-        this.mediaContainerPosition = {
-            top: 0,
-            bottom: 0
-        };
-        if (!element) return this;
-        lgId++;
-        this.lgId = lgId;
-        this.el = element;
-        this.LGel = $LG(element);
-        this.generateSettings(options);
-        this.buildModules();
-        // When using dynamic mode, ensure dynamicEl is an array
-        if (this.settings.dynamic && this.settings.dynamicEl !== undefined && !Array.isArray(this.settings.dynamicEl)) throw "When using dynamic mode, you must also define dynamicEl as an Array.";
-        this.galleryItems = this.getItems();
-        this.normalizeSettings();
-        // Gallery items
-        this.init();
-        this.validateLicense();
-        return this;
-    }
-    LightGallery.prototype.generateSettings = function(options) {
-        // lightGallery settings
-        this.settings = __assign(__assign({}, lightGalleryCoreSettings), options);
-        if (this.settings.isMobile && typeof this.settings.isMobile === "function" ? this.settings.isMobile() : utils.isMobile()) {
-            var mobileSettings = __assign(__assign({}, this.settings.mobileSettings), this.settings.mobileSettings);
-            this.settings = __assign(__assign({}, this.settings), mobileSettings);
-        }
-    };
-    LightGallery.prototype.normalizeSettings = function() {
-        if (this.settings.slideEndAnimation) this.settings.hideControlOnEnd = false;
-        if (!this.settings.closable) this.settings.swipeToClose = false;
-        // And reset it on close to get the correct value next time
-        this.zoomFromOrigin = this.settings.zoomFromOrigin;
-        // At the moment, Zoom from image doesn't support dynamic options
-        // @todo add zoomFromOrigin support for dynamic images
-        if (this.settings.dynamic) this.zoomFromOrigin = false;
-        if (!this.settings.container) this.settings.container = document.body;
-        // settings.preload should not be grater than $item.length
-        this.settings.preload = Math.min(this.settings.preload, this.galleryItems.length);
-    };
-    LightGallery.prototype.init = function() {
-        var _this = this;
-        this.addSlideVideoInfo(this.galleryItems);
-        this.buildStructure();
-        this.LGel.trigger(lGEvents.init, {
-            instance: this
-        });
-        if (this.settings.keyPress) this.keyPress();
-        setTimeout(function() {
-            _this.enableDrag();
-            _this.enableSwipe();
-            _this.triggerPosterClick();
-        }, 50);
-        this.arrow();
-        if (this.settings.mousewheel) this.mousewheel();
-        if (!this.settings.dynamic) this.openGalleryOnItemClick();
-    };
-    LightGallery.prototype.openGalleryOnItemClick = function() {
-        var _this = this;
-        var _loop_1 = function(index) {
-            var element = this_1.items[index];
-            var $element = $LG(element);
-            // Using different namespace for click because click event should not unbind if selector is same object('this')
-            // @todo manage all event listners - should have namespace that represent element
-            var uuid = lgQuery.generateUUID();
-            $element.attr("data-lg-id", uuid).on("click.lgcustom-item-" + uuid, function(e) {
-                e.preventDefault();
-                var currentItemIndex = _this.settings.index || index;
-                _this.openGallery(currentItemIndex, element);
-            });
-        };
-        var this_1 = this;
-        // Using for loop instead of using bubbling as the items can be any html element.
-        for(var index = 0; index < this.items.length; index++)_loop_1(index);
-    };
-    /**
-     * Module constructor
-     * Modules are build incrementally.
-     * Gallery should be opened only once all the modules are initialized.
-     * use moduleBuildTimeout to make sure this
-     */ LightGallery.prototype.buildModules = function() {
-        var _this = this;
-        this.settings.plugins.forEach(function(plugin) {
-            _this.plugins.push(new plugin(_this, $LG));
-        });
-    };
-    LightGallery.prototype.validateLicense = function() {
-        if (!this.settings.licenseKey) console.error("Please provide a valid license key");
-        else if (this.settings.licenseKey === "0000-0000-000-0000") console.warn("lightGallery: " + this.settings.licenseKey + " license key is not valid for production use");
-    };
-    LightGallery.prototype.getSlideItem = function(index) {
-        return $LG(this.getSlideItemId(index));
-    };
-    LightGallery.prototype.getSlideItemId = function(index) {
-        return "#lg-item-" + this.lgId + "-" + index;
-    };
-    LightGallery.prototype.getIdName = function(id) {
-        return id + "-" + this.lgId;
-    };
-    LightGallery.prototype.getElementById = function(id) {
-        return $LG("#" + this.getIdName(id));
-    };
-    LightGallery.prototype.manageSingleSlideClassName = function() {
-        if (this.galleryItems.length < 2) this.outer.addClass("lg-single-item");
-        else this.outer.removeClass("lg-single-item");
-    };
-    LightGallery.prototype.buildStructure = function() {
-        var _this = this;
-        var container = this.$container && this.$container.get();
-        if (container) return;
-        var controls = "";
-        var subHtmlCont = "";
-        // Create controls
-        if (this.settings.controls) controls = '<button type="button" id="' + this.getIdName("lg-prev") + '" aria-label="' + this.settings.strings["previousSlide"] + '" class="lg-prev lg-icon"> ' + this.settings.prevHtml + ' </button>\n                <button type="button" id="' + this.getIdName("lg-next") + '" aria-label="' + this.settings.strings["nextSlide"] + '" class="lg-next lg-icon"> ' + this.settings.nextHtml + " </button>";
-        if (this.settings.appendSubHtmlTo !== ".lg-item") subHtmlCont = '<div class="lg-sub-html" role="status" aria-live="polite"></div>';
-        var addClasses = "";
-        if (this.settings.allowMediaOverlap) // Do not remove space before last single quote
-        addClasses += "lg-media-overlap ";
-        var ariaLabelledby = this.settings.ariaLabelledby ? 'aria-labelledby="' + this.settings.ariaLabelledby + '"' : "";
-        var ariaDescribedby = this.settings.ariaDescribedby ? 'aria-describedby="' + this.settings.ariaDescribedby + '"' : "";
-        var containerClassName = "lg-container " + this.settings.addClass + " " + (document.body !== this.settings.container ? "lg-inline" : "");
-        var closeIcon = this.settings.closable && this.settings.showCloseIcon ? '<button type="button" aria-label="' + this.settings.strings["closeGallery"] + '" id="' + this.getIdName("lg-close") + '" class="lg-close lg-icon"></button>' : "";
-        var maximizeIcon = this.settings.showMaximizeIcon ? '<button type="button" aria-label="' + this.settings.strings["toggleMaximize"] + '" id="' + this.getIdName("lg-maximize") + '" class="lg-maximize lg-icon"></button>' : "";
-        var template = '\n        <div class="' + containerClassName + '" id="' + this.getIdName("lg-container") + '" tabindex="-1" aria-modal="true" ' + ariaLabelledby + " " + ariaDescribedby + ' role="dialog"\n        >\n            <div id="' + this.getIdName("lg-backdrop") + '" class="lg-backdrop"></div>\n\n            <div id="' + this.getIdName("lg-outer") + '" class="lg-outer lg-use-css3 lg-css3 lg-hide-items ' + addClasses + ' ">\n\n              <div id="' + this.getIdName("lg-content") + '" class="lg-content">\n                <div id="' + this.getIdName("lg-inner") + '" class="lg-inner">\n                </div>\n                ' + controls + '\n              </div>\n                <div id="' + this.getIdName("lg-toolbar") + '" class="lg-toolbar lg-group">\n                    ' + maximizeIcon + "\n                    " + closeIcon + "\n                    </div>\n                    " + (this.settings.appendSubHtmlTo === ".lg-outer" ? subHtmlCont : "") + '\n                <div id="' + this.getIdName("lg-components") + '" class="lg-components">\n                    ' + (this.settings.appendSubHtmlTo === ".lg-sub-html" ? subHtmlCont : "") + "\n                </div>\n            </div>\n        </div>\n        ";
-        $LG(this.settings.container).append(template);
-        if (document.body !== this.settings.container) $LG(this.settings.container).css("position", "relative");
-        this.outer = this.getElementById("lg-outer");
-        this.$lgComponents = this.getElementById("lg-components");
-        this.$backdrop = this.getElementById("lg-backdrop");
-        this.$container = this.getElementById("lg-container");
-        this.$inner = this.getElementById("lg-inner");
-        this.$content = this.getElementById("lg-content");
-        this.$toolbar = this.getElementById("lg-toolbar");
-        this.$backdrop.css("transition-duration", this.settings.backdropDuration + "ms");
-        var outerClassNames = this.settings.mode + " ";
-        this.manageSingleSlideClassName();
-        if (this.settings.enableDrag) outerClassNames += "lg-grab ";
-        this.outer.addClass(outerClassNames);
-        this.$inner.css("transition-timing-function", this.settings.easing);
-        this.$inner.css("transition-duration", this.settings.speed + "ms");
-        if (this.settings.download) this.$toolbar.append('<a id="' + this.getIdName("lg-download") + '" target="_blank" rel="noopener" aria-label="' + this.settings.strings["download"] + '" download class="lg-download lg-icon"></a>');
-        this.counter();
-        $LG(window).on("resize.lg.global" + this.lgId + " orientationchange.lg.global" + this.lgId, function() {
-            _this.refreshOnResize();
-        });
-        this.hideBars();
-        this.manageCloseGallery();
-        this.toggleMaximize();
-        this.initModules();
-    };
-    LightGallery.prototype.refreshOnResize = function() {
-        if (this.lgOpened) {
-            var currentGalleryItem = this.galleryItems[this.index];
-            var __slideVideoInfo = currentGalleryItem.__slideVideoInfo;
-            this.mediaContainerPosition = this.getMediaContainerPosition();
-            var _a = this.mediaContainerPosition, top_1 = _a.top, bottom = _a.bottom;
-            this.currentImageSize = utils.getSize(this.items[this.index], this.outer, top_1 + bottom, __slideVideoInfo && this.settings.videoMaxSize);
-            if (__slideVideoInfo) this.resizeVideoSlide(this.index, this.currentImageSize);
-            if (this.zoomFromOrigin && !this.isDummyImageRemoved) {
-                var imgStyle = this.getDummyImgStyles(this.currentImageSize);
-                this.outer.find(".lg-current .lg-dummy-img").first().attr("style", imgStyle);
-            }
-            this.LGel.trigger(lGEvents.containerResize);
-        }
-    };
-    LightGallery.prototype.resizeVideoSlide = function(index, imageSize) {
-        var lgVideoStyle = this.getVideoContStyle(imageSize);
-        var currentSlide = this.getSlideItem(index);
-        currentSlide.find(".lg-video-cont").attr("style", lgVideoStyle);
-    };
-    /**
-     * Update slides dynamically.
-     * Add, edit or delete slides dynamically when lightGallery is opened.
-     * Modify the current gallery items and pass it via updateSlides method
-     * @note
-     * - Do not mutate existing lightGallery items directly.
-     * - Always pass new list of gallery items
-     * - You need to take care of thumbnails outside the gallery if any
-     * - user this method only if you want to update slides when the gallery is opened. Otherwise, use `refresh()` method.
-     * @param items Gallery items
-     * @param index After the update operation, which slide gallery should navigate to
-     * @category lGPublicMethods
-     * @example
-     * const plugin = lightGallery();
-     *
-     * // Adding slides dynamically
-     * let galleryItems = [
-     * // Access existing lightGallery items
-     * // galleryItems are automatically generated internally from the gallery HTML markup
-     * // or directly from galleryItems when dynamic gallery is used
-     *   ...plugin.galleryItems,
-     *     ...[
-     *       {
-     *         src: 'img/img-1.png',
-     *           thumb: 'img/thumb1.png',
-     *         },
-     *     ],
-     *   ];
-     *   plugin.updateSlides(
-     *     galleryItems,
-     *     plugin.index,
-     *   );
-     *
-     *
-     * // Remove slides dynamically
-     * galleryItems = JSON.parse(
-     *   JSON.stringify(updateSlideInstance.galleryItems),
-     * );
-     * galleryItems.shift();
-     * updateSlideInstance.updateSlides(galleryItems, 1);
-     * @see <a href="/demos/update-slides/">Demo</a>
-     */ LightGallery.prototype.updateSlides = function(items, index) {
-        if (this.index > items.length - 1) this.index = items.length - 1;
-        if (items.length === 1) this.index = 0;
-        if (!items.length) {
-            this.closeGallery();
-            return;
-        }
-        var currentSrc = this.galleryItems[index].src;
-        this.galleryItems = items;
-        this.updateControls();
-        this.$inner.empty();
-        this.currentItemsInDom = [];
-        var _index = 0;
-        // Find the current index based on source value of the slide
-        this.galleryItems.some(function(galleryItem, itemIndex) {
-            if (galleryItem.src === currentSrc) {
-                _index = itemIndex;
-                return true;
-            }
-            return false;
-        });
-        this.currentItemsInDom = this.organizeSlideItems(_index, -1);
-        this.loadContent(_index, true);
-        this.getSlideItem(_index).addClass("lg-current");
-        this.index = _index;
-        this.updateCurrentCounter(_index);
-        this.LGel.trigger(lGEvents.updateSlides);
-    };
-    // Get gallery items based on multiple conditions
-    LightGallery.prototype.getItems = function() {
-        // Gallery items
-        this.items = [];
-        if (!this.settings.dynamic) {
-            if (this.settings.selector === "this") this.items.push(this.el);
-            else if (this.settings.selector) {
-                if (typeof this.settings.selector === "string") {
-                    if (this.settings.selectWithin) {
-                        var selectWithin = $LG(this.settings.selectWithin);
-                        this.items = selectWithin.find(this.settings.selector).get();
-                    } else this.items = this.el.querySelectorAll(this.settings.selector);
-                } else this.items = this.settings.selector;
-            } else this.items = this.el.children;
-            return utils.getDynamicOptions(this.items, this.settings.extraProps, this.settings.getCaptionFromTitleOrAlt, this.settings.exThumbImage);
-        } else return this.settings.dynamicEl || [];
-    };
-    LightGallery.prototype.shouldHideScrollbar = function() {
-        return this.settings.hideScrollbar && document.body === this.settings.container;
-    };
-    LightGallery.prototype.hideScrollbar = function() {
-        if (!this.shouldHideScrollbar()) return;
-        this.bodyPaddingRight = parseFloat($LG("body").style().paddingRight);
-        var bodyRect = document.documentElement.getBoundingClientRect();
-        var scrollbarWidth = window.innerWidth - bodyRect.width;
-        $LG(document.body).css("padding-right", scrollbarWidth + this.bodyPaddingRight + "px");
-        $LG(document.body).addClass("lg-overlay-open");
-    };
-    LightGallery.prototype.resetScrollBar = function() {
-        if (!this.shouldHideScrollbar()) return;
-        $LG(document.body).css("padding-right", this.bodyPaddingRight + "px");
-        $LG(document.body).removeClass("lg-overlay-open");
-    };
-    /**
-     * Open lightGallery.
-     * Open gallery with specific slide by passing index of the slide as parameter.
-     * @category lGPublicMethods
-     * @param {Number} index  - index of the slide
-     * @param {HTMLElement} element - Which image lightGallery should zoom from
-     *
-     * @example
-     * const $dynamicGallery = document.getElementById('dynamic-gallery-demo');
-     * const dynamicGallery = lightGallery($dynamicGallery, {
-     *     dynamic: true,
-     *     dynamicEl: [
-     *         {
-     *              src: 'img/1.jpg',
-     *              thumb: 'img/thumb-1.jpg',
-     *              subHtml: '<h4>Image 1 title</h4><p>Image 1 descriptions.</p>',
-     *         },
-     *         ...
-     *     ],
-     * });
-     * $dynamicGallery.addEventListener('click', function () {
-     *     // Starts with third item.(Optional).
-     *     // This is useful if you want use dynamic mode with
-     *     // custom thumbnails (thumbnails outside gallery),
-     *     dynamicGallery.openGallery(2);
-     * });
-     *
-     */ LightGallery.prototype.openGallery = function(index, element) {
-        var _this = this;
-        if (index === void 0) index = this.settings.index;
-        // prevent accidental double execution
-        if (this.lgOpened) return;
-        this.lgOpened = true;
-        this.outer.removeClass("lg-hide-items");
-        this.hideScrollbar();
-        // Add display block, but still has opacity 0
-        this.$container.addClass("lg-show");
-        var itemsToBeInsertedToDom = this.getItemsToBeInsertedToDom(index, index);
-        this.currentItemsInDom = itemsToBeInsertedToDom;
-        var items = "";
-        itemsToBeInsertedToDom.forEach(function(item) {
-            items = items + ('<div id="' + item + '" class="lg-item"></div>');
-        });
-        this.$inner.append(items);
-        this.addHtml(index);
-        var transform = "";
-        this.mediaContainerPosition = this.getMediaContainerPosition();
-        var _a = this.mediaContainerPosition, top = _a.top, bottom = _a.bottom;
-        if (!this.settings.allowMediaOverlap) this.setMediaContainerPosition(top, bottom);
-        var __slideVideoInfo = this.galleryItems[index].__slideVideoInfo;
-        if (this.zoomFromOrigin && element) {
-            this.currentImageSize = utils.getSize(element, this.outer, top + bottom, __slideVideoInfo && this.settings.videoMaxSize);
-            transform = utils.getTransform(element, this.outer, top, bottom, this.currentImageSize);
-        }
-        if (!this.zoomFromOrigin || !transform) {
-            this.outer.addClass(this.settings.startClass);
-            this.getSlideItem(index).removeClass("lg-complete");
-        }
-        var timeout = this.settings.zoomFromOrigin ? 100 : this.settings.backdropDuration;
-        setTimeout(function() {
-            _this.outer.addClass("lg-components-open");
-        }, timeout);
-        this.index = index;
-        this.LGel.trigger(lGEvents.beforeOpen);
-        // add class lg-current to remove initial transition
-        this.getSlideItem(index).addClass("lg-current");
-        this.lGalleryOn = false;
-        // Store the current scroll top value to scroll back after closing the gallery..
-        this.prevScrollTop = $LG(window).scrollTop();
-        setTimeout(function() {
-            // Need to check both zoomFromOrigin and transform values as we need to set set the
-            // default opening animation if user missed to add the lg-size attribute
-            if (_this.zoomFromOrigin && transform) {
-                var currentSlide_1 = _this.getSlideItem(index);
-                currentSlide_1.css("transform", transform);
-                setTimeout(function() {
-                    currentSlide_1.addClass("lg-start-progress lg-start-end-progress").css("transition-duration", _this.settings.startAnimationDuration + "ms");
-                    _this.outer.addClass("lg-zoom-from-image");
-                });
-                setTimeout(function() {
-                    currentSlide_1.css("transform", "translate3d(0, 0, 0)");
-                }, 100);
-            }
-            setTimeout(function() {
-                _this.$backdrop.addClass("in");
-                _this.$container.addClass("lg-show-in");
-            }, 10);
-            setTimeout(function() {
-                if (_this.settings.trapFocus && document.body === _this.settings.container) _this.trapFocus();
-            }, _this.settings.backdropDuration + 50);
-            // lg-visible class resets gallery opacity to 1
-            if (!_this.zoomFromOrigin || !transform) setTimeout(function() {
-                _this.outer.addClass("lg-visible");
-            }, _this.settings.backdropDuration);
-            // initiate slide function
-            _this.slide(index, false, false, false);
-            _this.LGel.trigger(lGEvents.afterOpen);
-        });
-        if (document.body === this.settings.container) $LG("html").addClass("lg-on");
-    };
-    /**
-     * Note - Changing the position of the media on every slide transition creates a flickering effect.
-     * Therefore, The height of the caption is calculated dynamically, only once based on the first slide caption.
-     * if you have dynamic captions for each media,
-     * you can provide an appropriate height for the captions via allowMediaOverlap option
-     */ LightGallery.prototype.getMediaContainerPosition = function() {
-        if (this.settings.allowMediaOverlap) return {
-            top: 0,
-            bottom: 0
-        };
-        var top = this.$toolbar.get().clientHeight || 0;
-        var subHtml = this.outer.find(".lg-components .lg-sub-html").get();
-        var captionHeight = this.settings.defaultCaptionHeight || subHtml && subHtml.clientHeight || 0;
-        var thumbContainer = this.outer.find(".lg-thumb-outer").get();
-        var thumbHeight = thumbContainer ? thumbContainer.clientHeight : 0;
-        var bottom = thumbHeight + captionHeight;
-        return {
-            top: top,
-            bottom: bottom
-        };
-    };
-    LightGallery.prototype.setMediaContainerPosition = function(top, bottom) {
-        if (top === void 0) top = 0;
-        if (bottom === void 0) bottom = 0;
-        this.$content.css("top", top + "px").css("bottom", bottom + "px");
-    };
-    LightGallery.prototype.hideBars = function() {
-        var _this = this;
-        // Hide controllers if mouse doesn't move for some period
-        setTimeout(function() {
-            _this.outer.removeClass("lg-hide-items");
-            if (_this.settings.hideBarsDelay > 0) {
-                _this.outer.on("mousemove.lg click.lg touchstart.lg", function() {
-                    _this.outer.removeClass("lg-hide-items");
-                    clearTimeout(_this.hideBarTimeout);
-                    // Timeout will be cleared on each slide movement also
-                    _this.hideBarTimeout = setTimeout(function() {
-                        _this.outer.addClass("lg-hide-items");
-                    }, _this.settings.hideBarsDelay);
-                });
-                _this.outer.trigger("mousemove.lg");
-            }
-        }, this.settings.showBarsAfter);
-    };
-    LightGallery.prototype.initPictureFill = function($img) {
-        if (this.settings.supportLegacyBrowser) try {
-            picturefill({
-                elements: [
-                    $img.get()
-                ]
-            });
-        } catch (e) {
-            console.warn("lightGallery :- If you want srcset or picture tag to be supported for older browser please include picturefil javascript library in your document.");
-        }
-    };
-    /**
-     *  @desc Create image counter
-     *  Ex: 1/10
-     */ LightGallery.prototype.counter = function() {
-        if (this.settings.counter) {
-            var counterHtml = '<div class="lg-counter" role="status" aria-live="polite">\n                <span id="' + this.getIdName("lg-counter-current") + '" class="lg-counter-current">' + (this.index + 1) + ' </span> /\n                <span id="' + this.getIdName("lg-counter-all") + '" class="lg-counter-all">' + this.galleryItems.length + " </span></div>";
-            this.outer.find(this.settings.appendCounterTo).append(counterHtml);
-        }
-    };
-    /**
-     *  @desc add sub-html into the slide
-     *  @param {Number} index - index of the slide
-     */ LightGallery.prototype.addHtml = function(index) {
-        var subHtml;
-        var subHtmlUrl;
-        if (this.galleryItems[index].subHtmlUrl) subHtmlUrl = this.galleryItems[index].subHtmlUrl;
-        else subHtml = this.galleryItems[index].subHtml;
-        if (!subHtmlUrl) {
-            if (subHtml) {
-                // get first letter of sub-html
-                // if first letter starts with . or # get the html form the jQuery object
-                var fL = subHtml.substring(0, 1);
-                if (fL === "." || fL === "#") {
-                    if (this.settings.subHtmlSelectorRelative && !this.settings.dynamic) subHtml = $LG(this.items).eq(index).find(subHtml).first().html();
-                    else subHtml = $LG(subHtml).first().html();
-                }
-            } else subHtml = "";
-        }
-        if (this.settings.appendSubHtmlTo !== ".lg-item") {
-            if (subHtmlUrl) this.outer.find(".lg-sub-html").load(subHtmlUrl);
-            else this.outer.find(".lg-sub-html").html(subHtml);
-        } else {
-            var currentSlide = $LG(this.getSlideItemId(index));
-            if (subHtmlUrl) currentSlide.load(subHtmlUrl);
-            else currentSlide.append('<div class="lg-sub-html">' + subHtml + "</div>");
-        }
-        // Add lg-empty-html class if title doesn't exist
-        if (typeof subHtml !== "undefined" && subHtml !== null) {
-            if (subHtml === "") this.outer.find(this.settings.appendSubHtmlTo).addClass("lg-empty-html");
-            else this.outer.find(this.settings.appendSubHtmlTo).removeClass("lg-empty-html");
-        }
-        this.LGel.trigger(lGEvents.afterAppendSubHtml, {
-            index: index
-        });
-    };
-    /**
-     *  @desc Preload slides
-     *  @param {Number} index - index of the slide
-     * @todo preload not working for the first slide, Also, should work for the first and last slide as well
-     */ LightGallery.prototype.preload = function(index) {
-        for(var i = 1; i <= this.settings.preload; i++){
-            if (i >= this.galleryItems.length - index) break;
-            this.loadContent(index + i, false);
-        }
-        for(var j = 1; j <= this.settings.preload; j++){
-            if (index - j < 0) break;
-            this.loadContent(index - j, false);
-        }
-    };
-    LightGallery.prototype.getDummyImgStyles = function(imageSize) {
-        if (!imageSize) return "";
-        return "width:" + imageSize.width + "px;\n                margin-left: -" + imageSize.width / 2 + "px;\n                margin-top: -" + imageSize.height / 2 + "px;\n                height:" + imageSize.height + "px";
-    };
-    LightGallery.prototype.getVideoContStyle = function(imageSize) {
-        if (!imageSize) return "";
-        return "width:" + imageSize.width + "px;\n                height:" + imageSize.height + "px";
-    };
-    LightGallery.prototype.getDummyImageContent = function($currentSlide, index, alt) {
-        var $currentItem;
-        if (!this.settings.dynamic) $currentItem = $LG(this.items).eq(index);
-        if ($currentItem) {
-            var _dummyImgSrc = void 0;
-            if (!this.settings.exThumbImage) _dummyImgSrc = $currentItem.find("img").first().attr("src");
-            else _dummyImgSrc = $currentItem.attr(this.settings.exThumbImage);
-            if (!_dummyImgSrc) return "";
-            var imgStyle = this.getDummyImgStyles(this.currentImageSize);
-            var dummyImgContent = "<img " + alt + ' style="' + imgStyle + '" class="lg-dummy-img" src="' + _dummyImgSrc + '" />';
-            $currentSlide.addClass("lg-first-slide");
-            this.outer.addClass("lg-first-slide-loading");
-            return dummyImgContent;
-        }
-        return "";
-    };
-    LightGallery.prototype.setImgMarkup = function(src, $currentSlide, index) {
-        var currentGalleryItem = this.galleryItems[index];
-        var alt = currentGalleryItem.alt, srcset = currentGalleryItem.srcset, sizes = currentGalleryItem.sizes, sources = currentGalleryItem.sources;
-        // Use the thumbnail as dummy image which will be resized to actual image size and
-        // displayed on top of actual image
-        var imgContent = "";
-        var altAttr = alt ? 'alt="' + alt + '"' : "";
-        if (this.isFirstSlideWithZoomAnimation()) imgContent = this.getDummyImageContent($currentSlide, index, altAttr);
-        else imgContent = utils.getImgMarkup(index, src, altAttr, srcset, sizes, sources);
-        var imgMarkup = '<picture class="lg-img-wrap"> ' + imgContent + "</picture>";
-        $currentSlide.prepend(imgMarkup);
-    };
-    LightGallery.prototype.onSlideObjectLoad = function($slide, isHTML5VideoWithoutPoster, onLoad, onError) {
-        var mediaObject = $slide.find(".lg-object").first();
-        if (utils.isImageLoaded(mediaObject.get()) || isHTML5VideoWithoutPoster) onLoad();
-        else {
-            mediaObject.on("load.lg error.lg", function() {
-                onLoad && onLoad();
-            });
-            mediaObject.on("error.lg", function() {
-                onError && onError();
-            });
-        }
-    };
-    /**
-     *
-     * @param $el Current slide item
-     * @param index
-     * @param delay Delay is 0 except first time
-     * @param speed Speed is same as delay, except it is 0 if gallery is opened via hash plugin
-     * @param isFirstSlide
-     */ LightGallery.prototype.onLgObjectLoad = function(currentSlide, index, delay, speed, isFirstSlide, isHTML5VideoWithoutPoster) {
-        var _this = this;
-        this.onSlideObjectLoad(currentSlide, isHTML5VideoWithoutPoster, function() {
-            _this.triggerSlideItemLoad(currentSlide, index, delay, speed, isFirstSlide);
-        }, function() {
-            currentSlide.addClass("lg-complete lg-complete_");
-            currentSlide.html('<span class="lg-error-msg">' + _this.settings.strings["mediaLoadingFailed"] + "</span>");
-        });
-    };
-    LightGallery.prototype.triggerSlideItemLoad = function($currentSlide, index, delay, speed, isFirstSlide) {
-        var _this = this;
-        var currentGalleryItem = this.galleryItems[index];
-        // Adding delay for video slides without poster for better performance and user experience
-        // Videos should start playing once once the gallery is completely loaded
-        var _speed = isFirstSlide && this.getSlideType(currentGalleryItem) === "video" && !currentGalleryItem.poster ? speed : 0;
-        setTimeout(function() {
-            $currentSlide.addClass("lg-complete lg-complete_");
-            _this.LGel.trigger(lGEvents.slideItemLoad, {
-                index: index,
-                delay: delay || 0,
-                isFirstSlide: isFirstSlide
-            });
-        }, _speed);
-    };
-    LightGallery.prototype.isFirstSlideWithZoomAnimation = function() {
-        return !!(!this.lGalleryOn && this.zoomFromOrigin && this.currentImageSize);
-    };
-    // Add video slideInfo
-    LightGallery.prototype.addSlideVideoInfo = function(items) {
-        var _this = this;
-        items.forEach(function(element, index) {
-            element.__slideVideoInfo = utils.isVideo(element.src, !!element.video, index);
-            if (element.__slideVideoInfo && _this.settings.loadYouTubePoster && !element.poster && element.__slideVideoInfo.youtube) element.poster = "//img.youtube.com/vi/" + element.__slideVideoInfo.youtube[1] + "/maxresdefault.jpg";
-        });
-    };
-    /**
-     *  Load slide content into slide.
-     *  This is used to load content into slides that is not visible too
-     *  @param {Number} index - index of the slide.
-     *  @param {Boolean} rec - if true call loadcontent() function again.
-     */ LightGallery.prototype.loadContent = function(index, rec) {
-        var _this = this;
-        var currentGalleryItem = this.galleryItems[index];
-        var $currentSlide = $LG(this.getSlideItemId(index));
-        var poster = currentGalleryItem.poster, srcset = currentGalleryItem.srcset, sizes = currentGalleryItem.sizes, sources = currentGalleryItem.sources;
-        var src = currentGalleryItem.src;
-        var video = currentGalleryItem.video;
-        var _html5Video = video && typeof video === "string" ? JSON.parse(video) : video;
-        if (currentGalleryItem.responsive) {
-            var srcDyItms = currentGalleryItem.responsive.split(",");
-            src = utils.getResponsiveSrc(srcDyItms) || src;
-        }
-        var videoInfo = currentGalleryItem.__slideVideoInfo;
-        var lgVideoStyle = "";
-        var iframe = !!currentGalleryItem.iframe;
-        var isFirstSlide = !this.lGalleryOn;
-        // delay for adding complete class. it is 0 except first time.
-        var delay = 0;
-        if (isFirstSlide) {
-            if (this.zoomFromOrigin && this.currentImageSize) delay = this.settings.startAnimationDuration + 10;
-            else delay = this.settings.backdropDuration + 10;
-        }
-        if (!$currentSlide.hasClass("lg-loaded")) {
-            if (videoInfo) {
-                var _a = this.mediaContainerPosition, top_2 = _a.top, bottom = _a.bottom;
-                var videoSize = utils.getSize(this.items[index], this.outer, top_2 + bottom, videoInfo && this.settings.videoMaxSize);
-                lgVideoStyle = this.getVideoContStyle(videoSize);
-            }
-            if (iframe) {
-                var markup = utils.getIframeMarkup(this.settings.iframeWidth, this.settings.iframeHeight, this.settings.iframeMaxWidth, this.settings.iframeMaxHeight, src, currentGalleryItem.iframeTitle);
-                $currentSlide.prepend(markup);
-            } else if (poster) {
-                var dummyImg = "";
-                var hasStartAnimation = isFirstSlide && this.zoomFromOrigin && this.currentImageSize;
-                if (hasStartAnimation) dummyImg = this.getDummyImageContent($currentSlide, index, "");
-                var markup = utils.getVideoPosterMarkup(poster, dummyImg || "", lgVideoStyle, this.settings.strings["playVideo"], videoInfo);
-                $currentSlide.prepend(markup);
-            } else if (videoInfo) {
-                var markup = '<div class="lg-video-cont " style="' + lgVideoStyle + '"></div>';
-                $currentSlide.prepend(markup);
-            } else {
-                this.setImgMarkup(src, $currentSlide, index);
-                if (srcset || sources) {
-                    var $img = $currentSlide.find(".lg-object");
-                    this.initPictureFill($img);
-                }
-            }
-            if (poster || videoInfo) this.LGel.trigger(lGEvents.hasVideo, {
-                index: index,
-                src: src,
-                html5Video: _html5Video,
-                hasPoster: !!poster
-            });
-            this.LGel.trigger(lGEvents.afterAppendSlide, {
-                index: index
-            });
-            if (this.lGalleryOn && this.settings.appendSubHtmlTo === ".lg-item") this.addHtml(index);
-        }
-        // For first time add some delay for displaying the start animation.
-        var _speed = 0;
-        // Do not change the delay value because it is required for zoom plugin.
-        // If gallery opened from direct url (hash) speed value should be 0
-        if (delay && !$LG(document.body).hasClass("lg-from-hash")) _speed = delay;
-        // Only for first slide and zoomFromOrigin is enabled
-        if (this.isFirstSlideWithZoomAnimation()) {
-            setTimeout(function() {
-                $currentSlide.removeClass("lg-start-end-progress lg-start-progress").removeAttr("style");
-            }, this.settings.startAnimationDuration + 100);
-            if (!$currentSlide.hasClass("lg-loaded")) setTimeout(function() {
-                if (_this.getSlideType(currentGalleryItem) === "image") {
-                    var alt = currentGalleryItem.alt;
-                    var altAttr = alt ? 'alt="' + alt + '"' : "";
-                    $currentSlide.find(".lg-img-wrap").append(utils.getImgMarkup(index, src, altAttr, srcset, sizes, currentGalleryItem.sources));
-                    if (srcset || sources) {
-                        var $img = $currentSlide.find(".lg-object");
-                        _this.initPictureFill($img);
-                    }
-                }
-                if (_this.getSlideType(currentGalleryItem) === "image" || _this.getSlideType(currentGalleryItem) === "video" && poster) {
-                    _this.onLgObjectLoad($currentSlide, index, delay, _speed, true, false);
-                    // load remaining slides once the slide is completely loaded
-                    _this.onSlideObjectLoad($currentSlide, !!(videoInfo && videoInfo.html5 && !poster), function() {
-                        _this.loadContentOnFirstSlideLoad(index, $currentSlide, _speed);
-                    }, function() {
-                        _this.loadContentOnFirstSlideLoad(index, $currentSlide, _speed);
-                    });
-                }
-            }, this.settings.startAnimationDuration + 100);
-        }
-        // SLide content has been added to dom
-        $currentSlide.addClass("lg-loaded");
-        if (!this.isFirstSlideWithZoomAnimation() || this.getSlideType(currentGalleryItem) === "video" && !poster) this.onLgObjectLoad($currentSlide, index, delay, _speed, isFirstSlide, !!(videoInfo && videoInfo.html5 && !poster));
-        // When gallery is opened once content is loaded (second time) need to add lg-complete class for css styling
-        if ((!this.zoomFromOrigin || !this.currentImageSize) && $currentSlide.hasClass("lg-complete_") && !this.lGalleryOn) setTimeout(function() {
-            $currentSlide.addClass("lg-complete");
-        }, this.settings.backdropDuration);
-        // Content loaded
-        // Need to set lGalleryOn before calling preload function
-        this.lGalleryOn = true;
-        if (rec === true) {
-            if (!$currentSlide.hasClass("lg-complete_")) $currentSlide.find(".lg-object").first().on("load.lg error.lg", function() {
-                _this.preload(index);
-            });
-            else this.preload(index);
-        }
-    };
-    /**
-     * @desc Remove dummy image content and load next slides
-     * Called only for the first time if zoomFromOrigin animation is enabled
-     * @param index
-     * @param $currentSlide
-     * @param speed
-     */ LightGallery.prototype.loadContentOnFirstSlideLoad = function(index, $currentSlide, speed) {
-        var _this = this;
-        setTimeout(function() {
-            $currentSlide.find(".lg-dummy-img").remove();
-            $currentSlide.removeClass("lg-first-slide");
-            _this.outer.removeClass("lg-first-slide-loading");
-            _this.isDummyImageRemoved = true;
-            _this.preload(index);
-        }, speed + 300);
-    };
-    LightGallery.prototype.getItemsToBeInsertedToDom = function(index, prevIndex, numberOfItems) {
-        var _this = this;
-        if (numberOfItems === void 0) numberOfItems = 0;
-        var itemsToBeInsertedToDom = [];
-        // Minimum 2 items should be there
-        var possibleNumberOfItems = Math.max(numberOfItems, 3);
-        possibleNumberOfItems = Math.min(possibleNumberOfItems, this.galleryItems.length);
-        var prevIndexItem = "lg-item-" + this.lgId + "-" + prevIndex;
-        if (this.galleryItems.length <= 3) {
-            this.galleryItems.forEach(function(_element, index) {
-                itemsToBeInsertedToDom.push("lg-item-" + _this.lgId + "-" + index);
-            });
-            return itemsToBeInsertedToDom;
-        }
-        if (index < (this.galleryItems.length - 1) / 2) {
-            for(var idx = index; idx > index - possibleNumberOfItems / 2 && idx >= 0; idx--)itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + idx);
-            var numberOfExistingItems = itemsToBeInsertedToDom.length;
-            for(var idx = 0; idx < possibleNumberOfItems - numberOfExistingItems; idx++)itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + (index + idx + 1));
-        } else {
-            for(var idx = index; idx <= this.galleryItems.length - 1 && idx < index + possibleNumberOfItems / 2; idx++)itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + idx);
-            var numberOfExistingItems = itemsToBeInsertedToDom.length;
-            for(var idx = 0; idx < possibleNumberOfItems - numberOfExistingItems; idx++)itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + (index - idx - 1));
-        }
-        if (this.settings.loop) {
-            if (index === this.galleryItems.length - 1) itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + 0);
-            else if (index === 0) itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + (this.galleryItems.length - 1));
-        }
-        if (itemsToBeInsertedToDom.indexOf(prevIndexItem) === -1) itemsToBeInsertedToDom.push("lg-item-" + this.lgId + "-" + prevIndex);
-        return itemsToBeInsertedToDom;
-    };
-    LightGallery.prototype.organizeSlideItems = function(index, prevIndex) {
-        var _this = this;
-        var itemsToBeInsertedToDom = this.getItemsToBeInsertedToDom(index, prevIndex, this.settings.numberOfSlideItemsInDom);
-        itemsToBeInsertedToDom.forEach(function(item) {
-            if (_this.currentItemsInDom.indexOf(item) === -1) _this.$inner.append('<div id="' + item + '" class="lg-item"></div>');
-        });
-        this.currentItemsInDom.forEach(function(item) {
-            if (itemsToBeInsertedToDom.indexOf(item) === -1) $LG("#" + item).remove();
-        });
-        return itemsToBeInsertedToDom;
-    };
-    /**
-     * Get previous index of the slide
-     */ LightGallery.prototype.getPreviousSlideIndex = function() {
-        var prevIndex = 0;
-        try {
-            var currentItemId = this.outer.find(".lg-current").first().attr("id");
-            prevIndex = parseInt(currentItemId.split("-")[3]) || 0;
-        } catch (error) {
-            prevIndex = 0;
-        }
-        return prevIndex;
-    };
-    LightGallery.prototype.setDownloadValue = function(index) {
-        if (this.settings.download) {
-            var currentGalleryItem = this.galleryItems[index];
-            var hideDownloadBtn = currentGalleryItem.downloadUrl === false || currentGalleryItem.downloadUrl === "false";
-            if (hideDownloadBtn) this.outer.addClass("lg-hide-download");
-            else {
-                var $download = this.getElementById("lg-download");
-                this.outer.removeClass("lg-hide-download");
-                $download.attr("href", currentGalleryItem.downloadUrl || currentGalleryItem.src);
-                if (currentGalleryItem.download) $download.attr("download", currentGalleryItem.download);
-            }
-        }
-    };
-    LightGallery.prototype.makeSlideAnimation = function(direction, currentSlideItem, previousSlideItem) {
-        var _this = this;
-        if (this.lGalleryOn) previousSlideItem.addClass("lg-slide-progress");
-        setTimeout(function() {
-            // remove all transitions
-            _this.outer.addClass("lg-no-trans");
-            _this.outer.find(".lg-item").removeClass("lg-prev-slide lg-next-slide");
-            if (direction === "prev") {
-                //prevslide
-                currentSlideItem.addClass("lg-prev-slide");
-                previousSlideItem.addClass("lg-next-slide");
-            } else {
-                // next slide
-                currentSlideItem.addClass("lg-next-slide");
-                previousSlideItem.addClass("lg-prev-slide");
-            }
-            // give 50 ms for browser to add/remove class
-            setTimeout(function() {
-                _this.outer.find(".lg-item").removeClass("lg-current");
-                currentSlideItem.addClass("lg-current");
-                // reset all transitions
-                _this.outer.removeClass("lg-no-trans");
-            }, 50);
-        }, this.lGalleryOn ? this.settings.slideDelay : 0);
-    };
-    /**
-     * Goto a specific slide.
-     * @param {Number} index - index of the slide
-     * @param {Boolean} fromTouch - true if slide function called via touch event or mouse drag
-     * @param {Boolean} fromThumb - true if slide function called via thumbnail click
-     * @param {String} direction - Direction of the slide(next/prev)
-     * @category lGPublicMethods
-     * @example
-     *  const plugin = lightGallery();
-     *  // to go to 3rd slide
-     *  plugin.slide(2);
-     *
-     */ LightGallery.prototype.slide = function(index, fromTouch, fromThumb, direction) {
-        var _this = this;
-        var prevIndex = this.getPreviousSlideIndex();
-        this.currentItemsInDom = this.organizeSlideItems(index, prevIndex);
-        // Prevent multiple call, Required for hsh plugin
-        if (this.lGalleryOn && prevIndex === index) return;
-        var numberOfGalleryItems = this.galleryItems.length;
-        if (!this.lgBusy) {
-            if (this.settings.counter) this.updateCurrentCounter(index);
-            var currentSlideItem = this.getSlideItem(index);
-            var previousSlideItem_1 = this.getSlideItem(prevIndex);
-            var currentGalleryItem = this.galleryItems[index];
-            var videoInfo = currentGalleryItem.__slideVideoInfo;
-            this.outer.attr("data-lg-slide-type", this.getSlideType(currentGalleryItem));
-            this.setDownloadValue(index);
-            if (videoInfo) {
-                var _a = this.mediaContainerPosition, top_3 = _a.top, bottom = _a.bottom;
-                var videoSize = utils.getSize(this.items[index], this.outer, top_3 + bottom, videoInfo && this.settings.videoMaxSize);
-                this.resizeVideoSlide(index, videoSize);
-            }
-            this.LGel.trigger(lGEvents.beforeSlide, {
-                prevIndex: prevIndex,
-                index: index,
-                fromTouch: !!fromTouch,
-                fromThumb: !!fromThumb
-            });
-            this.lgBusy = true;
-            clearTimeout(this.hideBarTimeout);
-            this.arrowDisable(index);
-            if (!direction) {
-                if (index < prevIndex) direction = "prev";
-                else if (index > prevIndex) direction = "next";
-            }
-            if (!fromTouch) this.makeSlideAnimation(direction, currentSlideItem, previousSlideItem_1);
-            else {
-                this.outer.find(".lg-item").removeClass("lg-prev-slide lg-current lg-next-slide");
-                var touchPrev = void 0;
-                var touchNext = void 0;
-                if (numberOfGalleryItems > 2) {
-                    touchPrev = index - 1;
-                    touchNext = index + 1;
-                    if (index === 0 && prevIndex === numberOfGalleryItems - 1) {
-                        // next slide
-                        touchNext = 0;
-                        touchPrev = numberOfGalleryItems - 1;
-                    } else if (index === numberOfGalleryItems - 1 && prevIndex === 0) {
-                        // prev slide
-                        touchNext = 0;
-                        touchPrev = numberOfGalleryItems - 1;
-                    }
-                } else {
-                    touchPrev = 0;
-                    touchNext = 1;
-                }
-                if (direction === "prev") this.getSlideItem(touchNext).addClass("lg-next-slide");
-                else this.getSlideItem(touchPrev).addClass("lg-prev-slide");
-                currentSlideItem.addClass("lg-current");
-            }
-            // Do not put load content in set timeout as it needs to load immediately when the gallery is opened
-            if (!this.lGalleryOn) this.loadContent(index, true);
-            else setTimeout(function() {
-                _this.loadContent(index, true);
-                // Add title if this.settings.appendSubHtmlTo === lg-sub-html
-                if (_this.settings.appendSubHtmlTo !== ".lg-item") _this.addHtml(index);
-            }, this.settings.speed + 50 + (fromTouch ? 0 : this.settings.slideDelay));
-            setTimeout(function() {
-                _this.lgBusy = false;
-                previousSlideItem_1.removeClass("lg-slide-progress");
-                _this.LGel.trigger(lGEvents.afterSlide, {
-                    prevIndex: prevIndex,
-                    index: index,
-                    fromTouch: fromTouch,
-                    fromThumb: fromThumb
-                });
-            }, (this.lGalleryOn ? this.settings.speed + 100 : 100) + (fromTouch ? 0 : this.settings.slideDelay));
-        }
-        this.index = index;
-    };
-    LightGallery.prototype.updateCurrentCounter = function(index) {
-        this.getElementById("lg-counter-current").html(index + 1 + "");
-    };
-    LightGallery.prototype.updateCounterTotal = function() {
-        this.getElementById("lg-counter-all").html(this.galleryItems.length + "");
-    };
-    LightGallery.prototype.getSlideType = function(item) {
-        if (item.__slideVideoInfo) return "video";
-        else if (item.iframe) return "iframe";
-        else return "image";
-    };
-    LightGallery.prototype.touchMove = function(startCoords, endCoords, e) {
-        var distanceX = endCoords.pageX - startCoords.pageX;
-        var distanceY = endCoords.pageY - startCoords.pageY;
-        var allowSwipe = false;
-        if (this.swipeDirection) allowSwipe = true;
-        else {
-            if (Math.abs(distanceX) > 15) {
-                this.swipeDirection = "horizontal";
-                allowSwipe = true;
-            } else if (Math.abs(distanceY) > 15) {
-                this.swipeDirection = "vertical";
-                allowSwipe = true;
-            }
-        }
-        if (!allowSwipe) return;
-        var $currentSlide = this.getSlideItem(this.index);
-        if (this.swipeDirection === "horizontal") {
-            e === null || e === void 0 || e.preventDefault();
-            // reset opacity and transition duration
-            this.outer.addClass("lg-dragging");
-            // move current slide
-            this.setTranslate($currentSlide, distanceX, 0);
-            // move next and prev slide with current slide
-            var width = $currentSlide.get().offsetWidth;
-            var slideWidthAmount = width * 15 / 100;
-            var gutter = slideWidthAmount - Math.abs(distanceX * 10 / 100);
-            this.setTranslate(this.outer.find(".lg-prev-slide").first(), -width + distanceX - gutter, 0);
-            this.setTranslate(this.outer.find(".lg-next-slide").first(), width + distanceX + gutter, 0);
-        } else if (this.swipeDirection === "vertical") {
-            if (this.settings.swipeToClose) {
-                e === null || e === void 0 || e.preventDefault();
-                this.$container.addClass("lg-dragging-vertical");
-                var opacity = 1 - Math.abs(distanceY) / window.innerHeight;
-                this.$backdrop.css("opacity", opacity);
-                var scale = 1 - Math.abs(distanceY) / (window.innerWidth * 2);
-                this.setTranslate($currentSlide, 0, distanceY, scale, scale);
-                if (Math.abs(distanceY) > 100) this.outer.addClass("lg-hide-items").removeClass("lg-components-open");
-            }
-        }
-    };
-    LightGallery.prototype.touchEnd = function(endCoords, startCoords, event) {
-        var _this = this;
-        var distance;
-        // keep slide animation for any mode while dragg/swipe
-        if (this.settings.mode !== "lg-slide") this.outer.addClass("lg-slide");
-        // set transition duration
-        setTimeout(function() {
-            _this.$container.removeClass("lg-dragging-vertical");
-            _this.outer.removeClass("lg-dragging lg-hide-items").addClass("lg-components-open");
-            var triggerClick = true;
-            if (_this.swipeDirection === "horizontal") {
-                distance = endCoords.pageX - startCoords.pageX;
-                var distanceAbs = Math.abs(endCoords.pageX - startCoords.pageX);
-                if (distance < 0 && distanceAbs > _this.settings.swipeThreshold) {
-                    _this.goToNextSlide(true);
-                    triggerClick = false;
-                } else if (distance > 0 && distanceAbs > _this.settings.swipeThreshold) {
-                    _this.goToPrevSlide(true);
-                    triggerClick = false;
-                }
-            } else if (_this.swipeDirection === "vertical") {
-                distance = Math.abs(endCoords.pageY - startCoords.pageY);
-                if (_this.settings.closable && _this.settings.swipeToClose && distance > 100) {
-                    _this.closeGallery();
-                    return;
-                } else _this.$backdrop.css("opacity", 1);
-            }
-            _this.outer.find(".lg-item").removeAttr("style");
-            if (triggerClick && Math.abs(endCoords.pageX - startCoords.pageX) < 5) {
-                // Trigger click if distance is less than 5 pix
-                var target = $LG(event.target);
-                if (_this.isPosterElement(target)) _this.LGel.trigger(lGEvents.posterClick);
-            }
-            _this.swipeDirection = undefined;
-        });
-        // remove slide class once drag/swipe is completed if mode is not slide
-        setTimeout(function() {
-            if (!_this.outer.hasClass("lg-dragging") && _this.settings.mode !== "lg-slide") _this.outer.removeClass("lg-slide");
-        }, this.settings.speed + 100);
-    };
-    LightGallery.prototype.enableSwipe = function() {
-        var _this = this;
-        var startCoords = {};
-        var endCoords = {};
-        var isMoved = false;
-        var isSwiping = false;
-        if (this.settings.enableSwipe) {
-            this.$inner.on("touchstart.lg", function(e) {
-                _this.dragOrSwipeEnabled = true;
-                var $item = _this.getSlideItem(_this.index);
-                if (($LG(e.target).hasClass("lg-item") || $item.get().contains(e.target)) && !_this.outer.hasClass("lg-zoomed") && !_this.lgBusy && e.touches.length === 1) {
-                    isSwiping = true;
-                    _this.touchAction = "swipe";
-                    _this.manageSwipeClass();
-                    startCoords = {
-                        pageX: e.touches[0].pageX,
-                        pageY: e.touches[0].pageY
-                    };
-                }
-            });
-            this.$inner.on("touchmove.lg", function(e) {
-                if (isSwiping && _this.touchAction === "swipe" && e.touches.length === 1) {
-                    endCoords = {
-                        pageX: e.touches[0].pageX,
-                        pageY: e.touches[0].pageY
-                    };
-                    _this.touchMove(startCoords, endCoords, e);
-                    isMoved = true;
-                }
-            });
-            this.$inner.on("touchend.lg", function(event) {
-                if (_this.touchAction === "swipe") {
-                    if (isMoved) {
-                        isMoved = false;
-                        _this.touchEnd(endCoords, startCoords, event);
-                    } else if (isSwiping) {
-                        var target = $LG(event.target);
-                        if (_this.isPosterElement(target)) _this.LGel.trigger(lGEvents.posterClick);
-                    }
-                    _this.touchAction = undefined;
-                    isSwiping = false;
-                }
-            });
-        }
-    };
-    LightGallery.prototype.enableDrag = function() {
-        var _this = this;
-        var startCoords = {};
-        var endCoords = {};
-        var isDraging = false;
-        var isMoved = false;
-        if (this.settings.enableDrag) {
-            this.outer.on("mousedown.lg", function(e) {
-                _this.dragOrSwipeEnabled = true;
-                var $item = _this.getSlideItem(_this.index);
-                if ($LG(e.target).hasClass("lg-item") || $item.get().contains(e.target)) {
-                    if (!_this.outer.hasClass("lg-zoomed") && !_this.lgBusy) {
-                        e.preventDefault();
-                        if (!_this.lgBusy) {
-                            _this.manageSwipeClass();
-                            startCoords = {
-                                pageX: e.pageX,
-                                pageY: e.pageY
-                            };
-                            isDraging = true;
-                            // ** Fix for webkit cursor issue https://code.google.com/p/chromium/issues/detail?id=26723
-                            _this.outer.get().scrollLeft += 1;
-                            _this.outer.get().scrollLeft -= 1;
-                            // *
-                            _this.outer.removeClass("lg-grab").addClass("lg-grabbing");
-                            _this.LGel.trigger(lGEvents.dragStart);
-                        }
-                    }
-                }
-            });
-            $LG(window).on("mousemove.lg.global" + this.lgId, function(e) {
-                if (isDraging && _this.lgOpened) {
-                    isMoved = true;
-                    endCoords = {
-                        pageX: e.pageX,
-                        pageY: e.pageY
-                    };
-                    _this.touchMove(startCoords, endCoords);
-                    _this.LGel.trigger(lGEvents.dragMove);
-                }
-            });
-            $LG(window).on("mouseup.lg.global" + this.lgId, function(event) {
-                if (!_this.lgOpened) return;
-                var target = $LG(event.target);
-                if (isMoved) {
-                    isMoved = false;
-                    _this.touchEnd(endCoords, startCoords, event);
-                    _this.LGel.trigger(lGEvents.dragEnd);
-                } else if (_this.isPosterElement(target)) _this.LGel.trigger(lGEvents.posterClick);
-                // Prevent execution on click
-                if (isDraging) {
-                    isDraging = false;
-                    _this.outer.removeClass("lg-grabbing").addClass("lg-grab");
-                }
-            });
-        }
-    };
-    LightGallery.prototype.triggerPosterClick = function() {
-        var _this = this;
-        this.$inner.on("click.lg", function(event) {
-            if (!_this.dragOrSwipeEnabled && _this.isPosterElement($LG(event.target))) _this.LGel.trigger(lGEvents.posterClick);
-        });
-    };
-    LightGallery.prototype.manageSwipeClass = function() {
-        var _touchNext = this.index + 1;
-        var _touchPrev = this.index - 1;
-        if (this.settings.loop && this.galleryItems.length > 2) {
-            if (this.index === 0) _touchPrev = this.galleryItems.length - 1;
-            else if (this.index === this.galleryItems.length - 1) _touchNext = 0;
-        }
-        this.outer.find(".lg-item").removeClass("lg-next-slide lg-prev-slide");
-        if (_touchPrev > -1) this.getSlideItem(_touchPrev).addClass("lg-prev-slide");
-        this.getSlideItem(_touchNext).addClass("lg-next-slide");
-    };
-    /**
-     * Go to next slide
-     * @param {Boolean} fromTouch - true if slide function called via touch event
-     * @category lGPublicMethods
-     * @example
-     *  const plugin = lightGallery();
-     *  plugin.goToNextSlide();
-     * @see <a href="/demos/methods/">Demo</a>
-     */ LightGallery.prototype.goToNextSlide = function(fromTouch) {
-        var _this = this;
-        var _loop = this.settings.loop;
-        if (fromTouch && this.galleryItems.length < 3) _loop = false;
-        if (!this.lgBusy) {
-            if (this.index + 1 < this.galleryItems.length) {
-                this.index++;
-                this.LGel.trigger(lGEvents.beforeNextSlide, {
-                    index: this.index
-                });
-                this.slide(this.index, !!fromTouch, false, "next");
-            } else {
-                if (_loop) {
-                    this.index = 0;
-                    this.LGel.trigger(lGEvents.beforeNextSlide, {
-                        index: this.index
-                    });
-                    this.slide(this.index, !!fromTouch, false, "next");
-                } else if (this.settings.slideEndAnimation && !fromTouch) {
-                    this.outer.addClass("lg-right-end");
-                    setTimeout(function() {
-                        _this.outer.removeClass("lg-right-end");
-                    }, 400);
-                }
-            }
-        }
-    };
-    /**
-     * Go to previous slides
-     * @param {Boolean} fromTouch - true if slide function called via touch event
-     * @category lGPublicMethods
-     * @example
-     *  const plugin = lightGallery({});
-     *  plugin.goToPrevSlide();
-     * @see <a href="/demos/methods/">Demo</a>
-     *
-     */ LightGallery.prototype.goToPrevSlide = function(fromTouch) {
-        var _this = this;
-        var _loop = this.settings.loop;
-        if (fromTouch && this.galleryItems.length < 3) _loop = false;
-        if (!this.lgBusy) {
-            if (this.index > 0) {
-                this.index--;
-                this.LGel.trigger(lGEvents.beforePrevSlide, {
-                    index: this.index,
-                    fromTouch: fromTouch
-                });
-                this.slide(this.index, !!fromTouch, false, "prev");
-            } else {
-                if (_loop) {
-                    this.index = this.galleryItems.length - 1;
-                    this.LGel.trigger(lGEvents.beforePrevSlide, {
-                        index: this.index,
-                        fromTouch: fromTouch
-                    });
-                    this.slide(this.index, !!fromTouch, false, "prev");
-                } else if (this.settings.slideEndAnimation && !fromTouch) {
-                    this.outer.addClass("lg-left-end");
-                    setTimeout(function() {
-                        _this.outer.removeClass("lg-left-end");
-                    }, 400);
-                }
-            }
-        }
-    };
-    LightGallery.prototype.keyPress = function() {
-        var _this = this;
-        $LG(window).on("keydown.lg.global" + this.lgId, function(e) {
-            if (_this.lgOpened && _this.settings.escKey === true && e.keyCode === 27) {
-                e.preventDefault();
-                if (_this.settings.allowMediaOverlap && _this.outer.hasClass("lg-can-toggle") && _this.outer.hasClass("lg-components-open")) _this.outer.removeClass("lg-components-open");
-                else _this.closeGallery();
-            }
-            if (_this.lgOpened && _this.galleryItems.length > 1) {
-                if (e.keyCode === 37) {
-                    e.preventDefault();
-                    _this.goToPrevSlide();
-                }
-                if (e.keyCode === 39) {
-                    e.preventDefault();
-                    _this.goToNextSlide();
-                }
-            }
-        });
-    };
-    LightGallery.prototype.arrow = function() {
-        var _this = this;
-        this.getElementById("lg-prev").on("click.lg", function() {
-            _this.goToPrevSlide();
-        });
-        this.getElementById("lg-next").on("click.lg", function() {
-            _this.goToNextSlide();
-        });
-    };
-    LightGallery.prototype.arrowDisable = function(index) {
-        // Disable arrows if settings.hideControlOnEnd is true
-        if (!this.settings.loop && this.settings.hideControlOnEnd) {
-            var $prev = this.getElementById("lg-prev");
-            var $next = this.getElementById("lg-next");
-            if (index + 1 === this.galleryItems.length) $next.attr("disabled", "disabled").addClass("disabled");
-            else $next.removeAttr("disabled").removeClass("disabled");
-            if (index === 0) $prev.attr("disabled", "disabled").addClass("disabled");
-            else $prev.removeAttr("disabled").removeClass("disabled");
-        }
-    };
-    LightGallery.prototype.setTranslate = function($el, xValue, yValue, scaleX, scaleY) {
-        if (scaleX === void 0) scaleX = 1;
-        if (scaleY === void 0) scaleY = 1;
-        $el.css("transform", "translate3d(" + xValue + "px, " + yValue + "px, 0px) scale3d(" + scaleX + ", " + scaleY + ", 1)");
-    };
-    LightGallery.prototype.mousewheel = function() {
-        var _this = this;
-        var lastCall = 0;
-        this.outer.on("wheel.lg", function(e) {
-            if (!e.deltaY || _this.galleryItems.length < 2) return;
-            e.preventDefault();
-            var now = new Date().getTime();
-            if (now - lastCall < 1000) return;
-            lastCall = now;
-            if (e.deltaY > 0) _this.goToNextSlide();
-            else if (e.deltaY < 0) _this.goToPrevSlide();
-        });
-    };
-    LightGallery.prototype.isSlideElement = function(target) {
-        return target.hasClass("lg-outer") || target.hasClass("lg-item") || target.hasClass("lg-img-wrap");
-    };
-    LightGallery.prototype.isPosterElement = function(target) {
-        var playButton = this.getSlideItem(this.index).find(".lg-video-play-button").get();
-        return target.hasClass("lg-video-poster") || target.hasClass("lg-video-play-button") || playButton && playButton.contains(target.get());
-    };
-    /**
-     * Maximize minimize inline gallery.
-     * @category lGPublicMethods
-     */ LightGallery.prototype.toggleMaximize = function() {
-        var _this = this;
-        this.getElementById("lg-maximize").on("click.lg", function() {
-            _this.$container.toggleClass("lg-inline");
-            _this.refreshOnResize();
-        });
-    };
-    LightGallery.prototype.invalidateItems = function() {
-        for(var index = 0; index < this.items.length; index++){
-            var element = this.items[index];
-            var $element = $LG(element);
-            $element.off("click.lgcustom-item-" + $element.attr("data-lg-id"));
-        }
-    };
-    LightGallery.prototype.trapFocus = function() {
-        var _this = this;
-        this.$container.get().focus({
-            preventScroll: true
-        });
-        $LG(window).on("keydown.lg.global" + this.lgId, function(e) {
-            if (!_this.lgOpened) return;
-            var isTabPressed = e.key === "Tab" || e.keyCode === 9;
-            if (!isTabPressed) return;
-            var focusableEls = utils.getFocusableElements(_this.$container.get());
-            var firstFocusableEl = focusableEls[0];
-            var lastFocusableEl = focusableEls[focusableEls.length - 1];
-            if (e.shiftKey) {
-                if (document.activeElement === firstFocusableEl) {
-                    lastFocusableEl.focus();
-                    e.preventDefault();
-                }
-            } else if (document.activeElement === lastFocusableEl) {
-                firstFocusableEl.focus();
-                e.preventDefault();
-            }
-        });
-    };
-    LightGallery.prototype.manageCloseGallery = function() {
-        var _this = this;
-        if (!this.settings.closable) return;
-        var mousedown = false;
-        this.getElementById("lg-close").on("click.lg", function() {
-            _this.closeGallery();
-        });
-        if (this.settings.closeOnTap) {
-            // If you drag the slide and release outside gallery gets close on chrome
-            // for preventing this check mousedown and mouseup happened on .lg-item or lg-outer
-            this.outer.on("mousedown.lg", function(e) {
-                var target = $LG(e.target);
-                if (_this.isSlideElement(target)) mousedown = true;
-                else mousedown = false;
-            });
-            this.outer.on("mousemove.lg", function() {
-                mousedown = false;
-            });
-            this.outer.on("mouseup.lg", function(e) {
-                var target = $LG(e.target);
-                if (_this.isSlideElement(target) && mousedown) {
-                    if (!_this.outer.hasClass("lg-dragging")) _this.closeGallery();
-                }
-            });
-        }
-    };
-    /**
-     * Close lightGallery if it is opened.
-     *
-     * @description If closable is false in the settings, you need to pass true via closeGallery method to force close gallery
-     * @return returns the estimated time to close gallery completely including the close animation duration
-     * @category lGPublicMethods
-     * @example
-     *  const plugin = lightGallery();
-     *  plugin.closeGallery();
-     *
-     */ LightGallery.prototype.closeGallery = function(force) {
-        var _this = this;
-        if (!this.lgOpened || !this.settings.closable && !force) return 0;
-        this.LGel.trigger(lGEvents.beforeClose);
-        if (this.settings.resetScrollPosition && !this.settings.hideScrollbar) $LG(window).scrollTop(this.prevScrollTop);
-        var currentItem = this.items[this.index];
-        var transform;
-        if (this.zoomFromOrigin && currentItem) {
-            var _a = this.mediaContainerPosition, top_4 = _a.top, bottom = _a.bottom;
-            var _b = this.galleryItems[this.index], __slideVideoInfo = _b.__slideVideoInfo, poster = _b.poster;
-            var imageSize = utils.getSize(currentItem, this.outer, top_4 + bottom, __slideVideoInfo && poster && this.settings.videoMaxSize);
-            transform = utils.getTransform(currentItem, this.outer, top_4, bottom, imageSize);
-        }
-        if (this.zoomFromOrigin && transform) {
-            this.outer.addClass("lg-closing lg-zoom-from-image");
-            this.getSlideItem(this.index).addClass("lg-start-end-progress").css("transition-duration", this.settings.startAnimationDuration + "ms").css("transform", transform);
-        } else {
-            this.outer.addClass("lg-hide-items");
-            // lg-zoom-from-image is used for setting the opacity to 1 if zoomFromOrigin is true
-            // If the closing item doesn't have the lg-size attribute, remove this class to avoid the closing css conflicts
-            this.outer.removeClass("lg-zoom-from-image");
-        }
-        // Unbind all events added by lightGallery
-        // @todo
-        //this.$el.off('.lg.tm');
-        this.destroyModules();
-        this.lGalleryOn = false;
-        this.isDummyImageRemoved = false;
-        this.zoomFromOrigin = this.settings.zoomFromOrigin;
-        clearTimeout(this.hideBarTimeout);
-        this.hideBarTimeout = false;
-        $LG("html").removeClass("lg-on");
-        this.outer.removeClass("lg-visible lg-components-open");
-        // Resetting opacity to 0 isd required as  vertical swipe to close function adds inline opacity.
-        this.$backdrop.removeClass("in").css("opacity", 0);
-        var removeTimeout = this.zoomFromOrigin && transform ? Math.max(this.settings.startAnimationDuration, this.settings.backdropDuration) : this.settings.backdropDuration;
-        this.$container.removeClass("lg-show-in");
-        // Once the closign animation is completed and gallery is invisible
-        setTimeout(function() {
-            if (_this.zoomFromOrigin && transform) _this.outer.removeClass("lg-zoom-from-image");
-            _this.$container.removeClass("lg-show");
-            // Reset scrollbar
-            _this.resetScrollBar();
-            // Need to remove inline opacity as it is used in the stylesheet as well
-            _this.$backdrop.removeAttr("style").css("transition-duration", _this.settings.backdropDuration + "ms");
-            _this.outer.removeClass("lg-closing " + _this.settings.startClass);
-            _this.getSlideItem(_this.index).removeClass("lg-start-end-progress");
-            _this.$inner.empty();
-            if (_this.lgOpened) _this.LGel.trigger(lGEvents.afterClose, {
-                instance: _this
-            });
-            if (_this.$container.get()) _this.$container.get().blur();
-            _this.lgOpened = false;
-        }, removeTimeout + 100);
-        return removeTimeout + 100;
-    };
-    LightGallery.prototype.initModules = function() {
-        this.plugins.forEach(function(module) {
-            try {
-                module.init();
-            } catch (err) {
-                console.warn("lightGallery:- make sure lightGallery module is properly initiated");
-            }
-        });
-    };
-    LightGallery.prototype.destroyModules = function(destroy) {
-        this.plugins.forEach(function(module) {
-            try {
-                if (destroy) module.destroy();
-                else module.closeGallery && module.closeGallery();
-            } catch (err) {
-                console.warn("lightGallery:- make sure lightGallery module is properly destroyed");
-            }
-        });
-    };
-    /**
-     * Refresh lightGallery with new set of children.
-     *
-     * @description This is useful to update the gallery when the child elements are changed without calling destroy method.
-     *
-     * If you are using dynamic mode, you can pass the modified array of dynamicEl as the first parameter to refresh the dynamic gallery
-     * @see <a href="/demos/dynamic-mode/">Demo</a>
-     * @category lGPublicMethods
-     * @example
-     *  const plugin = lightGallery();
-     *  // Delete or add children, then call
-     *  plugin.refresh();
-     *
-     */ LightGallery.prototype.refresh = function(galleryItems) {
-        if (!this.settings.dynamic) this.invalidateItems();
-        if (galleryItems) this.galleryItems = galleryItems;
-        else this.galleryItems = this.getItems();
-        this.updateControls();
-        this.openGalleryOnItemClick();
-        this.LGel.trigger(lGEvents.updateSlides);
-    };
-    LightGallery.prototype.updateControls = function() {
-        this.addSlideVideoInfo(this.galleryItems);
-        this.updateCounterTotal();
-        this.manageSingleSlideClassName();
-    };
-    LightGallery.prototype.destroyGallery = function() {
-        this.destroyModules(true);
-        if (!this.settings.dynamic) this.invalidateItems();
-        $LG(window).off(".lg.global" + this.lgId);
-        this.LGel.off(".lg");
-        this.$container.remove();
-    };
-    /**
-     * Destroy lightGallery.
-     * Destroy lightGallery and its plugin instances completely
-     *
-     * @description This method also calls CloseGallery function internally. Returns the time takes to completely close and destroy the instance.
-     * In case if you want to re-initialize lightGallery right after destroying it, initialize it only once the destroy process is completed.
-     * You can use refresh method most of the times.
-     * @category lGPublicMethods
-     * @example
-     *  const plugin = lightGallery();
-     *  plugin.destroy();
-     *
-     */ LightGallery.prototype.destroy = function() {
-        var closeTimeout = this.closeGallery(true);
-        if (closeTimeout) setTimeout(this.destroyGallery.bind(this), closeTimeout);
-        else this.destroyGallery();
-        return closeTimeout;
-    };
-    return LightGallery;
-}();
-function lightGallery(el, options) {
-    return new LightGallery(el, options);
-}
-exports.default = lightGallery;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kcXuJ":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _scrollreveal = require("scrollreveal");
-var _scrollrevealDefault = parcelHelpers.interopDefault(_scrollreveal);
-(0, _scrollrevealDefault.default)({
-    easing: "ease"
-});
-(0, _scrollrevealDefault.default)().reveal(".hero__content, .delivery__content, .slider, .app__content,  .catalog__inner, .filter, .sort, .single__content, .tabs, .recent__content", {
-    duration: 1200,
-    distance: "20px",
-    delay: "100",
-    origin: "top"
-});
-(0, _scrollrevealDefault.default)().reveal(".hero__image, .delivery__image, .app__image", {
-    duration: 1000,
-    distance: "20px",
-    delay: "100",
-    origin: "right"
-});
-(0, _scrollrevealDefault.default)().reveal(".delivery__image", {
-    origin: "left"
-});
-(0, _scrollrevealDefault.default)().reveal(".title", {
-    duration: 1200,
-    distance: "20px",
-    delay: "100",
-    origin: "top"
-});
-(0, _scrollrevealDefault.default)().reveal(".footer__top, .categories__btn, .pagination", {
-    duration: 800,
-    distance: "25px",
-    delay: "100",
-    origin: "bottom"
-});
-
-},{"scrollreveal":"2exAg","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2exAg":[function(require,module,exports) {
-/*! @license ScrollReveal v4.0.9
-
-	Copyright 2021 Fisssion LLC.
-
-	Licensed under the GNU General Public License 3.0 for
-	compatible open source projects and non-commercial use.
-
-	For commercial sites, themes, projects, and applications,
-	keep your source code private/proprietary by purchasing
-	a commercial license from https://scrollrevealjs.org/
-*/ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _tealight = require("tealight");
-var _tealightDefault = parcelHelpers.interopDefault(_tealight);
-var _rematrix = require("rematrix");
-var _miniraf = require("miniraf");
-var _minirafDefault = parcelHelpers.interopDefault(_miniraf);
-var defaults = {
-    delay: 0,
-    distance: "0",
-    duration: 600,
-    easing: "cubic-bezier(0.5, 0, 0, 1)",
-    interval: 0,
-    opacity: 0,
-    origin: "bottom",
-    rotate: {
-        x: 0,
-        y: 0,
-        z: 0
-    },
-    scale: 1,
-    cleanup: false,
-    container: document.documentElement,
-    desktop: true,
-    mobile: true,
-    reset: false,
-    useDelay: "always",
-    viewFactor: 0.0,
-    viewOffset: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0
-    },
-    afterReset: function afterReset() {},
-    afterReveal: function afterReveal() {},
-    beforeReset: function beforeReset() {},
-    beforeReveal: function beforeReveal() {}
-};
-function failure() {
-    document.documentElement.classList.remove("sr");
-    return {
-        clean: function clean() {},
-        destroy: function destroy() {},
-        reveal: function reveal() {},
-        sync: function sync() {},
-        get noop () {
-            return true;
-        }
-    };
-}
-function success() {
-    document.documentElement.classList.add("sr");
-    if (document.body) document.body.style.height = "100%";
-    else document.addEventListener("DOMContentLoaded", function() {
-        document.body.style.height = "100%";
-    });
-}
-var mount = {
-    success: success,
-    failure: failure
-};
-function isObject(x) {
-    return x !== null && x instanceof Object && (x.constructor === Object || Object.prototype.toString.call(x) === "[object Object]");
-}
-function each(collection, callback) {
-    if (isObject(collection)) {
-        var keys = Object.keys(collection);
-        return keys.forEach(function(key) {
-            return callback(collection[key], key, collection);
-        });
-    }
-    if (collection instanceof Array) return collection.forEach(function(item, i) {
-        return callback(item, i, collection);
-    });
-    throw new TypeError("Expected either an array or object literal.");
-}
-function logger(message) {
-    var details = [], len = arguments.length - 1;
-    while(len-- > 0)details[len] = arguments[len + 1];
-    if (this.constructor.debug && console) {
-        var report = "%cScrollReveal: " + message;
-        details.forEach(function(detail) {
-            return report += "\n — " + detail;
-        });
-        console.log(report, "color: #ea654b;"); // eslint-disable-line no-console
-    }
-}
-function rinse() {
-    var this$1 = this;
-    var struct = function() {
-        return {
-            active: [],
-            stale: []
-        };
-    };
-    var elementIds = struct();
-    var sequenceIds = struct();
-    var containerIds = struct();
-    /**
-	 * Take stock of active element IDs.
-	 */ try {
-        each((0, _tealightDefault.default)("[data-sr-id]"), function(node) {
-            var id = parseInt(node.getAttribute("data-sr-id"));
-            elementIds.active.push(id);
-        });
-    } catch (e) {
-        throw e;
-    }
-    /**
-	 * Destroy stale elements.
-	 */ each(this.store.elements, function(element) {
-        if (elementIds.active.indexOf(element.id) === -1) elementIds.stale.push(element.id);
-    });
-    each(elementIds.stale, function(staleId) {
-        return delete this$1.store.elements[staleId];
-    });
-    /**
-	 * Take stock of active container and sequence IDs.
-	 */ each(this.store.elements, function(element) {
-        if (containerIds.active.indexOf(element.containerId) === -1) containerIds.active.push(element.containerId);
-        if (element.hasOwnProperty("sequence")) {
-            if (sequenceIds.active.indexOf(element.sequence.id) === -1) sequenceIds.active.push(element.sequence.id);
-        }
-    });
-    /**
-	 * Destroy stale containers.
-	 */ each(this.store.containers, function(container) {
-        if (containerIds.active.indexOf(container.id) === -1) containerIds.stale.push(container.id);
-    });
-    each(containerIds.stale, function(staleId) {
-        var stale = this$1.store.containers[staleId].node;
-        stale.removeEventListener("scroll", this$1.delegate);
-        stale.removeEventListener("resize", this$1.delegate);
-        delete this$1.store.containers[staleId];
-    });
-    /**
-	 * Destroy stale sequences.
-	 */ each(this.store.sequences, function(sequence) {
-        if (sequenceIds.active.indexOf(sequence.id) === -1) sequenceIds.stale.push(sequence.id);
-    });
-    each(sequenceIds.stale, function(staleId) {
-        return delete this$1.store.sequences[staleId];
-    });
-}
-var getPrefixedCssProp = function() {
-    var properties = {};
-    var style = document.documentElement.style;
-    function getPrefixedCssProperty(name, source) {
-        if (source === void 0) source = style;
-        if (name && typeof name === "string") {
-            if (properties[name]) return properties[name];
-            if (typeof source[name] === "string") return properties[name] = name;
-            if (typeof source["-webkit-" + name] === "string") return properties[name] = "-webkit-" + name;
-            throw new RangeError('Unable to find "' + name + '" style property.');
-        }
-        throw new TypeError("Expected a string.");
-    }
-    getPrefixedCssProperty.clearCache = function() {
-        return properties = {};
-    };
-    return getPrefixedCssProperty;
-}();
-function style(element) {
-    var computed = window.getComputedStyle(element.node);
-    var position = computed.position;
-    var config = element.config;
-    /**
-	 * Generate inline styles
-	 */ var inline = {};
-    var inlineStyle = element.node.getAttribute("style") || "";
-    var inlineMatch = inlineStyle.match(/[\w-]+\s*:\s*[^;]+\s*/gi) || [];
-    inline.computed = inlineMatch ? inlineMatch.map(function(m) {
-        return m.trim();
-    }).join("; ") + ";" : "";
-    inline.generated = inlineMatch.some(function(m) {
-        return m.match(/visibility\s?:\s?visible/i);
-    }) ? inline.computed : inlineMatch.concat([
-        "visibility: visible"
-    ]).map(function(m) {
-        return m.trim();
-    }).join("; ") + ";";
-    /**
-	 * Generate opacity styles
-	 */ var computedOpacity = parseFloat(computed.opacity);
-    var configOpacity = !isNaN(parseFloat(config.opacity)) ? parseFloat(config.opacity) : parseFloat(computed.opacity);
-    var opacity = {
-        computed: computedOpacity !== configOpacity ? "opacity: " + computedOpacity + ";" : "",
-        generated: computedOpacity !== configOpacity ? "opacity: " + configOpacity + ";" : ""
-    };
-    /**
-	 * Generate transformation styles
-	 */ var transformations = [];
-    if (parseFloat(config.distance)) {
-        var axis = config.origin === "top" || config.origin === "bottom" ? "Y" : "X";
-        /**
-		 * Let’s make sure our our pixel distances are negative for top and left.
-		 * e.g. { origin: 'top', distance: '25px' } starts at `top: -25px` in CSS.
-		 */ var distance = config.distance;
-        if (config.origin === "top" || config.origin === "left") distance = /^-/.test(distance) ? distance.substr(1) : "-" + distance;
-        var ref = distance.match(/(^-?\d+\.?\d?)|(em$|px$|%$)/g);
-        var value = ref[0];
-        var unit = ref[1];
-        switch(unit){
-            case "em":
-                distance = parseInt(computed.fontSize) * value;
-                break;
-            case "px":
-                distance = value;
-                break;
-            case "%":
-                /**
-				 * Here we use `getBoundingClientRect` instead of
-				 * the existing data attached to `element.geometry`
-				 * because only the former includes any transformations
-				 * current applied to the element.
-				 *
-				 * If that behavior ends up being unintuitive, this
-				 * logic could instead utilize `element.geometry.height`
-				 * and `element.geoemetry.width` for the distance calculation
-				 */ distance = axis === "Y" ? element.node.getBoundingClientRect().height * value / 100 : element.node.getBoundingClientRect().width * value / 100;
-                break;
-            default:
-                throw new RangeError("Unrecognized or missing distance unit.");
-        }
-        if (axis === "Y") transformations.push((0, _rematrix.translateY)(distance));
-        else transformations.push((0, _rematrix.translateX)(distance));
-    }
-    if (config.rotate.x) transformations.push((0, _rematrix.rotateX)(config.rotate.x));
-    if (config.rotate.y) transformations.push((0, _rematrix.rotateY)(config.rotate.y));
-    if (config.rotate.z) transformations.push((0, _rematrix.rotateZ)(config.rotate.z));
-    if (config.scale !== 1) {
-        if (config.scale === 0) /**
-			 * The CSS Transforms matrix interpolation specification
-			 * basically disallows transitions of non-invertible
-			 * matrixes, which means browsers won't transition
-			 * elements with zero scale.
-			 *
-			 * That’s inconvenient for the API and developer
-			 * experience, so we simply nudge their value
-			 * slightly above zero; this allows browsers
-			 * to transition our element as expected.
-			 *
-			 * `0.0002` was the smallest number
-			 * that performed across browsers.
-			 */ transformations.push((0, _rematrix.scale)(0.0002));
-        else transformations.push((0, _rematrix.scale)(config.scale));
-    }
-    var transform = {};
-    if (transformations.length) {
-        transform.property = getPrefixedCssProp("transform");
-        /**
-		 * The default computed transform value should be one of:
-		 * undefined || 'none' || 'matrix()' || 'matrix3d()'
-		 */ transform.computed = {
-            raw: computed[transform.property],
-            matrix: (0, _rematrix.parse)(computed[transform.property])
-        };
-        transformations.unshift(transform.computed.matrix);
-        var product = transformations.reduce((0, _rematrix.multiply));
-        transform.generated = {
-            initial: transform.property + ": matrix3d(" + product.join(", ") + ");",
-            final: transform.property + ": matrix3d(" + transform.computed.matrix.join(", ") + ");"
-        };
-    } else transform.generated = {
-        initial: "",
-        final: ""
-    };
-    /**
-	 * Generate transition styles
-	 */ var transition = {};
-    if (opacity.generated || transform.generated.initial) {
-        transition.property = getPrefixedCssProp("transition");
-        transition.computed = computed[transition.property];
-        transition.fragments = [];
-        var delay = config.delay;
-        var duration = config.duration;
-        var easing = config.easing;
-        if (opacity.generated) transition.fragments.push({
-            delayed: "opacity " + duration / 1000 + "s " + easing + " " + delay / 1000 + "s",
-            instant: "opacity " + duration / 1000 + "s " + easing + " 0s"
-        });
-        if (transform.generated.initial) transition.fragments.push({
-            delayed: transform.property + " " + duration / 1000 + "s " + easing + " " + delay / 1000 + "s",
-            instant: transform.property + " " + duration / 1000 + "s " + easing + " 0s"
-        });
-        /**
-		 * The default computed transition property should be undefined, or one of:
-		 * '' || 'none 0s ease 0s' || 'all 0s ease 0s' || 'all 0s 0s cubic-bezier()'
-		 */ var hasCustomTransition = transition.computed && !transition.computed.match(/all 0s|none 0s/);
-        if (hasCustomTransition) transition.fragments.unshift({
-            delayed: transition.computed,
-            instant: transition.computed
-        });
-        var composed = transition.fragments.reduce(function(composition, fragment, i) {
-            composition.delayed += i === 0 ? fragment.delayed : ", " + fragment.delayed;
-            composition.instant += i === 0 ? fragment.instant : ", " + fragment.instant;
-            return composition;
-        }, {
-            delayed: "",
-            instant: ""
-        });
-        transition.generated = {
-            delayed: transition.property + ": " + composed.delayed + ";",
-            instant: transition.property + ": " + composed.instant + ";"
-        };
-    } else transition.generated = {
-        delayed: "",
-        instant: ""
-    };
-    return {
-        inline: inline,
-        opacity: opacity,
-        position: position,
-        transform: transform,
-        transition: transition
-    };
-}
-/**
- * apply a CSS string to an element using the CSSOM (element.style) rather
- * than setAttribute, which may violate the content security policy.
- *
- * @param {Node}   [el]  Element to receive styles.
- * @param {string} [declaration] Styles to apply.
- */ function applyStyle(el, declaration) {
-    declaration.split(";").forEach(function(pair) {
-        var ref = pair.split(":");
-        var property = ref[0];
-        var value = ref.slice(1);
-        if (property && value) el.style[property.trim()] = value.join(":");
-    });
-}
-function clean(target) {
-    var this$1 = this;
-    var dirty;
-    try {
-        each((0, _tealightDefault.default)(target), function(node) {
-            var id = node.getAttribute("data-sr-id");
-            if (id !== null) {
-                dirty = true;
-                var element = this$1.store.elements[id];
-                if (element.callbackTimer) window.clearTimeout(element.callbackTimer.clock);
-                applyStyle(element.node, element.styles.inline.generated);
-                node.removeAttribute("data-sr-id");
-                delete this$1.store.elements[id];
-            }
-        });
-    } catch (e) {
-        return logger.call(this, "Clean failed.", e.message);
-    }
-    if (dirty) try {
-        rinse.call(this);
-    } catch (e) {
-        return logger.call(this, "Clean failed.", e.message);
-    }
-}
-function destroy() {
-    var this$1 = this;
-    /**
-	 * Remove all generated styles and element ids
-	 */ each(this.store.elements, function(element) {
-        applyStyle(element.node, element.styles.inline.generated);
-        element.node.removeAttribute("data-sr-id");
-    });
-    /**
-	 * Remove all event listeners.
-	 */ each(this.store.containers, function(container) {
-        var target = container.node === document.documentElement ? window : container.node;
-        target.removeEventListener("scroll", this$1.delegate);
-        target.removeEventListener("resize", this$1.delegate);
-    });
-    /**
-	 * Clear all data from the store
-	 */ this.store = {
-        containers: {},
-        elements: {},
-        history: [],
-        sequences: {}
-    };
-}
-function deepAssign(target) {
-    var sources = [], len = arguments.length - 1;
-    while(len-- > 0)sources[len] = arguments[len + 1];
-    if (isObject(target)) {
-        each(sources, function(source) {
-            each(source, function(data, key) {
-                if (isObject(data)) {
-                    if (!target[key] || !isObject(target[key])) target[key] = {};
-                    deepAssign(target[key], data);
-                } else target[key] = data;
-            });
-        });
-        return target;
-    } else throw new TypeError("Target must be an object literal.");
-}
-function isMobile(agent) {
-    if (agent === void 0) agent = navigator.userAgent;
-    return /Android|iPhone|iPad|iPod/i.test(agent);
-}
-var nextUniqueId = function() {
-    var uid = 0;
-    return function() {
-        return uid++;
-    };
-}();
-function initialize() {
-    var this$1 = this;
-    rinse.call(this);
-    each(this.store.elements, function(element) {
-        var styles = [
-            element.styles.inline.generated
-        ];
-        if (element.visible) {
-            styles.push(element.styles.opacity.computed);
-            styles.push(element.styles.transform.generated.final);
-            element.revealed = true;
-        } else {
-            styles.push(element.styles.opacity.generated);
-            styles.push(element.styles.transform.generated.initial);
-            element.revealed = false;
-        }
-        applyStyle(element.node, styles.filter(function(s) {
-            return s !== "";
-        }).join(" "));
-    });
-    each(this.store.containers, function(container) {
-        var target = container.node === document.documentElement ? window : container.node;
-        target.addEventListener("scroll", this$1.delegate);
-        target.addEventListener("resize", this$1.delegate);
-    });
-    /**
-	 * Manually invoke delegate once to capture
-	 * element and container dimensions, container
-	 * scroll position, and trigger any valid reveals
-	 */ this.delegate();
-    /**
-	 * Wipe any existing `setTimeout` now
-	 * that initialization has completed.
-	 */ this.initTimeout = null;
-}
-function animate(element, force) {
-    if (force === void 0) force = {};
-    var pristine = force.pristine || this.pristine;
-    var delayed = element.config.useDelay === "always" || element.config.useDelay === "onload" && pristine || element.config.useDelay === "once" && !element.seen;
-    var shouldReveal = element.visible && !element.revealed;
-    var shouldReset = !element.visible && element.revealed && element.config.reset;
-    if (force.reveal || shouldReveal) return triggerReveal.call(this, element, delayed);
-    if (force.reset || shouldReset) return triggerReset.call(this, element);
-}
-function triggerReveal(element, delayed) {
-    var styles = [
-        element.styles.inline.generated,
-        element.styles.opacity.computed,
-        element.styles.transform.generated.final
-    ];
-    if (delayed) styles.push(element.styles.transition.generated.delayed);
-    else styles.push(element.styles.transition.generated.instant);
-    element.revealed = element.seen = true;
-    applyStyle(element.node, styles.filter(function(s) {
-        return s !== "";
-    }).join(" "));
-    registerCallbacks.call(this, element, delayed);
-}
-function triggerReset(element) {
-    var styles = [
-        element.styles.inline.generated,
-        element.styles.opacity.generated,
-        element.styles.transform.generated.initial,
-        element.styles.transition.generated.instant
-    ];
-    element.revealed = false;
-    applyStyle(element.node, styles.filter(function(s) {
-        return s !== "";
-    }).join(" "));
-    registerCallbacks.call(this, element);
-}
-function registerCallbacks(element, isDelayed) {
-    var this$1 = this;
-    var duration = isDelayed ? element.config.duration + element.config.delay : element.config.duration;
-    var beforeCallback = element.revealed ? element.config.beforeReveal : element.config.beforeReset;
-    var afterCallback = element.revealed ? element.config.afterReveal : element.config.afterReset;
-    var elapsed = 0;
-    if (element.callbackTimer) {
-        elapsed = Date.now() - element.callbackTimer.start;
-        window.clearTimeout(element.callbackTimer.clock);
-    }
-    beforeCallback(element.node);
-    element.callbackTimer = {
-        start: Date.now(),
-        clock: window.setTimeout(function() {
-            afterCallback(element.node);
-            element.callbackTimer = null;
-            if (element.revealed && !element.config.reset && element.config.cleanup) clean.call(this$1, element.node);
-        }, duration - elapsed)
-    };
-}
-function sequence(element, pristine) {
-    if (pristine === void 0) pristine = this.pristine;
-    /**
-	 * We first check if the element should reset.
-	 */ if (!element.visible && element.revealed && element.config.reset) return animate.call(this, element, {
-        reset: true
-    });
-    var seq = this.store.sequences[element.sequence.id];
-    var i = element.sequence.index;
-    if (seq) {
-        var visible = new SequenceModel(seq, "visible", this.store);
-        var revealed = new SequenceModel(seq, "revealed", this.store);
-        seq.models = {
-            visible: visible,
-            revealed: revealed
-        };
-        /**
-		 * If the sequence has no revealed members,
-		 * then we reveal the first visible element
-		 * within that sequence.
-		 *
-		 * The sequence then cues a recursive call
-		 * in both directions.
-		 */ if (!revealed.body.length) {
-            var nextId = seq.members[visible.body[0]];
-            var nextElement = this.store.elements[nextId];
-            if (nextElement) {
-                cue.call(this, seq, visible.body[0], -1, pristine);
-                cue.call(this, seq, visible.body[0], 1, pristine);
-                return animate.call(this, nextElement, {
-                    reveal: true,
-                    pristine: pristine
-                });
-            }
-        }
-        /**
-		 * If our element isn’t resetting, we check the
-		 * element sequence index against the head, and
-		 * then the foot of the sequence.
-		 */ if (!seq.blocked.head && i === [].concat(revealed.head).pop() && i >= [].concat(visible.body).shift()) {
-            cue.call(this, seq, i, -1, pristine);
-            return animate.call(this, element, {
-                reveal: true,
-                pristine: pristine
-            });
-        }
-        if (!seq.blocked.foot && i === [].concat(revealed.foot).shift() && i <= [].concat(visible.body).pop()) {
-            cue.call(this, seq, i, 1, pristine);
-            return animate.call(this, element, {
-                reveal: true,
-                pristine: pristine
-            });
-        }
-    }
-}
-function Sequence(interval) {
-    var i = Math.abs(interval);
-    if (!isNaN(i)) {
-        this.id = nextUniqueId();
-        this.interval = Math.max(i, 16);
-        this.members = [];
-        this.models = {};
-        this.blocked = {
-            head: false,
-            foot: false
-        };
-    } else throw new RangeError("Invalid sequence interval.");
-}
-function SequenceModel(seq, prop, store) {
-    var this$1 = this;
-    this.head = [];
-    this.body = [];
-    this.foot = [];
-    each(seq.members, function(id, index) {
-        var element = store.elements[id];
-        if (element && element[prop]) this$1.body.push(index);
-    });
-    if (this.body.length) each(seq.members, function(id, index) {
-        var element = store.elements[id];
-        if (element && !element[prop]) {
-            if (index < this$1.body[0]) this$1.head.push(index);
-            else this$1.foot.push(index);
-        }
-    });
-}
-function cue(seq, i, direction, pristine) {
-    var this$1 = this;
-    var blocked = [
-        "head",
-        null,
-        "foot"
-    ][1 + direction];
-    var nextId = seq.members[i + direction];
-    var nextElement = this.store.elements[nextId];
-    seq.blocked[blocked] = true;
-    setTimeout(function() {
-        seq.blocked[blocked] = false;
-        if (nextElement) sequence.call(this$1, nextElement, pristine);
-    }, seq.interval);
-}
-function reveal(target, options, syncing) {
-    var this$1 = this;
-    if (options === void 0) options = {};
-    if (syncing === void 0) syncing = false;
-    var containerBuffer = [];
-    var sequence$$1;
-    var interval = options.interval || defaults.interval;
-    try {
-        if (interval) sequence$$1 = new Sequence(interval);
-        var nodes = (0, _tealightDefault.default)(target);
-        if (!nodes.length) throw new Error("Invalid reveal target.");
-        var elements = nodes.reduce(function(elementBuffer, elementNode) {
-            var element = {};
-            var existingId = elementNode.getAttribute("data-sr-id");
-            if (existingId) {
-                deepAssign(element, this$1.store.elements[existingId]);
-                /**
-				 * In order to prevent previously generated styles
-				 * from throwing off the new styles, the style tag
-				 * has to be reverted to its pre-reveal state.
-				 */ applyStyle(element.node, element.styles.inline.computed);
-            } else {
-                element.id = nextUniqueId();
-                element.node = elementNode;
-                element.seen = false;
-                element.revealed = false;
-                element.visible = false;
-            }
-            var config = deepAssign({}, element.config || this$1.defaults, options);
-            if (!config.mobile && isMobile() || !config.desktop && !isMobile()) {
-                if (existingId) clean.call(this$1, element);
-                return elementBuffer // skip elements that are disabled
-                ;
-            }
-            var containerNode = (0, _tealightDefault.default)(config.container)[0];
-            if (!containerNode) throw new Error("Invalid container.");
-            if (!containerNode.contains(elementNode)) return elementBuffer // skip elements found outside the container
-            ;
-            var containerId;
-            containerId = getContainerId(containerNode, containerBuffer, this$1.store.containers);
-            if (containerId === null) {
-                containerId = nextUniqueId();
-                containerBuffer.push({
-                    id: containerId,
-                    node: containerNode
-                });
-            }
-            element.config = config;
-            element.containerId = containerId;
-            element.styles = style(element);
-            if (sequence$$1) {
-                element.sequence = {
-                    id: sequence$$1.id,
-                    index: sequence$$1.members.length
-                };
-                sequence$$1.members.push(element.id);
-            }
-            elementBuffer.push(element);
-            return elementBuffer;
-        }, []);
-        /**
-		 * Modifying the DOM via setAttribute needs to be handled
-		 * separately from reading computed styles in the map above
-		 * for the browser to batch DOM changes (limiting reflows)
-		 */ each(elements, function(element) {
-            this$1.store.elements[element.id] = element;
-            element.node.setAttribute("data-sr-id", element.id);
-        });
-    } catch (e) {
-        return logger.call(this, "Reveal failed.", e.message);
-    }
-    /**
-	 * Now that element set-up is complete...
-	 * Let’s commit any container and sequence data we have to the store.
-	 */ each(containerBuffer, function(container) {
-        this$1.store.containers[container.id] = {
-            id: container.id,
-            node: container.node
-        };
-    });
-    if (sequence$$1) this.store.sequences[sequence$$1.id] = sequence$$1;
-    /**
-	 * If reveal wasn't invoked by sync, we want to
-	 * make sure to add this call to the history.
-	 */ if (syncing !== true) {
-        this.store.history.push({
-            target: target,
-            options: options
-        });
-        /**
-		 * Push initialization to the event queue, giving
-		 * multiple reveal calls time to be interpreted.
-		 */ if (this.initTimeout) window.clearTimeout(this.initTimeout);
-        this.initTimeout = window.setTimeout(initialize.bind(this), 0);
-    }
-}
-function getContainerId(node) {
-    var collections = [], len = arguments.length - 1;
-    while(len-- > 0)collections[len] = arguments[len + 1];
-    var id = null;
-    each(collections, function(collection) {
-        each(collection, function(container) {
-            if (id === null && container.node === node) id = container.id;
-        });
-    });
-    return id;
-}
-/**
- * Re-runs the reveal method for each record stored in history,
- * for capturing new content asynchronously loaded into the DOM.
- */ function sync() {
-    var this$1 = this;
-    each(this.store.history, function(record) {
-        reveal.call(this$1, record.target, record.options, true);
-    });
-    initialize.call(this);
-}
-var polyfill = function(x) {
-    return (x > 0) - (x < 0) || +x;
-};
-var mathSign = Math.sign || polyfill;
-function getGeometry(target, isContainer) {
-    /**
-	 * We want to ignore padding and scrollbars for container elements.
-	 * More information here: https://goo.gl/vOZpbz
-	 */ var height = isContainer ? target.node.clientHeight : target.node.offsetHeight;
-    var width = isContainer ? target.node.clientWidth : target.node.offsetWidth;
-    var offsetTop = 0;
-    var offsetLeft = 0;
-    var node = target.node;
-    do {
-        if (!isNaN(node.offsetTop)) offsetTop += node.offsetTop;
-        if (!isNaN(node.offsetLeft)) offsetLeft += node.offsetLeft;
-        node = node.offsetParent;
-    }while (node);
-    return {
-        bounds: {
-            top: offsetTop,
-            right: offsetLeft + width,
-            bottom: offsetTop + height,
-            left: offsetLeft
-        },
-        height: height,
-        width: width
-    };
-}
-function getScrolled(container) {
-    var top, left;
-    if (container.node === document.documentElement) {
-        top = window.pageYOffset;
-        left = window.pageXOffset;
-    } else {
-        top = container.node.scrollTop;
-        left = container.node.scrollLeft;
-    }
-    return {
-        top: top,
-        left: left
-    };
-}
-function isElementVisible(element) {
-    if (element === void 0) element = {};
-    var container = this.store.containers[element.containerId];
-    if (!container) return;
-    var viewFactor = Math.max(0, Math.min(1, element.config.viewFactor));
-    var viewOffset = element.config.viewOffset;
-    var elementBounds = {
-        top: element.geometry.bounds.top + element.geometry.height * viewFactor,
-        right: element.geometry.bounds.right - element.geometry.width * viewFactor,
-        bottom: element.geometry.bounds.bottom - element.geometry.height * viewFactor,
-        left: element.geometry.bounds.left + element.geometry.width * viewFactor
-    };
-    var containerBounds = {
-        top: container.geometry.bounds.top + container.scroll.top + viewOffset.top,
-        right: container.geometry.bounds.right + container.scroll.left - viewOffset.right,
-        bottom: container.geometry.bounds.bottom + container.scroll.top - viewOffset.bottom,
-        left: container.geometry.bounds.left + container.scroll.left + viewOffset.left
-    };
-    return elementBounds.top < containerBounds.bottom && elementBounds.right > containerBounds.left && elementBounds.bottom > containerBounds.top && elementBounds.left < containerBounds.right || element.styles.position === "fixed";
-}
-function delegate(event, elements) {
-    var this$1 = this;
-    if (event === void 0) event = {
-        type: "init"
-    };
-    if (elements === void 0) elements = this.store.elements;
-    (0, _minirafDefault.default)(function() {
-        var stale = event.type === "init" || event.type === "resize";
-        each(this$1.store.containers, function(container) {
-            if (stale) container.geometry = getGeometry.call(this$1, container, true);
-            var scroll = getScrolled.call(this$1, container);
-            if (container.scroll) container.direction = {
-                x: mathSign(scroll.left - container.scroll.left),
-                y: mathSign(scroll.top - container.scroll.top)
-            };
-            container.scroll = scroll;
-        });
-        /**
-		 * Due to how the sequencer is implemented, it’s
-		 * important that we update the state of all
-		 * elements, before any animation logic is
-		 * evaluated (in the second loop below).
-		 */ each(elements, function(element) {
-            if (stale || element.geometry === undefined) element.geometry = getGeometry.call(this$1, element);
-            element.visible = isElementVisible.call(this$1, element);
-        });
-        each(elements, function(element) {
-            if (element.sequence) sequence.call(this$1, element);
-            else animate.call(this$1, element);
-        });
-        this$1.pristine = false;
-    });
-}
-function isTransformSupported() {
-    var style = document.documentElement.style;
-    return "transform" in style || "WebkitTransform" in style;
-}
-function isTransitionSupported() {
-    var style = document.documentElement.style;
-    return "transition" in style || "WebkitTransition" in style;
-}
-var version = "4.0.9";
-var boundDelegate;
-var boundDestroy;
-var boundReveal;
-var boundClean;
-var boundSync;
-var config;
-var debug;
-var instance;
-function ScrollReveal(options) {
-    if (options === void 0) options = {};
-    var invokedWithoutNew = typeof this === "undefined" || Object.getPrototypeOf(this) !== ScrollReveal.prototype;
-    if (invokedWithoutNew) return new ScrollReveal(options);
-    if (!ScrollReveal.isSupported()) {
-        logger.call(this, "Instantiation failed.", "This browser is not supported.");
-        return mount.failure();
-    }
-    var buffer;
-    try {
-        buffer = config ? deepAssign({}, config, options) : deepAssign({}, defaults, options);
-    } catch (e) {
-        logger.call(this, "Invalid configuration.", e.message);
-        return mount.failure();
-    }
-    try {
-        var container = (0, _tealightDefault.default)(buffer.container)[0];
-        if (!container) throw new Error("Invalid container.");
-    } catch (e) {
-        logger.call(this, e.message);
-        return mount.failure();
-    }
-    config = buffer;
-    if (!config.mobile && isMobile() || !config.desktop && !isMobile()) {
-        logger.call(this, "This device is disabled.", "desktop: " + config.desktop, "mobile: " + config.mobile);
-        return mount.failure();
-    }
-    mount.success();
-    this.store = {
-        containers: {},
-        elements: {},
-        history: [],
-        sequences: {}
-    };
-    this.pristine = true;
-    boundDelegate = boundDelegate || delegate.bind(this);
-    boundDestroy = boundDestroy || destroy.bind(this);
-    boundReveal = boundReveal || reveal.bind(this);
-    boundClean = boundClean || clean.bind(this);
-    boundSync = boundSync || sync.bind(this);
-    Object.defineProperty(this, "delegate", {
-        get: function() {
-            return boundDelegate;
-        }
-    });
-    Object.defineProperty(this, "destroy", {
-        get: function() {
-            return boundDestroy;
-        }
-    });
-    Object.defineProperty(this, "reveal", {
-        get: function() {
-            return boundReveal;
-        }
-    });
-    Object.defineProperty(this, "clean", {
-        get: function() {
-            return boundClean;
-        }
-    });
-    Object.defineProperty(this, "sync", {
-        get: function() {
-            return boundSync;
-        }
-    });
-    Object.defineProperty(this, "defaults", {
-        get: function() {
-            return config;
-        }
-    });
-    Object.defineProperty(this, "version", {
-        get: function() {
-            return version;
-        }
-    });
-    Object.defineProperty(this, "noop", {
-        get: function() {
-            return false;
-        }
-    });
-    return instance ? instance : instance = this;
-}
-ScrollReveal.isSupported = function() {
-    return isTransformSupported() && isTransitionSupported();
-};
-Object.defineProperty(ScrollReveal, "debug", {
-    get: function() {
-        return debug || false;
-    },
-    set: function(value) {
-        return debug = typeof value === "boolean" ? value : debug;
-    }
-});
-ScrollReveal();
-exports.default = ScrollReveal;
-
-},{"tealight":"9LJi6","rematrix":"iiA0g","miniraf":"cmczW","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9LJi6":[function(require,module,exports) {
-/*! @license Tealight v0.3.6
-
-	Copyright 2018 Fisssion LLC.
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-
-*/ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _isDomNode = require("is-dom-node");
-var _isDomNodeDefault = parcelHelpers.interopDefault(_isDomNode);
-var _isDomNodeList = require("is-dom-node-list");
-var _isDomNodeListDefault = parcelHelpers.interopDefault(_isDomNodeList);
-function tealight(target, context) {
-    if (context === void 0) context = document;
-    if (target instanceof Array) return target.filter((0, _isDomNodeDefault.default));
-    if ((0, _isDomNodeDefault.default)(target)) return [
-        target
-    ];
-    if ((0, _isDomNodeListDefault.default)(target)) return Array.prototype.slice.call(target);
-    if (typeof target === "string") try {
-        var query = context.querySelectorAll(target);
-        return Array.prototype.slice.call(query);
-    } catch (err) {
-        return [];
-    }
-    return [];
-}
-exports.default = tealight;
-
-},{"is-dom-node":"ef65w","is-dom-node-list":"hDni0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ef65w":[function(require,module,exports) {
-/*! @license is-dom-node v1.0.4
-
-	Copyright 2018 Fisssion LLC.
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-
-*/ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-function isDomNode(x) {
-    return typeof window.Node === "object" ? x instanceof window.Node : x !== null && typeof x === "object" && typeof x.nodeType === "number" && typeof x.nodeName === "string";
-}
-exports.default = isDomNode;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hDni0":[function(require,module,exports) {
-/*! @license is-dom-node-list v1.2.1
-
-	Copyright 2018 Fisssion LLC.
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-
-*/ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _isDomNode = require("is-dom-node");
-var _isDomNodeDefault = parcelHelpers.interopDefault(_isDomNode);
-function isDomNodeList(x) {
-    var prototypeToString = Object.prototype.toString.call(x);
-    var regex = /^\[object (HTMLCollection|NodeList|Object)\]$/;
-    return typeof window.NodeList === "object" ? x instanceof window.NodeList : x !== null && typeof x === "object" && typeof x.length === "number" && regex.test(prototypeToString) && (x.length === 0 || (0, _isDomNodeDefault.default)(x[0]));
-}
-exports.default = isDomNodeList;
-
-},{"is-dom-node":"ef65w","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iiA0g":[function(require,module,exports) {
-/*! @license Rematrix v0.3.0
-
-	Copyright 2018 Julian Lloyd.
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in
-	all copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-	THE SOFTWARE.
-*/ /**
- * @module Rematrix
- */ /**
- * Transformation matrices in the browser come in two flavors:
- *
- *  - `matrix` using 6 values (short)
- *  - `matrix3d` using 16 values (long)
- *
- * This utility follows this [conversion guide](https://goo.gl/EJlUQ1)
- * to expand short form matrices to their equivalent long form.
- *
- * @param  {array} source - Accepts both short and long form matrices.
- * @return {array}
- */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "format", ()=>format);
-parcelHelpers.export(exports, "identity", ()=>identity);
-parcelHelpers.export(exports, "inverse", ()=>inverse);
-parcelHelpers.export(exports, "multiply", ()=>multiply);
-parcelHelpers.export(exports, "parse", ()=>parse);
-parcelHelpers.export(exports, "rotate", ()=>rotate);
-parcelHelpers.export(exports, "rotateX", ()=>rotateX);
-parcelHelpers.export(exports, "rotateY", ()=>rotateY);
-parcelHelpers.export(exports, "rotateZ", ()=>rotateZ);
-parcelHelpers.export(exports, "scale", ()=>scale);
-parcelHelpers.export(exports, "scaleX", ()=>scaleX);
-parcelHelpers.export(exports, "scaleY", ()=>scaleY);
-parcelHelpers.export(exports, "scaleZ", ()=>scaleZ);
-parcelHelpers.export(exports, "skew", ()=>skew);
-parcelHelpers.export(exports, "skewX", ()=>skewX);
-parcelHelpers.export(exports, "skewY", ()=>skewY);
-parcelHelpers.export(exports, "toString", ()=>toString);
-parcelHelpers.export(exports, "translate", ()=>translate);
-parcelHelpers.export(exports, "translateX", ()=>translateX);
-parcelHelpers.export(exports, "translateY", ()=>translateY);
-parcelHelpers.export(exports, "translateZ", ()=>translateZ);
-function format(source) {
-    if (source.constructor !== Array) throw new TypeError("Expected array.");
-    if (source.length === 16) return source;
-    if (source.length === 6) {
-        var matrix = identity();
-        matrix[0] = source[0];
-        matrix[1] = source[1];
-        matrix[4] = source[2];
-        matrix[5] = source[3];
-        matrix[12] = source[4];
-        matrix[13] = source[5];
-        return matrix;
-    }
-    throw new RangeError("Expected array with either 6 or 16 values.");
-}
-/**
- * Returns a matrix representing no transformation. The product of any matrix
- * multiplied by the identity matrix will be the original matrix.
- *
- * > **Tip:** Similar to how `5 * 1 === 5`, where `1` is the identity.
- *
- * @return {array}
- */ function identity() {
-    var matrix = [];
-    for(var i = 0; i < 16; i++)i % 5 == 0 ? matrix.push(1) : matrix.push(0);
-    return matrix;
-}
-/**
- * Returns a matrix describing the inverse transformation of the source
- * matrix. The product of any matrix multiplied by its inverse will be the
- * identity matrix.
- *
- * > **Tip:** Similar to how `5 * (1/5) === 1`, where `1/5` is the inverse.
- *
- * @param  {array} source - Accepts both short and long form matrices.
- * @return {array}
- */ function inverse(source) {
-    var m = format(source);
-    var s0 = m[0] * m[5] - m[4] * m[1];
-    var s1 = m[0] * m[6] - m[4] * m[2];
-    var s2 = m[0] * m[7] - m[4] * m[3];
-    var s3 = m[1] * m[6] - m[5] * m[2];
-    var s4 = m[1] * m[7] - m[5] * m[3];
-    var s5 = m[2] * m[7] - m[6] * m[3];
-    var c5 = m[10] * m[15] - m[14] * m[11];
-    var c4 = m[9] * m[15] - m[13] * m[11];
-    var c3 = m[9] * m[14] - m[13] * m[10];
-    var c2 = m[8] * m[15] - m[12] * m[11];
-    var c1 = m[8] * m[14] - m[12] * m[10];
-    var c0 = m[8] * m[13] - m[12] * m[9];
-    var determinant = 1 / (s0 * c5 - s1 * c4 + s2 * c3 + s3 * c2 - s4 * c1 + s5 * c0);
-    if (isNaN(determinant) || determinant === Infinity) throw new Error("Inverse determinant attempted to divide by zero.");
-    return [
-        (m[5] * c5 - m[6] * c4 + m[7] * c3) * determinant,
-        (-m[1] * c5 + m[2] * c4 - m[3] * c3) * determinant,
-        (m[13] * s5 - m[14] * s4 + m[15] * s3) * determinant,
-        (-m[9] * s5 + m[10] * s4 - m[11] * s3) * determinant,
-        (-m[4] * c5 + m[6] * c2 - m[7] * c1) * determinant,
-        (m[0] * c5 - m[2] * c2 + m[3] * c1) * determinant,
-        (-m[12] * s5 + m[14] * s2 - m[15] * s1) * determinant,
-        (m[8] * s5 - m[10] * s2 + m[11] * s1) * determinant,
-        (m[4] * c4 - m[5] * c2 + m[7] * c0) * determinant,
-        (-m[0] * c4 + m[1] * c2 - m[3] * c0) * determinant,
-        (m[12] * s4 - m[13] * s2 + m[15] * s0) * determinant,
-        (-m[8] * s4 + m[9] * s2 - m[11] * s0) * determinant,
-        (-m[4] * c3 + m[5] * c1 - m[6] * c0) * determinant,
-        (m[0] * c3 - m[1] * c1 + m[2] * c0) * determinant,
-        (-m[12] * s3 + m[13] * s1 - m[14] * s0) * determinant,
-        (m[8] * s3 - m[9] * s1 + m[10] * s0) * determinant
-    ];
-}
-/**
- * Returns a 4x4 matrix describing the combined transformations
- * of both arguments.
- *
- * > **Note:** Order is very important. For example, rotating 45°
- * along the Z-axis, followed by translating 500 pixels along the
- * Y-axis... is not the same as translating 500 pixels along the
- * Y-axis, followed by rotating 45° along on the Z-axis.
- *
- * @param  {array} m - Accepts both short and long form matrices.
- * @param  {array} x - Accepts both short and long form matrices.
- * @return {array}
- */ function multiply(m, x) {
-    var fm = format(m);
-    var fx = format(x);
-    var product = [];
-    for(var i = 0; i < 4; i++){
-        var row = [
-            fm[i],
-            fm[i + 4],
-            fm[i + 8],
-            fm[i + 12]
-        ];
-        for(var j = 0; j < 4; j++){
-            var k = j * 4;
-            var col = [
-                fx[k],
-                fx[k + 1],
-                fx[k + 2],
-                fx[k + 3]
-            ];
-            var result = row[0] * col[0] + row[1] * col[1] + row[2] * col[2] + row[3] * col[3];
-            product[i + k] = result;
-        }
-    }
-    return product;
-}
-/**
- * Attempts to return a 4x4 matrix describing the CSS transform
- * matrix passed in, but will return the identity matrix as a
- * fallback.
- *
- * > **Tip:** This method is used to convert a CSS matrix (retrieved as a
- * `string` from computed styles) to its equivalent array format.
- *
- * @param  {string} source - `matrix` or `matrix3d` CSS Transform value.
- * @return {array}
- */ function parse(source) {
-    if (typeof source === "string") {
-        var match = source.match(/matrix(3d)?\(([^)]+)\)/);
-        if (match) {
-            var raw = match[2].split(", ").map(parseFloat);
-            return format(raw);
-        }
-    }
-    return identity();
-}
-/**
- * Returns a 4x4 matrix describing Z-axis rotation.
- *
- * > **Tip:** This is just an alias for `Rematrix.rotateZ` for parity with CSS
- *
- * @param  {number} angle - Measured in degrees.
- * @return {array}
- */ function rotate(angle) {
-    return rotateZ(angle);
-}
-/**
- * Returns a 4x4 matrix describing X-axis rotation.
- *
- * @param  {number} angle - Measured in degrees.
- * @return {array}
- */ function rotateX(angle) {
-    var theta = Math.PI / 180 * angle;
-    var matrix = identity();
-    matrix[5] = matrix[10] = Math.cos(theta);
-    matrix[6] = matrix[9] = Math.sin(theta);
-    matrix[9] *= -1;
-    return matrix;
-}
-/**
- * Returns a 4x4 matrix describing Y-axis rotation.
- *
- * @param  {number} angle - Measured in degrees.
- * @return {array}
- */ function rotateY(angle) {
-    var theta = Math.PI / 180 * angle;
-    var matrix = identity();
-    matrix[0] = matrix[10] = Math.cos(theta);
-    matrix[2] = matrix[8] = Math.sin(theta);
-    matrix[2] *= -1;
-    return matrix;
-}
-/**
- * Returns a 4x4 matrix describing Z-axis rotation.
- *
- * @param  {number} angle - Measured in degrees.
- * @return {array}
- */ function rotateZ(angle) {
-    var theta = Math.PI / 180 * angle;
-    var matrix = identity();
-    matrix[0] = matrix[5] = Math.cos(theta);
-    matrix[1] = matrix[4] = Math.sin(theta);
-    matrix[4] *= -1;
-    return matrix;
-}
-/**
- * Returns a 4x4 matrix describing 2D scaling. The first argument
- * is used for both X and Y-axis scaling, unless an optional
- * second argument is provided to explicitly define Y-axis scaling.
- *
- * @param  {number} scalar    - Decimal multiplier.
- * @param  {number} [scalarY] - Decimal multiplier.
- * @return {array}
- */ function scale(scalar, scalarY) {
-    var matrix = identity();
-    matrix[0] = scalar;
-    matrix[5] = typeof scalarY === "number" ? scalarY : scalar;
-    return matrix;
-}
-/**
- * Returns a 4x4 matrix describing X-axis scaling.
- *
- * @param  {number} scalar - Decimal multiplier.
- * @return {array}
- */ function scaleX(scalar) {
-    var matrix = identity();
-    matrix[0] = scalar;
-    return matrix;
-}
-/**
- * Returns a 4x4 matrix describing Y-axis scaling.
- *
- * @param  {number} scalar - Decimal multiplier.
- * @return {array}
- */ function scaleY(scalar) {
-    var matrix = identity();
-    matrix[5] = scalar;
-    return matrix;
-}
-/**
- * Returns a 4x4 matrix describing Z-axis scaling.
- *
- * @param  {number} scalar - Decimal multiplier.
- * @return {array}
- */ function scaleZ(scalar) {
-    var matrix = identity();
-    matrix[10] = scalar;
-    return matrix;
-}
-/**
- * Returns a 4x4 matrix describing shear. The first argument
- * defines X-axis shearing, and an optional second argument
- * defines Y-axis shearing.
- *
- * @param  {number} angleX   - Measured in degrees.
- * @param  {number} [angleY] - Measured in degrees.
- * @return {array}
- */ function skew(angleX, angleY) {
-    var thetaX = Math.PI / 180 * angleX;
-    var matrix = identity();
-    matrix[4] = Math.tan(thetaX);
-    if (angleY) {
-        var thetaY = Math.PI / 180 * angleY;
-        matrix[1] = Math.tan(thetaY);
-    }
-    return matrix;
-}
-/**
- * Returns a 4x4 matrix describing X-axis shear.
- *
- * @param  {number} angle - Measured in degrees.
- * @return {array}
- */ function skewX(angle) {
-    var theta = Math.PI / 180 * angle;
-    var matrix = identity();
-    matrix[4] = Math.tan(theta);
-    return matrix;
-}
-/**
- * Returns a 4x4 matrix describing Y-axis shear.
- *
- * @param  {number} angle - Measured in degrees
- * @return {array}
- */ function skewY(angle) {
-    var theta = Math.PI / 180 * angle;
-    var matrix = identity();
-    matrix[1] = Math.tan(theta);
-    return matrix;
-}
-/**
- * Returns a CSS Transform property value equivalent to the source matrix.
- *
- * @param  {array} source - Accepts both short and long form matrices.
- * @return {string}
- */ function toString(source) {
-    return "matrix3d(" + format(source).join(", ") + ")";
-}
-/**
- * Returns a 4x4 matrix describing 2D translation. The first
- * argument defines X-axis translation, and an optional second
- * argument defines Y-axis translation.
- *
- * @param  {number} distanceX   - Measured in pixels.
- * @param  {number} [distanceY] - Measured in pixels.
- * @return {array}
- */ function translate(distanceX, distanceY) {
-    var matrix = identity();
-    matrix[12] = distanceX;
-    if (distanceY) matrix[13] = distanceY;
-    return matrix;
-}
-/**
- * Returns a 4x4 matrix describing X-axis translation.
- *
- * @param  {number} distance - Measured in pixels.
- * @return {array}
- */ function translateX(distance) {
-    var matrix = identity();
-    matrix[12] = distance;
-    return matrix;
-}
-/**
- * Returns a 4x4 matrix describing Y-axis translation.
- *
- * @param  {number} distance - Measured in pixels.
- * @return {array}
- */ function translateY(distance) {
-    var matrix = identity();
-    matrix[13] = distance;
-    return matrix;
-}
-/**
- * Returns a 4x4 matrix describing Z-axis translation.
- *
- * @param  {number} distance - Measured in pixels.
- * @return {array}
- */ function translateZ(distance) {
-    var matrix = identity();
-    matrix[14] = distance;
-    return matrix;
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cmczW":[function(require,module,exports) {
-/*! @license miniraf v1.0.0
-
-	Copyright 2018 Fisssion LLC.
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-
-*/ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var polyfill = function() {
-    var clock = Date.now();
-    return function(callback) {
-        var currentTime = Date.now();
-        if (currentTime - clock > 16) {
-            clock = currentTime;
-            callback(currentTime);
-        } else setTimeout(function() {
-            return polyfill(callback);
-        }, 0);
-    };
-}();
-var index = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || polyfill;
-exports.default = index;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gv3s4":[function(require,module,exports) {
+},{}],"gv3s4":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _choicesJs = require("choices.js");
 var _choicesJsDefault = parcelHelpers.interopDefault(_choicesJs);
@@ -20845,26 +18665,62 @@ if (elementChoices.length > 0) elementChoices.forEach((el)=>{
 });
 
 },{}],"dPJMK":[function(require,module,exports) {
-// import Swiper, {
-//   Autoplay,
-//   Pagination,
-//   Navigation,
-// } from 'swiper';
-// const sliderOptions = {
-//   slidesPerView: 1,
-//   modules: [Autoplay, Pagination, Navigation],
-//   dragable: true,
-//   grabCursor: true,
-//   pagination: {
-//     el: '.single-slider__pagination',
-//   },
-//   navigation: {
-//     nextEl: ".product-slider__next",
-//     prevEl: ".product-slider__prev",
-//   },
-// };
-// const productSlider = new Swiper('.product-slider', sliderOptions);
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+var _swiper = require("swiper");
+var _swiperDefault = parcelHelpers.interopDefault(_swiper);
+const sliderOptions = {
+    slidesPerView: 1,
+    modules: [
+        (0, _swiper.Autoplay),
+        (0, _swiper.Pagination),
+        (0, _swiper.Navigation)
+    ],
+    dragable: true,
+    grabCursor: true,
+    pagination: {
+        el: ".product-slider__pagination"
+    },
+    navigation: {
+        nextEl: ".product-slider__next",
+        prevEl: ".product-slider__prev"
+    }
+};
+const sl = new (0, _swiperDefault.default)(".sl", sliderOptions);
+const sliderClose = ()=>{
+    closeBtn = document.querySelector(".product-slider__close");
+    closeBtn.addEventListener("click", ()=>{
+        document.querySelector(".product-page__wrapper").classList.remove("fs");
+        closeBtn.remove();
+    });
+};
+const slides = document.querySelectorAll(".sl .swiper-slide");
+if (slides.length > 0) for(let i = 0; i < slides.length; i++)slides[i].addEventListener("click", (e)=>{
+    if (!document.querySelector(".product-slider__close")) {
+        document.querySelector(".product-page__wrapper").classList.add("fs");
+        e.target.parentNode.parentNode.parentNode.insertAdjacentHTML("beforebegin", '<button class="product-slider__close" type="button" aria-label="закрити"></button>');
+    }
+    setTimeout(()=>{
+        sl.update();
+        sliderClose();
+    });
+});
+
+},{"swiper":"cCbRx","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6HDrZ":[function(require,module,exports) {
+const quantityInput = document.querySelector(".stepper__input");
+const incrementButton = document.querySelector(".stepper__btn--up");
+const decrementButton = document.querySelector(".stepper__btn--down");
+incrementButton.addEventListener("click", ()=>{
+    quantityInput.value = parseInt(quantityInput.value) + 1;
+});
+decrementButton.addEventListener("click", ()=>{
+    if (parseInt(quantityInput.value) > 0) quantityInput.value = parseInt(quantityInput.value) - 1;
+});
+quantityInput.addEventListener("input", ()=>{
+    const value = parseInt(quantityInput.value);
+    if (!isNaN(value) && value >= 0 && value <= 99) quantityInput.value = value;
+    else quantityInput.value = 1;
+});
 
 },{}]},["jC2qd","8lqZg"], "8lqZg", "parcelRequire46ec")
 
-//# sourceMappingURL=index.975ef6c8.js.map
+//# sourceMappingURL=catalog.975ef6c8.js.map

@@ -124,7 +124,7 @@
 }
 
 .container--wrapper {
-  --container-width: rem(720);
+  --container-width: 720px;
 }
 
 .site-container {
@@ -1431,7 +1431,6 @@ p, .text {
 }
 
 .breadcrumbs__list {
-  flex-wrap: wrap;
   align-items: center;
   gap: 1rem;
   display: flex;
@@ -2358,7 +2357,7 @@ p, .text {
   height: 1rem;
   background-color: currentColor;
   background-color: var(--color-gray-100);
-  transition: background-color .3s linear;
+  transition: background-color .3s ease-in-out;
   position: absolute;
   -webkit-mask-image: url("star.aad4e577.svg");
   mask-image: url("star.aad4e577.svg");
@@ -2899,6 +2898,26 @@ p, .text {
   }
 }
 
+.product-page__wrapper.fs {
+  z-index: 999;
+  width: 100vw;
+  height: var(--vh);
+  max-height: 100%;
+  max-width: 100%;
+  background-color: #000c;
+  margin: 0 auto;
+  padding: 54px 96px;
+  animation: .7s forwards slide-up, .7s forwards fade-in;
+  display: block;
+  position: fixed;
+  top: 0;
+}
+
+.product-page__wrapper.fs .product-slider__image img {
+  width: 750px;
+  min-height: 750px;
+}
+
 .product-page__tabs {
   padding-top: 1.88rem;
   position: relative;
@@ -3083,6 +3102,43 @@ p, .text {
   aspect-ratio: 1 / 1;
 }
 
+.product-slider__close {
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: var(--radius-main);
+  z-index: 10;
+  background-color: #c1c1c14d;
+  justify-content: center;
+  align-items: center;
+  padding: .88rem;
+  display: flex;
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+}
+
+.product-slider__close:before {
+  content: "";
+  width: 2rem;
+  height: 2rem;
+  background-color: currentColor;
+  background-color: var(--color-gray);
+  transition: background-color .3s linear;
+  position: absolute;
+  -webkit-mask-image: url("close.fb298962.svg");
+  mask-image: url("close.fb298962.svg");
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.product-slider__close:hover:before {
+  background-color: var(--color-orange-900);
+}
+
 .product-slider .swiper-pagination {
   bottom: 10%;
 }
@@ -3123,4 +3179,4 @@ p, .text {
   }
 }
 
-/*# sourceMappingURL=index.8c1c22dc.css.map */
+/*# sourceMappingURL=catalog.8c1c22dc.css.map */
