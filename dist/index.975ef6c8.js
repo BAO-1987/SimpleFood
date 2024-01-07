@@ -18684,8 +18684,6 @@ quantityInput.addEventListener("input", ()=>{
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _swiper = require("swiper");
 var _swiperDefault = parcelHelpers.interopDefault(_swiper);
-// import PhotoSwipeLightbox from 'photoswipe';
-// import PhotoSwipeLightbox from 'photoswipe/lightbox';
 var _photoswipeLightboxEsmJs = require("photoswipe/dist/photoswipe-lightbox.esm.js");
 var _photoswipeLightboxEsmJsDefault = parcelHelpers.interopDefault(_photoswipeLightboxEsmJs);
 var _photoswipe = require("photoswipe");
@@ -18715,7 +18713,7 @@ const photo_swipe_options = {
     bgOpacity: 1,
     showHideOpacity: true,
     children: "a",
-    loop: true,
+    loop: false,
     showHideAnimationType: "zoom",
     /* options: fade, zoom, none */ /* Click on image moves to the next slide */ imageClickAction: "next",
     tapAction: "next",
@@ -18731,9 +18729,6 @@ lightbox.init();
 lightbox.on("change", ()=>{
     const { pswp  } = lightbox;
     swiper.slideTo(pswp.currIndex, 0, false);
-// console.log('Slide index', pswp.currIndex);
-//console.log('Slide object', pswp.currSlide);
-//console.log('Slide object data', pswp.currSlide.data);
 });
 /* ### PhotoSwipe events ### */ lightbox.on("afterInit", ()=>{
     const { pswp  } = lightbox;
@@ -18744,31 +18739,34 @@ lightbox.on("closingAnimationStart", ()=>{
     const { pswp  } = lightbox;
     swiper.slideTo(pswp.currIndex, 0, false);
     /* if autoplay enabled == true -> autoplay.start() when close lightbox */ if (swiper.params.autoplay.enabled) swiper.autoplay.start();
-}); // // const sliderClose = () => {
- // //   closeBtn = document.querySelector('.product-slider__close');
- // //   closeBtn.addEventListener('click', () => {
- // //     document.querySelector('.product-page__wrapper').classList.remove('fs');
- // //     closeBtn.remove();
- // //   });
- // // };
- // // const slides = document.querySelectorAll('.sl .swiper-slide');
- // // if (slides.length > 0) {
- // //   for (let i = 0; i < slides.length; i++) {
- // //     slides[i].addEventListener('click', (e) => {
- // //       if (!document.querySelector('.product-slider__close')) {
- // //         document.querySelector('.product-page__wrapper').classList.add('fs');
- // //         e.target.parentNode.parentNode.parentNode.insertAdjacentHTML(
- // //           'beforebegin',
- // //           '<button class="product-slider__close" type="button" aria-label="закрити"></button>'
- // //         );
- // //       }
- // //       setTimeout(() => {
- // //         sl.update();
- // //         sliderClose();
- // //       })
- // //     });
- // //   }
- // // }
+});
+lightbox.on("uiRegister", function() {
+    lightbox.pswp.ui.registerElement({
+        name: "bulletsIndicator",
+        className: "pswp__bullets-indicator",
+        appendTo: "wrapper",
+        onInit: (el, pswp)=>{
+            const bullets = [];
+            let bullet;
+            let prevIndex = -1;
+            for(let i = 0; i < pswp.getNumItems(); i++){
+                bullet = document.createElement("div");
+                bullet.className = "pswp__bullet";
+                bullet.onclick = (e)=>{
+                    pswp.goTo(bullets.indexOf(e.target));
+                };
+                el.appendChild(bullet);
+                bullets.push(bullet);
+            }
+            pswp.on("change", (a)=>{
+                if (prevIndex >= 0) bullets[prevIndex].classList.remove("pswp__bullet--active");
+                bullets[pswp.currIndex].classList.add("pswp__bullet--active");
+                prevIndex = pswp.currIndex;
+            });
+        }
+    });
+});
+lightbox.init();
 
 },{"swiper":"cCbRx","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","photoswipe":"eEaUx","photoswipe/dist/photoswipe-lightbox.esm.js":"3kRIy"}],"eEaUx":[function(require,module,exports) {
 /*!

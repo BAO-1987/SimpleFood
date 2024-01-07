@@ -1,5 +1,5 @@
-@use "../utils/functions"as *;
-@use "../utils/mixins"as *;
+@use '../utils/functions' as *;
+@use '../utils/mixins' as *;
 
 .breadcrumbs {
   margin-bottom: clamp(1.875rem, calc(1rem + vw(44)), 3.875rem);
@@ -8,8 +8,14 @@
 
   &__list {
     @include flex-v-center;
-    // flex-wrap: wrap;
+    white-space: nowrap;
     gap: 1rem;
+
+    @include media(mobile-m) {
+      justify-content: flex-start;
+      overflow-x: scroll;
+      padding-bottom: rem(10);
+    }
 
     li {
       @include flex-v-center;
@@ -25,7 +31,7 @@
         &::after {
           @include mask;
 
-          mask-image: url("../images/icons/chevron.svg");
+          mask-image: url('../images/icons/chevron.svg');
           right: -0.7rem;
           width: 0.36rem;
           height: 0.625rem;

@@ -1,43 +1,21 @@
-@use '../../utils/functions'as *;
-@use '../../utils/mixins'as *;
+@use '../../utils/functions' as *;
+@use '../../utils/mixins' as *;
 
 .product-page {
   margin-bottom: clamp(1.875rem, calc(1rem + vw(44)), 3.875rem);
 
   &__wrapper {
     @include flex-sb;
+    align-items: flex-start;
 
-    margin-bottom: clamp(1.875rem, calc(1rem + vw(44)), 3.875rem);
+    padding: clamp(1.875rem, calc(1rem + vw(44)), 3.875rem) 1rem;
     gap: 1.88rem;
 
-    @include media(tablet) {
+    @include media(mobile-l) {
       flex-direction: column;
       align-items: center;
+      justify-content: center;
     }
-
-    &.fs {
-      position: fixed;
-      z-index: 999;
-      width: 100vw;
-      height: (var(--vh));
-      max-height: 100%;
-      top: 0;
-      display: block;
-      padding: 54px 96px;
-      margin: 0 auto;
-      max-width: 100%;
-      animation: slide-up 0.7s forwards,
-        fade-in 0.7s forwards;
-      background-color: rgba(0, 0, 0, 0.8);
-
-      .product-slider__image {
-        img {
-          width: 750px;
-          min-height: 750px;
-        }
-      }
-    }
-
   }
 
   &__tabs {
@@ -93,7 +71,6 @@
   max-width: 33.12rem;
 
   &__title {
-    position: relative;
     margin-bottom: clamp(0.94rem, vw(30), 1.88rem);
     text-align: left;
   }
@@ -117,7 +94,7 @@
     margin-bottom: 1.9rem;
     gap: 1.25rem;
 
-    @include media(mobile-s) {
+    @include media(tablet) {
       flex-direction: column;
     }
   }
@@ -145,16 +122,19 @@
 
 .product-slider {
   width: 100%;
+  max-width: rem(610);
   padding-bottom: 0;
 
   &__item {
     @include flex-all-center;
-
-    border-radius: var(--radius-main);
-    padding: clamp(1.5rem, calc(1rem + vw(59)), 4.7rem) clamp(1.5rem, calc(1rem + vw(89)), 6.6rem);
-    box-shadow: 0 0 0 1px var(--color-silver-200);
     background-color: var(--color-white);
-    cursor: pointer;
+    box-shadow: inset 0 0 0 1px var(--color-silver-200);
+    border-radius: var(--radius-main);
+
+    a {
+      padding: clamp(1.5rem, calc(1rem + vw(59)), 4.7rem)
+        clamp(1.5rem, calc(1rem + vw(89)), 6.6rem);
+    }
   }
 
   &__prev,
@@ -193,6 +173,11 @@
       }
     }
 
+    @include media(tablet) {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
     @include media(mobile-m) {
       display: none;
     }
@@ -217,36 +202,5 @@
       max-height: 25rem;
       aspect-ratio: 1/1;
     }
-  }
-
-  &__close {
-    @include flex-all-center;
-    padding: 0.88rem;
-    position: fixed;
-    top: 1.5rem;
-    right: 1.5rem;
-    width: 3.75rem;
-    height: 3.75rem;
-    border-radius: var(--radius-main);
-    z-index: 10;
-    background-color: rgba(193, 193, 193, 0.3);
-
-    &::before {
-      @include mask;
-      mask-image: url('../images/icons/close.svg');
-      width: 2rem;
-      height: 2rem;
-      background-color: var(--color-gray);
-    }
-
-    &:hover {
-      &::before {
-        background-color: var(--color-orange-900);
-      }
-    }
-  }
-
-  .swiper-pagination {
-    bottom: 10%;
   }
 }
