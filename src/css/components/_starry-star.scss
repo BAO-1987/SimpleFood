@@ -36,7 +36,7 @@
 
   .Starry-active {
     .Starry-star {
-      &:before {
+      &::before {
         background-color: var(--color-yellow);
       }
     }

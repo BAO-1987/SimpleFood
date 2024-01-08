@@ -11894,7 +11894,7 @@ var _scrollrevealDefault = parcelHelpers.interopDefault(_scrollreveal);
 (0, _scrollrevealDefault.default)({
     easing: "ease"
 });
-(0, _scrollrevealDefault.default)().reveal(".hero__content, .delivery__content, .slider, .app__content,  .catalog__inner, .filter, .sort, .single__content, .tabs, .recent__content", {
+(0, _scrollrevealDefault.default)().reveal(".hero__content, .delivery__content, .slider, .app__content,  .catalog__inner, .filter, .sort, .product-info, .tabs, .recent__content", {
     duration: 1200,
     distance: "20px",
     delay: "100",
@@ -18665,20 +18665,41 @@ if (elementChoices.length > 0) elementChoices.forEach((el)=>{
 });
 
 },{}],"6HDrZ":[function(require,module,exports) {
+// const quantityInput = document.querySelector(".stepper__input");
+// const incrementButton = document.querySelector(".stepper__btn--up");
+// const decrementButton = document.querySelector(".stepper__btn--down");
+// incrementButton.addEventListener("click", () => {
+//   quantityInput.value = parseInt(quantityInput.value) + 1;
+// });
+// decrementButton.addEventListener("click", () => {
+//   if (parseInt(quantityInput.value) > 0) {
+//     quantityInput.value = parseInt(quantityInput.value) - 1;
+//   }
+// });
+// quantityInput.addEventListener("input", () => {
+//   const value = parseInt(quantityInput.value);
+//   if (!isNaN(value) && value >= 0 && value <= 99) {
+//     quantityInput.value = value;
+//   } else {
+//     quantityInput.value = 1;
+//   }
+// });
 const quantityInput = document.querySelector(".stepper__input");
 const incrementButton = document.querySelector(".stepper__btn--up");
 const decrementButton = document.querySelector(".stepper__btn--down");
-incrementButton.addEventListener("click", ()=>{
-    quantityInput.value = parseInt(quantityInput.value) + 1;
-});
-decrementButton.addEventListener("click", ()=>{
-    if (parseInt(quantityInput.value) > 0) quantityInput.value = parseInt(quantityInput.value) - 1;
-});
-quantityInput.addEventListener("input", ()=>{
-    const value = parseInt(quantityInput.value);
-    if (!isNaN(value) && value >= 0 && value <= 99) quantityInput.value = value;
-    else quantityInput.value = 1;
-});
+if (quantityInput && incrementButton && decrementButton) {
+    incrementButton.addEventListener("click", ()=>{
+        quantityInput.value = parseInt(quantityInput.value) + 1;
+    });
+    decrementButton.addEventListener("click", ()=>{
+        if (parseInt(quantityInput.value) > 0) quantityInput.value = parseInt(quantityInput.value) - 1;
+    });
+    quantityInput.addEventListener("input", ()=>{
+        const value = parseInt(quantityInput.value);
+        if (!isNaN(value) && value >= 0 && value <= 99) quantityInput.value = value;
+        else quantityInput.value = 1;
+    });
+}
 
 },{}],"dPJMK":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");

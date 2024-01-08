@@ -6,13 +6,14 @@
 
   &__btn {
     @include flex-all-center;
+
     border-radius: 0.19rem 0 0 0.19rem;
     height: 2.75rem;
     width: 2.75rem;
     position: relative;
     padding: 0.75rem;
     background-color: var(--color-orange-900);
-    transition: box-shadow 0.3s linear, background-color 0.3s linear;
+    transition: box-shadow 0.5s linear, background-color 0.5s linear;
 
     &::before {
       @include mask;
@@ -24,10 +25,10 @@
     }
 
     &:hover {
-     background-color: var(--color-white);
-     &::before {
-      background-color: var(--color-orange-900);
-     }
+      background-color: rgba(var(--color-orange), 0.5);
+      &::before {
+        background-color: var(--color-orange-900);
+      }
     }
 
     &:active {

@@ -24,7 +24,7 @@
     padding: rem(9) rem(15);
     width: 100%;
     background-color: var(--color-white);
-    transition: box-shadow 0.3s linear, border-color 0.3s linear;
+    transition: box-shadow 0.5s linear, border-color 0.5s linear;
 
     &::placeholder {
       font-size: 0.875rem;
